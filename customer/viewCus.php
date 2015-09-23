@@ -206,8 +206,7 @@
                 <div class="panel-body">
                     <div class="row">                       
                         <div class="col-lg-12">
-
-                            <div class="well well-sm  col-lg-12">
+                            <div class=" well well-sm col-lg-12 ">
                                 <div class="col-lg-12">
 
                                     <div class="col-lg-4">                        
@@ -236,8 +235,14 @@
                                     <div class="col-lg-4">
                                         <p><b>Status:</b></p>      
                                     </div>
-                                    <div class="col-lg-8">                               
+                                    <div class="col-lg-3">                               
                                         <p class="label label-success">Active</p>                               
+                                    </div>
+                                     <div class="col-lg-3">                               
+                                        <p></p>                               
+                                    </div>
+                                     <div class="col-lg-2">                               
+                                         <p><a href="">Detail</a></p>                               
                                     </div>
                                 </div>
                             </div>
@@ -245,7 +250,6 @@
 
                             <div class="well well-sm  col-lg-12">
                                 <div class="col-lg-12">
-
                                     <div class="col-lg-4">                        
                                         <h3><b>00002  </b> </h3>  
                                     </div>
@@ -272,19 +276,24 @@
                                     <div class="col-lg-4">
                                         <p><b>Status:</b></p>      
                                     </div>
-                                    <div class="col-lg-8">                               
+                                    <div class="col-lg-3">                               
                                         <p class="label label-success">Active</p>                               
                                     </div>
+                                     <div class="col-lg-3">                               
+                                        <p></p>                               
+                                    </div>
+                                     <div class="col-lg-2">                               
+                                         <p><a href="">Detail</a></p>                               
+                                    </div>
                                 </div>
-
-
                             </div>
 
-                            <div class="well well-sm  col-lg-12">
+                            
+                            <div class=" well well-sm  col-lg-12">
                                 <div class="col-lg-12">
 
                                     <div class="col-lg-4">                        
-                                        <h3><b>00001  </b> </h3>  
+                                        <h3><b>00003</b> </h3>  
                                     </div>
 
                                 </div>
@@ -309,16 +318,18 @@
                                     <div class="col-lg-4">
                                         <p><b>Status:</b></p>      
                                     </div>
-                                    <div class="col-lg-8">                               
+                                    <div class="col-lg-3">                               
                                         <p class="label label-success">Active</p>                               
+                                    </div>
+                                     <div class="col-lg-3">                               
+                                        <p></p>                               
+                                    </div>
+                                     <div class="col-lg-2">                               
+                                         <p><a href="">Detail</a></p>                               
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
-
-
                     </div>
                     <!-- /.row (nested) -->
                 </div>
