@@ -95,6 +95,15 @@
 
         <!-- Modal -->
         <div class="modal fade" id="myModal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <!-- Content -->
+
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="myModal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <!-- Content -->
@@ -120,5 +129,4 @@
             });
         </script>
     </body>
-
 </html>
