@@ -32,7 +32,7 @@
                 <div class="panel-heading">
                     <label>
                         ข้อมูลบริษัท / Company Detail
-                        <a href="">  ( Edit )  </a>                     
+                        <a href="../CAT_DCMS/customer/model_EditCus.php" data-toggle="modal" data-target="#myModal">  ( Edit )  </a>                     
                     </label>                   
                 </div>
 
@@ -107,7 +107,7 @@
                 <div class="panel-heading">
                     <label>
                         ข้อมูลผู้ติดต่อ / Contact Detail
-                        <a href="../customer/model_Contact.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
+                        <a href="../CAT_DCMS/customer/model_Contact.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
                     </label>
                 </div>
                 <div class="panel-body">
