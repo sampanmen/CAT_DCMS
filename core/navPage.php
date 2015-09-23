@@ -76,7 +76,14 @@ switch ($p) {
         $page['name'] = "Entry IDC Form";
         break;
 
-
+    case "orderPackagesHis":
+        $page['file'] = "../customer/orderPackagesHis.php";
+        $page['name'] = "Packages";
+        break;
+    case "orderPackagesResouce":
+        $page['file'] = "../customer/orderPackagesResouce.php";
+        $page['name'] = "Resouce by Package";
+        break;
     default : $page = "error404.php";
         break;
 }

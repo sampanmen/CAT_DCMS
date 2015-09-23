@@ -1,60 +1,65 @@
 <div class="row">
     <form>
         <div class="col-lg-12">
+
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <label>
-                        Order Registration
-                    </label>
+                    Order Registration
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-12">                       
-                            <div class="form-group col-lg-6">
-                                <input type="hidden" value="">
-                                <h1><p id="IDCus">00001</p></h1><h3>บริษัท กสท โทรคมนาคม จำกัด (มหาชน)</h3>
+                        <div class="col-lg-4">                       
+                            <div class="form-group ">
+                                <label>ID Customer</label>
+                                <input class="form-control" id="disabledInput" type="text" disabled>                                
                             </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group col-lg-4">
+
+                            <div class="form-group">
                                 <label>โดเมนเนม / Domain Name</label>
-                                <input class="form-control">
+                                <input class="form-control">                                
                             </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group col-lg-4">
-                                <label>ประเภทบริการ / Service Type</label>
-                                <select class="form-control">
-                                    <option>Share Rack(U-Size)</option>
-                                    <option>Rack(42U)</option>
-                                    <option>Cage</option>                                 
-                                </select>                                           
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group col-lg-4">
+
+
+                            <div class="form-group">
                                 <label>บริการ / Service</label>
                                 <select class="form-control">
                                     <option>1 Rack(42U)</option>
                                     <option>1/2 Rack(42U)</option>
                                     <option>1/4 Rack(42U)</option>                                 
                                 </select>                                           
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label>จำนวน / Quantity</label>
-                                <input type="number" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group col-lg-4">
+                            </div>                         
+                            <div class="form-group">
                                 <label>สถานที่ / Location</label>
                                 <select class="form-control">
-                                    <option>IDC 13th Fl.</option>
-                                    <option>IDC 14th Fl.</option> 
+                                    <option>IDC</option>
+                                    <option>IDC 14th Fl.</option>
+                                    <option>IDC Colocation Firewall</option>  
                                     <option>IDC Nonthaburi</option>                                  
                                 </select>                                         
                             </div>
-                            <div class="form-group col-lg-4">
+                            
+                            
+
+
+                        </div>
+                        <div class="col-lg-4">                      
+
+                            <div class="form-group">
+                                <br>
+                                <br>
+                                <br>
+                            </div>
+
+                            <div class="form-group">
+                                <label>จำนวน / Quantity</label>
+                                <select class="form-control">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>                                 
+                                </select>                                        
+                            </div>
+
+                            <div class="form-group">
                                 <label>Bundle Network</label>
                                 <select class="form-control">
                                     <option>IDC Only</option>
@@ -63,34 +68,26 @@
                                     <option>Coperate</option>
                                 </select>                                        
                             </div>
-                        </div>
-<!--                        <div class="col-lg-12">
-                            <div class="form-group col-lg-4">
-                                <label>ระยะเวลา / Contract</label>
-                                <select class="form-control">
-                                    <option>1 Month charge (12500.0)</option>
-                                    <option>3 Month prepaid charge (11938.0)</option>
-                                    <option>6 Month prepaid charge (12250.0)</option>  
-                                    <option>12 Month prepaid charge (11250.0)</option>                                  
-                                </select>                                         
-                            </div>
-                        </div>-->
-                        <div class="col-lg-12">
-                            <div class="form-group col-lg-4">
-                                <label>หมายเหตุ / Note</label>
-                                <textarea class="form-control" rows="3"></textarea>                              
-                            </div>
+
                         </div>
                     </div>
-                    <div class="col-lg-12">
-                        <button type="reset" class="btn btn-warning">RESET</button>
-                        <button type="button" class="btn btn-primary">SAVE</button>
-                    </div>
+                    <!-- /.row (nested) -->
                 </div>
-                <!-- /.row (nested) -->
+                <!-- /.panel-body -->
             </div>
-            <!-- /.panel-body -->
+
+            <!-- /.panel -->
         </div>
-        <!-- /.panel -->
+        <!-- /.col-lg-12 -->
+
+        <div class="text-center">
+            <button type="button" class="btn btn-primary">CANCLE</button>
+            <button type="button" class="btn btn-primary">NEXT</button>
+            <br><br>
+        </div>
+
+
     </form>
+
+
 </div>
