@@ -107,7 +107,7 @@
                 <div class="panel-heading">
                     <label>
                         ข้อมูลผู้ติดต่อ / Contact Detail
-                        <a href="">  ( Edit )  </a>
+                        <a href="../customer/model_Contact.php">  ( Add )  </a>
                     </label>
                 </div>
                 <div class="panel-body">
