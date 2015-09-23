@@ -1,59 +1,51 @@
 <div class="row">
-    <form>
-        <div class="col-lg-12">
+    <form action="" method="POST">
+        <div class="col-lg-12" id="ddd">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Customer
                 </div>
-
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">                      
                             <div class="form-group col-lg-3"><br>
                                 <p>ชื่อลูกค้า / Customer Name</p>
-
                             </div>
                             <div class="form-group col-lg-9"><br> 
-                                <input class="form-control">
+                                <input class="form-control" name="cus['name']">
                             </div>
                         </div>
 
-
                         <div class="col-lg-12"> 
-
                             <div class="form-group col-lg-3">
                                 <p>ประเภทธุรกิจ / Bussiness Type</p>
-
                             </div>
-                            <div class="form-group col-lg-3"> 
-                                <select class="form-control">
-                                    <option>บุคคล</option>
-                                    <option>นิติบุคคล</option>                                 
+                            <div class="form-group col-lg-3">
+                                <select class="form-control" name="cus['bussinessType']">
+                                    <option value="1">บุคคล</option>
+                                    <option value="2">นิติบุคคล</option>
                                 </select>    
                             </div>
                             <div class="form-group col-lg-2">
                                 <p>อีเมล์ / E-Mail</p>
-
                             </div>
                             <div class="form-group col-lg-4">
-                                <input class="form-control" type="email">      
+                                <input class="form-control" type="email" name="cus['email']">      
                             </div>
-
                         </div>
-
 
                         <div class="col-lg-12"> 
                             <div class="form-group col-lg-3">
                                 <p>โทรศัพท์ / Phone</p>
                             </div>
                             <div class="form-group col-lg-3">
-                                <input class="form-control">                                
+                                <input class="form-control" name="cus['phone']">                                
                             </div>
                             <div class="form-group col-lg-2">
                                 <p>แฟกต์ / Fax</p>
                             </div>
                             <div class="form-group col-lg-4">
-                                <input class="form-control">                                
+                                <input class="form-control" name="cus['fax']">                                
                             </div>
                         </div>
 
@@ -62,70 +54,69 @@
                                 <p>ที่อยู่ / Address</p>                                                               
                             </div>
                             <div class="form-group col-lg-3">
-                                <input class="form-control">                                
+                                <input class="form-control" name="cus['address']">                                
                             </div>
                             <div class="form-group col-lg-2">
                                 <p>ตำบล / Tambol</p>                                                             
                             </div>
                             <div class="form-group col-lg-4">
-                                <input class="form-control">                                
+                                <input class="form-control" name="cus['township']">                                
                             </div>
                         </div>
+
                         <div class="col-lg-12"> 
                             <div class="form-group col-lg-3">
                                 <p>อำเภอ / City</p>                          
                             </div>
                             <div class="form-group col-lg-3">
-                                <input class="form-control">                                
+                                <input class="form-control" name="cus['city']">                                
                             </div>
                             <div class="form-group col-lg-2">
                                 <p>จังหวัด / Province</p>                     
                             </div>
                             <div class="form-group col-lg-4">
-                                <input class="form-control">                                
+                                <input class="form-control" name="cus['province']">                                
                             </div>
                         </div>
+
                         <div class="col-lg-12"> 
                             <div class="form-group col-lg-3">
                                 <p>รหัสไปรษณีย์ / Postalcode</p>                 
                             </div>
                             <div class="form-group col-lg-3">
-                                <input class="form-control">                                
+                                <input class="form-control" name="cus['zipcode']">                                
                             </div>
 
                             <div class="form-group col-lg-2">
                                 <p>ประเทศ / Country</p>
                             </div>
                             <div class="form-group col-lg-4">
-                                <input class="form-control">                                
+                                <input class="form-control" name="cus['country']">                                
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.row (nested) -->
             </div>
-
 
             <div class="panel panel-default">
                 <div class="panel-heading">
                     ผู้ติดต่อ / Contact 
-                     <a href="">  ( Add )  </a>  
+                    <a href="javascript:addCus();">(Add)</a>  
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        
                         <div class="col-lg-12">                      
                             <div class="form-group col-lg-3"><br>
                                 <p>ชื่อผู้ติดต่อ / Contact Name</p>                  
                             </div>
                             <div class="form-group col-lg-3"><br>
-                                <input class="form-control">                                
+                                <input class="form-control" name="con['name'][]">                                
                             </div>
                             <div class="form-group col-lg-2"><br>
                                 <p>นามสกุล / Surname</p>                     
                             </div>
                             <div class="form-group col-lg-4"><br>
-                                <input class="form-control">                                
+                                <input class="form-control" name="con['sname'][]">                                
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -133,13 +124,13 @@
                                 <p>โทรศัพท์ / Phone</p>
                             </div>
                             <div class="form-group col-lg-3">
-                                <input class="form-control">                                
+                                <input class="form-control" name="con['phone'][]">                                
                             </div>
                             <div class="form-group col-lg-2">
                                 <p>อีเมล์ / E-Mail</p>                      
                             </div>
                             <div class="form-group col-lg-4">
-                                <input class="form-control" type="email">          
+                                <input class="form-control" type="email" name="con['email'][]">          
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -147,44 +138,91 @@
                                 <p>รหัสผ่าน / Password</p>
                             </div>
                             <div class="form-group col-lg-3">
-                                 <input class="form-control" type="password">      
+                                <input class="form-control" type="password" name="con['password'][]">      
                             </div>
                             <div class="form-group col-lg-2">
                                 <p>รูปภาพ / Picture</p>
                             </div>
                             <div class="form-group col-lg-3">
-                                <input type="file">   
+                                <input type="file" name="con['file'][]">   
                             </div>
-
                         </div>
-
-
-
-
-
-
                     </div>
-
-
                 </div>
-                <!-- /.row (nested) -->
             </div>
-            <!-- /.panel-body -->
         </div>
-
-
-
-
-
-
-        <!-- /.panel-body -->
+        <div class="text-center">
+            <button type="reset" class="btn btn-warning">RESET</button>
+            <button type="submit" class="btn btn-primary">ADD</button>
+            <br><br>
+        </div>
+    </form>
 </div>
-<!-- /.panel -->
+
+<div id="addCus" style="display: none;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            ผู้ติดต่อ / Contact 
+            <a href="javascript:addCus();">(Add)</a>  
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">                      
+                    <div class="form-group col-lg-3"><br>
+                        <p>ชื่อผู้ติดต่อ / Contact Name</p>                  
+                    </div>
+                    <div class="form-group col-lg-3"><br>
+                        <input class="form-control" name="con['name'][]">                                
+                    </div>
+                    <div class="form-group col-lg-2"><br>
+                        <p>นามสกุล / Surname</p>                     
+                    </div>
+                    <div class="form-group col-lg-4"><br>
+                        <input class="form-control" name="con['sname'][]">                                
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group col-lg-3">
+                        <p>โทรศัพท์ / Phone</p>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <input class="form-control" name="con['phone'][]">                                
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <p>อีเมล์ / E-Mail</p>                      
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <input class="form-control" type="email" name="con['email'][]">          
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group col-lg-3">
+                        <p>รหัสผ่าน / Password</p>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <input class="form-control" type="password" name="con['password'][]">      
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <p>รูปภาพ / Picture</p>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <input type="file" name="con['file'][]">   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="text-center">
-    <button type="button" class="btn btn-primary">CANCLE</button>
-    <button type="button" class="btn btn-primary">NEXT</button>
-    <br><br>
-</div>
-</form>
-<!-- /.col-lg-12 -->
+<script>
+    var count = 1;
+    function addCus() {
+        count++;
+        var htmlAddCus = $("#addCus").html();
+        $("#ddd").append(htmlAddCus);
+    }
+</script>
+<pre>
+    <?php
+    print_r($_POST);
+    ?>
+</pre>
