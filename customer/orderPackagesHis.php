@@ -24,7 +24,7 @@
                                     <td>20/9/2558</td>
                                     <td>Share Rack (2U/Server)</td>
                                     <td><p class="label label-success">Active</p></td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal-sm">view</a></td>
+                                    <td><a href="../CAT_DCMS/customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal-sm">view</a></td>
 
                                 </tr>                                                     
                                 <tr>
