@@ -5,7 +5,6 @@
                 <div class="panel-heading">
                     <p><b>ข้อมูลกรณีไม่ใช่ผู้ติดต่อ</b></p>
                 </div>
-
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-10">                       
@@ -111,27 +110,88 @@
                             <div class="form-group col-lg-11">                           
                                 <input class="form-control"><br><br>                                
                             </div>
+                        </div>
+                    </div>
 
 
+                    <!--อุปกรณ์--> 
+                    <div>
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <label>รายการอุปกรณ์ (Equipment List)</label>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="row">
+                                    <table class="table  table-bordered " id="dataTables">
+                                        
+                                            <tr>
+                                                <th>Customer ID</th>
+                                                <th>Customer Name</th>
+                                                <th>Contact Name</th>
+                                                <th>Date</th>
+                                                <th>Time In</th>
+                                                <th>Time Out</th>
+                                            </tr>
+                                        
+                                        <tbody>
+                                            <tr class="odd gradeX">
+                                                <td>00001</td>
+                                                <td>Thailand HaHartyuiop[]dfghjkl;'cvbm.cvbm,./</td>
+                                                <td>Thidarat Changkaew</td>
+                                                <td>11/9/2558</td>
+                                                <td>11.30</td>
+                                                <td><button type="button" class="btn btn-danger">OUT</button></td>
+                                            </tr>                                                     
+                                            <tr class="odd gradeX">
+                                                <td>00002</td>
+                                                <td>CAT NON</td>
+                                                <td>Thidarat Changkaew</td>
+                                                <td>11/9/2558</td>
+                                                <td>11.45</td>
+                                                <td><button type="button" class="btn btn-danger">OUT</button></td>
+                                            </tr>          
+                                            <tr class="odd gradeX">
+                                                <td>00003</td>
+                                                <td>CPE KPS</td>
+                                                <td>Sampan</td>
+                                                <td>11/9/2558</td>
+                                                <td>12.33</td>
+                                                <td><button type="button" class="btn btn-danger">OUT</button></td>
+                                            </tr>          
+                                            <tr class="odd gradeX">
+                                                <td>00004</td>
+                                                <td>Thailand HaHartyuiop[]dfghjkl;'cvbm.cvbm,./</td>
+                                                <td>Thidarat Changkaew</td>
+                                                <td>11/9/2558</td>
+                                                <td>11.30</td>
+                                                <td><button type="button" class="btn btn-danger">OUT</button></td>
+                                            </tr>          
+
+                                        </tbody>
+                                    </table>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                         </div>
 
 
-
-                    </div>
 
 
 
 
                 </div>
-                <!-- /.row (nested) -->
-
-                <!-- /.panel-body -->
-
 
 
 
 
                 <!--เจ้าหน้าที่-->   
+
 
                 <div class="col-lg-12">
                     <div class="panel panel-default">
@@ -285,10 +345,10 @@
 
             </div> 
         </div>
-        
-        
-        
-        
-        
+
+
+
+
+
     </form>
 </div>

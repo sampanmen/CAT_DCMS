@@ -23,7 +23,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd gradeX">
+                            <tr>
                                 <td>00001</td>
                                 <td>Thailand HaHartyuiop[]dfghjkl;'cvbm.cvbm,./</td>
                                 <td>Thidarat Changkaew</td>
@@ -31,7 +31,7 @@
                                 <td>11.30</td>
                                 <td><button type="button" class="btn btn-danger">OUT</button></td>
                             </tr>                                                     
-                            <tr class="odd gradeX">
+                            <tr>
                                 <td>00002</td>
                                 <td>CAT NON</td>
                                 <td>Thidarat Changkaew</td>
@@ -39,7 +39,7 @@
                                 <td>11.45</td>
                                 <td><button type="button" class="btn btn-danger">OUT</button></td>
                             </tr>          
-                            <tr class="odd gradeX">
+                            <tr>
                                 <td>00003</td>
                                 <td>CPE KPS</td>
                                 <td>Sampan</td>
@@ -47,7 +47,7 @@
                                 <td>12.33</td>
                                 <td><button type="button" class="btn btn-danger">OUT</button></td>
                             </tr>          
-                            <tr class="odd gradeX">
+                            <tr>
                                 <td>00004</td>
                                 <td>Thailand HaHartyuiop[]dfghjkl;'cvbm.cvbm,./</td>
                                 <td>Thidarat Changkaew</td>
