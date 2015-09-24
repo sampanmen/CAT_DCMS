@@ -1,6 +1,5 @@
 <div class="row">
     <form>
-
         <div class="col-lg-6">  
             <!--Rack-->
             <div class="panel panel-default">
