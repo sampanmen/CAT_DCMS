@@ -112,82 +112,53 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <!--อุปกรณ์--> 
-                    <div>
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <label>รายการอุปกรณ์ (Equipment List)</label>
-                            </div>
-
-                            <div class="panel-body">
-                                <div class="row">
-                                    <table class="table  table-bordered " id="dataTables">
-                                        
-                                            <tr>
-                                                <th>Customer ID</th>
-                                                <th>Customer Name</th>
-                                                <th>Contact Name</th>
-                                                <th>Date</th>
-                                                <th>Time In</th>
-                                                <th>Time Out</th>
-                                            </tr>
-                                        
-                                        <tbody>
-                                            <tr class="odd gradeX">
-                                                <td>00001</td>
-                                                <td>Thailand HaHartyuiop[]dfghjkl;'cvbm.cvbm,./</td>
-                                                <td>Thidarat Changkaew</td>
-                                                <td>11/9/2558</td>
-                                                <td>11.30</td>
-                                                <td><button type="button" class="btn btn-danger">OUT</button></td>
-                                            </tr>                                                     
-                                            <tr class="odd gradeX">
-                                                <td>00002</td>
-                                                <td>CAT NON</td>
-                                                <td>Thidarat Changkaew</td>
-                                                <td>11/9/2558</td>
-                                                <td>11.45</td>
-                                                <td><button type="button" class="btn btn-danger">OUT</button></td>
-                                            </tr>          
-                                            <tr class="odd gradeX">
-                                                <td>00003</td>
-                                                <td>CPE KPS</td>
-                                                <td>Sampan</td>
-                                                <td>11/9/2558</td>
-                                                <td>12.33</td>
-                                                <td><button type="button" class="btn btn-danger">OUT</button></td>
-                                            </tr>          
-                                            <tr class="odd gradeX">
-                                                <td>00004</td>
-                                                <td>Thailand HaHartyuiop[]dfghjkl;'cvbm.cvbm,./</td>
-                                                <td>Thidarat Changkaew</td>
-                                                <td>11/9/2558</td>
-                                                <td>11.30</td>
-                                                <td><button type="button" class="btn btn-danger">OUT</button></td>
-                                            </tr>          
-
-                                        </tbody>
-                                    </table>
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        </div>
-
-
-
-
-
-
                 </div>
 
 
+
+
+                <!--อุปกรณ์--> 
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <label>รายการอุปกรณ์ (Equipment List)</label>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row col-lg-12">
+                                <table class="table table-bordered" id="dataTables">
+
+                                    <tr>
+                                        <th>อุปกรณ์</th>
+                                        <th>ชื้ออุปกรณ์ (Equipment)</th>
+                                        <th>ยี่ห้อ/รุ่น (Brand/Model)</th>
+                                        <th>Serial No/Remake</th>
+                                        <th >Rack Number</th>
+                                        <th></th>
+                                    </tr>
+
+                                    <tbody>
+                                        <tr>
+                                            <td><select class="form-control" name="cus[bussinessType]">
+                                                    <option value="1">IN</option>
+                                                    <option value="2">OUT</option>
+                                                </select>    
+                                            </td>
+                                            <td><input class="form-control"></td>
+                                            <td><input class="form-control"></td>
+                                            <td><input class="form-control"></td>
+                                            <td><input class="form-control"></td>
+                                            <td><button type="button" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
+                                        </tr> 
+                                    </tbody>
+                                </table>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
                 <!--เจ้าหน้าที่-->   

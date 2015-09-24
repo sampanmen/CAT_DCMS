@@ -1,6 +1,6 @@
 <div class="row">
     <form>
-        <div class="col-lg-12">
+        <div class="col-lg-8">
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -9,38 +9,36 @@
                 <div class="panel-body">
                     <div class="row">
 
-                        <div class="form-group col-lg-3">
-                            <label>ID Service</label>
-                            <input class="form-control" id="disabledInput" type="text" disabled>                                
-                        </div>
-                        <div class="col-lg-9"> 
+
+                        <div class="col-lg-12"> 
                             <div class="form-group">
                                 <label>ชื่อบริการ / Service Name</label>
                                 <input class="form-control">                                
-                            </div>                            
+                            </div>   
+
                             <div class="form-group">
                                 <label>รายละเอียด / Detail</label>
                                 <textarea class="form-control" rows="3"></textarea>                              
                             </div>
-                            <div class="col-lg-2"> 
+                        </div>
+                        <div class="col-lg-12"> 
 
-                                <label>สถานะ</label>                                  
+                            <div class="form-group col-lg-5">
+                                <label>ชื่อบริการ / Service Name</label>
+                                <select class="form-control">
+                                    <option value="1">Main Services</option>
+                                    <option value="2">Add-On Services</option>
+                                </select>  
                             </div>
-                            <div class="col-lg-2"> 
-                                <div>
+                            <div class="form-group col-lg-4">
+                                <label>สถานะ</label> 
+                                <select class="form-control">                                  
+                                    <option value="1">Active</option>
+                                    <option value="2">No Active</option>
+                                </select>   
+                            </div>     
 
-                                    <label class="checkbox-inline">
-                                        <input type="checkbox">Active
-                                    </label>
 
-                                </div>
-
-                            </div>
-                            <div class="col-lg-3"> 
-                                <label class="checkbox-inline">
-                                    <input type="checkbox">No Active
-                                </label>
-                            </div>
 
                         </div>
                         <!-- /.row (nested) -->
