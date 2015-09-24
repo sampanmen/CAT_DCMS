@@ -35,8 +35,8 @@
             <div class="col-lg-7">                               
                 <select>
                     <option>Active</option>
-                    <option>Susspend</option> 
-                    <option>No Active</option>
+                    <option>Suppened</option>
+                    <option>Delete</option>
                 </select> 
             </div>
         </div>
