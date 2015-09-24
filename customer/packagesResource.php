@@ -13,18 +13,14 @@
                             <thead>
                                 <tr>
                                     <th>Type</th>
-                                    <th>Position</th>
-                                    
+                                    <th>Position</th>                                 
 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                   
+                                <tr>                                  
                                     <td>Share Rack (2U/Server)</td>
-                                    <td>1,1,1</td>
-                                    
-
+                                    <td>1,1,1</td>                                   
                                 </tr>                                                     
                                 <tr>
                                     <td>Full Rack</td>
@@ -56,7 +52,7 @@
             <!--IP-->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4><b> Main Packages</b></h4>
+                    <h4><b> IP</b></h4>
                 </div>      
 
                 <div class="panel-body">
@@ -64,41 +60,33 @@
                         <table class="table table-striped table-bordered table-hover" id="dataTables2">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Packages Name</th>
-                                    <th>Status</th>
-                                    <th> </th>
+                                    <th>IP</th>
+                                    <th>Subnet</th>
+                                    <th>Vlan</th>
+                                    
 
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>20/9/2558</td>
-                                    <td>Share Rack (2U/Server)</td>
-                                    <td ><p class="label label-success">Active</p></td>
-                                    <td><button type="button" class="btn btn-info">view</button></td>
-
+                                    <td>192.168.2.44</td>
+                                    <td>255.255.255.0</td>
+                                    <td>3</td>
                                 </tr>                                                     
                                 <tr>
-                                    <td>21/9/2558</td>
-                                    <td>Full Rack</td>
-                                    <td ><p class="label label-success">Active</p></td>
-                                    <td><button type="button" class="btn btn-info">view</button></td>
-
+                                    <td>192.168.2.44</td>
+                                    <td>255.255.255.0</td>
+                                    <td>3</td>
                                 </tr>          
                                 <tr>
-                                    <td>22/9/2558</td>
-                                    <td>1/2 Rack</td>
-                                    <td><p class="label label-danger">No Active</p></td>
-                                    <td><button type="button" class="btn btn-info">view</button></td>
-
+                                   <td>192.168.2.44</td>
+                                    <td>255.255.255.0</td>
+                                    <td>3</td>
                                 </tr>          
                                 <tr>
-                                    <td>22/9/2558</td>
-                                    <td>Full Rack</td>
-                                    <td><p class="label label-success">Active</p></td>
-                                    <td><button type="button" class="btn btn-info">view</button></td>
-
+                                 <td>192.168.2.44</td>
+                                    <td>255.255.255.0</td>
+                                    <td>3</td>
                                 </tr>          
 
                             </tbody>

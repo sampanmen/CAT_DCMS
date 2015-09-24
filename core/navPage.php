@@ -80,9 +80,13 @@ switch ($p) {
         $page['file'] = "../customer/orderPackagesHis.php";
         $page['name'] = "Packages";
         break;
-    case "packagesResouce":
-        $page['file'] = "../customer/packagesResouce.php";
-        $page['name'] = "Resouce by Package";
+    case "packagesResource":
+        $page['file'] = "../customer/packagesResource.php";
+        $page['name'] = "Resource";
+        break;
+    case "entryResourceCusIDC":
+        $page['file'] = "../rescource/entryResourceCusIDC.php";
+        $page['name'] = "Resource";
         break;
     default : $page = "error404.php";
         break;
