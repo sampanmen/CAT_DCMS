@@ -49,3 +49,15 @@ function insertPerson($Fname, $Lname, $Phone, $Email, $Password, $TypePerson, $I
     $SQLPrepare->execute(array(":conFname"=>$Fname,":conLname"=>$Lname,":conPhone"=>$Phone,":conEmail"=>$Email,":conPass"=>$Password,":conType"=>$TypePerson,":conIDCard"=>$IDCard,":conPosition"=>$Position,":conCusID"=>$CustomerID));
     return $SQLPrepare->rowCount();
 }
+
+function getBussinessTypeHTML(){
+    global $connection;
+    dbconnect();
+    $SQLCommand="SELECT `BussinessTypeID`, `BussinessType` FROM `cus_customer_bussinesstype` WHERE `StatusBussinessType`='active'";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    
+    while($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)){
+        echo '<option value="'.$result['BussinessTypeID'].'">'.$result['BussinessType'].'</option>';
+    }
+}

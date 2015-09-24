@@ -21,9 +21,8 @@
                                 <p>ประเภทธุรกิจ / Bussiness Type</p>
                             </div>
                             <div class="form-group col-lg-3">
-                                <select class="form-control" name="cus[bussinessType]">
-                                    <option value="1">บุคคล</option>
-                                    <option value="2">นิติบุคคล</option>
+                                <select class="form-control" name="cus[bussinessType]" id="cusBissinessType">
+                                    <option selected value="">กรุณาเลือก</option>
                                 </select>    
                             </div>
                             <div class="form-group col-lg-2">
@@ -238,4 +237,10 @@
             }
         })
     }
+    
+    $.get("../customer/action/customer.action.php?para=getBussinessTypeHTML", function (data, status) {
+            //alert("Data: " + data + "\nStatus: " + status);
+            $("#cusBissinessType").append(data);
+        })
+    $("#cusBissinessType").html();
 </script>

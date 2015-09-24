@@ -40,3 +40,6 @@ else if($para == "checkEmail"){
     $email = isset($_GET['email'])?$_GET['email']:"no email";
     echo checkEmail($email);
 }
+else if($para == "getBussinessTypeHTML"){
+    getBussinessTypeHTML();
+}
