@@ -1,6 +1,6 @@
 <?php
 
-$user = "root";
+$user = "cat";
 $pass = "123456";
 $dbh = new PDO('mysql:host=localhost', $user, $pass);
 $sql = file_get_contents('MySQL_install.sql');
