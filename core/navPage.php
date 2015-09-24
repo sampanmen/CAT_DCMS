@@ -80,7 +80,7 @@ switch ($p) {
         $page['file'] = "../customer/orderPackagesHis.php";
         $page['name'] = "Packages";
         break;
-    case "orderPackagesResouce":
+    case "packagesResouce":
         $page['file'] = "../customer/orderPackagesResouce.php";
         $page['name'] = "Resouce by Package";
         break;
