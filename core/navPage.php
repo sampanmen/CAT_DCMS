@@ -81,7 +81,7 @@ switch ($p) {
         $page['name'] = "Packages";
         break;
     case "packagesResouce":
-        $page['file'] = "../customer/orderPackagesResouce.php";
+        $page['file'] = "../customer/packagesResouce.php";
         $page['name'] = "Resouce by Package";
         break;
     default : $page = "error404.php";
