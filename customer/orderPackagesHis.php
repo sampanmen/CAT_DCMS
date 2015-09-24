@@ -31,21 +31,21 @@
                                     <td>21/9/2558</td>
                                     <td>Full Rack</td>
                                     <td ><p class="label label-success">Active</p></td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal-sm">view</a></td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal">view</a></td>
 
                                 </tr>          
                                 <tr>
                                     <td>22/9/2558</td>
                                     <td>1/2 Rack</td>
                                     <td><p class="label label-danger">No Active</p></td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal-sm">view</a></td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal">view</a></td>
 
                                 </tr>          
                                 <tr>
                                     <td>22/9/2558</td>
                                     <td>Full Rack</td>
                                     <td><p class="label label-success">Active</p></td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal-sm">view</a></td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal">view</a></td>
 
                                 </tr>          
 
@@ -84,7 +84,7 @@
                                     <td>20/9/2558</td>
                                     <td>Extra Port (100 Mbps.) </td>
                                     <td ><p class="label label-success">Active</p></td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal-sm">view</a></td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal">view</a></td>
 
                                 </tr>                                                     
 
@@ -92,7 +92,7 @@
                                     <td>22/9/2558</td>
                                     <td>Extra IP </td>
                                     <td><p class="label label-success">Active</p></td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal-sm">view</a></td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php" class="btn btn-info" data-toggle="modal" data-target="#myModal">view</a></td>
 
                                 </tr>          
 
