@@ -36,7 +36,7 @@
                 margin: 0;
             }
             .ddd {
-                padding: 30px 0px 0px 0px;
+                padding: 40px 0px 0px 0px;
                 border: 0px;
                 border-color: #a7b5ce;
                 border-style: none none dotted none;
@@ -90,7 +90,7 @@
                         <div class="col-print-8 text-center">                                                                                  
                             <h4>
                                 <b>
-                                    แบบฟอร์มการเข้าใช้ศูนย์บริการ Internet Data Center ศูนย์โทรคมนาคม นนทบุรี
+                                    แบบฟอร์มอุปกรณ์เข้า-ออกศูนย์บริการ Internet Data Center ศูนย์โทรคมนาคม นนทบุรี
                                 </b>
                             </h4>
                         </div>
@@ -102,7 +102,7 @@
                         <div class="col-print-8 text-center ddd2 ">                  
                             <h4>
                                 <b>
-                                    CAT-IDC Nonthaburi Entry Form</b>
+                                    Equipment Movement Form</b>
                             </h4>
                         </div>
                     </div>
@@ -158,11 +158,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-print-12">                       
-                                    <div class="col-print-8">                                    
-                                        <p>[ _ ] บุคคลทั่วไป / Other</p>
-                                    </div>
-                                </div>
+
 
                                 <div class="col-print-12">                       
                                     <div class="col-print-8">
@@ -191,7 +187,7 @@
                             </div>
                             <div class="col-print-3">
                                 <div class="col-lg-6 text-left">
-                                    <img src = "" width="150" height="130" border="1">
+                                    <img src = "" width="150" height="120" border="1">
                                 </div>
                             </div>
                             <!-- /.table-responsive -->
@@ -234,14 +230,7 @@
                                 <p>0869711277</p>                                
                             </div>
                         </div>
-                        <div class="col-lg-12">                      
-                            <div class="col-print-3">  
-                                <p>วัตถุประสงค์ (Purpose of Entry)</p>                                                            
-                            </div>
-                            <div class="col-print-9">                           
-                                <p>อยากจะเข้า</p>                                
-                            </div><br><br>
-                        </div>
+
                     </div>
                     <div class="col-print-12 text-center ddd">                    
                         <p>
@@ -253,18 +242,64 @@
                             ( ธิดารัตน์  ช้างแก้ว )
                         </p>
                     </div>
-                    <div class="col-print-12 text-center ddd ddd1 ">                    
-                        <p><b>
-                                สำหรับเจ้าหน้าที่ (For Staff Only)</b>
-                        </p>
-                    </div> 
+
 
                 </div>
             </div>
             <!-- /.panel-body -->
 
 
+            <div>
+                <p><b>รายการอุปกรณ์ (Equipment)</b></p>
+            </div>
 
+            <div class="row col-lg-12">
+                <table class="table table-bordered" id="dataTables2">
+                    <tbody> 
+                        <tr>
+                            <th COLSPAN="2" width="20%"  class=" text-center">อุปกรณ์</th>
+                            <th rowspan="2" width="20%" class=" text-center">ชื้ออุปกรณ์ <br>(Equipment) </th>
+                            <th rowspan="2" width="20%" class=" text-center">ยี่ห้อ/รุ่น <br>(Brand/Model)</th>
+                            <th rowspan="2" width="30%" class=" text-center"><br>Serial No/Remake</th>
+                            <th rowspan="2" width="10%" class=" text-center">Rack <br> Number</th>
+                        </tr>
+
+                        <tr>
+                            <TH>IN</TH><TH>OUT</TH>
+
+
+                        </tr>                                                     
+                        <tr>
+                            <td>เข้า</td>
+                            <td></td>
+                            <td>Notebook</td>
+                            <td>ACER Aspire E1-472G</td>
+                            <td>5520502978</td>
+                            <td>112</td>
+                        </tr>          
+                        <tr>
+                            <td>เข้า</td>
+                            <td></td>
+                            <td>Telephone</td>
+                            <td>IPhone 6</td>
+                            <td>5520502978</td>
+                            <td>112</td>
+                        </tr>         
+                        <tr>
+                            <td>เข้า</td>
+                            <td></td>
+                            <td>Pen</td>
+                            <td>Roting</td>
+                            <td>5520502978</td>
+                            <td>112</td>
+                        </tr>         
+
+                    </tbody>
+                </table>
+
+
+
+            </div>
 
 
 
@@ -279,89 +314,7 @@
             <!--เจ้าหน้าที่-->
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div>
-                                <p>พื้นที่เข้าใช้บริการ<br><br>
-                                    <span style="margin-left:2em">ส่วน ศศ.(IDC ศูนย์โทรคมนาคม นนทบุรี)</span><br><br>
-                                </p>
-                            </div>
-                            <div class="col-print-10">                       
-                                <div class="col-print-3">                                
-                                    <p>[_] Customer Room <p>    
-                                </div>
-                                <div class="col-print-7">                                
-                                    <p>(Username:.......................................................Password:..................................................)</p>     
-                                </div>
 
-                            </div>
-
-                            <!--IDC-->
-                            <div class="col-print-12">                     
-                                <div class="col-print-1">                               
-                                    <P>[_] IDC-1</p>               
-                                    </label>                                
-                                </div>
-                                <div class="col-print-1">
-                                    <P>[_] IDC-2</p>                          
-                                </div>
-                                <div class="col-print-2">                               
-                                    <p>[_] Core Network
-                                </div>
-                                <div class="col-print-2">
-                                    <p>[_] IDC NOC</p>
-                                </div>
-                                <div class="col-print-2">                                 
-                                    <p>[_] Manager</p>
-                                </div>
-                                <div class="col-print-1">                                
-                                    <p>[_] Power</p>                   
-                                </div>
-                                <div class="col-print-1">                               
-                                    <p>[_] Meeting</p>
-                                </div>
-                            </div>
-
-                            <!--VIP-->
-                            <div class="col-print-12">                       
-                                <div class="col-print-1">                                 
-                                    <p>[_] VIP-1</p>   
-                                </div>
-                                <div class="col-print-1">                                 
-                                    <p>[_] VIP-2 </p>    
-                                </div>
-
-                                <div class="col-print-2">                                  
-                                    <p>[_] VIP-3</p>    
-                                </div>
-
-                                <div class="col-print-2">                                
-                                    <p>[_] VIP-4</p>    
-                                </div>
-                                <div class="col-print-2">                               
-                                    <p>[_] VIP-5</p>       
-                                </div>
-                                <div class="col-print-1">                                  
-                                    <p>[_] VIP-6</p>     
-                                </div>
-                                <div class="col-print-1">                                
-                                    <p>[_] VIP-7</p>      
-                                </div>
-                            </div>
-
-                            <div class="col-print-12"> 
-                                <div class="col-print-1">                                
-                                    <p>[_] Office</p>    
-                                </div>
-                                <div class="col-print-2">                                
-                                    <p>[_] Temp Office</p>
-                                </div>  
-                            </div>
-
-
-                        </div>
-                        <!-- /.row (nested) -->
-                    </div>
                     <div class="col-print-12 text-center ddd3 ">                    
                         <div class="col-print-6">                                
                             <p>เวลาเข้า...............................น.</p>    
@@ -373,15 +326,27 @@
 
 
                     <div class="col-print-12 text-center ddd">                    
-                        <p>
-                            ลงชื่อ (Sign)......................................................... ผู้ใช้บริการ (Customer)
+                        <p class="col-print-6">
+                            ลงชื่อ (Sign)........................................................ เจ้าหน้าที่ 
+                        </p>
+                        <p class="col-print-6">
+                            ลงชื่อ (Sign)......................................................... เจ้าหน้าที่ตรวจสอบ 
                         </p>
                     </div>
                     <div class="col-print-12 text-center ddd1">                    
-                        <p>
-                            ( ธิดารัตน์  ช้างแก้ว )
+                        <p class="col-print-6">
+                            ( ธิดารัตน์ ช้างแก้ว )
                         </p>
+                        <div class="col-print-6  ddd1">  
+                            <p class="col-print-7 text-right">
+                                ( ธิดารัตน์ ช้างแก้ว )&nbsp;&nbsp;&nbsp;      
+                                </p>
+                            <p class="col-print-3 text-left">
+                                วันที่..................
+                            </p>
+                        </div>
                     </div>
+
                     <!-- /.panel-body -->
                 </div>
 
