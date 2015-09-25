@@ -25,7 +25,7 @@
                                 <tr>
                                     <td>Full Rack</td>
                                     <td>1,1,2</td>
-                                    
+
 
                                 </tr>          
                                 <tr>
@@ -57,37 +57,41 @@
 
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover" id="dataTables2">
+                        <table class="table table-striped table-bordered table-hover" id="dataTables1">
                             <thead>
                                 <tr>
-                                    <th>IP</th>
+                                    <th>Network IP</th>
                                     <th>Subnet</th>
-                                    <th>Vlan</th>
-                                    
+                                    <th>Total</th>
+                                    <th>Remain</th>
+
 
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>192.168.2.44</td>
+                                    <td>192.168.2.0</td>
                                     <td>255.255.255.0</td>
-                                    <td>3</td>
+                                    <td>256</td>
+                                    <td>5</td>
                                 </tr>                                                     
                                 <tr>
-                                    <td>192.168.2.44</td>
+                                    <td>192.168.3.0</td>
                                     <td>255.255.255.0</td>
-                                    <td>3</td>
+                                    <td>256</td>
+                                    <td>44</td>
                                 </tr>          
                                 <tr>
-                                   <td>192.168.2.44</td>
+                                    <td>192.168.4.0</td>
                                     <td>255.255.255.0</td>
-                                    <td>3</td>
+                                    <td>256</td>
+                                    <td>90</td>
                                 </tr>          
                                 <tr>
-                                 <td>192.168.2.44</td>
+                                    <td>192.168.7.0</td>
                                     <td>255.255.255.0</td>
-                                    <td>3</td>
-                                </tr>          
+                                    <td>256</td>
+                                    <td>50</td> 
 
                             </tbody>
                         </table>
@@ -102,10 +106,50 @@
 
 
         <div class="col-lg-6">
+            <!--Servics-->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4><b>Servics</b></h4>
+                </div>      
+
+                <div class="panel-body">
+                    <div class="dataTable_wrapper">
+                        <table class="table table-striped table-bordered table-hover" id="dataTables2">
+                            <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Detail</th>
+                                    <th>Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Room 1</td>
+                                    <td>ห้องสำหรับประชุม</td>
+                                    <td>Use</td>
+                                </tr>                                                     
+
+                                <tr>
+                                    <td>Room 2</td>
+                                    <td>ห้องสำหรับประชุม</td>
+                                    <td>Use</td>
+                                </tr>       
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.row (nested) -->
+            </div>
+
+
+
+
             <!--Port-->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4><b> Add-On Packages</b></h4>
+                    <h4><b>Port</b></h4>
                 </div>      
 
                 <div class="panel-body">
@@ -113,100 +157,64 @@
                         <table class="table table-striped table-bordered table-hover" id="dataTables3">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Option Packages Name</th>
-                                    <th>Status</th>
-                                    <th> </th>
+                                    <th>Name Switchs</th>
+                                    <th>Total</th>
+                                    <th>Remain</th>
 
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>20/9/2558</td>
-                                    <td>Extra Port (100 Mbps.) </td>
-                                    <td ><p class="label label-success">Active</p></td>
-                                    <td><button type="button" class="btn btn-info">view</button></td>
+                                    <td>Swith 1</td>
+                                    <td>48</td>
+                                    <td>6</td>
 
                                 </tr>                                                     
 
                                 <tr>
-                                    <td>22/9/2558</td>
-                                    <td>Extra IP </td>
-                                    <td><p class="label label-success">Active</p></td>
-                                    <td><button type="button" class="btn btn-info">view</button></td>
-
+                                    <td>Swith 2</td>
+                                    <td>48</td>
+                                    <td>6</td>
                                 </tr>          
                             </tbody>
-                        </table>>
+                        </table>
                     </div>
                     <!-- /.table-responsive -->
                 </div>
                 <!-- /.row (nested) -->
             </div>
-            
-            
-            
-            
-            
-            
-            
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4><b> Add-On Packages</b></h4>
-                </div>      
 
-                <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover" id="dataTables3">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Option Packages Name</th>
-                                    <th>Status</th>
-                                    <th> </th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>20/9/2558</td>
-                                    <td>Extra Port (100 Mbps.) </td>
-                                    <td ><p class="label label-success">Active</p></td>
-                                    <td><button type="button" class="btn btn-info">view</button></td>
 
-                                </tr>                                                     
 
-                                <tr>
-                                    <td>22/9/2558</td>
-                                    <td>Extra IP </td>
-                                    <td><p class="label label-success">Active</p></td>
-                                    <td><button type="button" class="btn btn-info">view</button></td>
 
-                                </tr>          
-
-                            </tbody>
-                    </div>
-                    <!-- /.table-responsive -->
-                </div>
-                <!-- /.row (nested) -->
-            </div>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
 
             <!-- /.panel-body -->
         </div>
 
     </form>
 </div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#dataTables1').DataTable({
+            responsive: true
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#dataTables2').DataTable({
+            responsive: true
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#dataTables3').DataTable({
+            responsive: true
+        });
+    });
+</script>
