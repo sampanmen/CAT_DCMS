@@ -1,3 +1,6 @@
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+?>
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
@@ -6,8 +9,6 @@
                     Service <a href="?p=addService">(Add)</a>
                 </label>
             </div>
-
-
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -17,52 +18,28 @@
                                 <th>ID Service</th>
                                 <th>Service Name</th>
                                 <th>Detail</th>
+                                <th>Type</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd gradeX">
-                                <td>00001</td>
-                                <td>Server Co-locstion : Rack</td>
-                                <td>DETAILDETAILDETAILDETAIL</td>
-                                <td>Active</td>
-                                <td>
-                                    <a class="btn btn-primary" href="index.html">View</a>                                  
-                                    <a class="btn btn-warning" href="index.html">Edit</a>
-                                </td>
-                            </tr>                                                     
-                            <tr class="odd gradeX">
-                                <td>00001</td>
-                                <td>Server Co-locstion : Rack</td>
-                                <td>DETAILDETAILDETAILDETAIL</td>
-                                <td>Active</td>
-                                <td>
-                                    <a class="btn btn-primary" href="index.html">View</a>                                  
-                                    <a class="btn btn-warning" href="index.html">Edit</a>
-                                </td>
-                            </tr>                         
-                            <tr class="odd gradeX">
-                                <td>00001</td>
-                                <td>Server Co-locstion : Rack</td>
-                                <td>DETAILDETAILDETAILDETAIL</td>
-                                <td>Active</td>
-                                <td>
-                                    <a class="btn btn-primary" href="index.html">View</a>                                  
-                                    <a class="btn btn-warning" href="index.html">Edit</a>
-                                </td>
-                            </tr>                         
-                            <tr class="odd gradeX">
-                                <td>00001</td>
-                                <td>Server Co-locstion : Rack</td>
-                                <td>DETAILDETAILDETAILDETAIL</td>
-                                <td>Active</td>
-                                <td>
-                                    <a class="btn btn-primary" href="index.html">View</a>                                  
-                                    <a class="btn btn-warning" href="index.html">Edit</a>
-                                </td>
-                            </tr>                         
-
+                            <?php
+                            $services = getService();
+                            foreach ($services as $service) {
+                                ?>
+                                <tr class="odd gradeX">
+                                    <td><?php echo $service['ServiceID']; ?></td>
+                                    <td><?php echo $service['NameService']; ?></td>
+                                    <td><?php echo $service['Detail']; ?></td>
+                                    <td><?php echo $service['ServiceType']; ?></td>
+                                    <td><?php echo $service['Status']; ?></td>
+                                    <td>
+                                        <a class="btn btn-primary" href="#">View</a>
+                                        <a class="btn btn-warning" href="#">Edit</a>
+                                    </td>
+                                </tr>                                                     
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
