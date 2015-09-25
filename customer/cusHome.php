@@ -1,3 +1,6 @@
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+?>
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
@@ -21,48 +24,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd gradeX">
-                                <td>00001</td>
-                                <td>Thailand HaHartyuiop[]dfghjkl;'cvbm.cvbm,./</td>
-                                <td>Person</td>
-                                <td><span class="label label-warning">Suspend</span></td>
-                                <td>
-                                    <a class="btn btn-primary" href="?p=viewCus">View</a>
-                                    <a class="btn btn-info" href="?p=addOrder">Add Order</a>
-                                    <!--<a class="btn btn-warning" href="">Edit</a>-->
-                                </td>
-                            </tr>                                                     
-                            <tr class="gradeX">
-                                <td>00002</td>
-                                <td>Lynx</td>
-                                <td>Person</td>
-                                <td><span class="label label-success">Active</span></td>
-                                <td><a class="btn btn-primary" href="index.html">View</a>
-                                    <a class="btn btn-info" href="index.html">Add Order</a>
-                                    <!--<a class="btn btn-warning" href="index.html">Edit</a>-->
-                                </td>
-                            </tr>
-                            <tr class="gradeC">
-                                <td>00003</td>
-                                <td>IE Mobile</td>
-                                <td>Person</td>
-                                <td><span class="label label-success">Active</span></td>
-                                <td><a class="btn btn-primary" href="index.html">View</a>
-                                    <a class="btn btn-info" href="index.html">Add Order</a>
-                                    <!--<a class="btn btn-warning" href="index.html">Edit</a>-->
-                                </td>
-                            </tr>
-                            <tr class="gradeC">
-                                <td>00004</td>
-                                <td>PSP browser</td>
-                                <td>Person</td>
-                                <td><span class="label label-success">Active</span></td>
-                                <td><a class="btn btn-primary" href="index.html">View</a>
-                                    <a class="btn btn-info" href="index.html">Add Order</a>
-                                    <!--<a class="btn btn-warning" href="index.html">Edit</a>-->
-                                </td>
-                            </tr>
-
+                            <?php
+                            $cus = getCustomer();
+                            foreach ($cus as $value) {
+                                $statusLabel = $value['Status']=="Active"?"success":($value['Status']=="Suppened"?"warning":"danger");
+                                ?>
+                                <tr class="odd gradeX">
+                                    <td><?php echo $value['PrefixID'] . sprintf("%05d", $value['CustomerID']); ?></td>
+                                    <td><?php echo $value['CustomerName']; ?></td>
+                                    <td><?php echo $value['BusinessType']; ?></td>
+                                    <td><span class="label label-<?php echo $statusLabel;?>"><?php echo $value['Status']; ?></span></td>
+                                    <td>
+                                        <a class="btn btn-primary" href="?p=viewCus&cusID=<?php echo $value['CustomerID']; ?>">View</a>
+                                        <a class="btn btn-info" href="?p=addOrder&cusID=<?php echo $value['CustomerID']; ?>">Add Order</a>
+                                        <!--<a class="btn btn-warning" href="">Edit</a>-->
+                                    </td>
+                                </tr>  
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
@@ -71,8 +49,4 @@
             <!-- /.panel-body -->
         </div>
     </div>
-
-    <!-- /.col-lg-8 -->
-
-    <!--/.col-lg-4--> 
 </div>

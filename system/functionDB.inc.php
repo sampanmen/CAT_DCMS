@@ -24,7 +24,18 @@ function insertCustomer($PrefixID, $CustomerName, $Email, $Phone, $Fax, $Address
         return false;
     }
 }
-
+function getCustomer(){
+    global $connection;
+    dbconnect();
+    $SQLCommand="SELECT `CustomerID`, `PrefixID`, `CustomerName`, `BusinessType`, `Status` FROM `view_cus`";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)){
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
 function checkEmail($email){
     global $connection;
     dbconnect();
@@ -53,12 +64,12 @@ function insertPerson($Fname, $Lname, $Phone, $Email, $Password, $TypePerson, $I
 function getBussinessTypeHTML(){
     global $connection;
     dbconnect();
-    $SQLCommand="SELECT `BussinessTypeID`, `BussinessType` FROM `cus_customer_bussinesstype` WHERE `StatusBussinessType`='active'";
+    $SQLCommand="SELECT `BusinessTypeID`, `BusinessType` FROM `cus_customer_businesstype` WHERE `StatusBusinessType`='active'";
     $SQLPrepare = $connection->prepare($SQLCommand);
     $SQLPrepare->execute();
     
     while($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)){
-        echo '<option value="'.$result['BussinessTypeID'].'">'.$result['BussinessType'].'</option>';
+        echo '<option value="'.$result['BusinessTypeID'].'">'.$result['BusinessType'].'</option>';
     }
 }
 
