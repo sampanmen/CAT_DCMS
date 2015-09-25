@@ -82,3 +82,15 @@ function insertService($name,$detail,$type,$status) {
     $SQLPrepare->execute(array(":name"=>$name,":detail"=>$detail,":type"=>$type,":status"=>$status));
     return $connection->lastInsertId();
 }
+function getService(){
+    global $connection;
+    dbconnect();
+    $SQLCommand="SELECT `ServiceID`, `NameService`, `Detail`, `ServiceType`, `Status` FROM `view_service`";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)){
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
