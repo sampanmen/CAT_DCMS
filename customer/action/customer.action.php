@@ -22,24 +22,37 @@ if ($para == "addCustomer") {
     $resInsertCus = insertCustomer("CUS", $cus_name, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, $cus_province, $cus_zipcode, $cus_country, $cus_bussType);
     if ($resInsertCus) {
         $countCon = count($con['name']);
-        for($i=0;$i<$countCon;$i++) {
+        for ($i = 0; $i < $countCon; $i++) {
             $con_name = $con['name'][$i];
             $con_sname = $con['sname'][$i];
             $con_phone = $con['phone'][$i];
             $con_email = $con['email'][$i];
             $con_password = $con['password'][$i];
 //            $con_file;
-            $resInsertCon = insertPerson($con_name, $con_sname, $con_phone, $con_email, $con_password, "contact", NULL, NULL, $resInsertCus);
+            $resInsertCon = insertPerson($con_name, $con_sname, $con_phone, $con_email, $con_password, "7", NULL, NULL, $resInsertCus);
         }
-        if($resInsertCon){
-            header("location: ../../core/?p=addOrder&para=addCustomerComplete");
+        if ($resInsertCon) {
+            header("location: ../../core/?p=addOrder&para=addCustomerCompleted");
+        }
+        else{
+            header("location: ../../core/?p=addOrder&para=addCustomerFailed");
         }
     }
-}
-else if($para == "checkEmail"){
-    $email = isset($_GET['email'])?$_GET['email']:"no email";
+} else if ($para == "checkEmail") {
+    $email = isset($_GET['email']) ? $_GET['email'] : "no email";
     echo checkEmail($email);
-}
-else if($para == "getBussinessTypeHTML"){
+} else if ($para == "getBussinessTypeHTML") {
     getBussinessTypeHTML();
+} else if ($para == "addService") {
+    $name = $_POST['name'];
+    $detail = $_POST['detail'];
+    $type = $_POST['type'];
+    $status = $_POST['status'];
+    $resInsert = insertService($name, $detail, $type, $status);
+    if($resInsert){
+        header("location: ../../core/?p=serviceHome&para=addServiceCompleted");
+    }
+    else{
+        header("location: ../../core/?p=serviceHome&para=addServiceFailed");
+    }
 }

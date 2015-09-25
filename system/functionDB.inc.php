@@ -15,7 +15,7 @@ function insertCustomer($PrefixID, $CustomerName, $Email, $Phone, $Fax, $Address
             . "VALUES (:cusStatus,:cusPrefixID,:cusName,:cusEmail,:cusPhone,:cusFax,:cusAddress,:cusTownship,:cusCity,:cusProvince,:cusZipcode,:cusCountry,:cusBusinessTypeID)";
 
     $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":cusStatus" => "active", ":cusPrefixID" => $PrefixID, ":cusName" => $CustomerName, ":cusEmail" => $Email, ":cusPhone" => $Phone, ":cusFax" => $Fax, ":cusAddress" => $Address, ":cusTownship" => $Township, ":cusCity" => $City, ":cusProvince" => $Province, ":cusZipcode" => $Zipcode, ":cusCountry" => $Country, ":cusBusinessTypeID" => $BusinessTypeID));
+    $SQLPrepare->execute(array(":cusStatus" => "1", ":cusPrefixID" => $PrefixID, ":cusName" => $CustomerName, ":cusEmail" => $Email, ":cusPhone" => $Phone, ":cusFax" => $Fax, ":cusAddress" => $Address, ":cusTownship" => $Township, ":cusCity" => $City, ":cusProvince" => $Province, ":cusZipcode" => $Zipcode, ":cusCountry" => $Country, ":cusBusinessTypeID" => $BusinessTypeID));
     
     if ($SQLPrepare->rowCount()) {
         $cusID = $connection->lastInsertId();
@@ -60,4 +60,14 @@ function getBussinessTypeHTML(){
     while($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)){
         echo '<option value="'.$result['BussinessTypeID'].'">'.$result['BussinessType'].'</option>';
     }
+}
+
+function insertService($name,$detail,$type,$status) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "INSERT INTO `cus_service`(`NameService`, `Detail`, `ServiceType`, `ServiceStatus`) "
+            . "VALUES (:name,:detail,:type,:status)";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":name"=>$name,":detail"=>$detail,":type"=>$type,":status"=>$status));
+    return $connection->lastInsertId();
 }
