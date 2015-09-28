@@ -4,15 +4,92 @@
             <!--Rack-->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4><b> Rack</b></h4>
+                    <h4><b> Rack
+                            <a href="../customer/model_Contact.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
+                        </b></h4>
                 </div>      
 
-                
-                
-                
-                
-                
-                
+                <div class="panel-body">
+                    <div class="well-sm col-lg-12 ">                              
+                        <div class="col-lg-12">
+                            <div class="col-lg-4">
+                                <p>full Rack</p>      
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p>total</p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p><font size="3" COLOR=green><b>10</b></font></p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p>use</p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p><font size="3" COLOR=red><b>3</b></font></p>                              
+                            </div>
+                        </div>  
+                    </div>
+
+                    <div class="well-sm col-lg-12 ">                              
+                        <div class="col-lg-12">
+                            <div class="col-lg-4">
+                                <p>1/2 Rack</p>      
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p>total</p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p><font size="3" COLOR=green><b>10</b></font></p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p>use</p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p><font size="3" COLOR=red><b>3</b></font></p>                              
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="well-sm col-lg-12 ">                              
+                        <div class="col-lg-12">
+                            <div class="col-lg-4">
+                                <p>1/4 Rack</p>      
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p>total</p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p><font size="3" COLOR=green><b>10</b></font></p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p>use</p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p><font size="3" COLOR=red><b>3</b></font></p>                              
+                            </div>
+                        </div>  
+                    </div>
+
+                    <div class="well-sm col-lg-12 ">                              
+                        <div class="col-lg-12">
+                            <div class="col-lg-4">
+                                <p>Shared Rack</p>      
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p>total</p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p><font size="3" COLOR=green><b>10</b></font></p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p>use</p>                              
+                            </div>
+                            <div class="col-lg-2">                               
+                                <p><font size="3" COLOR=red><b>3</b></font></p>                              
+                            </div>
+                        </div>  
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
                 <!-- /.row (nested) -->
             </div>
 
@@ -21,7 +98,9 @@
             <!--IP-->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4><b> IP</b></h4>
+                    <h4><b> IP
+                            <a href="../customer/model_Contact.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
+                        </b></h4>
                 </div>      
 
                 <div class="panel-body">
@@ -32,7 +111,7 @@
                                     <th>Network IP</th>
                                     <th>Subnet</th>
                                     <th>Total</th>
-                                    <th>Remain</th>
+                                    <th>Use</th>
 
 
                                 </tr>
@@ -78,7 +157,9 @@
             <!--Servics-->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4><b>Servics</b></h4>
+                    <h4><b>Servics
+                            <a href="../customer/model_Contact.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
+                        </b></h4>
                 </div>      
 
                 <div class="panel-body">
@@ -118,7 +199,9 @@
             <!--Port-->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4><b>Port</b></h4>
+                    <h4><b>Port
+                            <a href="../customer/model_Contact.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
+                        </b></h4>
                 </div>      
 
                 <div class="panel-body">
@@ -128,7 +211,7 @@
                                 <tr>
                                     <th>Name Switchs</th>
                                     <th>Total</th>
-                                    <th>Remain</th>
+                                    <th>Use</th>
 
                                 </tr>
                             </thead>
