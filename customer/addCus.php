@@ -233,7 +233,7 @@
             else {
                 $("#btnSubmit").prop('disabled', false);
                 $("#alertEmail").html("");
-                alert(email + " E-Mail นี้ใช้งานได้");
+                //alert(email + " E-Mail นี้ใช้งานได้");
             }
         })
     }
