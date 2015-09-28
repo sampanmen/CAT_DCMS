@@ -7,43 +7,12 @@
                     <h4><b> Rack</b></h4>
                 </div>      
 
-                <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover" id="dataTables">
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Position</th>                                 
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>                                  
-                                    <td>Share Rack (2U/Server)</td>
-                                    <td>1,1,1</td>                                   
-                                </tr>                                                     
-                                <tr>
-                                    <td>Full Rack</td>
-                                    <td>1,1,2</td>
-
-
-                                </tr>          
-                                <tr>
-                                    <td>1/2 Rack</td>
-                                    <td>1,1,3</td>
-
-                                </tr>          
-                                <tr>
-                                    <td>Full Rack</td>
-                                    <td>1,1,4</td>
-
-                                </tr>          
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.table-responsive -->
-                </div>
+                
+                
+                
+                
+                
+                
                 <!-- /.row (nested) -->
             </div>
 
