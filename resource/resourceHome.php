@@ -158,7 +158,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4><b>Servics
-                            <a href="../customer/model_Contact.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
+                            <a href="../resource/model_addService.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
                         </b></h4>
                 </div>      
 
