@@ -102,7 +102,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="modal fade" id="myModal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -126,6 +126,9 @@
                 $('#dataTables').DataTable({
                     responsive: true
                 });
+            });
+            $('body').on('hidden.bs.modal', '.modal', function () {
+                $(this).removeData('bs.modal');
             });
         </script>
     </body>
