@@ -286,49 +286,7 @@
                                          <p><a href="">Detail</a></p>                               
                                     </div>
                                 </div>
-                            </div>
-
-                            
-                            <div class=" well well-sm  col-lg-12">
-                                <div class="col-lg-12">
-
-                                    <div class="col-lg-4">                        
-                                        <h3><b>00003</b> </h3>  
-                                    </div>
-
-                                </div>
-
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Date:</b></p>      
-                                    </div>
-                                    <div class="col-lg-8">                               
-                                        22/09/2558                               
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Total Packages:</b></p>      
-                                    </div>
-                                    <div class="col-lg-8">                               
-                                        <p><font size="3"><b>3</b></font> /5                                
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Status:</b></p>      
-                                    </div>
-                                    <div class="col-lg-3">                               
-                                        <p class="label label-success">Active</p>                               
-                                    </div>
-                                     <div class="col-lg-3">                               
-                                        <p></p>                               
-                                    </div>
-                                     <div class="col-lg-2">                               
-                                         <p><a href="">Detail</a></p>                               
-                                    </div>
-                                </div>
-                            </div>
+                            </div>                        
                         </div>
                     </div>
                     <!-- /.row (nested) -->
@@ -339,5 +297,139 @@
             <!-- Contact Detail -->
 
         </div> 
+        
+        <!-------IP-->
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <p><b> IP</b> </p>
+                </div>                
+
+                <div class="panel-body">                   
+                    <table class="table ">
+                            
+                            <tbody>
+                                <tr>
+                                    <td>158.168.1.0</td>
+                                    <td><a href="../customer/model_IP.php"  data-toggle="modal" data-target="#myModal">10</a></td>
+
+                                </tr>                                                     
+                                <tr>
+                                    <td>158.168.2.0</td>
+                                    <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">10</a></td>
+
+                                </tr>          
+                                <tr>
+                                    <td>158.168.3.0</td>
+                                    <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">2</a></td>
+
+                                </tr>          
+                                <tr>
+                                    <td>158.168.4.0</td>
+                                    <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">3</a></td>
+
+                                </tr>          
+
+                            </tbody>
+                        </table>
+                    
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+            <!-- Contact Detail -->
+
+        </div> 
+        
+        <!-------Rack-->
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <p><b> Rack</b> </p>
+                </div>                
+
+                <div class="panel-body">                   
+                    <table class="table ">
+                            
+                            <tbody>
+                                <tr>
+                                    <td>Full Rack</td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php"  data-toggle="modal" data-target="#myModal">2</a></td>
+
+                                </tr>                                                     
+                                <tr>
+                                    <td>1/2 Rack</td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">2</a></td>
+
+                                </tr>          
+                                <tr>
+                                    <td>1/4 Rack</td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">1</a></td>
+
+                                </tr>          
+                                <tr>
+                                    <td>Shared Rack</td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">3</a></td>
+
+                                </tr>          
+
+                            </tbody>
+                        </table>
+                    
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+            <!-- Contact Detail -->
+
+        </div> 
+        
+        
+        <!------Port-->
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <p><b>Port</b> </p>
+                </div>                
+
+                <div class="panel-body">                   
+                    <table class="table ">
+                            
+                            <tbody>
+                                <tr>
+                                    <td>Switch 1</td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php"  data-toggle="modal" data-target="#myModal">7</a></td>
+
+                                </tr>                                                     
+                                <tr>
+                                    <td>Switch 2</td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">4</a></td>
+
+                                </tr>          
+                                <tr>
+                                    <td>Switch 3</td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">5</a></td>
+
+                                </tr>          
+                                <tr>
+                                    <td>Switch 5</td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">2</a></td>
+
+                                </tr>          
+
+                            </tbody>
+                        </table>
+                    
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+            <!-- Contact Detail -->
+
+        </div> 
+        
     </form>
 </div>
