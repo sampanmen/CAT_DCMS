@@ -257,7 +257,7 @@
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
-                <li>
+<!--                <li>
                     <a href=""><i class="fa fa-tasks fa-fw"></i> Ticket<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
@@ -267,10 +267,13 @@
                             <a href="#">My Tickets</a>
                         </li>
                     </ul>
-                </li>
+                </li>-->
                 <li>
                     <a href=""><i class="fa fa-cubes fa-fw"></i> Resource<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
+                        <li>
+                            <a href="?p=resourceHome">Summery</a>
+                        </li>
                         <li>
                             <a href="#">Rack</a>
                         </li>
