@@ -355,22 +355,22 @@
                             <tbody>
                                 <tr>
                                     <td>Full Rack</td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php"  data-toggle="modal" data-target="#myModal">2</a></td>
+                                    <td><a href="../customer/model_Rack.php"  data-toggle="modal" data-target="#myModal">2</a></td>
 
                                 </tr>                                                     
                                 <tr>
                                     <td>1/2 Rack</td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">2</a></td>
+                                    <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">2</a></td>
 
                                 </tr>          
                                 <tr>
                                     <td>1/4 Rack</td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">1</a></td>
+                                    <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">1</a></td>
 
                                 </tr>          
                                 <tr>
                                     <td>Shared Rack</td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">3</a></td>
+                                    <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">3</a></td>
 
                                 </tr>          
 
