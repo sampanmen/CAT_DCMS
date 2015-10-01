@@ -129,25 +129,25 @@
                                 <table class="table table-bordered" id="dataTables">
 
                                     <tr>
-                                        <th>อุปกรณ์</th>
                                         <th>ชื้ออุปกรณ์ (Equipment)</th>
-                                        <th>ยี่ห้อ/รุ่น (Brand/Model)</th>
+                                        <th>ยี่ห้อ(Brand)</th>
+                                        <th>รุ่น (Model)</th>
                                         <th>Serial No/Remake</th>
                                         <th >Rack Number</th>
                                         <th></th>
                                     </tr>
 
                                     <tbody>
-                                        <tr>
-                                            <td><select class="form-control" name="cus[bussinessType]">
-                                                    <option value="1">IN</option>
-                                                    <option value="2">OUT</option>
-                                                </select>    
+                                        <tr>                                           
+                                            <td><input class="form-control"></td>
+                                            <td><input class="form-control"></td>
+                                            <td><input class="form-control"></td>
+                                            <td><input class="form-control"></td>
+                                            <td><select class="form-control">
+                                                    <option>1</option>
+                                                     <option>2</option> 
+                                                </select> 
                                             </td>
-                                            <td><input class="form-control"></td>
-                                            <td><input class="form-control"></td>
-                                            <td><input class="form-control"></td>
-                                            <td><input class="form-control"></td>
                                             <td><button type="button" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
                                         </tr> 
                                     </tbody>
