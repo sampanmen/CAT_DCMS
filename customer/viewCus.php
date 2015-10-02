@@ -400,22 +400,22 @@
                             <tbody>
                                 <tr>
                                     <td>Switch 1</td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php"  data-toggle="modal" data-target="#myModal">7</a></td>
+                                    <td><a href="../customer/model_Port.php"  data-toggle="modal" data-target="#myModal">7</a></td>
 
                                 </tr>                                                     
                                 <tr>
                                     <td>Switch 2</td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">4</a></td>
+                                    <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">4</a></td>
 
                                 </tr>          
                                 <tr>
                                     <td>Switch 3</td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">5</a></td>
+                                    <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">5</a></td>
 
                                 </tr>          
                                 <tr>
                                     <td>Switch 5</td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php" data-toggle="modal" data-target="#myModal">2</a></td>
+                                    <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">2</a></td>
 
                                 </tr>          
 
