@@ -84,6 +84,10 @@ switch ($p) {
         $page['file'] = "../resource/resourceHome.php";
         $page['name'] = "Resource";
         break;
+    case "viewIP":
+        $page['file'] = "../resource/viewIP.php";
+        $page['name'] = "IP Address";
+        break;
     
     default : $page = "error404.php";
         break;
