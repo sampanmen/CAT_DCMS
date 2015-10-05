@@ -7,6 +7,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
 if ($para == "addCustomer") {
 
     $cus_name = $_POST['cus']['name'];
+    $status = "active";
     $cus_bussType = $_POST['cus']['bussinessType'];
     $cus_email = $_POST['cus']['email'];
     $cus_phone = $_POST['cus']['phone'];
@@ -19,7 +20,7 @@ if ($para == "addCustomer") {
     $cus_country = $_POST['cus']['country'];
     $con = $_POST['con'];
 
-    $resInsertCus = insertCustomer("CUS", $cus_name, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, $cus_province, $cus_zipcode, $cus_country, $cus_bussType);
+    $resInsertCus = addCustomer("CUS", $status, $cus_name, $cus_bussType, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, $cus_province, $cus_zipcode, $cus_country);
     if ($resInsertCus) {
         $countCon = count($con['name']);
         for ($i = 0; $i < $countCon; $i++) {
@@ -28,13 +29,13 @@ if ($para == "addCustomer") {
             $con_phone = $con['phone'][$i];
             $con_email = $con['email'][$i];
             $con_password = $con['password'][$i];
+            $con_type = $con['type'][$i];
 //            $con_file;
-            $resInsertCon = insertPerson($con_name, $con_sname, $con_phone, $con_email, $con_password, "7", NULL, NULL, $resInsertCus);
+            $resInsertCon = addPerson($con_name, $con_sname, $con_phone, $con_email, $con_password, NULL, NULL, $con_type, NULL, $resInsertCus);
         }
         if ($resInsertCon) {
-            header("location: ../../core/?p=addOrder&para=addCustomerCompleted");
-        }
-        else{
+            header("location: ../../core/?p=addOrder&cusID=".$resInsertCus."&para=addCustomerCompleted");
+        } else {
             header("location: ../../core/?p=addOrder&para=addCustomerFailed");
         }
     }
@@ -49,10 +50,9 @@ if ($para == "addCustomer") {
     $type = $_POST['type'];
     $status = $_POST['status'];
     $resInsert = insertService($name, $detail, $type, $status);
-    if($resInsert){
+    if ($resInsert) {
         header("location: ../../core/?p=serviceHome&para=addServiceCompleted");
-    }
-    else{
+    } else {
         header("location: ../../core/?p=serviceHome&para=addServiceFailed");
     }
 }

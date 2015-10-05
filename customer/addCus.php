@@ -22,7 +22,9 @@
                             </div>
                             <div class="form-group col-lg-3">
                                 <select class="form-control" name="cus[bussinessType]" id="cusBissinessType">
-                                    <option selected value="">กรุณาเลือก</option>
+                                    <option selected value="กสท">กสท</option>
+                                    <option value="นิติบุคคล">นิติบุคคล</option>
+                                    <option value="บุคคล">บุคคล</option>
                                 </select>    
                             </div>
                             <div class="form-group col-lg-2">
@@ -109,7 +111,8 @@
                                 <p>ชื่อผู้ติดต่อ / Contact Name</p>                  
                             </div>
                             <div class="form-group col-lg-3"><br>
-                                <input class="form-control" name="con[name][]">                                
+                                <input class="form-control" name="con[name][]">
+                                <input type="hidden" value="contact" name="con[type][]">
                             </div>
                             <div class="form-group col-lg-2"><br>
                                 <p>นามสกุล / Surname</p>                     
@@ -172,7 +175,8 @@
                         <p>ชื่อผู้ติดต่อ / Contact Name</p>                  
                     </div>
                     <div class="form-group col-lg-3"><br>
-                        <input class="form-control" name="con[name][]">                                
+                        <input class="form-control" name="con[name][]">
+                        <input type="hidden" value="contact" name="con[type][]">
                     </div>
                     <div class="form-group col-lg-2"><br>
                         <p>นามสกุล / Surname</p>                     
@@ -220,14 +224,14 @@
         var htmlAddCus = $("#addCus").html();
         $("#ddd").append(htmlAddCus);
     }
-    
+
     function checkEmail(email) {
         //alert(email);
         $.get("../customer/action/customer.action.php?para=checkEmail&email=" + email, function (data, status) {
             //alert("Data: " + data + "\nStatus: " + status);
             if (data == "1") {
                 $("#btnSubmit").prop('disabled', true);
-                $("#alertEmail").append("<p class=\"label label-danger\" id=\"alertEmail\">"+email + " อีเมล์ซ้ำ กรุณาเปลี่ยนอีเมล์</p><br>");
+                $("#alertEmail").append("<p class=\"label label-danger\" id=\"alertEmail\">" + email + " อีเมล์ซ้ำ กรุณาเปลี่ยนอีเมล์</p><br>");
                 alert(email + " E-Mail นี้ถูกใช้งานแล้ว");
             }
             else {
@@ -237,10 +241,10 @@
             }
         })
     }
-    
-    $.get("../customer/action/customer.action.php?para=getBussinessTypeHTML", function (data, status) {
-            //alert("Data: " + data + "\nStatus: " + status);
-            $("#cusBissinessType").append(data);
-        })
-    $("#cusBissinessType").html();
+
+//    $.get("../customer/action/customer.action.php?para=getBussinessTypeHTML", function (data, status) {
+//            //alert("Data: " + data + "\nStatus: " + status);
+//            $("#cusBissinessType").append(data);
+//        })
+//    $("#cusBissinessType").html();
 </script>
