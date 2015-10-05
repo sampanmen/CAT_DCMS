@@ -1,3 +1,9 @@
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+
+$cusID = $_GET['cusID'];
+$getCus = getCustomer($cusID);
+?>
 <!--Customer Detail-->
 <div class="row">
     <form>
@@ -12,11 +18,12 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">                            
-                            <h1><b>CUS00001</b></h1>
+                            <h1><b><?php echo $getCus['PrefixID'] . sprintf("%05d", $getCus['CustomerID']); ?></b></h1>
                         </div>
                         <div class="col-lg-12">
+                            <?php $statusLabel = $getCus['CustomerStatus'] == "active" ? "success" : ($getCus['CustomerStatus'] == "suppened" ? "warning" : "danger"); ?>
                             <label>Status</label>
-                            <p class="label label-success">Active</p>
+                            <p class="label label-<?php echo $statusLabel; ?>"><?php echo $getCus['CustomerStatus']; ?></p>
                         </div>
 
                     </div>
@@ -32,7 +39,7 @@
                 <div class="panel-heading">
                     <label>
                         ข้อมูลบริษัท / Company Detail
-                        <a href="../customer/model_EditCus.php" data-toggle="modal" data-target="#myModal-lg">  ( Edit )  </a>                     
+                        <a href="../customer/model_EditCus.php" data-toggle="modal" data-target="#myModal-lg">  (Edit)  </a>                     
                     </label>                   
                 </div>
 
@@ -40,18 +47,10 @@
                     <div class="row">
                         <div class="col-lg-12">                       
                             <div class="form-group col-lg-6">
-                                <label>ชื่อ / First Name</label>      
+                                <label>ชื่อ / Name</label>      
                             </div>
                             <div class="form-group  col-lg-6">                               
-                                ธิดารัตน์                                
-                            </div>
-                        </div>
-                        <div class="col-lg-12">                       
-                            <div class="form-group col-lg-6">
-                                <label>นามสกุล / Last Name</label>      
-                            </div>
-                            <div class="form-group col-lg-6">                               
-                                ช้างแก้ว                          
+                                <?php echo $getCus['CustomerName']; ?>
                             </div>
                         </div>
                         <div class="col-lg-12">                       
@@ -59,7 +58,7 @@
                                 <label>ประเภทธุรกิจ / Business Type</label>
                             </div>
                             <div class="form-group col-lg-6">                               
-                                นิติบุคคล                           
+                                <?php echo $getCus['BusinessType']; ?>
                             </div>
                         </div>
                         <div class="col-lg-12">                       
@@ -67,7 +66,7 @@
                                 <label>อีเมล์ / E-Mail</label>
                             </div>
                             <div class="form-group col-lg-6">                               
-                                thidarat.c@outlook.com                           
+                                <?php echo $getCus['Email']; ?>
                             </div>
                         </div>
                         <div class="col-lg-12">                       
@@ -75,7 +74,7 @@
                                 <label>โทรศัพท์ / Phone</label>
                             </div>
                             <div class="form-group col-lg-6">                               
-                                086-9711277                         
+                                <?php echo $getCus['Phone']; ?>
                             </div>
                         </div>
                         <div class="col-lg-12">                       
@@ -83,7 +82,7 @@
                                 <label>แฟกต์ / Fax.</label>
                             </div>
                             <div class="form-group col-lg-6">                               
-                                086-9711277                          
+                                <?php echo $getCus['Fax']; ?>
                             </div>
                         </div>
                         <div class="col-lg-12">                       
@@ -91,7 +90,7 @@
                                 <label>ที่อยู่ / Address</label>
                             </div>
                             <div class="form-group col-lg-6">                               
-                                449/2 ซ.องครักษ์ เขตดุสิต แขวงถนนนครไชยศรี กรุงเทพ 10300                         
+                                <?php echo $getCus['Address'] . " <br>ตำบล/Tambol: " . $getCus['Township'] . " <br>อำเภอ/City: " . $getCus['City'] . " <br>จังหวัด/Province: " . $getCus['Province'] . " <br>รหัสไปรษณีย์/Postalcode: " . $getCus['Zipcode'] . " <br>ประเทศ/Country: " . $getCus['Country']; ?>
                             </div>
 
                         </div>
@@ -107,70 +106,38 @@
                 <div class="panel-heading">
                     <label>
                         ข้อมูลผู้ติดต่อ / Contact Detail
-                        <a href="../customer/model_Contact.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
+                        <a href="../customer/model_Contact.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>
                     </label>
                 </div>
                 <div class="panel-body">
                     <div class="row">                       
                         <div class="col-lg-12">
-                            <div class=" well well-sm col-lg-12 ">
-                                <div class="col-lg-6 text-left">
-                                    <img src = "" width="150" height="130" border="1">
+
+                            <?php
+                            $getContact = getContactByCustomer($cusID);
+                            foreach ($getContact as $value) {
+                                ?>
+                                <div class=" well well-sm col-lg-12 ">
+                                    <div class="col-lg-6 text-left">
+                                        <img src = "" width="150" height="130" border="1">
+                                    </div>
+                                    <div class="col-lg-6 text-left">                      
+                                        <div class="form-group">                               
+                                            <label><?php echo $value['Fname'] . " " . $value['Lname']; ?></label>                               
+                                        </div>
+                                        <div class="form-group">                               
+                                            <label><?php echo $value['Email']; ?></label>                               
+                                        </div>
+                                        <div class="form-group">                               
+                                            <label><?php echo $value['Phone']; ?></label> 
+                                        </div>
+                                        <div class="form-group text-right">
+                                            <a href="../customer/model_editContact.php?personID=<?php echo $value['PersonID']; ?>" data-toggle="modal" data-target="#myModal">Detail</a>
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div class="col-lg-6 text-left">                      
-                                    <div class="form-group">                               
-                                        <label>ธิดารัตน์ ช้างแก้ว</label>                               
-                                    </div>
-                                    <div class="form-group">                               
-                                        <label>thidarat.c@outlook.com</label>                               
-                                    </div>
-                                    <div class="form-group">                               
-                                        <label>086-9711277</label> 
-                                    </div>
-                                    <div class="form-group text-right">
-                                        <a href="../customer/model_editContact.php" data-toggle="modal" data-target="#myModal">Detail</a>
-                                    </div>
-
-                                </div>
-                            </div>
-
-
-                            <div class=" well well-sm col-lg-12 ">
-                                <div class="col-lg-6 text-left">
-                                    <img src = "" width="150" height="130" border="1">
-                                </div>
-                                <div class="col-lg-6 text-left">                      
-                                    <div class="form-group">                               
-                                        <label>ธิดารัตน์ ช้างแก้ว</label>                               
-                                    </div>
-                                    <div class="form-group">                               
-                                        <label>thidarat.c@outlook.com</label>                               
-                                    </div>
-                                    <div class="form-group">                               
-                                        <label>086-9711277</label>                               
-                                    </div>
-
-                                </div>
-                            </div>
-
-
-                            <div class=" well well-sm col-lg-12 ">
-                                <div class="col-lg-6 text-left">
-                                    <img src = "" width="150" height="130" border="1">
-                                </div>
-                                <div class="col-lg-6 text-left">                      
-                                    <div class="form-group">                               
-                                        <label>ธิดารัตน์ ช้างแก้ว</label>                               
-                                    </div>
-                                    <div class="form-group">                               
-                                        <label>thidarat.c@outlook.com</label>                               
-                                    </div>
-                                    <div class="form-group">                               
-                                        <label>086-9711277</label>                               
-                                    </div>
-
-                                </div>
-                            </div>
+                            <?php } ?>
                             <!-- /.panel-body -->
                         </div>
 
