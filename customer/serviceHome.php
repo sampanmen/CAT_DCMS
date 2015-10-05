@@ -35,8 +35,8 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     <td><?php echo $service['ServiceType']; ?></td>
                                     <td><?php echo $service['Status']; ?></td>
                                     <td>
-                                        <a class="btn btn-primary" href="#">View</a>
-                                        <a class="btn btn-warning" href="#">Edit</a>
+                                         <a href="../customer/model_viewPackages.php" class="btn btn-primary" data-toggle="modal" data-target="#myModal">view</a>
+                                        <a href="../customer/model_editPackages.php" class="btn btn-warning" data-toggle="modal" data-target="#myModal">Edit</a>
                                     </td>
                                 </tr>                                                     
                             <?php } ?>

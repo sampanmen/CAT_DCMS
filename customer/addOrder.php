@@ -8,27 +8,77 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-4">                       
-                            <div class="form-group ">
+                        <div class="col-lg-10">                       
+                            <div class="form-group col-lg-3">
                                 <label>ID Customer</label>
                                 <input class="form-control" id="disabledInput" type="text" disabled>                                
                             </div>
-
-                            <div class="form-group">
+                            <div class="form-group col-lg-9">
                                 <label>โดเมนเนม / Domain Name</label>
                                 <input class="form-control">                                
                             </div>
 
 
                             <div class="form-group">
-                                <label>บริการ / Service</label>
-                                <select class="form-control">
-                                    <option>1 Rack(42U)</option>
-                                    <option>1/2 Rack(42U)</option>
-                                    <option>1/4 Rack(42U)</option>                                 
-                                </select>                                           
-                            </div>                         
-                            <div class="form-group">
+
+                                <div class="panel-body">
+                                    <div class="row col-lg-12">
+                                        <label>บริการ / Service</label>
+                                        <table class="table table-bordered" id="dataTables">
+                                            <tr>
+                                                <th></th>
+                                                <th>ชื่อ Package / Name Package</th>
+                                                <th>ประเภท / Type Package</th>
+                                                <th>จำนวน / Total</th>
+                                            </tr>
+
+                                            <tbody>
+                                                <tr>       
+                                                    <td><input type="checkbox"></td>                                    
+                                                    <td>Full Rack</td>
+                                                    <td>Main Package</td>
+                                                    <td><input class="form-control"></td>
+                                                </tr> 
+                                                <tr>       
+                                                    <td><input type="checkbox"></td>                                    
+                                                    <td>1/2 Rack</td>
+                                                    <td>Main Package</td>
+                                                    <td><input class="form-control"></td>
+                                                </tr> 
+                                                <tr>       
+                                                    <td><input type="checkbox"></td>                                    
+                                                    <td>1/4 Rack</td>
+                                                    <td>Main Package</td>
+                                                    <td><input class="form-control"></td>
+                                                </tr> 
+                                                <tr>       
+                                                    <td><input type="checkbox"></td>                                    
+                                                    <td>Share Rack</td>
+                                                    <td>Main Package</td>
+                                                    <td><input class="form-control"></td>
+                                                </tr> 
+                                            </tbody>
+                                        </table>
+
+
+
+                                    </div>
+                                </div>                              
+                            </div>
+
+                            <div class="form-group col-lg-6">   
+                                <div class="form-group">
+                                    <label>Bundle Network</label>
+                                    <select multiple class="form-control">
+                                        <option>IDC Only</option>
+                                        <option>ATM</option>
+                                        <option>Leased Line</option>
+                                        <option>Coperate</option>
+                                    </select>                                        
+                                </div>
+
+                            </div>
+                            <div class="form-group col-lg-6">
                                 <label>สถานที่ / Location</label>
                                 <select class="form-control">
                                     <option>IDC</option>
@@ -37,39 +87,12 @@
                                     <option>IDC Nonthaburi</option>                                  
                                 </select>                                         
                             </div>
-                            
-                            
+
+
 
 
                         </div>
-                        <div class="col-lg-4">                      
 
-                            <div class="form-group">
-                                <br>
-                                <br>
-                                <br>
-                            </div>
-
-                            <div class="form-group">
-                                <label>จำนวน / Quantity</label>
-                                <select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>                                 
-                                </select>                                        
-                            </div>
-
-                            <div class="form-group">
-                                <label>Bundle Network</label>
-                                <select class="form-control">
-                                    <option>IDC Only</option>
-                                    <option>ATM</option>
-                                    <option>Leased Line</option>
-                                    <option>Coperate</option>
-                                </select>                                        
-                            </div>
-
-                        </div>
                     </div>
                     <!-- /.row (nested) -->
                 </div>
