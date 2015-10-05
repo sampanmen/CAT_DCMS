@@ -5,41 +5,46 @@
 <div class="modal-body">
     <div class="container-fluid">
         <div class="panel-body">
-                <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover" id="dataTables">
-                        <thead>
-                            <tr>
-                                <th>Zone</th>
-                                <th>Position</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>A</td>
-                                <td>01</td>
-                                
-                            </tr>                                                     
-                            <tr>
-                                <td>A</td>
-                                <td>02</td>
-                                
-                            </tr>          
-                            <tr>
-                                <td>Z</td>
-                                <td>03</td>
-                                
-                            </tr>          
-                            <tr>
-                                <td>Z</td>
-                                <td>04</td>
-                            </tr>          
+            <div class="dataTable_wrapper">
+                <table class="table table-striped table-bordered table-hover" id="dataTables">
+                    <thead>
+                        <tr>
+                            <th>Zone</th>
+                            <th>Position</th>
+                            <th>SubPosition</th>
 
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.table-responsive -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A</td>
+                            <td>01</td>
+                            <td>1</td>
+
+                        </tr>                                                     
+                        <tr>
+                            <td>A</td>
+                            <td>02</td>
+                            <td>1</td>
+
+                        </tr>          
+                        <tr>
+                            <td>Z</td>
+                            <td>03</td>
+                            <td>1</td>
+
+                        </tr>          
+                        <tr>
+                            <td>Z</td>
+                            <td>04</td>
+                            <td>1</td>
+                        </tr>          
+
+                    </tbody>
+                </table>
             </div>
+            <!-- /.table-responsive -->
+        </div>
 
         <!-- /.panel-body -->
 

@@ -8,8 +8,8 @@
                 </div>      
 
                 <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover" id="dataTables">
+                    
+                        <table class="table table-striped table-bordered table-hover" >
                             <thead>
                                 <tr>
                                     <th>Date</th>
@@ -51,7 +51,7 @@
 
                             </tbody>
                         </table>
-                    </div>
+                    
                     <!-- /.table-responsive -->
                 </div>
                 <!-- /.row (nested) -->
