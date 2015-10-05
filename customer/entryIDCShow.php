@@ -29,7 +29,10 @@
                                 <td>Thidarat Changkaew</td>
                                 <td>11/9/2558</td>
                                 <td>11.30</td>
-                                <td><button type="button" class="btn btn-danger">OUT</button></td>
+                                <td><button type="button" class="btn btn-danger">OUT</button>
+                                        <a href="../customer/model_resourceOutIDC.php" data-toggle="modal" data-target="#myModal">  
+                                            <button type="button" class="btn btn-primary">ReOut</button></a>
+                                </td>
                             </tr>                                                     
                             <tr>
                                 <td>00002</td>
@@ -37,7 +40,10 @@
                                 <td>Thidarat Changkaew</td>
                                 <td>11/9/2558</td>
                                 <td>11.45</td>
-                                <td><button type="button" class="btn btn-danger">OUT</button></td>
+                                <td><button type="button" class="btn btn-danger">OUT</button>
+                                        <a href="../customer/model_resourceOutIDC.php" data-toggle="modal" data-target="#myModal">  
+                                            <button type="button" class="btn btn-primary">ReOut</button></a>
+                                </td>
                             </tr>          
                             <tr>
                                 <td>00003</td>
@@ -45,7 +51,10 @@
                                 <td>Sampan</td>
                                 <td>11/9/2558</td>
                                 <td>12.33</td>
-                                <td><button type="button" class="btn btn-danger">OUT</button></td>
+                                <td><button type="button" class="btn btn-danger">OUT</button>
+                                        <a href="../customer/model_resourceOutIDC.php" data-toggle="modal" data-target="#myModal">  
+                                            <button type="button" class="btn btn-primary">ReOut</button></a>
+                                </td>
                             </tr>          
                             <tr>
                                 <td>00004</td>
@@ -53,7 +62,10 @@
                                 <td>Thidarat Changkaew</td>
                                 <td>11/9/2558</td>
                                 <td>11.30</td>
-                                <td><button type="button" class="btn btn-danger">OUT</button></td>
+                                <td><button type="button" class="btn btn-danger">OUT</button>
+                                        <a href="../customer/model_resourceOutIDC.php" data-toggle="modal" data-target="#myModal">  
+                                            <button type="button" class="btn btn-primary">ReOut</button></a>
+                                </td>
                             </tr>          
 
                         </tbody>
