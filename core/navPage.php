@@ -95,6 +95,10 @@ switch ($p) {
         $page['file'] = "../resource/viewRack.php";
         $page['name'] = "Rack";
         break;
+    case "entryBeforePrint":
+        $page['file'] = "../customer/entryBeforePrint.php";
+        $page['name'] = "Print Entry IDC";
+        break;
     
     default : $page = "error404.php";
         break;
