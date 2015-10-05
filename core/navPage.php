@@ -75,7 +75,6 @@ switch ($p) {
         $page['file'] = "../customer/searchCustomer.php";
         $page['name'] = "Entry IDC Form";
         break;
-
     case "orderPackagesHis":
         $page['file'] = "../customer/orderPackagesHis.php";
         $page['name'] = "Packages";

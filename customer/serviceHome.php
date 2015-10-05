@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
         <div class="panel panel-default">
             <div class="panel-heading">
                 <label>
-                    Service <a href="?p=addService">(Add)</a>
+                    Packages  <a href="../customer/model_addPackags.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>   
                 </label>
             </div>
             <!-- /.panel-heading -->
