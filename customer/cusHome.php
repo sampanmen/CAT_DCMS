@@ -25,15 +25,15 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                         </thead>
                         <tbody>
                             <?php
-                            $cus = getCustomer();
+                            $cus = getCustomers();
                             foreach ($cus as $value) {
-                                $statusLabel = $value['Status']=="Active"?"success":($value['Status']=="Suppened"?"warning":"danger");
+                                $statusLabel = $value['CustomerStatus']=="active"?"success":($value['CustomerStatus']=="suppened"?"warning":"danger");
                                 ?>
                                 <tr class="odd gradeX">
                                     <td><?php echo $value['PrefixID'] . sprintf("%05d", $value['CustomerID']); ?></td>
                                     <td><?php echo $value['CustomerName']; ?></td>
                                     <td><?php echo $value['BusinessType']; ?></td>
-                                    <td><span class="label label-<?php echo $statusLabel;?>"><?php echo $value['Status']; ?></span></td>
+                                    <td><span class="label label-<?php echo $statusLabel;?>"><?php echo $value['CustomerStatus']; ?></span></td>
                                     <td>
                                         <a class="btn btn-primary" href="?p=viewCus&cusID=<?php echo $value['CustomerID']; ?>">View</a>
                                         <a class="btn btn-info" href="?p=addOrder&cusID=<?php echo $value['CustomerID']; ?>">Add Order</a>
