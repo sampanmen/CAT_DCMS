@@ -15,45 +15,33 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                     <table class="table table-striped table-bordered table-hover" id="dataTables">
                         <thead>
                             <tr>
-                                <th>ID Service</th>
+                                <!--<th>ID Service</th>-->
                                 <th>Service Name</th>
                                 <th>Detail</th>
                                 <th>Type</th>
+                                <th>Category</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $services = getService();
+                            $services = getPackages();
                             foreach ($services as $service) {
                                 ?>
                                 <tr class="odd gradeX">
-                                    <td><?php echo $service['ServiceID']; ?></td>
-                                    <td><?php echo $service['NameService']; ?></td>
-                                    <td><?php echo $service['Detail']; ?></td>
-                                    <td><?php echo $service['ServiceType']; ?></td>
-                                    <td><?php echo $service['Status']; ?></td>
+                                    <!--<td><?php //echo $service['PackageID']; ?></td>-->
+                                    <td><?php echo $service['PackageName']; ?></td>
+                                    <td><?php echo $service['PackageDetail']; ?></td>
+                                    <td><?php echo $service['PackageType']; ?></td>
+                                    <td><?php echo $service['PackageCategory']; ?></td>
+                                    <td><?php echo $service['PackageStatus']; ?></td>
                                     <td>
-                                         <a href="../customer/model_viewPackages.php" class="btn btn-primary" data-toggle="modal" data-target="#myModal">view</a>
-                                        <a href="../customer/model_editPackages.php" class="btn btn-warning" data-toggle="modal" data-target="#myModal">Edit</a>
+                                        <a href="../customer/model_viewPackages.php?packageID=<?php echo $service['PackageID']; ?>" class="btn btn-primary" data-toggle="modal" data-target="#myModal">view</a>
+                                        <a href="../customer/model_editPackages.php?packageID=<?php echo $service['PackageID']; ?>" class="btn btn-warning" data-toggle="modal" data-target="#myModal">Edit</a>
                                     </td>
                                 </tr>                                                     
                             <?php } ?>
-                                
-                                <tr class="odd gradeX">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <a href="../customer/model_viewPackages.php" class="btn btn-primary" data-toggle="modal" data-target="#myModal">view</a>
-                                        <a href="../customer/model_editPackages.php" class="btn btn-warning" data-toggle="modal" data-target="#myModal">Edit</a>
-                                    </td>
-                                </tr>                            
-                                
-                                
                         </tbody>
                     </table>
                 </div>

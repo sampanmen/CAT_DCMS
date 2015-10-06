@@ -106,7 +106,7 @@ $getCus = getCustomer($cusID);
                 <div class="panel-heading">
                     <label>
                         ข้อมูลผู้ติดต่อ / Contact Detail
-                        <a href="../customer/model_Contact.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>
+                        <a href="../customer/model_addContact.php?cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">  (Add)  </a>
                     </label>
                 </div>
                 <div class="panel-body">
@@ -118,48 +118,28 @@ $getCus = getCustomer($cusID);
                             foreach ($getContact as $value) {
                                 ?>
                                 <div class=" well well-sm col-lg-12 ">
-                                    <div class="col-lg-6 text-left">
-                                        <img src = "" width="150" height="130" border="1">
+                                    <div class="col-lg-4 text-left">
+                                        <img src = "../customer/images/persons/<?php echo $value['PersonID']; ?>.jpg" width="100%" height="" border="1">
                                     </div>
-                                    <div class="col-lg-6 text-left">                      
-                                        <div class="form-group">                               
-                                            <label><?php echo $value['Fname'] . " " . $value['Lname']; ?></label>                               
-                                        </div>
-                                        <div class="form-group">                               
-                                            <label><?php echo $value['Email']; ?></label>                               
-                                        </div>
-                                        <div class="form-group">                               
-                                            <label><?php echo $value['Phone']; ?></label> 
-                                        </div>
-                                        <div class="form-group text-right">
-                                            <a href="../customer/model_editContact.php?personID=<?php echo $value['PersonID']; ?>" data-toggle="modal" data-target="#myModal">Detail</a>
-                                        </div>
+                                    <div class="col-lg-8 text-left">                      
 
+                                        <p><b>Name:</b> <?php echo $value['Fname'] . " " . $value['Lname']; ?></p>
+                                        <p><b>Email:</b> <?php echo $value['Email']; ?></p>
+                                        <p><b>Phone:</b> <?php echo $value['Phone']; ?></p>
+                                        <p><b>Type:</b> <?php echo $value['TypePerson']; ?></p>
+                                        <div class="text-right">
+                                            <a href="../customer/model_editContact.php?personID=<?php echo $value['PersonID']; ?>&cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">Detail</a>
+                                        </div>
                                     </div>
                                 </div>
                             <?php } ?>
                             <!-- /.panel-body -->
                         </div>
-
                         <!-- /.panel -->
                     </div>
-
-
                 </div>
-
             </div>
-
-
-
-
-
-
-
-
         </div>
-
-
-
         <!--Order Detail-->  
         <div class="col-lg-6">
             <div class="panel panel-default">

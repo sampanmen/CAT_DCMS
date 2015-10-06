@@ -2,7 +2,6 @@
 
 $page = "";
 $p = isset($_GET['p']) ? $_GET['p'] : "home";
-
 switch ($p) {
     // System //
     case "home":

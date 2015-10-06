@@ -1,5 +1,5 @@
 <div class="row">
-    <form action="../customer/action/customer.action.php?para=addCustomer" method="POST">
+    <form action="../customer/action/customer.action.php?para=addCustomer" method="POST" enctype="multipart/form-data">
         <div class="col-lg-12" id="ddd">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -146,7 +146,7 @@
                                 <p>รูปภาพ / Picture</p>
                             </div>
                             <div class="form-group col-lg-3">
-                                <input type="file" name="con[file][]">   
+                                <input type="file" name="file[]" accept=".jpg">
                             </div>
                         </div>
                     </div>
@@ -210,7 +210,7 @@
                         <p>รูปภาพ / Picture</p>
                     </div>
                     <div class="form-group col-lg-3">
-                        <input type="file" name="con[file][]">   
+                        <input type="file" name="file[]" accept=".jpg">   
                     </div>
                 </div>
             </div>
