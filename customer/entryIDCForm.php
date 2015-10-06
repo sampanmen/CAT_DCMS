@@ -322,8 +322,7 @@
 
                 <div class="text-center">
                     <button type="button" class="btn btn-primary">CANCLE</button>
-                    <a class="btn btn-primary" href="../customer/entryIDCPrint.php" target="_blank">Save</a>
-                    <a class="btn btn-primary" href="../customer/entryIDCPrint.php" target="_blank">Save with Equipment</a>
+                    <a class="btn btn-primary" href="../customer/entryBeforePrint.php" target="_blank">Save</a>
                     <br><br>
                 </div>
                 <!-- /.panel -->
