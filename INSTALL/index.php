@@ -3,6 +3,7 @@
 $user = "cat";
 $pass = "123456";
 $dbh = new PDO('mysql:host=localhost', $user, $pass);
+$qr = $dbh->exec("DROP DATABASE `cat_dcms`;");
 $sql = file_get_contents('MySQL_install.sql');
 $qr = $dbh->exec($sql);
 
