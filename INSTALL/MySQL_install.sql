@@ -274,7 +274,7 @@ ENGINE = InnoDB;
 -- Table `cat_dcms`.`cus_order_detail`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cat_dcms`.`cus_order_detail` (
-  `OrderDetailID` INT NOT NULL COMMENT '',
+  `OrderDetailID` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `OrderID` INT NULL COMMENT '',
   `PackageID` INT NULL COMMENT '',
   `OrderDetailStatus` VARCHAR(45) NULL COMMENT '',
