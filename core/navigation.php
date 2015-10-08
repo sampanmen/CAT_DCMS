@@ -246,7 +246,7 @@
                             <a href="?p=cusHome">Customers</a>
                         </li>
                         <li>
-                            <a href="?p=serviceHome">Services</a>
+                            <a href="?p=serviceHome">Packages</a>
                         </li>
                         <li>
                             <a href="?p=entryIDCShow">IDC Entry</a>

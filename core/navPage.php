@@ -38,7 +38,7 @@ switch ($p) {
         break;
     case "addService":
         $page['file'] = "../customer/addService.php";
-        $page['name'] = "Add Service";
+        $page['name'] = "Add Package";
         break;
 
     // Customer // View
