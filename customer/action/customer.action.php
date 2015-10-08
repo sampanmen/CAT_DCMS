@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
-
+$personID = "-1";
 if ($para == "addCustomer") {
 
     $cus_name = $_POST['cus']['name'];
@@ -107,7 +107,6 @@ if ($para == "addCustomer") {
     $con_password = $_POST['password'];
     $con_type = $_POST['type'];
     $con_status = $_POST['status'];
-    $personID = $_GET['personID'];
     $cusID = $_GET['cusID'];
     $resInsertCon = editPerson($personID, $con_name, $con_sname, $con_phone, $con_email, $con_password, NULL, NULL, $con_type, NULL, $con_status);
 //    echo $resInsertCon;
@@ -119,4 +118,16 @@ if ($para == "addCustomer") {
     } else {
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editContactFailed");
     }
+} else if ($para == "addOrder") {
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+    $cusID = $_POST['cusID'];
+    $oldID = $_POST['oldID'];
+    $package = $_POST['package'];
+    $bundle = $_POST['bundle'];
+    $location = $_POST['location'];
+    
+    $res = addOrder("A", $oldID, $cusID, $location, "active", $personID, $bundle, $package);
+    echo $res;
 }

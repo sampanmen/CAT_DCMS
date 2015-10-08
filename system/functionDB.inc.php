@@ -212,6 +212,24 @@ function getPackages() {
     return $resultArr;
 }
 
+function getPackagesActive() {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT `PackageID`, `PackageName`, `PackageDetail`, "
+            . "`PackageType`, `PackageCategory`, `PackageStatus`, `IPAmount`, "
+            . "`PortAmount`, `RackAmount`, `ServiceAmount`, `DateTimeCreate`, "
+            . "`DateTimeUpdate`, `CreateBy`, `UpdateBy` "
+            . "FROM `cus_package` WHERE `PackageStatus` LIKE 'active' "
+            . "ORDER BY `cus_package`.`PackageStatus` ASC";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
 function getPackage($packageID) {
     global $connection;
     dbconnect();
@@ -225,4 +243,38 @@ function getPackage($packageID) {
     $SQLPrepare->execute(array(":ID" => $packageID));
     $resultArr = array();
     return $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+}
+
+function addOrder($preID, $oldID, $cusID, $location, $status, $personID, $bundle, $package) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "INSERT INTO `cus_order`(`OrderPreID`, `OrderIDOld`, `CustomerID`, `Location`, `StatusOrder`, `CreateBy`, `UpdateBy`) "
+            . "VALUES (:preID,:oldID,:cusID,:location,:status,:personID,:personID)";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":preID" => $preID, ":oldID" => $oldID, ":cusID" => $cusID,
+        ":location" => $location, ":status" => $status, ":personID" => $personID));
+
+    if ($SQLPrepare->rowCount() > 0) {
+
+        $orderID = $connection->lastInsertId();
+
+        // start insert bundle
+        $SQLCommand = "INSERT INTO `cus_order_bundle_network`( `OrderID`, `BundleNetwork`) VALUES (:orderID,:bundle)";
+        $SQLPrepare = $connection->prepare($SQLCommand);
+        foreach ($bundle as $value) {
+            $SQLPrepare->execute(array(":orderID" => $orderID, ":bundle" => $value));
+        }
+        // end insert bundle
+        // start insert package
+        $SQLCommand = "INSERT INTO `cus_order_detail`(`OrderID`, `PackageID`, `OrderDetailStatus`, `CreateBy`, `UpdateBy`) "
+                . "VALUES (:orderID, :packageID, :status, :personID, :personID)";
+        $SQLPrepare = $connection->prepare($SQLCommand);
+        for ($i = 0; $i < count($package['ID']); $i++) {
+            for ($j = 0; $j < $package['amount'][$i]; $j++) {
+                $SQLPrepare->execute(array(":orderID" => $orderID, ":packageID" => $package['ID'][$i], ":status" => $status, ":personID" => $personID));
+            }
+        }
+        // end insert package
+    }
+    return true;
 }
