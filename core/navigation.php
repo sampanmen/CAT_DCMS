@@ -281,7 +281,7 @@
                             <a href="?p=viewIP">IP Address</a>
                         </li>
                         <li>
-                            <a href="viewPort">Switch&Port</a>
+                            <a href="?p=viewPort">Switch&Port</a>
                         </li>
                     </ul>
                 </li>
