@@ -108,6 +108,7 @@ if ($para == "addCustomer") {
     $con_type = $_POST['type'];
     $con_status = $_POST['status'];
     $cusID = $_GET['cusID'];
+    $personID = $_GET['personID'];
     $resInsertCon = editPerson($personID, $con_name, $con_sname, $con_phone, $con_email, $con_password, NULL, NULL, $con_type, NULL, $con_status);
 //    echo $resInsertCon;
     if (isset($_FILES)) {
@@ -119,9 +120,6 @@ if ($para == "addCustomer") {
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editContactFailed");
     }
 } else if ($para == "addOrder") {
-    echo "<pre>";
-    print_r($_POST);
-    echo "</pre>";
     $cusID = $_POST['cusID'];
     $oldID = $_POST['oldID'];
     $package = $_POST['package'];
@@ -129,5 +127,9 @@ if ($para == "addCustomer") {
     $location = $_POST['location'];
     
     $res = addOrder("A", $oldID, $cusID, $location, "active", $personID, $bundle, $package);
-    echo $res;
+    if ($res) {
+        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addOrerCompleted");
+    } else {
+        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addOrerFailed");
+    }
 }

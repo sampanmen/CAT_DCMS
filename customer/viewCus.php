@@ -145,94 +145,57 @@ $getCus = getCustomer($cusID);
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <p><b> Order Detail
-                            <a href="../core/?p=addOrder" >(ADD)</a></b>                   
+                            <a href="../core/?p=addOrder&cusID=<?php echo $cusID; ?>" >(ADD)</a></b>                   
                     </p>
                 </div>                
 
                 <div class="panel-body">
                     <div class="row">                       
                         <div class="col-lg-12">
-                            <div class=" well well-sm col-lg-12 ">
-                                <div class="col-lg-12">
-
-                                    <div class="col-lg-4">                        
-                                        <h3><b>00001  </b> </h3>  
+                            <?php
+                            $getOrders = getOrderByCusID($cusID);
+                            foreach ($getOrders as $value) {
+                                $amountMain = getOrderAmountPackage($value['OrderID'], "main");
+                                $amountAddOn = getOrderAmountPackage($value['OrderID'], "add-on");
+                                ?>
+                                <div class=" well well-sm col-lg-12 ">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-4">                        
+                                            <h3><b><?php echo $value['OrderPreID'] . sprintf("%05d", $value['OrderID']); ?></b> </h3>  
+                                        </div>
                                     </div>
-
-                                </div>
-
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Date:</b></p>      
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-4">
+                                            <p><b>Date:</b></p>      
+                                        </div>
+                                        <div class="col-lg-8">                               
+                                            <?php echo $value['DateTimeUpdate']; ?>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-8">                               
-                                        22/09/2558                               
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-4">
+                                            <p><b>Total Packages:</b></p>      
+                                        </div>
+                                        <div class="col-lg-8">                               
+                                            <p>Main: <font size="3"><b><?php echo $amountMain; ?></b></font> Add-On: <font size="2"><b><?php echo $amountAddOn == NULL ? "0" : $amountAddOn; ?></b></font></p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Total Packages:</b></p>      
-                                    </div>
-                                    <div class="col-lg-8">                               
-                                        <p><font size="3"><b>3</b></font> /5                                
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Status:</b></p>      
-                                    </div>
-                                    <div class="col-lg-3">                               
-                                        <p class="label label-success">Active</p>                               
-                                    </div>
-                                    <div class="col-lg-3">                               
-                                        <p></p>                               
-                                    </div>
-                                    <div class="col-lg-2">                               
-                                        <p><a href="../core/?p=orderPackagesHis" >Detail</a></p>                               
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="well well-sm  col-lg-12">
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">                        
-                                        <h3><b>00002  </b> </h3>  
-                                    </div>
-
-                                </div>
-
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Date:</b></p>      
-                                    </div>
-                                    <div class="col-lg-8">                               
-                                        22/09/2558                               
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-4">
+                                            <p><b>Status:</b></p>      
+                                        </div>
+                                        <div class="col-lg-3">                               
+                                            <p class="label label-success">Active</p>                               
+                                        </div>
+                                        <div class="col-lg-3">                               
+                                            <p></p>                               
+                                        </div>
+                                        <div class="col-lg-2">                               
+                                            <p><a href="../core/?p=orderPackagesHis&orderID=<?php echo $value['OrderID']; ?>" >Detail</a></p>                               
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Total Packages:</b></p>      
-                                    </div>
-                                    <div class="col-lg-8">                               
-                                        <p><font size="3"><b>3</b></font> /5                                
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Status:</b></p>      
-                                    </div>
-                                    <div class="col-lg-3">                               
-                                        <p class="label label-success">Active</p>                               
-                                    </div>
-                                    <div class="col-lg-3">                               
-                                        <p></p>                               
-                                    </div>
-                                    <div class="col-lg-2">                               
-                                        <p><a href="../core/?p=orderPackagesHis" >Detail</a></p>                               
-                                    </div>
-                                </div>
-                            </div>                        
+                            <?php } ?>
                         </div>
                     </div>
                     <!-- /.row (nested) -->

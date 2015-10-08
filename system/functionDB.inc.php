@@ -278,3 +278,44 @@ function addOrder($preID, $oldID, $cusID, $location, $status, $personID, $bundle
     }
     return true;
 }
+
+function getOrderAmountPackage($orderID, $type) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT `PackageType`,count(`PackageType`) AS `Amount` "
+            . "FROM `cus_order_detail` "
+            . "INNER JOIN `cus_package` "
+            . "ON `cus_order_detail`.`PackageID`=`cus_package`.`PackageID` "
+            . "WHERE `OrderID`= :orderID AND `PackageType` LIKE :addon "
+            . "GROUP BY `PackageType`,`OrderID`";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":orderID" => $orderID, ":addon" => $type));
+    $res = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $res['Amount'];
+}
+
+function getOrderByCusID($cusID) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT `OrderID`, "
+            . "`OrderPreID`, "
+            . "`OrderIDOld`, "
+            . "`CustomerID`, "
+            . "`Name`, "
+            . "`Location`, "
+            . "`StatusOrder`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`CreateBy`, "
+            . "`UpdateBy` "
+            . "FROM `cus_order` "
+            . "WHERE `CustomerID`= :cusID "
+            . "ORDER BY `cus_order`.`StatusOrder` ASC";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":cusID"=>$cusID));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
