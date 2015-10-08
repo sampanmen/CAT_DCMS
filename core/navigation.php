@@ -275,13 +275,13 @@
                             <a href="?p=resourceHome">Summery</a>
                         </li>
                         <li>
-                            <a href="#">Rack</a>
+                            <a href="?p=viewRack">Rack</a>
                         </li>
                         <li>
-                            <a href="#">IP Address</a>
+                            <a href="?p=viewIP">IP Address</a>
                         </li>
                         <li>
-                            <a href="#">Switch&Port</a>
+                            <a href="viewPort">Switch&Port</a>
                         </li>
                     </ul>
                 </li>
