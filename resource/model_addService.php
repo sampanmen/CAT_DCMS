@@ -13,7 +13,6 @@
                     </div>
                     <div class="form-group col-lg-6"> 
                         <input class="form-control">                                
-                    </div>  
                     </div>
                 </div>
                 <div class="col-lg-12">  
