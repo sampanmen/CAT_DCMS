@@ -133,9 +133,9 @@ if ($para == "addCustomer") {
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addOrderFailed");
     }
 } else if ($para == "editCustomer") {
-    echo "<pre>";
-    print_r($_POST);
-    echo "</pre>";
+//    echo "<pre>";
+//    print_r($_POST);
+//    echo "</pre>";
 
     $cus_name = $_POST['name'];
     $cus_bussType = $_POST['bussinessType'];
@@ -156,5 +156,32 @@ if ($para == "addCustomer") {
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editOrderCompleted");
     } else {
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editOrderFailed");
+    }
+} else if ($para == "changeStatusOrderDetail") {
+    $status = $_POST['status'];
+    $orderDetailID = $_GET['orderDetailID'];
+    $orderID = $_GET['orderID'];
+    $cusID = $_GET['cusID'];
+    $res = editStatusOrderDetail($orderDetailID, $status);
+    if ($res) {
+        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=editStatusCompleted");
+    } else {
+        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=editStatusFailed");
+    }
+} else if ($para == "addOrderDetail") {
+    echo "<pre>";
+    print_r($_POST);
+    print_r($_GET);
+    echo "</pre>";
+    $package = $_POST['package'];
+    $orderID = $_GET['orderID'];
+    $cusID = $_GET['cusID'];
+    $status = "active";
+    $res = addOrderDetail($orderID, $package, $status, $personID);
+
+    if ($res) {
+        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=AddOrderDetailCompleted");
+    } else {
+        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=AddOrderDetailFailed");
     }
 }

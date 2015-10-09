@@ -278,6 +278,23 @@ function addOrder($preID, $oldID, $cusID, $location, $status, $personID, $bundle
     return true;
 }
 
+function addOrderDetail($orderID, $package, $status, $personID) {
+    global $connection;
+    dbconnect();
+    // start insert package
+    $SQLCommand = "INSERT INTO `cus_order_detail`(`OrderID`, `PackageID`, `OrderDetailStatus`, `CreateBy`, `UpdateBy`) "
+            . "VALUES (:orderID, :packageID, :status, :personID, :personID)";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    for ($i = 0; $i < count($package['ID']); $i++) {
+        for ($j = 0; $j < $package['amount'][$i]; $j++) {
+            $SQLPrepare->execute(array(":orderID" => $orderID, ":packageID" => $package['ID'][$i], ":status" => $status, ":personID" => $personID));
+        }
+    }
+    // end insert package
+
+    return true;
+}
+
 function getOrderAmountPackage($orderID, $type) {
     global $connection;
     dbconnect();
@@ -285,7 +302,7 @@ function getOrderAmountPackage($orderID, $type) {
             . "FROM `cus_order_detail` "
             . "INNER JOIN `cus_package` "
             . "ON `cus_order_detail`.`PackageID`=`cus_package`.`PackageID` "
-            . "WHERE `OrderID`= :orderID AND `PackageType` LIKE :addon "
+            . "WHERE `OrderID`= :orderID AND `PackageType` LIKE :addon AND `cus_order_detail`.`OrderDetailStatus` NOT LIKE 'delete' "
             . "GROUP BY `PackageType`,`OrderID`";
     $SQLPrepare = $connection->prepare($SQLCommand);
     $SQLPrepare->execute(array(":orderID" => $orderID, ":addon" => $type));
@@ -366,14 +383,42 @@ function getOrderDetailByOrderID($orderID, $type) {
             . "`PackageType`, "
             . "`PackageCategory` "
             . "FROM `view_order_detail` "
-            . "WHERE `OrderID` = :orderID AND `PackageType` LIKE :type "
+            . "WHERE `OrderID` = :orderID AND `PackageType` LIKE :type AND `OrderDetailStatus` NOT LIKE 'delete' "
             . "ORDER BY `view_order_detail`.`OrderDetailStatus`,`view_order_detail`.`DateTime` ASC";
 //    echo $SQLCommand;
     $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":orderID"=>$orderID,":type"=>$type));
+    $SQLPrepare->execute(array(":orderID" => $orderID, ":type" => $type));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
     }
     return $resultArr;
+}
+
+function getOrderDetailPackageByID($orderDetailID) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "`OrderDetailID`, "
+            . "`OrderID`, "
+            . "`OrderDetailStatus`, "
+            . "`DateTime`, "
+            . "`PackageID`, "
+            . "`PackageName`, "
+            . "`PackageType`, "
+            . "`PackageCategory` "
+            . "FROM `view_order_detail` "
+            . "WHERE `OrderDetailID`= :orderDetailID ";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID));
+    return $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+}
+
+function editStatusOrderDetail($orderDetailID, $status) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "UPDATE `cus_order_detail` SET `OrderDetailStatus`= :status WHERE `OrderDetailID`= :orderDetailID";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID, ":status" => $status));
+    return $SQLPrepare->rowCount();
 }

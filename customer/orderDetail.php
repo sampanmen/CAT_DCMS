@@ -6,7 +6,7 @@ $cusID = $_GET['cusID'];
 $getOrderDetailMain = getOrderDetailByOrderID($orderID, 'main');
 $getOrderDetailAddOn = getOrderDetailByOrderID($orderID, 'add-on');
 ?>
-<p><a href="?">Home</a> > <a href="?p=cusHome">Customers</a> > <a href="?p=viewCus&cusID=<?php echo $cusID; ?>">Customer Detail</a> > <b>Order Detail</b></p>
+<p><a href="?">Home</a> > <a href="?p=cusHome">Customers</a> > <a href="?p=viewCus&cusID=<?php echo $cusID; ?>">Customer Detail</a> > <b>Order Detail</b> > <a href="../customer/model_addOrderDetail.php?cusID=<?php echo $cusID; ?>&orderID=<?php echo $orderID; ?>" data-toggle="modal" data-target="#myModal-lg">Add Packages</a></p>
 <div class="row">
     <form>
         <div class="col-lg-6">
@@ -35,8 +35,8 @@ $getOrderDetailAddOn = getOrderDetailByOrderID($orderID, 'add-on');
                                     <td><?php echo $value['DateTime']; ?></td>
                                     <td><?php echo $value['PackageName']; ?></td>
                                     <td><?php echo $value['PackageCategory']; ?></td>
-                                    <td><p class="label label-<?php echo $value['OrderDetailStatus'] == "active" ? "success" : "danger"; ?>"><?php echo $value['OrderDetailStatus']; ?></p></td>
-                                    <td><a href="../customer/model_ChangeStatusPack.php?orderDetailID=<?php echo $value['OrderDetailID']; ?>" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">view</a></td>
+                                    <td><p class="label label-<?php echo $value['OrderDetailStatus'] == "active" ? "success" : ($value['OrderDetailStatus'] == "suppened" ? "warning" : "danger"); ?>"><?php echo $value['OrderDetailStatus']; ?></p></td>
+                                    <td><a href="../customer/model_ChangeStatusPack.php?orderDetailID=<?php echo $value['OrderDetailID']; ?>&cusID=<?php echo $cusID; ?>" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">view</a></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -77,8 +77,8 @@ $getOrderDetailAddOn = getOrderDetailByOrderID($orderID, 'add-on');
                                         <td><?php echo $value['DateTime']; ?></td>
                                         <td><?php echo $value['PackageName']; ?></td>
                                         <td><?php echo $value['PackageCategory']; ?></td>
-                                        <td><p class="label label-<?php echo $value['OrderDetailStatus'] == "active" ? "success" : "danger"; ?>"><?php echo $value['OrderDetailStatus']; ?></p></td>
-                                        <td><a href="../customer/model_ChangeStatusPack.php?orderDetailID=<?php echo $value['OrderDetailID']; ?>" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">view</a></td>
+                                        <td><p class="label label-<?php echo $value['OrderDetailStatus'] == "active" ? "success" : ($value['OrderDetailStatus'] == "suppened" ? "warning" : "danger"); ?>"><?php echo $value['OrderDetailStatus']; ?></p></td>
+                                        <td><a href="../customer/model_ChangeStatusPack.php?orderDetailID=<?php echo $value['OrderDetailID']; ?>&cusID=<?php echo $cusID; ?>" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">view</a></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
