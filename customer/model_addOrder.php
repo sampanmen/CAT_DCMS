@@ -29,14 +29,14 @@ $cusID = $_GET['cusID'];
                                     <div class="panel-body">
                                         <label>บริการ / Packages</label>
                                         <div class="dataTable_wrapper">
-                                            <table class="table table-bordered table-striped table-hover" id="dataTables">
+                                            <table class="table table-bordered table-striped table-hover" id="dataTables_addOrder">
                                                 <thead>
                                                     <tr>
-                                                        <th> </th>
+                                                        <th width="30px"> </th>
                                                         <th>Name</th>
                                                         <th>Category</th>
                                                         <th>Type</th>
-                                                        <th>Total</th>
+                                                        <th width="100px">Total</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -113,12 +113,12 @@ $cusID = $_GET['cusID'];
     </div>
 </form>
 <script>
-    $(document).ready(function () {
-        $('#dataTables').DataTable({
-            responsive: true
-        });
-    });
-    $('body').on('hidden.bs.modal', '.modal', function () {
-        $(this).removeData('bs.modal');
-    });
+//    $(document).ready(function () {
+//        $('#dataTables_addOrder').DataTable({
+//            responsive: true
+//        });
+//    });
+//    $('body').on('hidden.bs.modal', '.modal', function () {
+//        $(this).removeData('bs.modal');
+//    });
 </script>
