@@ -14,7 +14,6 @@ $getCus = getCustomer($cusID);
                         Customer Detail        
                     </label>
                 </div>
-
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">                            
@@ -25,16 +24,13 @@ $getCus = getCustomer($cusID);
                             <label>Status</label>
                             <p class="label label-<?php echo $statusLabel; ?>"><?php echo $getCus['CustomerStatus']; ?></p>
                         </div>
-
                     </div>
                     <!-- /.row (nested) -->
                 </div>
                 <!-- /.panel-body -->
             </div>
 
-
             <!--Company Detail-->  
-
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <label>
@@ -42,7 +38,6 @@ $getCus = getCustomer($cusID);
                         <a href="../customer/model_EditCus.php" data-toggle="modal" data-target="#myModal-lg">  (Edit)  </a>                     
                     </label>                   
                 </div>
-
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">                       
@@ -92,7 +87,6 @@ $getCus = getCustomer($cusID);
                             <div class="form-group col-lg-6">                               
                                 <?php echo $getCus['Address'] . " <br>ตำบล/Tambol: " . $getCus['Township'] . " <br>อำเภอ/City: " . $getCus['City'] . " <br>จังหวัด/Province: " . $getCus['Province'] . " <br>รหัสไปรษณีย์/Postalcode: " . $getCus['Zipcode'] . " <br>ประเทศ/Country: " . $getCus['Country']; ?>
                             </div>
-
                         </div>
                     </div>
                     <!-- /.row (nested) -->
@@ -100,8 +94,6 @@ $getCus = getCustomer($cusID);
                 <!-- /.panel-body -->
             </div>
             <!-- /.panel -->
-
-
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <label>
@@ -112,7 +104,6 @@ $getCus = getCustomer($cusID);
                 <div class="panel-body">
                     <div class="row">                       
                         <div class="col-lg-12">
-
                             <?php
                             $getContact = getContactByCustomer($cusID);
                             foreach ($getContact as $value) {
@@ -122,7 +113,6 @@ $getCus = getCustomer($cusID);
                                         <img src = "../customer/images/persons/<?php echo $value['PersonID']; ?>.jpg" width="100%" height="" border="1">
                                     </div>
                                     <div class="col-lg-8 text-left">                      
-
                                         <p><b>Name:</b> <?php echo $value['Fname'] . " " . $value['Lname']; ?></p>
                                         <p><b>Email:</b> <?php echo $value['Email']; ?></p>
                                         <p><b>Phone:</b> <?php echo $value['Phone']; ?></p>
@@ -140,17 +130,21 @@ $getCus = getCustomer($cusID);
                 </div>
             </div>
         </div>
+
         <!--Order Detail-->  
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <p><b> Order Detail
-                            <a href="../core/?p=addOrder&cusID=<?php echo $cusID; ?>" >(ADD)</a></b>                   
+                    <p>
+                        <b>
+                            Order Detail 
+<!--                            <a href="../core/?p=addOrder&cusID=<?php //echo $cusID; ?>" >(ADD)</a>-->
+                            <a href="../customer/model_addOrder.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">(Add)</a>
+                        </b>
                     </p>
-                </div>                
-
+                </div>
                 <div class="panel-body">
-                    <div class="row">                       
+                    <div class="row">
                         <div class="col-lg-12">
                             <?php
                             $getOrders = getOrderByCusID($cusID);
@@ -202,10 +196,8 @@ $getCus = getCustomer($cusID);
                 </div>
                 <!-- /.panel-body -->
             </div>
-
             <!-- Contact Detail -->
-
-        </div> 
+        </div>
 
         <!-------IP-->
         <div class="col-lg-3">
@@ -213,43 +205,33 @@ $getCus = getCustomer($cusID);
                 <div class="panel-heading">
                     <p><b> IP</b> </p>
                 </div>                
-
                 <div class="panel-body">                   
                     <table class="table ">
-
                         <tbody>
                             <tr>
                                 <td>158.168.1.0</td>
                                 <td><a href="../customer/model_IP.php"  data-toggle="modal" data-target="#myModal">10</a></td>
-
                             </tr>                                                     
                             <tr>
                                 <td>158.168.2.0</td>
                                 <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">10</a></td>
-
                             </tr>          
                             <tr>
                                 <td>158.168.3.0</td>
                                 <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">2</a></td>
-
                             </tr>          
                             <tr>
                                 <td>158.168.4.0</td>
                                 <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">3</a></td>
-
-                            </tr>          
-
+                            </tr>
                         </tbody>
                     </table>
-
                     <!-- /.table-responsive -->
                 </div>
                 <!-- /.panel-body -->
             </div>
-
             <!-- Contact Detail -->
-
-        </div> 
+        </div>
 
         <!-------Rack-->
         <div class="col-lg-3">
@@ -257,44 +239,33 @@ $getCus = getCustomer($cusID);
                 <div class="panel-heading">
                     <p><b> Rack</b> </p>
                 </div>                
-
                 <div class="panel-body">                   
                     <table class="table ">
-
                         <tbody>
                             <tr>
                                 <td>Full Rack</td>
                                 <td><a href="../customer/model_Rack.php"  data-toggle="modal" data-target="#myModal">2</a></td>
-
                             </tr>                                                     
                             <tr>
                                 <td>1/2 Rack</td>
                                 <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">2</a></td>
-
                             </tr>          
                             <tr>
                                 <td>1/4 Rack</td>
                                 <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">1</a></td>
-
                             </tr>          
                             <tr>
                                 <td>Shared Rack</td>
                                 <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">3</a></td>
-
                             </tr>          
-
                         </tbody>
                     </table>
-
                     <!-- /.table-responsive -->
                 </div>
                 <!-- /.panel-body -->
             </div>
-
             <!-- Contact Detail -->
-
         </div> 
-
 
         <!------Port-->
         <div class="col-lg-3">
@@ -302,43 +273,32 @@ $getCus = getCustomer($cusID);
                 <div class="panel-heading">
                     <p><b>Port</b> </p>
                 </div>                
-
                 <div class="panel-body">                   
                     <table class="table ">
-
                         <tbody>
                             <tr>
                                 <td>Switch 1</td>
                                 <td><a href="../customer/model_Port.php"  data-toggle="modal" data-target="#myModal">7</a></td>
-
                             </tr>                                                     
                             <tr>
                                 <td>Switch 2</td>
                                 <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">4</a></td>
-
                             </tr>          
                             <tr>
                                 <td>Switch 3</td>
                                 <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">5</a></td>
-
                             </tr>          
                             <tr>
                                 <td>Switch 5</td>
                                 <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">2</a></td>
-
                             </tr>          
-
                         </tbody>
                     </table>
-
                     <!-- /.table-responsive -->
                 </div>
                 <!-- /.panel-body -->
             </div>
-
             <!-- Contact Detail -->
-
         </div> 
-
     </form>
 </div>

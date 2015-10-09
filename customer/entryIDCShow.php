@@ -6,8 +6,6 @@
                     Entry <a href="?p=entryIDCSearch">(Add)</a>
                 </label>               
             </div>
-
-
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -46,7 +44,6 @@
                                 <td>11/9/2558</td>
                                 <td>12.33</td>
                                 <td><button type="button" class="btn btn-danger">OUT</button></td>
-                                
                             </tr>          
                             <tr>
                                 <td>00004</td>
@@ -55,9 +52,7 @@
                                 <td>11/9/2558</td>
                                 <td>11.30</td>
                                 <td><button type="button" class="btn btn-danger">OUT</button> </td>
-                               
                             </tr>          
-
                         </tbody>
                     </table>
                 </div>
@@ -66,9 +61,5 @@
             <!-- /.panel-body -->
         </div>
     </div>
-
-    <!-- /.col-lg-8 -->
-
-    <!--/.col-lg-4--> 
 </div>
 
