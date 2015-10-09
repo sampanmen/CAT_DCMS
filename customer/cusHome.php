@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 ?>
+<p><a href="?">Home</a> > <b>Customers</b></p>
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">

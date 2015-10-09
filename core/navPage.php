@@ -44,7 +44,7 @@ switch ($p) {
     // Customer // View
     case "viewCus":
         $page['file'] = "../customer/viewCus.php";
-        $page['name'] = "Contact Detail";
+        $page['name'] = "Customer Detail";
         break;
     case "entryIDCShow":
         $page['file'] = "../customer/entryIDCShow.php";
@@ -74,9 +74,9 @@ switch ($p) {
         $page['file'] = "../customer/searchCustomer.php";
         $page['name'] = "Entry IDC Form";
         break;
-    case "orderPackagesHis":
-        $page['file'] = "../customer/orderPackagesHis.php";
-        $page['name'] = "Packages";
+    case "orderDetail":
+        $page['file'] = "../customer/orderDetail.php";
+        $page['name'] = "Order Detail";
         break;
     case "resourceHome":
         $page['file'] = "../resource/resourceHome.php";

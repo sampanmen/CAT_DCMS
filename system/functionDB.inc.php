@@ -220,7 +220,7 @@ function getPackagesActive() {
             . "`PortAmount`, `RackAmount`, `ServiceAmount`, `DateTimeCreate`, "
             . "`DateTimeUpdate`, `CreateBy`, `UpdateBy` "
             . "FROM `cus_package` WHERE `PackageStatus` LIKE 'active' "
-            . "ORDER BY `cus_package`.`PackageStatus` ASC";
+            . "ORDER BY `cus_package`.`PackageCategory`,`cus_package`.`PackageType` DESC ,`cus_package`.`PackageName` ASC";
     $SQLPrepare = $connection->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();
@@ -241,7 +241,6 @@ function getPackage($packageID) {
 //    echo $SQLCommand;
     $SQLPrepare = $connection->prepare($SQLCommand);
     $SQLPrepare->execute(array(":ID" => $packageID));
-    $resultArr = array();
     return $SQLPrepare->fetch(PDO::FETCH_ASSOC);
 }
 
@@ -312,7 +311,66 @@ function getOrderByCusID($cusID) {
             . "WHERE `CustomerID`= :cusID "
             . "ORDER BY `cus_order`.`StatusOrder` ASC";
     $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":cusID"=>$cusID));
+    $SQLPrepare->execute(array(":cusID" => $cusID));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function editCustomer($cusID, $status, $CustomerName, $bisstype, $Email, $Phone, $Fax, $Address, $Township, $City, $Province, $Zipcode, $Country, $personID) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "UPDATE `cus_customer` SET "
+            . "`CustomerID`= :cusID,"
+            . "`CustomerStatus`=:status,"
+            . "`CustomerName`= :name,"
+            . "`BusinessType`= :type,"
+            . "`Email`= :email,"
+            . "`Phone`= :phone,"
+            . "`Fax`= :fax,"
+            . "`Address`= :address,"
+            . "`Township`= :township,"
+            . "`City`= :city,"
+            . "`Province`= :province,"
+            . "`Zipcode`= :zipcode,"
+            . "`Country`= :country,"
+            . "`UpdateBy`= :personID "
+            . "WHERE `CustomerID`= :cusID";
+
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":cusID" => $cusID, ":status" => $status, ":name" => $CustomerName,
+        ":type" => $bisstype, ":email" => $Email, ":phone" => $Phone,
+        ":fax" => $Fax, ":address" => $Address, ":township" => $Township,
+        ":city" => $City, ":province" => $Province, ":zipcode" => $Zipcode,
+        ":country" => $Country, ":personID" => $personID));
+
+    if ($SQLPrepare->rowCount()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function getOrderDetailByOrderID($orderID, $type) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "`OrderDetailID`, "
+            . "`OrderID`, "
+            . "`OrderDetailStatus`, "
+            . "`DateTime`, "
+            . "`PackageID`, "
+            . "`PackageName`, "
+            . "`PackageType`, "
+            . "`PackageCategory` "
+            . "FROM `view_order_detail` "
+            . "WHERE `OrderID` = :orderID AND `PackageType` LIKE :type "
+            . "ORDER BY `view_order_detail`.`OrderDetailStatus`,`view_order_detail`.`DateTime` ASC";
+//    echo $SQLCommand;
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":orderID"=>$orderID,":type"=>$type));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);

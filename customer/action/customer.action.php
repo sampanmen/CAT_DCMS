@@ -125,11 +125,36 @@ if ($para == "addCustomer") {
     $package = $_POST['package'];
     $bundle = $_POST['bundle'];
     $location = $_POST['location'];
-    
+
     $res = addOrder("A", $oldID, $cusID, $location, "active", $personID, $bundle, $package);
     if ($res) {
-        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addOrerCompleted");
+        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addOrderCompleted");
     } else {
-        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addOrerFailed");
+        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addOrderFailed");
+    }
+} else if ($para == "editCustomer") {
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+
+    $cus_name = $_POST['name'];
+    $cus_bussType = $_POST['bussinessType'];
+    $cus_email = $_POST['email'];
+    $cus_phone = $_POST['phone'];
+    $cus_fax = $_POST['fax'];
+    $cus_address = $_POST['address'];
+    $cus_township = $_POST['township'];
+    $cus_city = $_POST['city'];
+    $cus_province = $_POST['province'];
+    $cus_zipcode = $_POST['zipcode'];
+    $cus_country = $_POST['country'];
+    $cus_status = $_POST['status'];
+    $cusID = $_GET['cusID'];
+
+    $res = editCustomer($cusID, $cus_status, $cus_name, $cus_bussType, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, $cus_province, $cus_zipcode, $cus_country, $personID);
+    if ($res) {
+        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editOrderCompleted");
+    } else {
+        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editOrderFailed");
     }
 }

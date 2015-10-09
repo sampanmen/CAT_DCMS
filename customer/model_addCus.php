@@ -18,7 +18,7 @@
                                     <div class="row">
                                         <div class="col-lg-12">                      
                                             <div class="form-group col-lg-3"><br>
-                                                <p>ชื่อลูกค้า / Customer Name</p>
+                                                <p>ชื่อลูกค้า<br>Customer Name</p>
                                             </div>
                                             <div class="form-group col-lg-9"><br> 
                                                 <input class="form-control" name="cus[name]">
@@ -27,7 +27,7 @@
 
                                         <div class="col-lg-12"> 
                                             <div class="form-group col-lg-3">
-                                                <p>ประเภทธุรกิจ / Bussiness Type</p>
+                                                <p>ประเภทธุรกิจ<br>Bussiness Type</p>
                                             </div>
                                             <div class="form-group col-lg-3">
                                                 <select class="form-control" name="cus[bussinessType]" id="cusBissinessType">
@@ -37,7 +37,7 @@
                                                 </select>    
                                             </div>
                                             <div class="form-group col-lg-2">
-                                                <p>อีเมล์ / E-Mail</p>
+                                                <p>อีเมล์<br>E-Mail</p>
                                             </div>
                                             <div class="form-group col-lg-4">
                                                 <input class="form-control" type="email" name="cus[email]">      
@@ -46,13 +46,13 @@
 
                                         <div class="col-lg-12"> 
                                             <div class="form-group col-lg-3">
-                                                <p>โทรศัพท์ / Phone</p>
+                                                <p>โทรศัพท์<br>Phone</p>
                                             </div>
                                             <div class="form-group col-lg-3">
                                                 <input class="form-control" name="cus[phone]">                                
                                             </div>
                                             <div class="form-group col-lg-2">
-                                                <p>แฟกต์ / Fax</p>
+                                                <p>แฟกต์<br>Fax</p>
                                             </div>
                                             <div class="form-group col-lg-4">
                                                 <input class="form-control" name="cus[fax]">                                
@@ -61,13 +61,13 @@
 
                                         <div class="col-lg-12"> 
                                             <div class="form-group col-lg-3">
-                                                <p>ที่อยู่ / Address</p>                                                               
+                                                <p>ที่อยู่<br>Address</p>                                                               
                                             </div>
                                             <div class="form-group col-lg-3">
                                                 <input class="form-control" name="cus[address]">                                
                                             </div>
                                             <div class="form-group col-lg-2">
-                                                <p>ตำบล / Tambol</p>                                                             
+                                                <p>ตำบล<br>Tambol</p>                                                             
                                             </div>
                                             <div class="form-group col-lg-4">
                                                 <input class="form-control" name="cus[township]">                                
@@ -76,13 +76,13 @@
 
                                         <div class="col-lg-12"> 
                                             <div class="form-group col-lg-3">
-                                                <p>อำเภอ / City</p>                          
+                                                <p>อำเภอ<br>City</p>                          
                                             </div>
                                             <div class="form-group col-lg-3">
                                                 <input class="form-control" name="cus[city]">                                
                                             </div>
                                             <div class="form-group col-lg-2">
-                                                <p>จังหวัด / Province</p>                     
+                                                <p>จังหวัด<br>Province</p>                     
                                             </div>
                                             <div class="form-group col-lg-4">
                                                 <input class="form-control" name="cus[province]">                                
@@ -91,14 +91,14 @@
 
                                         <div class="col-lg-12"> 
                                             <div class="form-group col-lg-3">
-                                                <p>รหัสไปรษณีย์ / Postalcode</p>                 
+                                                <p>รหัสไปรษณีย์<br>Postalcode</p>                 
                                             </div>
                                             <div class="form-group col-lg-3">
                                                 <input class="form-control" name="cus[zipcode]">                                
                                             </div>
 
                                             <div class="form-group col-lg-2">
-                                                <p>ประเทศ / Country</p>
+                                                <p>ประเทศ<br>Country</p>
                                             </div>
                                             <div class="form-group col-lg-4">
                                                 <input class="form-control" name="cus[country]">                                
@@ -117,14 +117,14 @@
                                     <div class="row">
                                         <div class="col-lg-12">                      
                                             <div class="form-group col-lg-3"><br>
-                                                <p>ชื่อผู้ติดต่อ / Contact Name</p>                  
+                                                <p>ชื่อผู้ติดต่อ<br>Contact Name</p>                  
                                             </div>
                                             <div class="form-group col-lg-3"><br>
                                                 <input class="form-control" name="con[name][]">
                                                 <input type="hidden" value="contact" name="con[type][]">
                                             </div>
                                             <div class="form-group col-lg-2"><br>
-                                                <p>นามสกุล / Surname</p>                     
+                                                <p>นามสกุล<br>Surname</p>                     
                                             </div>
                                             <div class="form-group col-lg-4"><br>
                                                 <input class="form-control" name="con[sname][]">                                
@@ -132,13 +132,13 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-group col-lg-3">
-                                                <p>โทรศัพท์ / Phone</p>
+                                                <p>โทรศัพท์<br>Phone</p>
                                             </div>
                                             <div class="form-group col-lg-3">
                                                 <input class="form-control" name="con[phone][]">                                
                                             </div>
                                             <div class="form-group col-lg-2">
-                                                <p>อีเมล์ / E-Mail</p>                      
+                                                <p>อีเมล์<br>E-Mail</p>                      
                                             </div>
                                             <div class="form-group col-lg-4">
                                                 <input class="form-control" type="email" name="con[email][]" onchange="checkEmail(this.value)">          
@@ -146,13 +146,13 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-group col-lg-3">
-                                                <p>รหัสผ่าน / Password</p>
+                                                <p>รหัสผ่าน<br>Password</p>
                                             </div>
                                             <div class="form-group col-lg-3">
                                                 <input class="form-control" type="password" name="con[password][]">      
                                             </div>
                                             <div class="form-group col-lg-2">
-                                                <p>รูปภาพ / Picture</p>
+                                                <p>รูปภาพ<br>Picture</p>
                                             </div>
                                             <div class="form-group col-lg-3">
                                                 <input type="file" name="file[]" accept=".jpg">
@@ -174,14 +174,14 @@
                                 <div class="row">
                                     <div class="col-lg-12">                      
                                         <div class="form-group col-lg-3"><br>
-                                            <p>ชื่อผู้ติดต่อ / Contact Name</p>                  
+                                            <p>ชื่อผู้ติดต่อ<br>Contact Name</p>                  
                                         </div>
                                         <div class="form-group col-lg-3"><br>
                                             <input class="form-control" name="con[name][]">
                                             <input type="hidden" value="contact" name="con[type][]">
                                         </div>
                                         <div class="form-group col-lg-2"><br>
-                                            <p>นามสกุล / Surname</p>                     
+                                            <p>นามสกุล<br>Surname</p>                     
                                         </div>
                                         <div class="form-group col-lg-4"><br>
                                             <input class="form-control" name="con[sname][]">                                
@@ -189,13 +189,13 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group col-lg-3">
-                                            <p>โทรศัพท์ / Phone</p>
+                                            <p>โทรศัพท์<br>Phone</p>
                                         </div>
                                         <div class="form-group col-lg-3">
                                             <input class="form-control" name="con[phone][]">                                
                                         </div>
                                         <div class="form-group col-lg-2">
-                                            <p>อีเมล์ / E-Mail</p>                      
+                                            <p>อีเมล์<br>E-Mail</p>                      
                                         </div>
                                         <div class="form-group col-lg-4">
                                             <input class="form-control" type="email" name="con[email][]" onchange="checkEmail(this.value)">          
@@ -203,13 +203,13 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group col-lg-3">
-                                            <p>รหัสผ่าน / Password</p>
+                                            <p>รหัสผ่าน<br>Password</p>
                                         </div>
                                         <div class="form-group col-lg-3">
                                             <input class="form-control" type="password" name="con[password][]">      
                                         </div>
                                         <div class="form-group col-lg-2">
-                                            <p>รูปภาพ / Picture</p>
+                                            <p>รูปภาพ<br>Picture</p>
                                         </div>
                                         <div class="form-group col-lg-3">
                                             <input type="file" name="file[]" accept=".jpg">   
