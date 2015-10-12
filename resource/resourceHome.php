@@ -5,7 +5,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4><b> Rack
-                            <a href="../resource/model_addRack.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
+                            <a href="../resource/model_addRack.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>
                         </b></h4>
                 </div>      
 
@@ -99,7 +99,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4><b> IP
-                            <a href="../resource/model_addIP.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
+                            <a href="../resource/model_addIP.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>
                         </b></h4>
                 </div>      
 
@@ -158,7 +158,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4><b>Servics
-                            <a href="../resource/model_addService.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
+                            <a href="../resource/model_addService.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>
                         </b></h4>
                 </div>      
 
@@ -200,7 +200,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4><b>Port
-                            <a href="../resource/model_addPort.php" data-toggle="modal" data-target="#myModal">  ( Add )  </a>
+                            <a href="../resource/model_addPort.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>
                         </b></h4>
                 </div>      
 

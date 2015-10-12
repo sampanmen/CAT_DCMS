@@ -13,8 +13,12 @@
                     </div>
                     <div class="form-group col-lg-6"> 
                         <select class="form-control">
-                            <option>32 U</option>
-                            <option>42 U</option>                                 
+                            <option value="45">45 U</option>
+                            <option value="42">42 U</option>
+                            <option value="39">39 U</option>
+                            <option value="36">36 U</option>
+                            <option value="27">27 U</option>
+                            <option value="15">15 U</option>
                         </select>   
                     </div>
                 </div>
@@ -55,21 +59,21 @@
                         <input class="form-control">                                   
                     </div>
                 </div>
-                
+
 
 
 
             </div>
-            
+
 
         </div>
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
         <!-- /.row (nested) -->
     </div> 
 
