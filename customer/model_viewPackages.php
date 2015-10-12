@@ -54,6 +54,12 @@ $getPackage = getPackage($_GET['packageID']);
                         <p><?php echo $getPackage['RackAmount']; ?> Rack</p>   
                     </div>
                     <div class="form-group col-lg-6">
+                        <label>จำนวน Service</label> 
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <p><?php echo $getPackage['ServiceAmount']; ?> Rack</p>   
+                    </div>
+                    <div class="form-group col-lg-6">
                         <label>สถานะ</label> 
                     </div>
                     <div class="form-group col-lg-6">

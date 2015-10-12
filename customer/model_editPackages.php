@@ -32,10 +32,13 @@ $getPackage = getPackage($_GET['packageID']);
                         <div class="form-group col-lg-6">
                             <label>หมวดหมู่ / Category</label> 
                             <select class="form-control" name="category">                                  
-                                <option <?php echo $getPackage['PackageCategory']=="full rack"?"selected":""; ?> value="full rack">Full Rack</option>
-                                <option <?php echo $getPackage['PackageCategory']=="1/2 rack"?"selected":""; ?> value="1/2 rack">1/2 Rack</option>
-                                <option <?php echo $getPackage['PackageCategory']=="1/4 rack"?"selected":""; ?> value="1/4 rack">1/4 Rack</option>
-                                <option <?php echo $getPackage['PackageCategory']=="shared rack"?"selected":""; ?> value="shared rack">Shared Rack</option>
+                                <option <?php echo $getPackage['PackageCategory'] == "full rack" ? "selected" : ""; ?> value="full rack">Full Rack</option>
+                                <option <?php echo $getPackage['PackageCategory'] == "1/2 rack" ? "selected" : ""; ?> value="1/2 rack">1/2 Rack</option>
+                                <option <?php echo $getPackage['PackageCategory'] == "1/4 rack" ? "selected" : ""; ?> value="1/4 rack">1/4 Rack</option>
+                                <option <?php echo $getPackage['PackageCategory'] == "shared rack" ? "selected" : ""; ?> value="shared rack">Shared Rack</option>
+                                <option <?php echo $getPackage['PackageCategory'] == "firewall" ? "selected" : ""; ?> value="firewall">Firewall</option>
+                                <option <?php echo $getPackage['PackageCategory'] == "room" ? "selected" : ""; ?> value="room">Room</option>
+
                             </select>   
                         </div>
                         <div class="form-group col-lg-6">
@@ -57,8 +60,8 @@ $getPackage = getPackage($_GET['packageID']);
                         <div class="form-group col-lg-6">
                             <label>สถานะ</label>
                             <select class="form-control" name="status">                                  
-                                <option <?php echo $getPackage['PackageStatus']=="active"?"selected":""; ?> value="active">Active</option>
-                                <option <?php echo $getPackage['PackageStatus']=="not active"?"selected":""; ?> value="not active">Not Active</option>
+                                <option <?php echo $getPackage['PackageStatus'] == "active" ? "selected" : ""; ?> value="active">Active</option>
+                                <option <?php echo $getPackage['PackageStatus'] == "not active" ? "selected" : ""; ?> value="not active">Not Active</option>
                             </select>
                         </div>
                         <!-- /.row (nested) -->
