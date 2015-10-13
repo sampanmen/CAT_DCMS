@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2015 at 11:04 AM
+-- Generation Time: Oct 13, 2015 at 11:20 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -15,11 +15,6 @@ SET time_zone = "+00:00";
 --
 
 --
--- Truncate table before insert `cus_customer`
---
-
-TRUNCATE TABLE `cus_customer`;
---
 -- Dumping data for table `cus_customer`
 --
 
@@ -28,16 +23,6 @@ INSERT INTO `cus_customer` (`CustomerID`, `PrefixID`, `CustomerStatus`, `Custome
 (2, 'CUS', 'active', 'กหดฟหด', 'กสท', 'fgafd@dff', 'dfasdfa', 'sdfsf', 'sdfasd', 'sdfasfs', 'fasdf', 'sdf', 0, 'asasdfdf', '2015-10-09 03:25:20', '2015-10-09 03:25:20', 1, 1),
 (3, 'CUS', 'active', 'sfdasf', 'กสท', 'sdfasdf@sfdasf', 'asdfsadf', 'sdfsad', 'sadf', 'sadf', 'asf', 'asdfasdfa', 0, 'asdf', '2015-10-09 03:53:44', '2015-10-09 03:53:44', 1, 1);
 
---
--- Truncate table before insert `cus_item`
---
-
-TRUNCATE TABLE `cus_item`;
---
--- Truncate table before insert `cus_order`
---
-
-TRUNCATE TABLE `cus_order`;
 --
 -- Dumping data for table `cus_order`
 --
@@ -58,11 +43,6 @@ INSERT INTO `cus_order` (`OrderID`, `OrderPreID`, `OrderIDOld`, `CustomerID`, `N
 (13, 'A', '', 2, NULL, 'IDC Nonthaburi', 'active', '2015-10-09 07:56:13', '2015-10-09 07:56:13', -1, -1);
 
 --
--- Truncate table before insert `cus_order_bundle_network`
---
-
-TRUNCATE TABLE `cus_order_bundle_network`;
---
 -- Dumping data for table `cus_order_bundle_network`
 --
 
@@ -80,11 +60,6 @@ INSERT INTO `cus_order_bundle_network` (`orderBundleNetworkID`, `OrderID`, `Bund
 (11, 12, 'ATM'),
 (12, 13, 'IDC Only');
 
---
--- Truncate table before insert `cus_order_detail`
---
-
-TRUNCATE TABLE `cus_order_detail`;
 --
 -- Dumping data for table `cus_order_detail`
 --
@@ -127,11 +102,6 @@ INSERT INTO `cus_order_detail` (`OrderDetailID`, `OrderID`, `PackageID`, `OrderD
 (35, 10, 3, 'active', '2015-10-09 09:31:59', '2015-10-09 09:31:59', -1, -1);
 
 --
--- Truncate table before insert `cus_package`
---
-
-TRUNCATE TABLE `cus_package`;
---
 -- Dumping data for table `cus_package`
 --
 
@@ -151,11 +121,6 @@ INSERT INTO `cus_package` (`PackageID`, `PackageName`, `PackageDetail`, `Package
 (14, 'Test#10 Test#10 Test#10 Test#10 ', 'Test#10', 'main', 'full rack', 'active', 0, 0, 0, 0, '2015-10-09 04:18:56', '2015-10-09 07:56:58', -1, -2);
 
 --
--- Truncate table before insert `cus_person`
---
-
-TRUNCATE TABLE `cus_person`;
---
 -- Dumping data for table `cus_person`
 --
 
@@ -172,21 +137,6 @@ INSERT INTO `cus_person` (`PersonID`, `Fname`, `Lname`, `Phone`, `Email`, `Custo
 (12, 'sadfasdf', 'asdfasdf', 'asdfasdfa', 'sdf@sdfa', 3, 'dsfasf', NULL, NULL, 'contact', NULL, 'active'),
 (13, '', '', '', '', 3, '', NULL, NULL, 'contact', NULL, 'active');
 
---
--- Truncate table before insert `entry_idc`
---
-
-TRUNCATE TABLE `entry_idc`;
---
--- Truncate table before insert `entry_idc_zone`
---
-
-TRUNCATE TABLE `entry_idc_zone`;
---
--- Truncate table before insert `resource_ip`
---
-
-TRUNCATE TABLE `resource_ip`;
 --
 -- Dumping data for table `resource_ip`
 --
@@ -707,32 +657,12 @@ INSERT INTO `resource_ip` (`ResourceIpID`, `IP`, `NetworkIP`, `Subnet`, `VlanID`
 (512, '2.2.2.2', '2.2.2.0', '30', 21, 1, NULL, '2015-10-12 07:28:08', '2015-10-12 07:28:08', -1, -1);
 
 --
--- Truncate table before insert `resource_rack`
---
-
-TRUNCATE TABLE `resource_rack`;
---
--- Truncate table before insert `resource_service`
---
-
-TRUNCATE TABLE `resource_service`;
---
--- Truncate table before insert `resource_switch`
---
-
-TRUNCATE TABLE `resource_switch`;
---
 -- Dumping data for table `resource_switch`
 --
 
 INSERT INTO `resource_switch` (`ResourceSwitchID`, `SwitchName`, `SwitchIP`, `TotalPort`, `SnmpCommuPublic`, `SnmpCommuPrivate`, `SwitchType`, `EnableResourceSW`, `DateTimeCreate`, `DateTimeUpdate`, `CreateBy`, `UpdateBy`) VALUES
 (1, 'test', '192.168.111.111', '16', '123456', NULL, 'switch', 1, '2015-10-13 08:48:38', '2015-10-13 08:48:38', -1, -1);
 
---
--- Truncate table before insert `resource_switch_port`
---
-
-TRUNCATE TABLE `resource_switch_port`;
 --
 -- Dumping data for table `resource_switch_port`
 --
@@ -756,24 +686,8 @@ INSERT INTO `resource_switch_port` (`ResourceSwitchPortID`, `ResourceSwitchID`, 
 (16, 1, 16, 'FastEthernet', 0, 1, NULL, '2015-10-13 08:48:38', '2015-10-13 08:48:38', -1, -1);
 
 --
--- Truncate table before insert `resource_switch_vlan`
---
-
-TRUNCATE TABLE `resource_switch_vlan`;
---
 -- Dumping data for table `resource_switch_vlan`
 --
 
 INSERT INTO `resource_switch_vlan` (`VlanID`, `VlanNumber`, `SwitchID`) VALUES
 (1, 111, 1);
-
---
--- Truncate table before insert `ticket`
---
-
-TRUNCATE TABLE `ticket`;
---
--- Truncate table before insert `ticket_event`
---
-
-TRUNCATE TABLE `ticket_event`;

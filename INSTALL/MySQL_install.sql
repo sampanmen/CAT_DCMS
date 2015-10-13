@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2015 at 11:02 AM
+-- Generation Time: Oct 13, 2015 at 11:19 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -417,79 +417,29 @@ CREATE TABLE IF NOT EXISTS `view_switch_port` (
 -- --------------------------------------------------------
 
 --
--- Structure for view `view_ip` exported as a table
+-- Structure for view `view_ip`
 --
 DROP TABLE IF EXISTS `view_ip`;
-CREATE TABLE IF NOT EXISTS `view_ip`(
-    `IP` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `NetworkIP` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `Subnet` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `VlanID` int(11) DEFAULT NULL,
-    `EnableResourceIP` int(1) DEFAULT '1',
-    `OrderDetailID` int(11) DEFAULT NULL,
-    `DateTimeCreate` timestamp DEFAULT NULL,
-    `DateTimeUpdate` timestamp DEFAULT NULL,
-    `CreateBy` int(11) DEFAULT NULL,
-    `UpdateBy` int(11) DEFAULT NULL,
-    `OrderID` int(11) DEFAULT NULL,
-    `PackageID` int(11) DEFAULT NULL,
-    `CustomerID` int(11) DEFAULT NULL,
-    `Location` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `CustomerName` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `BusinessType` varchar(45) COLLATE utf8_general_ci DEFAULT NULL COMMENT 'กสท.
-นิติบุคคล
-บุคคล'
-);
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_ip` AS select `resource_ip`.`IP` AS `IP`,`resource_ip`.`NetworkIP` AS `NetworkIP`,`resource_ip`.`Subnet` AS `Subnet`,`resource_ip`.`VlanID` AS `VlanID`,`resource_ip`.`EnableResourceIP` AS `EnableResourceIP`,`resource_ip`.`OrderDetailID` AS `OrderDetailID`,`resource_ip`.`DateTimeCreate` AS `DateTimeCreate`,`resource_ip`.`DateTimeUpdate` AS `DateTimeUpdate`,`resource_ip`.`CreateBy` AS `CreateBy`,`resource_ip`.`UpdateBy` AS `UpdateBy`,`cus_order_detail`.`OrderID` AS `OrderID`,`cus_order_detail`.`PackageID` AS `PackageID`,`cus_order`.`CustomerID` AS `CustomerID`,`cus_order`.`Location` AS `Location`,`cus_customer`.`CustomerName` AS `CustomerName`,`cus_customer`.`BusinessType` AS `BusinessType` from (((`resource_ip` left join `cus_order_detail` on((`resource_ip`.`OrderDetailID` = `cus_order_detail`.`OrderDetailID`))) left join `cus_order` on((`cus_order`.`OrderID` = `cus_order_detail`.`OrderID`))) left join `cus_customer` on((`cus_customer`.`CustomerID` = `cus_order`.`CustomerID`))) where 1;
 
 -- --------------------------------------------------------
 
 --
--- Structure for view `view_order_detail` exported as a table
+-- Structure for view `view_order_detail`
 --
 DROP TABLE IF EXISTS `view_order_detail`;
-CREATE TABLE IF NOT EXISTS `view_order_detail`(
-    `OrderDetailID` int(11) NOT NULL DEFAULT '0',
-    `OrderID` int(11) DEFAULT NULL,
-    `OrderDetailStatus` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `DateTime` timestamp DEFAULT NULL,
-    `PackageID` int(11) NOT NULL DEFAULT '0',
-    `PackageName` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `PackageType` varchar(45) COLLATE utf8_general_ci DEFAULT NULL COMMENT 'หลัก
-รอง',
-    `PackageCategory` varchar(45) COLLATE utf8_general_ci DEFAULT NULL COMMENT 'Full
-1/2
-1/4
-Share'
-);
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_order_detail` AS select `cus_order_detail`.`OrderDetailID` AS `OrderDetailID`,`cus_order_detail`.`OrderID` AS `OrderID`,`cus_order_detail`.`OrderDetailStatus` AS `OrderDetailStatus`,`cus_order_detail`.`DateTimeUpdate` AS `DateTime`,`cus_package`.`PackageID` AS `PackageID`,`cus_package`.`PackageName` AS `PackageName`,`cus_package`.`PackageType` AS `PackageType`,`cus_package`.`PackageCategory` AS `PackageCategory` from (`cus_order_detail` join `cus_package` on((`cus_order_detail`.`PackageID` = `cus_package`.`PackageID`))) order by `cus_order_detail`.`OrderDetailStatus`;
 
 -- --------------------------------------------------------
 
 --
--- Structure for view `view_switch_port` exported as a table
+-- Structure for view `view_switch_port`
 --
 DROP TABLE IF EXISTS `view_switch_port`;
-CREATE TABLE IF NOT EXISTS `view_switch_port`(
-    `ResourceSwitchPortID` int(11) DEFAULT '0',
-    `ResourceSwitchID` int(11) DEFAULT NULL,
-    `PortNumber` int(11) DEFAULT NULL,
-    `PortType` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `Uplink` tinyint(4) DEFAULT NULL,
-    `EnableResourcePort` int(1) DEFAULT '1',
-    `OrderDetailID` int(11) DEFAULT NULL,
-    `DateTimeCreate` timestamp DEFAULT NULL,
-    `DateTimeUpdate` timestamp DEFAULT NULL,
-    `CreateBy` int(11) DEFAULT NULL,
-    `UpdateBy` int(11) DEFAULT NULL,
-    `SwitchName` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `SwitchIP` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `TotalPort` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `SnmpCommuPublic` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `SwitchType` varchar(45) COLLATE utf8_general_ci DEFAULT NULL,
-    `EnableResourceSW` int(1) DEFAULT '1',
-    `OrderID` int(11) DEFAULT NULL,
-    `CustomerID` int(11) DEFAULT '0',
-    `CustomerName` varchar(45) COLLATE utf8_general_ci DEFAULT NULL
-);
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_switch_port` AS select `resource_switch_port`.`ResourceSwitchPortID` AS `ResourceSwitchPortID`,`resource_switch_port`.`ResourceSwitchID` AS `ResourceSwitchID`,`resource_switch_port`.`PortNumber` AS `PortNumber`,`resource_switch_port`.`PortType` AS `PortType`,`resource_switch_port`.`Uplink` AS `Uplink`,`resource_switch_port`.`EnableResourcePort` AS `EnableResourcePort`,`resource_switch_port`.`OrderDetailID` AS `OrderDetailID`,`resource_switch_port`.`DateTimeCreate` AS `DateTimeCreate`,`resource_switch_port`.`DateTimeUpdate` AS `DateTimeUpdate`,`resource_switch_port`.`CreateBy` AS `CreateBy`,`resource_switch_port`.`UpdateBy` AS `UpdateBy`,`resource_switch`.`SwitchName` AS `SwitchName`,`resource_switch`.`SwitchIP` AS `SwitchIP`,`resource_switch`.`TotalPort` AS `TotalPort`,`resource_switch`.`SnmpCommuPublic` AS `SnmpCommuPublic`,`resource_switch`.`SwitchType` AS `SwitchType`,`resource_switch`.`EnableResourceSW` AS `EnableResourceSW`,`cus_order_detail`.`OrderID` AS `OrderID`,`cus_customer`.`CustomerID` AS `CustomerID`,`cus_customer`.`CustomerName` AS `CustomerName` from ((((`resource_switch` left join `resource_switch_port` on((`resource_switch`.`ResourceSwitchID` = `resource_switch_port`.`ResourceSwitchID`))) left join `cus_order_detail` on((`cus_order_detail`.`OrderDetailID` = `resource_switch_port`.`OrderDetailID`))) left join `cus_order` on((`cus_order`.`OrderID` = `cus_order_detail`.`OrderID`))) left join `cus_customer` on((`cus_customer`.`CustomerID` = `cus_order`.`CustomerID`)));
 
 --
 -- Indexes for dumped tables
