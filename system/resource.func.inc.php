@@ -79,3 +79,58 @@ function getIPs($network) {
     }
     return $resultArr;
 }
+
+function addSwitch($name, $ip, $commu, $type, $totalport, $uplinkArr, $vlanArr, $personID) {
+    global $connection;
+    dbconnect();
+    $sqlCommand = "INSERT INTO `resource_switch`( `SwitchName`, `SwitchIP`, `TotalPort`, `SnmpCommuPublic`, `SnmpCommuPrivate`, `SwitchType`, `EnableResourceSW`, `CreateBy`, `UpdateBy`) "
+            . "VALUES (:name,:ip,:totalport,:commu,NULL,:type,1,:personID,:personID)";
+    $res = $connection->prepare($sqlCommand);
+    $res->execute(array(":name" => $name, ":ip" => $ip, ":totalport" => $totalport, ":commu" => $commu, ":type" => $type, ":personID" => $personID));
+
+    if ($res->rowCount() > 0) {
+        $swID = $connection->lastInsertId();
+        $resAddPort = addSwichPort($swID, $totalport, $uplinkArr, $personID);
+        $resAddVlan = addSwtichVlan($swID, $vlanArr);
+        if ($resAddPort && $resAddVlan) {
+            return true;
+        } else
+            return false;
+    } else
+        return false;
+}
+
+function addSwichPort($swID, $totalport, $uplinkArr, $personID) {
+    global $connection;
+    dbconnect();
+    $sqlCommand = "INSERT INTO `resource_switch_port`( `ResourceSwitchID`, `PortNumber`, `PortType`, `Uplink`, `EnableResourcePort`, `OrderDetailID`,  `CreateBy`, `UpdateBy`) "
+            . "VALUES (:swID,:port,NULL,:uplink,1,NULL,:personID,:personID)";
+    $res = $connection->prepare($sqlCommand);
+
+    for ($i = 1; $i <= $totalport; $i++) {
+        (array_search($i, $uplinkArr) !== false) ? ($uplink = 1) : ($uplink = 0);
+        $res->execute(array(":swID" => $swID, ":port" => $i, ":uplink" => $uplink, "personID" => $personID));
+    }
+
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function addSwtichVlan($swID, $vlanArr) {
+    global $connection;
+    dbconnect();
+    $sqlCommand = "INSERT INTO `resource_switch_vlan`( `VlanNumber`, `SwitchID`) VALUES (:vlan,:swID)";
+    $res = $connection->prepare($sqlCommand);
+    foreach ($vlanArr as $value) {
+        $res->execute(array(":swID" => $swID, ":vlan" => $value));
+    }
+
+    if ($res->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
