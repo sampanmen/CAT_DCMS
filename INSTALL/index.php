@@ -1,5 +1,5 @@
 <?php
-
+set_time_limit(60*10);
 $user = "cat";
 $pass = "123456";
 $dbh = new PDO('mysql:host=localhost', $user, $pass);
