@@ -36,7 +36,7 @@
                             <label>Type</label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <select class="form-control" name="type">
+                            <select class="form-control" name="typeSW">
                                 <option value="switch">Switch</option>
                                 <option value="gateway">Gateway</option>
                             </select>
@@ -48,6 +48,18 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <input class="form-control" type="number" name="port">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="col-lg-6">
+                            <label>Type Port</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <select class="form-control" name="typePort">
+                                <option value="FastEthernet">FastEthernet</option>
+                                <option value="GigabitEthernet">GigabitEthernet</option>
+                                <option value="10GigabitEthernet">10GigabitEthernet</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-12">

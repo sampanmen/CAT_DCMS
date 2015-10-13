@@ -80,7 +80,7 @@ function getIPs($network) {
     return $resultArr;
 }
 
-function addSwitch($name, $ip, $commu, $type, $totalport, $uplinkArr, $vlanArr, $personID) {
+function addSwitch($name, $ip, $commu, $type, $totalport, $typePort, $uplinkArr, $vlanArr, $personID) {
     global $connection;
     dbconnect();
     $sqlCommand = "INSERT INTO `resource_switch`( `SwitchName`, `SwitchIP`, `TotalPort`, `SnmpCommuPublic`, `SnmpCommuPrivate`, `SwitchType`, `EnableResourceSW`, `CreateBy`, `UpdateBy`) "
@@ -90,7 +90,7 @@ function addSwitch($name, $ip, $commu, $type, $totalport, $uplinkArr, $vlanArr, 
 
     if ($res->rowCount() > 0) {
         $swID = $connection->lastInsertId();
-        $resAddPort = addSwichPort($swID, $totalport, $uplinkArr, $personID);
+        $resAddPort = addSwichPort($swID, $totalport, $typePort, $uplinkArr, $personID);
         $resAddVlan = addSwtichVlan($swID, $vlanArr);
         if ($resAddPort && $resAddVlan) {
             return true;
@@ -100,16 +100,16 @@ function addSwitch($name, $ip, $commu, $type, $totalport, $uplinkArr, $vlanArr, 
         return false;
 }
 
-function addSwichPort($swID, $totalport, $uplinkArr, $personID) {
+function addSwichPort($swID, $totalport, $typePort, $uplinkArr, $personID) {
     global $connection;
     dbconnect();
     $sqlCommand = "INSERT INTO `resource_switch_port`( `ResourceSwitchID`, `PortNumber`, `PortType`, `Uplink`, `EnableResourcePort`, `OrderDetailID`,  `CreateBy`, `UpdateBy`) "
-            . "VALUES (:swID,:port,NULL,:uplink,1,NULL,:personID,:personID)";
+            . "VALUES (:swID,:port,:typePort,:uplink,1,NULL,:personID,:personID)";
     $res = $connection->prepare($sqlCommand);
 
     for ($i = 1; $i <= $totalport; $i++) {
         (array_search($i, $uplinkArr) !== false) ? ($uplink = 1) : ($uplink = 0);
-        $res->execute(array(":swID" => $swID, ":port" => $i, ":uplink" => $uplink, "personID" => $personID));
+        $res->execute(array(":swID" => $swID, ":port" => $i, ":typePort" => $typePort, ":uplink" => $uplink, "personID" => $personID));
     }
 
     $rows = $res->rowCount();
@@ -133,4 +133,77 @@ function addSwtichVlan($swID, $vlanArr) {
         return true;
     } else
         return false;
+}
+
+function getSwitchs() {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "`ResourceSwitchID`, "
+            . "`SwitchName`, "
+            . "`SwitchIP`, "
+            . "`TotalPort`, "
+            . "`SnmpCommuPublic`, "
+            . "`SnmpCommuPrivate`, "
+            . "`SwitchType`, "
+            . "`EnableResourceSW`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`CreateBy`, "
+            . "`UpdateBy` "
+            . "FROM `resource_switch` "
+            . "ORDER BY `SwitchName` ASC";
+//    echo $SQLCommand;
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getSwitchPorts($swID) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "`ResourceSwitchPortID`, "
+            . "`ResourceSwitchID`, "
+            . "`PortNumber`, "
+            . "`PortType`, "
+            . "`Uplink`, "
+            . "`EnableResourcePort`, "
+            . "`OrderDetailID`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`CreateBy`, "
+            . "`UpdateBy`, "
+            . "`SwitchName`, "
+            . "`SwitchIP`, "
+            . "`TotalPort`, "
+            . "`SnmpCommuPublic`, "
+            . "`SwitchType`, "
+            . "`EnableResourceSW`, "
+            . "`OrderID`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_switch_port` ";
+    if ($swID != "") {
+        $SQLCommand.="WHERE `ResourceSwitchID` = :swID "
+                . "ORDER BY `SwitchName`,`PortNumber` ASC ";
+    } else {
+        $SQLCommand.="ORDER BY `SwitchName`,`PortNumber` ASC ";
+    }
+//    echo $SQLCommand;
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    if ($swID != "") {
+        $SQLPrepare->execute(array(":swID" => $swID));
+    } else {
+        $SQLPrepare->execute();
+    }
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
 }
