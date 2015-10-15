@@ -80,7 +80,7 @@ switch ($p) {
         break;
     case "resourceHome":
         $page['file'] = "../resource/resourceHome.php";
-        $page['name'] = "Resource";
+        $page['name'] = "Resource Summery";
         break;
     case "viewIP":
         $page['file'] = "../resource/viewIP.php";
