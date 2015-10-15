@@ -72,7 +72,7 @@ $swPort = getSwitchPorts($swID);
                                         <input style="display: none;" id="portType_in_<?php echo $i; ?>" onchange="savePortType('<?php echo $value['ResourceSwitchPortID']; ?>', this, '<?php echo $i; ?>')" type="text" value="<?php echo $value['PortType']; ?>">
                                     </td>
                                     <td>
-                                        <?php echo $value['Uplink'] == 1 ? "Uplink" : $value['CustomerName']; ?>
+                                        <?php echo $value['Uplink'] == 1 ? "Uplink" : $value['CustomerName'] == NULL ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $value['CustomerID'] . "'>" . $value['CustomerName'] . "</a>"; ?>
                                     </td>
                                 </tr> 
                             <?php } ?>
