@@ -83,3 +83,11 @@ $getNetworks = getNetworks();
         <!-- /.panel-body -->
     </div>
 </div>
+
+
+
+
+
+<a href="../resource/model_manageIP.php" data-toggle="modal" data-target="#myModal">hhhhh</a>
+<a href="../resource/model_managePort.php" data-toggle="modal" data-target="#myModal">hhhhh</a>
+<a href="../resource/model_manageRack.php" data-toggle="modal" data-target="#myModal">hhhhh</a>
