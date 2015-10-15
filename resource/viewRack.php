@@ -1,10 +1,11 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
-$zone = (isset($_GET['zone'])) ? $_GET['zone'] : "";
-echo $zone;
+$zone = (!isset($_GET['zone']) || $_GET['zone'] == "") ? "%" : $_GET['zone'];
+$type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
+//echo $zone;
 $getRacks = getRacks();
-$getRacksDetail = getRacksDetail($zone);
+$getRacksDetail = getRacksDetail($zone, $type);
 ?>
 
 <p><a href="?">Home</a> > <b>Rack</b></p>
@@ -30,7 +31,7 @@ $getRacksDetail = getRacksDetail($zone);
                                 foreach ($getRacks as $value) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $value['RackType']; ?></td>
+                                        <td><a href="?p=viewRack&type=<?php echo $value['RackType']; ?>"><?php echo $value['RackType']; ?></a></td>
                                         <td><a href="?p=viewRack&zone=<?php echo $value['Zone']; ?>"><?php echo $value['Zone']; ?></a></td>
                                         <td><?php echo $value['Position']; ?></td>
                                     </tr>
