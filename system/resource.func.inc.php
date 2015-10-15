@@ -191,16 +191,99 @@ function getSwitchPorts($swID) {
     if ($swID != "") {
         $SQLCommand.="WHERE `ResourceSwitchID` = :swID "
                 . "ORDER BY `SwitchName`,`PortNumber` ASC ";
-    } else {
-        $SQLCommand.="ORDER BY `SwitchName`,`PortNumber` ASC ";
-    }
-//    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    if ($swID != "") {
+        $SQLPrepare = $connection->prepare($SQLCommand);
         $SQLPrepare->execute(array(":swID" => $swID));
     } else {
+        $SQLCommand.="ORDER BY `SwitchName`,`PortNumber` ASC ";
+        $SQLPrepare = $connection->prepare($SQLCommand);
         $SQLPrepare->execute();
     }
+
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getLastPosition($zone) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT `Zone`, `Position`, `SubPosition` "
+            . "FROM `resource_rack` "
+            . "WHERE `Zone` LIKE :zone "
+            . "ORDER BY `Position` DESC";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":zone" => $zone));
+    if ($SQLPrepare->rowCount() > 0) {
+        $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+        return $result['Position'];
+    } else
+        return false;
+}
+
+function addRack($zone, $position, $subposition, $type, $size, $personID) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "INSERT INTO `resource_rack`( `Zone`, `Position`, `SubPosition`, `RackType`, `RackSize`, `CreateBy`, `UpdateBy`) "
+            . "VALUES (:zone,:position,:subposition,:type,:size,:personID,:personID)";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":zone" => $zone, ":position" => $position, ":subposition" => $subposition, ":type" => $type, ":size" => $size, ":personID" => $personID));
+
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+function getRacks() {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT `Zone`, `Position`, `RackType`, `RackSize` "
+            . "FROM `resource_rack` "
+            . "GROUP BY `Zone`, `Position` "
+            . "ORDER BY `Zone`,`Position` ASC";
+//    echo $SQLCommand;
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getRacksDetail($zone) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "`ResourceRackID`, "
+            . "`Zone`, "
+            . "`Position`, "
+            . "`SubPosition`, "
+            . "`RackType`, "
+            . "`RackSize`, "
+            . "`EnableResourceRack`, "
+            . "`OrderDetailID`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`CreateBy`, "
+            . "`UpdateBy`, "
+            . "`OrderID`, "
+            . "`PackageID`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_rack` ";
+    if ($zone != "") {
+        $SQLCommand .= "WHERE `Zone` LIKE :zone ORDER BY `Zone`, `Position`, `SubPosition` ASC";
+        $SQLPrepare = $connection->prepare($SQLCommand);
+        $SQLPrepare->execute(array(":zone" => $zone));
+    } else {
+        $SQLCommand .= "ORDER BY `Zone`, `Position`, `SubPosition` ASC";
+        $SQLPrepare = $connection->prepare($SQLCommand);
+        $SQLPrepare->execute();
+    }
+
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);

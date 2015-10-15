@@ -17,9 +17,9 @@ if ($para == "addIP") {
         header("Location: ../../core/?p=viewIP&para=addIPError");
     }
 } else if ($para == "addSwitch") {
-    echo "<pre>";
-    print_r($_POST);
-    echo "</pre>";
+//    echo "<pre>";
+//    print_r($_POST);
+//    echo "</pre>";
 
     $name = $_POST['name'];
     $ip = $_POST['ip'];
@@ -38,14 +38,51 @@ if ($para == "addIP") {
 //    print_r($uplinkArr);
 //    echo "</pre>";
 
-    $res = addSwitch($name, $ip, $commu, $typeSW, $totalport,$typePort, $uplinkArr, $vlanArr, $personID);
-    
+    $res = addSwitch($name, $ip, $commu, $typeSW, $totalport, $typePort, $uplinkArr, $vlanArr, $personID);
+
     if ($res) {
         header("Location: ../../core/?p=viewPort&para=addSwitchPortSuccess");
     } else {
         header("Location: ../../core/?p=viewPort&para=addSwitchPortError");
     }
 } else if ($para == "addRack") {
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+    $size = $_POST['size'];
+    $type = $_POST['type'];
+    $zone = $_POST['zone'];
+    $amount = $_POST['amount'];
+    $position = 1;
+    $subposition = 1;
+
+    if (getLastPosition($zone) !== false) {
+        $position = getLastPosition($zone) + 1;
+    }
+
+    switch ($type) {
+        case "full rack" :
+            $subposition = 1;
+            break;
+        case "1/2 rack" :
+            $subposition = 2;
+            break;
+        case "1/4 rack" :
+            $subposition = 4;
+            break;
+        case "shared rack" :
+            $subposition = $size;
+            break;
+    }
+
+    for ($i = 0; $i < $amount; $i++) {
+        for ($j = 0; $j < $subposition; $j++) {
+            addRack($zone, $position + $i, $j + 1, $type, $size, $personID);
+        }
+    }
+
+    echo "Add. OK";
+    header("Location: ../../core/?p=viewRack&para=addRackSuccess");
     
 } else if ($para == "addService") {
     
