@@ -335,3 +335,24 @@ function getSummeryIP() {
     }
     return $resultArr;
 }
+
+function getSummeryPort() {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "`ResourceSwitchID`, "
+            . "`SwitchName`, "
+            . "`SwitchType`, "
+            . "`use`, "
+            . "`uplink`, "
+            . "`TotalPort` "
+            . "FROM `view_summery_port`";
+//    echo $SQLCommand;
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
