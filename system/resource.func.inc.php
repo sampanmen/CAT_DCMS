@@ -253,7 +253,7 @@ function getRacks() {
     return $resultArr;
 }
 
-function getRacksDetail($zone) {
+function getRacksDetail($zone, $type) {
     global $connection;
     dbconnect();
     $SQLCommand = "SELECT "
@@ -274,16 +274,61 @@ function getRacksDetail($zone) {
             . "`CustomerID`, "
             . "`CustomerName` "
             . "FROM `view_rack` ";
-    if ($zone != "") {
-        $SQLCommand .= "WHERE `Zone` LIKE :zone ORDER BY `Zone`, `Position`, `SubPosition` ASC";
-        $SQLPrepare = $connection->prepare($SQLCommand);
-        $SQLPrepare->execute(array(":zone" => $zone));
-    } else {
-        $SQLCommand .= "ORDER BY `Zone`, `Position`, `SubPosition` ASC";
-        $SQLPrepare = $connection->prepare($SQLCommand);
-        $SQLPrepare->execute();
-    }
+    $SQLCommand .= "WHERE `Zone` LIKE :zone AND `RackType` LIKE :type ORDER BY `Zone`, `Position`, `SubPosition` ASC";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":zone" => $zone, ":type" => $type));
+//    if ($zone == "%" && $type == "%") {
+//        $SQLCommand .= "WHERE `Zone` LIKE :zone ORDER BY `Zone`, `Position`, `SubPosition` ASC";
+//        $SQLPrepare = $connection->prepare($SQLCommand);
+//        $SQLPrepare->execute(array(":zone" => $zone, ":type" => $type));
+//    } else {
+//        $SQLCommand .= "ORDER BY `Zone`, `Position`, `SubPosition` ASC";
+//        $SQLPrepare = $connection->prepare($SQLCommand);
+//        $SQLPrepare->execute();
+//    }
 
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getSummeryRack() {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT `RackType`, "
+            . "SUM(case when `OrderDetailID`IS NOT NULL then 1 else 0 end) AS `use`, "
+            . "COUNT(`RackType`) AS `total` "
+            . "FROM `resource_rack` "
+            . "WHERE 1 "
+            . "GROUP BY `RackType` "
+            . "ORDER BY `resource_rack`.`RackType` ASC";
+//    echo $SQLCommand;
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getSummeryIP() {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`VlanID`, "
+            . "SUM(case when `OrderDetailID`IS NOT NULL then 1 else 0 end) AS `use`, "
+            . "COUNT(`IP`) AS `total` "
+            . "FROM `resource_ip` "
+            . "WHERE 1 "
+            . "GROUP BY `NetworkIP`";
+//    echo $SQLCommand;
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute();
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
