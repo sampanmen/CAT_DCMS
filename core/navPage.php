@@ -47,7 +47,7 @@ switch ($p) {
         $page['name'] = "Customer Detail";
         break;
     case "entryIDCShow":
-        $page['file'] = "../customer/entryIDCShow.php";
+        $page['file'] = "../EntryIDC/entryIDCShow.php";
         $page['name'] = "Show Entry IDC";
         break;
 
@@ -63,16 +63,16 @@ switch ($p) {
 
     // Customer // Form
     case "entryIDCSearch":
-        $page['file'] = "../customer/entryIDCSearch.php";
+        $page['file'] = "../EntryIDC/entryIDCSearch.php";
         $page['name'] = "Entry IDC Search";
         break;
     case "entryIDCForm":
-        $page['file'] = "../customer/entryIDCForm.php";
+        $page['file'] = "../EntryIDC/entryIDCForm.php";
         $page['name'] = "Entry IDC Form";
         break;
     case "searchCustomer":
         $page['file'] = "../customer/searchCustomer.php";
-        $page['name'] = "Entry IDC Form";
+        $page['name'] = "Search Customer";
         break;
     case "orderDetail":
         $page['file'] = "../customer/orderDetail.php";
@@ -95,7 +95,7 @@ switch ($p) {
         $page['name'] = "Rack";
         break;
     case "entryBeforePrint":
-        $page['file'] = "../customer/entryBeforePrint.php";
+        $page['file'] = "../EntryIDC/entryBeforePrint.php";
         $page['name'] = "Print Entry IDC";
         break;
     
