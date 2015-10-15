@@ -7,6 +7,7 @@ function dbconnect() {
         $connection = new PDO(DSN, DBUSER, DBPASS);
         $connection->query("SET NAMES UTF8");
     }
+    return $connection;
 }
 
 function addCustomer($PrefixID, $status, $CustomerName, $bisstype, $Email, $Phone, $Fax, $Address, $Township, $City, $Province, $Zipcode, $Country, $user) {
