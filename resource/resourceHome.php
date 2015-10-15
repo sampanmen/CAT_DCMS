@@ -17,24 +17,24 @@ $summeryIP = getSummeryIP();
                     <?php
                     foreach ($summeryRack as $value) {
                         ?>
-                        <div class="well-sm col-lg-12 ">                              
+                        <div class="well-sm col-lg-12 ">
                             <div class="col-lg-12">
                                 <div class="col-lg-4">
                                     <p><a href="?p=viewRack&type=<?php echo $value['RackType']; ?>"><?php echo $value['RackType']; ?></a></p>      
                                 </div>
-                                <div class="col-lg-2">                               
-                                    <p>use</p>                              
+                                <div class="col-lg-2">
+                                    <p>use</p>
                                 </div>
-                                <div class="col-lg-2">                               
-                                    <p><font size="3" COLOR=red><b><?php echo $value['use']; ?></b></font></p>                              
+                                <div class="col-lg-2">
+                                    <p><font size="3" COLOR=red><b><?php echo $value['use']; ?></b></font></p>
                                 </div>
-                                <div class="col-lg-2">                               
-                                    <p>total</p>                              
+                                <div class="col-lg-2">
+                                    <p>total</p>
                                 </div>
                                 <div class="col-lg-2">                               
                                     <p><font size="3" COLOR=green><b><?php echo $value['total']; ?></b></font></p>                              
                                 </div>
-                            </div>  
+                            </div>
                         </div>
                     <?php } ?>
                 </div>
