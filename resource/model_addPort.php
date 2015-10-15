@@ -38,6 +38,7 @@
                         <div class="form-group col-lg-6">
                             <select class="form-control" name="typeSW">
                                 <option value="switch">Switch</option>
+                                <option value="firewall">Firewall</option>
                                 <option value="gateway">Gateway</option>
                             </select>
                         </div>
