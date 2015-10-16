@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2015 at 09:57 AM
+-- Generation Time: Oct 16, 2015 at 10:03 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -13,6 +13,9 @@ SET time_zone = "+00:00";
 --
 -- Database: `cat_dcms`
 --
+DROP DATABASE `cat_dcms`;
+CREATE DATABASE IF NOT EXISTS `cat_dcms` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `cat_dcms`;
 
 --
 -- Truncate table before insert `cus_customer`
