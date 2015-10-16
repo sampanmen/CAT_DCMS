@@ -3,8 +3,6 @@
     <h4 class="modal-title" id="gridSystemModalLabel">IP</h4>
 </div>
 
-<<<<<<< HEAD
-
 <div class="container-fluid"><br>
     <div class="panel panel-default">
         <div class="panel-heading">

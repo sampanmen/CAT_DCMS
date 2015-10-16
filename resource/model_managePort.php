@@ -3,7 +3,6 @@
     <h4 class="modal-title" id="gridSystemModalLabel">Port</h4>
 </div>
 
-
 <div class="container-fluid">
     <div class="col-lg-5">
         <div class="form-group ">
