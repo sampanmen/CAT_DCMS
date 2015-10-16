@@ -3,7 +3,7 @@
     <h4 class="modal-title" id="gridSystemModalLabel">Port</h4>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid"><br>
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -11,7 +11,7 @@
         </div>      
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <table class="table table-striped table-bordered table-hover" id="dataTables">
+                <table class="table  table-bordered table-hover " id="dataTables">
                     <thead>
                         <tr>
                             <th></th>
@@ -24,7 +24,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></td>
+                            <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></button></td>
                             <td>Switch 1</td>
                             <td>1</td>
                             <td>100</td>
@@ -32,7 +32,7 @@
                             <td>HaHa</td>
                         </tr>
                         <tr>
-                            <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></td>
+                            <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></button></td>
                             <td>Switch 1</td>
                             <td>2</td>
                             <td>100</td>
@@ -40,7 +40,7 @@
                             <td>HaHa</td>
                         </tr>
                         <tr>
-                            <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></td>
+                            <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></button></td>
                             <td>Switch 1</td>
                             <td>3</td>
                             <td>100</td>
@@ -48,7 +48,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></td>
+                            <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></button></td>
                             <td>Switch 1</td>
                             <td>4</td>
                             <td>100</td>
@@ -56,7 +56,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></td>
+                            <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></button></td>
                             <td>Switch 1</td>
                             <td>5</td>
                             <td>100</td>
