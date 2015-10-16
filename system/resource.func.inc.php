@@ -62,6 +62,24 @@ function getNetworks() {
     return $resultArr;
 }
 
+function getNetworksValue() {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "`NetworkIP`, "
+            . "SUM(case when `OrderDetailID` IS NULL then 1 else 0 end) AS `balance` "
+            . "FROM `resource_ip` "
+            . "GROUP BY `NetworkIP` "
+            . "ORDER BY `NetworkIP` ASC";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
 function getIPs($network) {
     global $connection;
     dbconnect();
@@ -70,9 +88,39 @@ function getIPs($network) {
             . "`UpdateBy`, `OrderID`, `PackageID`, `CustomerID`, `Location`, "
             . "`CustomerName`, `BusinessType` "
             . "FROM `view_ip` WHERE `NetworkIP` LIKE :network ";
-//    echo $SQLCommand;
     $SQLPrepare = $connection->prepare($SQLCommand);
     $SQLPrepare->execute(array(":network" => $network));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getIPsByOrderDetailID($orderDetailID) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "`IP`, "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`VlanID`, "
+            . "`EnableResourceIP`, "
+            . "`OrderDetailID`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`CreateBy`, "
+            . "`UpdateBy`, "
+            . "`OrderID`, "
+            . "`PackageID`, "
+            . "`CustomerID`, "
+            . "`Location`, "
+            . "`CustomerName`, "
+            . "`BusinessType` "
+            . "FROM `view_ip` "
+            . "WHERE `OrderDetailID` = :orderDetailID";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -369,4 +417,34 @@ function getResourceReserve($orderDetailID) {
     $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID));
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
+}
+
+function assignIP($ip, $orderDetailID, $personID) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "UPDATE `resource_ip` "
+            . "SET `OrderDetailID`=:orderDetailID,`UpdateBy`=:personID "
+            . "WHERE `IP` LIKE :ip";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":ip" => $ip, ":orderDetailID" => $orderDetailID, ":personID" => $personID));
+
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+function assignIPNull($ip, $personID) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "UPDATE `resource_ip` "
+            . "SET `OrderDetailID`= NULL ,`UpdateBy`=:personID "
+            . "WHERE `IP` LIKE :ip";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":ip" => $ip, ":personID" => $personID));
+
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
 }

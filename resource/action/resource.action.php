@@ -83,7 +83,21 @@ if ($para == "addIP") {
 
     echo "Add. OK";
     header("Location: ../../core/?p=viewRack&para=addRackSuccess");
-    
 } else if ($para == "addService") {
     
+} else if ($para == "assignIP") {
+    $orderDetailID = $_GET['orderDetailID'];
+    $ip = $_GET['ip'];
+    $res = assignIP($ip, $orderDetailID, $personID);
+    if ($res) {
+        echo "Assign completed.";
+    } else
+        echo "Assign isn't complete.";
+}else if ($para == "assignIPNull") {
+    $ip = $_GET['ip'];
+    $res = assignIPNull($ip, $personID);
+    if ($res) {
+        echo "Remove IP completed.";
+    } else
+        echo "Can not remove IP.";
 }
