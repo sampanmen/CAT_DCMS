@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2015 at 11:19 AM
+-- Generation Time: Oct 16, 2015 at 09:56 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -13,8 +13,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `cat_dcms`
 --
-CREATE DATABASE IF NOT EXISTS `cat_dcms` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `cat_dcms`;
 
 -- --------------------------------------------------------
 
@@ -42,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `cus_customer` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -82,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `cus_order` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -95,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `cus_order_bundle_network` (
 `orderBundleNetworkID` int(11) NOT NULL,
   `OrderID` int(11) DEFAULT NULL,
   `BundleNetwork` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -113,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `cus_order_detail` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -137,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `cus_package` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -159,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `cus_person` (
   `TypePerson` varchar(45) DEFAULT NULL COMMENT 'staff\ncontact\nsubcontact\nvisitor',
   `Position` varchar(45) DEFAULT NULL,
   `PersonStatus` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -216,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `resource_ip` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=513 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=255 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -228,8 +226,8 @@ DROP TABLE IF EXISTS `resource_rack`;
 CREATE TABLE IF NOT EXISTS `resource_rack` (
 `ResourceRackID` int(11) NOT NULL,
   `Zone` varchar(45) DEFAULT NULL,
-  `Position` varchar(45) DEFAULT NULL,
-  `SubPosition` varchar(45) DEFAULT NULL,
+  `Position` int(11) DEFAULT NULL,
+  `SubPosition` int(11) DEFAULT NULL,
   `RackType` varchar(45) DEFAULT NULL COMMENT 'ex. Full Rack, 1/2 Rack, 1/4 Rack',
   `RackSize` int(11) DEFAULT NULL,
   `EnableResourceRack` int(1) DEFAULT '1',
@@ -238,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `resource_rack` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -302,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `resource_switch_port` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -315,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `resource_switch_vlan` (
 `VlanID` int(11) NOT NULL,
   `VlanNumber` int(11) NOT NULL,
   `SwitchID` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -385,6 +383,60 @@ CREATE TABLE IF NOT EXISTS `view_order_detail` (
 ,`PackageName` varchar(45)
 ,`PackageType` varchar(45)
 ,`PackageCategory` varchar(45)
+,`IPAmount` int(11)
+,`PortAmount` int(11)
+,`RackAmount` int(11)
+,`ServiceAmount` int(11)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_rack`
+--
+DROP VIEW IF EXISTS `view_rack`;
+CREATE TABLE IF NOT EXISTS `view_rack` (
+`ResourceRackID` int(11)
+,`Zone` varchar(45)
+,`Position` int(11)
+,`SubPosition` int(11)
+,`RackType` varchar(45)
+,`RackSize` int(11)
+,`EnableResourceRack` int(1)
+,`OrderDetailID` int(11)
+,`DateTimeCreate` timestamp
+,`DateTimeUpdate` timestamp
+,`CreateBy` int(11)
+,`UpdateBy` int(11)
+,`OrderID` int(11)
+,`PackageID` int(11)
+,`CustomerID` int(11)
+,`CustomerName` varchar(45)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_resource_reserve`
+--
+DROP VIEW IF EXISTS `view_resource_reserve`;
+CREATE TABLE IF NOT EXISTS `view_resource_reserve` (
+`ip` int(11)
+,`port` int(11)
+,`rack` int(11)
+,`service` int(11)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_summery_port`
+--
+DROP VIEW IF EXISTS `view_summery_port`;
+CREATE TABLE IF NOT EXISTS `view_summery_port` (
+`ResourceSwitchID` int(11)
+,`SwitchName` varchar(45)
+,`SwitchType` varchar(45)
+,`use` decimal(23,0)
+,`uplink` decimal(23,0)
+,`TotalPort` varchar(45)
 );
 -- --------------------------------------------------------
 
@@ -430,7 +482,34 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `
 --
 DROP TABLE IF EXISTS `view_order_detail`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_order_detail` AS select `cus_order_detail`.`OrderDetailID` AS `OrderDetailID`,`cus_order_detail`.`OrderID` AS `OrderID`,`cus_order_detail`.`OrderDetailStatus` AS `OrderDetailStatus`,`cus_order_detail`.`DateTimeUpdate` AS `DateTime`,`cus_package`.`PackageID` AS `PackageID`,`cus_package`.`PackageName` AS `PackageName`,`cus_package`.`PackageType` AS `PackageType`,`cus_package`.`PackageCategory` AS `PackageCategory` from (`cus_order_detail` join `cus_package` on((`cus_order_detail`.`PackageID` = `cus_package`.`PackageID`))) order by `cus_order_detail`.`OrderDetailStatus`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_order_detail` AS select `cus_order_detail`.`OrderDetailID` AS `OrderDetailID`,`cus_order_detail`.`OrderID` AS `OrderID`,`cus_order_detail`.`OrderDetailStatus` AS `OrderDetailStatus`,`cus_order_detail`.`DateTimeUpdate` AS `DateTime`,`cus_package`.`PackageID` AS `PackageID`,`cus_package`.`PackageName` AS `PackageName`,`cus_package`.`PackageType` AS `PackageType`,`cus_package`.`PackageCategory` AS `PackageCategory`,`cus_package`.`IPAmount` AS `IPAmount`,`cus_package`.`PortAmount` AS `PortAmount`,`cus_package`.`RackAmount` AS `RackAmount`,`cus_package`.`ServiceAmount` AS `ServiceAmount` from (`cus_order_detail` join `cus_package` on((`cus_order_detail`.`PackageID` = `cus_package`.`PackageID`))) order by `cus_order_detail`.`OrderDetailStatus`;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_rack`
+--
+DROP TABLE IF EXISTS `view_rack`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_rack` AS select `resource_rack`.`ResourceRackID` AS `ResourceRackID`,`resource_rack`.`Zone` AS `Zone`,`resource_rack`.`Position` AS `Position`,`resource_rack`.`SubPosition` AS `SubPosition`,`resource_rack`.`RackType` AS `RackType`,`resource_rack`.`RackSize` AS `RackSize`,`resource_rack`.`EnableResourceRack` AS `EnableResourceRack`,`resource_rack`.`OrderDetailID` AS `OrderDetailID`,`resource_rack`.`DateTimeCreate` AS `DateTimeCreate`,`resource_rack`.`DateTimeUpdate` AS `DateTimeUpdate`,`resource_rack`.`CreateBy` AS `CreateBy`,`resource_rack`.`UpdateBy` AS `UpdateBy`,`cus_order_detail`.`OrderID` AS `OrderID`,`cus_order_detail`.`PackageID` AS `PackageID`,`cus_order`.`CustomerID` AS `CustomerID`,`cus_customer`.`CustomerName` AS `CustomerName` from (((`resource_rack` left join `cus_order_detail` on((`cus_order_detail`.`OrderDetailID` = `resource_rack`.`OrderDetailID`))) left join `cus_order` on((`cus_order`.`OrderID` = `cus_order_detail`.`OrderID`))) left join `cus_customer` on((`cus_customer`.`CustomerID` = `cus_order`.`CustomerID`)));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_resource_reserve`
+--
+DROP TABLE IF EXISTS `view_resource_reserve`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_resource_reserve` AS select `resource_ip`.`OrderDetailID` AS `ip`,`resource_switch_port`.`OrderDetailID` AS `port`,`resource_rack`.`OrderDetailID` AS `rack`,`resource_service`.`OrderDetailID` AS `service` from (((`resource_ip` left join `resource_rack` on((`resource_ip`.`OrderDetailID` = `resource_rack`.`OrderDetailID`))) left join `resource_switch_port` on((`resource_rack`.`OrderDetailID` = `resource_switch_port`.`OrderDetailID`))) left join `resource_service` on((`resource_switch_port`.`OrderDetailID` = `resource_service`.`OrderDetailID`)));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_summery_port`
+--
+DROP TABLE IF EXISTS `view_summery_port`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_summery_port` AS select `resource_switch`.`ResourceSwitchID` AS `ResourceSwitchID`,`resource_switch`.`SwitchName` AS `SwitchName`,`resource_switch`.`SwitchType` AS `SwitchType`,sum((case when (`resource_switch_port`.`OrderDetailID` is not null) then 1 else 0 end)) AS `use`,sum((case when (`resource_switch_port`.`Uplink` like 1) then 1 else 0 end)) AS `uplink`,`resource_switch`.`TotalPort` AS `TotalPort` from (`resource_switch` join `resource_switch_port` on((`resource_switch_port`.`ResourceSwitchID` = `resource_switch`.`ResourceSwitchID`))) group by `resource_switch`.`ResourceSwitchID`;
 
 -- --------------------------------------------------------
 
@@ -555,7 +634,7 @@ ALTER TABLE `ticket_event`
 -- AUTO_INCREMENT for table `cus_customer`
 --
 ALTER TABLE `cus_customer`
-MODIFY `CustomerID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `CustomerID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `cus_item`
 --
@@ -565,27 +644,27 @@ MODIFY `ItemID` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `cus_order`
 --
 ALTER TABLE `cus_order`
-MODIFY `OrderID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+MODIFY `OrderID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `cus_order_bundle_network`
 --
 ALTER TABLE `cus_order_bundle_network`
-MODIFY `orderBundleNetworkID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+MODIFY `orderBundleNetworkID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `cus_order_detail`
 --
 ALTER TABLE `cus_order_detail`
-MODIFY `OrderDetailID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
+MODIFY `OrderDetailID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `cus_package`
 --
 ALTER TABLE `cus_package`
-MODIFY `PackageID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+MODIFY `PackageID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `cus_person`
 --
 ALTER TABLE `cus_person`
-MODIFY `PersonID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+MODIFY `PersonID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `entry_idc_zone`
 --
@@ -595,12 +674,12 @@ MODIFY `EntryIDCZoneID` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `resource_ip`
 --
 ALTER TABLE `resource_ip`
-MODIFY `ResourceIpID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=513;
+MODIFY `ResourceIpID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=255;
 --
 -- AUTO_INCREMENT for table `resource_rack`
 --
 ALTER TABLE `resource_rack`
-MODIFY `ResourceRackID` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `ResourceRackID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=104;
 --
 -- AUTO_INCREMENT for table `resource_service`
 --
@@ -615,9 +694,9 @@ MODIFY `ResourceSwitchID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `resource_switch_port`
 --
 ALTER TABLE `resource_switch_port`
-MODIFY `ResourceSwitchPortID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+MODIFY `ResourceSwitchPortID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=51;
 --
 -- AUTO_INCREMENT for table `resource_switch_vlan`
 --
 ALTER TABLE `resource_switch_vlan`
-MODIFY `VlanID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `VlanID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
