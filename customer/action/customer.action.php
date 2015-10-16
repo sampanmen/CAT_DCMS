@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
@@ -18,10 +19,14 @@ if ($para == "addCustomer") {
     $cus_zipcode = $_POST['cus']['zipcode'];
     $cus_country = $_POST['cus']['country'];
     $con = $_POST['con'];
-
+//    echo "<pre>";
+//    print_r($con);
+//    echo "</pre>";
     $resInsertCus = addCustomer("CUS", $status, $cus_name, $cus_bussType, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, $cus_province, $cus_zipcode, $cus_country, '1');
     if ($resInsertCus) {
+//        $resInsertCon = true;
         $countCon = count($con['name']);
+        echo $countCon . " <br>";
         for ($i = 0; $i < $countCon; $i++) {
             $con_name = $con['name'][$i];
             $con_sname = $con['sname'][$i];
@@ -30,7 +35,8 @@ if ($para == "addCustomer") {
             $con_password = $con['password'][$i];
             $con_type = $con['type'][$i];
             $resInsertCon = addPerson($con_name, $con_sname, $con_phone, $con_email, $con_password, NULL, NULL, $con_type, NULL, $resInsertCus, "active");
-
+//            echo $resInsertCon . "<br>.";
+//            echo "///";
 //            echo "<pre>";
 ////            print_r($_FILES);
 //            echo $resInsertCon."<br>";
@@ -41,7 +47,7 @@ if ($para == "addCustomer") {
         if ($resInsertCon) {
             header("location: ../../core/?p=addOrder&cusID=" . $resInsertCus . "&para=addCustomerCompleted");
         } else {
-            header("location: ../../core/?p=addOrder&para=addCustomerFailed");
+            header("location: ../../core/?p=viewCus&para=addCustomerFailed");
         }
     }
 } else if ($para == "checkEmail") {

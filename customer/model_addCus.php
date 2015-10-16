@@ -164,61 +164,7 @@
                         </div>
 
                     </div>
-                    <div id="addCus" style="display: none;">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                ผู้ติดต่อ / Contact 
-                                <a href="javascript:addCus();">(Add)</a>  
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-12">                      
-                                        <div class="form-group col-lg-3"><br>
-                                            <p>ชื่อผู้ติดต่อ<br>Contact Name</p>                  
-                                        </div>
-                                        <div class="form-group col-lg-3"><br>
-                                            <input class="form-control" name="con[name][]">
-                                            <input type="hidden" value="contact" name="con[type][]">
-                                        </div>
-                                        <div class="form-group col-lg-2"><br>
-                                            <p>นามสกุล<br>Surname</p>                     
-                                        </div>
-                                        <div class="form-group col-lg-4"><br>
-                                            <input class="form-control" name="con[sname][]">                                
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="form-group col-lg-3">
-                                            <p>โทรศัพท์<br>Phone</p>
-                                        </div>
-                                        <div class="form-group col-lg-3">
-                                            <input class="form-control" name="con[phone][]">                                
-                                        </div>
-                                        <div class="form-group col-lg-2">
-                                            <p>อีเมล์<br>E-Mail</p>                      
-                                        </div>
-                                        <div class="form-group col-lg-4">
-                                            <input class="form-control" type="email" name="con[email][]" onchange="checkEmail(this.value)">          
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="form-group col-lg-3">
-                                            <p>รหัสผ่าน<br>Password</p>
-                                        </div>
-                                        <div class="form-group col-lg-3">
-                                            <input class="form-control" type="password" name="con[password][]">      
-                                        </div>
-                                        <div class="form-group col-lg-2">
-                                            <p>รูปภาพ<br>Picture</p>
-                                        </div>
-                                        <div class="form-group col-lg-3">
-                                            <input type="file" name="file[]" accept=".jpg">   
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -230,6 +176,62 @@
         <div id="alertEmail"></div>
     </div>
 </form>
+
+<div id="addCus" style="display: none;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            ผู้ติดต่อ / Contact 
+            <a href="javascript:addCus();">(Add)</a>  
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">                      
+                    <div class="form-group col-lg-3"><br>
+                        <p>ชื่อผู้ติดต่อ<br>Contact Name</p>                  
+                    </div>
+                    <div class="form-group col-lg-3"><br>
+                        <input class="form-control" name="con[name][]">
+                        <input type="hidden" value="contact" name="con[type][]">
+                    </div>
+                    <div class="form-group col-lg-2"><br>
+                        <p>นามสกุล<br>Surname</p>                     
+                    </div>
+                    <div class="form-group col-lg-4"><br>
+                        <input class="form-control" name="con[sname][]">                                
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group col-lg-3">
+                        <p>โทรศัพท์<br>Phone</p>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <input class="form-control" name="con[phone][]">                                
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <p>อีเมล์<br>E-Mail</p>                      
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <input class="form-control" type="email" name="con[email][]" onchange="checkEmail(this.value)">          
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group col-lg-3">
+                        <p>รหัสผ่าน<br>Password</p>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <input class="form-control" type="password" name="con[password][]">      
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <p>รูปภาพ<br>Picture</p>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <input type="file" name="file[]" accept=".jpg">   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     var count = 1;
     function addCus() {
