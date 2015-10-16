@@ -347,7 +347,6 @@ function getSummeryPort() {
             . "`uplink`, "
             . "`TotalPort` "
             . "FROM `view_summery_port`";
-//    echo $SQLCommand;
     $SQLPrepare = $connection->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();
@@ -355,4 +354,19 @@ function getSummeryPort() {
         array_push($resultArr, $result);
     }
     return $resultArr;
+}
+
+function getResourceReserve($orderDetailID) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "(SELECT COUNT(`ResourceIpID`) FROM `resource_ip` WHERE `OrderDetailID`=:orderDetailID) AS `ip`, "
+            . "(SELECT COUNT(`ResourceSwitchPortID`) FROM `resource_switch_port` WHERE `OrderDetailID`=:orderDetailID) AS `port`, "
+            . "(SELECT COUNT(`ResourceRackID`)FROM `resource_rack` WHERE `OrderDetailID`=:orderDetailID) AS `rack`, "
+            . "(SELECT COUNT(`ResourceServiceID`)FROM `resource_service` WHERE `OrderDetailID`=:orderDetailID) AS `service`";
+//    echo $SQLCommand;
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
 }

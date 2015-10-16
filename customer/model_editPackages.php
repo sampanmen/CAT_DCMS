@@ -19,7 +19,7 @@ $getPackage = getPackage($_GET['packageID']);
                             </div>   
                             <div class="form-group">
                                 <label>รายละเอียด / Detail</label>
-                                <textarea class="form-control" rows="3" name="detail"><?php echo $getPackage['PackageName']; ?></textarea>                              
+                                <textarea class="form-control" rows="3" name="detail"><?php echo $getPackage['PackageDetail']; ?></textarea>                              
                             </div>
                         </div>
                         <div class="form-group col-lg-6">
@@ -38,7 +38,7 @@ $getPackage = getPackage($_GET['packageID']);
                                 <option <?php echo $getPackage['PackageCategory'] == "shared rack" ? "selected" : ""; ?> value="shared rack">Shared Rack</option>
                                 <option <?php echo $getPackage['PackageCategory'] == "firewall" ? "selected" : ""; ?> value="firewall">Firewall</option>
                                 <option <?php echo $getPackage['PackageCategory'] == "room" ? "selected" : ""; ?> value="room">Room</option>
-
+                                <option <?php echo $getPackage['PackageCategory'] == "add-on" ? "selected" : ""; ?> value="add-on">Add on</option>
                             </select>   
                         </div>
                         <div class="form-group col-lg-6">
