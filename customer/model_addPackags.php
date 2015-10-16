@@ -34,6 +34,7 @@
                                 <option value="shared rack">Shared Rack</option>
                                 <option value="firewall">Firewall</option>
                                 <option value="room">Room</option>
+                                <option value="add-on">Add on</option>
                             </select>   
                         </div>
                         <div class="form-group col-lg-6">
