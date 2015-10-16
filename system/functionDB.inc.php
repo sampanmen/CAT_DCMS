@@ -382,7 +382,11 @@ function getOrderDetailByOrderID($orderID, $type) {
             . "`PackageID`, "
             . "`PackageName`, "
             . "`PackageType`, "
-            . "`PackageCategory` "
+            . "`PackageCategory`, "
+            . "`IPAmount`, "
+            . "`PortAmount`, "
+            . "`RackAmount`, "
+            . "`ServiceAmount`"
             . "FROM `view_order_detail` "
             . "WHERE `OrderID` = :orderID AND `PackageType` LIKE :type AND `OrderDetailStatus` NOT LIKE 'delete' "
             . "ORDER BY `view_order_detail`.`OrderDetailStatus`,`view_order_detail`.`DateTime` ASC";
