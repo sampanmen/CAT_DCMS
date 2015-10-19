@@ -100,4 +100,38 @@ if ($para == "addIP") {
         echo "Remove IP completed.";
     } else
         echo "Can not remove IP.";
-}
+}else if ($para == "assignPort") {
+    $orderDetailID = $_GET['orderDetailID'];
+    $portID = $_GET['portID'];
+    $resAssignPort = assignPort($portID, $orderDetailID, $personID);
+    if ($resAssignPort) {
+        echo "Assign completed.";
+    } else {
+        echo "Assign isn't complete.";
+    }
+} else if ($para == "assignPortNull") {
+    $portID = $_GET['portID'];
+    $resAssignNullPort = assignPortNull($portID, $personID);
+    if ($resAssignNullPort) {
+        echo "Remove completed.";
+    } else {
+        echo "Can not remove.";
+    }
+} else if ($para == "assignRack") {
+    $orderDetailID = $_GET['orderDetailID'];
+    $rackID = $_GET['rackID'];
+    $resAssignRack = assignRack($rackID, $orderDetailID, $personID);
+    if ($resAssignRack) {
+        echo "Assign completed.";
+    } else {
+        echo "Assign isn't complete.";
+    }
+} else if ($para == "assignRackNull") {
+    $rackID = $_GET['rackID'];
+    $resAssignNullRack = assignRackNull($rackID, $personID);
+    if ($resAssignNullRack) {
+        echo "Remove completed.";
+    } else {
+        echo "Can not remove.";
+    }
+} 

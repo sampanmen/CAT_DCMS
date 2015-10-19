@@ -24,16 +24,19 @@ $getNetworks = getNetworksValue();
                 <!-- table ip used-->
             </div>
             <script>
-                $.get("../resource/action/resource.content.php?para=manageIP_used&orderDetailID=<?php echo $orderDetailID; ?>", function (data, status) {
-                    $("#ipUsed").html(data);
-                });
+                showIPUsed();
+                function showIPUsed() {
+                    $.get("../resource/action/resource.content.php?para=manageIP_used&orderDetailID=<?php echo $orderDetailID; ?>", function (data, status) {
+                        $("#ipUsed").html(data);
+                    });
+                }
             </script>
         </div>   
     </div>
     <?php
     if ($assign - $used > 0) {
         ?>
-        <div class="panel panel-default">
+        <div class="panel panel-default" id="Reserve">
             <div class="panel-heading">
                 <h6><b>Select</b></h6>
             </div>  
@@ -62,7 +65,7 @@ $getNetworks = getNetworksValue();
                     function getIPReserve() {
                         var network = $("#network").val();
                         var orderDetailID = <?php echo $orderDetailID; ?>;
-                        $.get("../resource/action/resource.content.php?para=manageIP_reserve&orderDetailID=" + orderDetailID + "&network=" + network+"&used=<?php echo $used; ?>&assign=<?php echo $assign; ?>", function (data, status) {
+                        $.get("../resource/action/resource.content.php?para=manageIP_reserve&orderDetailID=" + orderDetailID + "&network=" + network + "&used=<?php echo $used; ?>&assign=<?php echo $assign; ?>", function (data, status) {
                             $("#ipReserve").html(data);
                         });
                     }
@@ -80,3 +83,8 @@ $getNetworks = getNetworksValue();
     <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
     <a href="" class="btn btn-primary">Close</a>
 </div>
+<script>
+    $('body').on('hidden.bs.modal', '.modal', function () {
+        location.reload();
+    });
+</script>

@@ -1,178 +1,93 @@
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+
+$orderDetailID = $_GET['orderDetailID'];
+$used = $_GET['used'];
+$assign = $_GET['assign'];
+$racktype = $_GET['PackageCategory'];
+?>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title" id="gridSystemModalLabel">Rack</h4>
 </div>
 
-
 <div class="container-fluid"><br>
-    
-    
     <div class="panel panel-default">
         <div class="panel-heading">
             <h6><b>Rack Used</b></h6>
         </div>      
         <div class="panel-body">
-            <div class="dataTable_wrapper">
-            <table class="table table-bordered table-hover" id="dataTables">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Type</th>
-                        <th>Zone</th>
-                        <th>Position</th>
-                        <th>Subposition</th>
-                        <th>Customer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></button></td>
-                        <td>1/4 Rack</td>
-                        <td>A</td>
-                        <td>01</td>
-                        <td>1</td>
-                        <td>HaHa</td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></button></td>
-                        <td>1/4 Rack</td>
-                        <td>A</td>
-                        <td>01</td>
-                        <td>2</td>
-                        <td>HaHa</td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></button></td>
-                        <td>1/4 Rack</td>
-                        <td>A</td>
-                        <td>01</td>
-                        <td>3</td>
-                        <td>yyyyyyyyyyyyyyyy</td>
-                    </tr>
-                     <tr>
-                        <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></button></td>
-                        <td>1/4 Rack</td>
-                        <td>B</td>
-                        <td>01</td>
-                        <td>1</td>
-                        <td></td>
-                    </tr>
-                     <tr>
-                        <td><button type="button" class="btn btn-danger btn-circle "><i class="glyphicon-minus"></i></button></td>
-                        <td>1/4 Rack</td>
-                        <td>B</td>
-                        <td>01</td>
-                        <td>2</td>
-                        <td>KiKi</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <div class="dataTable_wrapper" id="rackUsed">
+                <!-- table rack used-->
+            </div>
+            <script>
+                showRackUsed();
+                function showRackUsed() {
+                    $.get("../resource/action/resource.content.php?para=manageRack_used&orderDetailID=<?php echo $orderDetailID; ?>", function (data, status) {
+                        $("#rackUsed").html(data);
+                    });
+                }
+            </script>
         </div>   
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h6><b>Select</b></h6>
-        </div>  
-        <br>
-        <div class="col-lg-12">
-            <div class=" col-lg-2">
-                <p>Type</p>
+    <?php
+    if ($assign - $used > 0) {
+        ?>
+        <div class="panel panel-default" id="Reserve">
+            <div class="panel-heading">
+                <h6><b>Select</b></h6>
+            </div><br>
+            <div class="col-lg-12">
+                <div class=" col-lg-2">
+                    <p>Position</p>
+                </div>
+                <div class=" col-lg-6">
+                    <select id="position" onchange="getRackReserve();">
+                        <option value=",">Choose</option>
+                        <?php
+                        $getRacks = getRackValue($racktype);
+                        foreach ($getRacks as $value) {
+                            ?>
+                            <option value="<?php echo $value['Zone']; ?>,<?php echo $value['Position']; ?>"><?php echo $value['Zone'] . $value['Position'] . " (" . $value['balance'] . ")"; ?></option>
+                        <?php } ?>
+                    </select>    
+                </div>
             </div>
-            <div class=" col-lg-6">
-                <select class="form-control">
-                <option>Full Rack (5)</option>
-                <option>1/2 Rack  (24)</option>
-                <option>1/4 Rack  (6)</option>
-                <option>Shared Rack  (6)</option>
-            </select>    
+
+            <div class="panel-body">
+                <div class="dataTable_wrapper" id="rackReserve">
+                    <!-- table rack reserve-->
+                </div>
+                <script>
+                    function getRackReserve() {
+                        var tmp = $("#position").val();
+                        var res = tmp.split(",");
+                        var zone = res[0];
+                        var position = res[1];
+                        var rackType = "<?php echo $racktype; ?>";
+                        var orderDetailID = <?php echo $orderDetailID; ?>;
+                        $.get("../resource/action/resource.content.php?para=manageRack_reserve&orderDetailID=" + orderDetailID + "&racktype=" + rackType + "&used=<?php echo $used; ?>&assign=<?php echo $assign; ?>&zone=" + zone + "&position=" + position, function (data, status) {
+                            $("#rackReserve").html(data);
+                        });
+                    }
+                </script>
             </div>
         </div>
-    
-    
-    
-
-
-    <div class="panel-body">
-        <div class="dataTable_wrapper">
-            <table class="table table-striped table-bordered table-hover" id="dataTables">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Type</th>
-                        <th>Zone</th>
-                        <th>Position</th>
-                        <th>Subposition</th>
-                        <th>Customer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><button type="button" class="btn btn-success btn-circle"><i class="glyphicon-plus"></i></button></td>
-                        <td>1/4 Rack</td>
-                        <td>A</td>
-                        <td>01</td>
-                        <td>1</td>
-                        <td>HaHa</td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn btn-success btn-circle"><i class="glyphicon-plus"></i></button></td>
-                        <td>1/4 Rack</td>
-                        <td>A</td>
-                        <td>01</td>
-                        <td>2</td>
-                        <td>HaHa</td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn btn-success btn-circle"><i class="glyphicon-plus"></i></button></td>
-                        <td>1/4 Rack</td>
-                        <td>A</td>
-                        <td>01</td>
-                        <td>3</td>
-                        <td>yyyyyyyyyyyyyyyy</td>
-                    </tr>
-                     <tr>
-                        <td><button type="button" class="btn btn-success btn-circle"><i class="glyphicon-plus"></i></button></td>
-                        <td>1/4 Rack</td>
-                        <td>B</td>
-                        <td>01</td>
-                        <td>1</td>
-                        <td></td>
-                    </tr>
-                     <tr>
-                        <td><button type="button" class="btn btn-success btn-circle"><i class="glyphicon-plus"></i></button></td>
-                        <td>1/4 Rack</td>
-                        <td>B</td>
-                        <td>01</td>
-                        <td>2</td>
-                        <td>KiKi</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <?php
+    } else {
+        echo "<p class='label label-success'>Assign Completed.</p><br><br>";
+    }
+    ?>
 </div>
-</div>
-
-
-
-
-
-
-
-
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary">Save</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+    <!--<button type="button" class="btn btn-primary">Save</button>-->
 </div>
+
+<script>
+    $('body').on('hidden.bs.modal', '.modal', function () {
+        location.reload();
+    });
+</script>

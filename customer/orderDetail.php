@@ -41,7 +41,7 @@ $getOrderDetailAddOn = getOrderDetailByOrderID($orderID, 'add-on');
                                     <td><?php echo $value['PackageCategory']; ?></td>
                                     <td><p class="label label-<?php echo $value['OrderDetailStatus'] == "active" ? "success" : ($value['OrderDetailStatus'] == "suppened" ? "warning" : "danger"); ?>"><?php echo $value['OrderDetailStatus']; ?></p></td>
                                     <td>
-                                        <a href="../resource/model_manageRack.php?orderDetailID=<?php echo $value['OrderDetailID']; ?>&used=<?php echo $resourceReserve['rack']; ?>&assign=<?php echo $value['RackAmount']; ?>" data-toggle="modal" data-target="#myModal">
+                                        <a href="../resource/model_manageRack.php?orderDetailID=<?php echo $value['OrderDetailID']; ?>&used=<?php echo $resourceReserve['rack']; ?>&assign=<?php echo $value['RackAmount']; ?>&PackageCategory=<?php echo rawurlencode($value['PackageCategory']); ?>" data-toggle="modal" data-target="#myModal">
                                             <?php echo $resourceReserve['rack'] . "/" . $value['RackAmount']; ?>
                                         </a>
                                     </td>
@@ -96,7 +96,7 @@ $getOrderDetailAddOn = getOrderDetailByOrderID($orderID, 'add-on');
                                     <td><?php echo $value['PackageCategory']; ?></td>
                                     <td><p class="label label-<?php echo $value['OrderDetailStatus'] == "active" ? "success" : ($value['OrderDetailStatus'] == "suppened" ? "warning" : "danger"); ?>"><?php echo $value['OrderDetailStatus']; ?></p></td>
                                     <td>
-                                        <a href="../resource/model_manageRack.php?orderDetailID=<?php echo $value['OrderDetailID']; ?>&used=<?php echo $resourceReserve['rack']; ?>&assign=<?php echo $value['RackAmount']; ?>" data-toggle="modal" data-target="#myModal">
+                                        <a href="../resource/model_manageRack.php?orderDetailID=<?php echo $value['OrderDetailID']; ?>&used=<?php echo $resourceReserve['rack']; ?>&assign=<?php echo $value['RackAmount']; ?>&PackageCategory=<?php echo rawurlencode($value['PackageCategory']); ?>" data-toggle="modal" data-target="#myModal">
                                             <?php echo $resourceReserve['rack'] . "/" . $value['RackAmount']; ?>
                                         </a>
                                     </td>
