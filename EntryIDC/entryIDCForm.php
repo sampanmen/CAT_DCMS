@@ -1,3 +1,9 @@
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+
+$contactID = $_GET['contactID'];
+
+?>
 <div class="row">
     <form>
         <div class="col-lg-12">
