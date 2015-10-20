@@ -2,7 +2,6 @@
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $contactID = $_GET['contactID'];
-
 ?>
 <div class="row">
     <form>
@@ -13,66 +12,91 @@ $contactID = $_GET['contactID'];
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-10">                       
-                            <div class="form-group col-lg-5">
-                                <label class="radio-inline">                                    
-                                    <input type="radio" name="type">ลูกค้า / Customer <br>                
-                                </label>                                
+                        <div class="col-lg-9">
+                            <div class="col-lg-12">                       
+                                <div class="form-group col-lg-6">
+                                    <label class="radio-inline">                                    
+                                        <input type="radio" name="type">ลูกค้า / Customer <br>                
+                                    </label>                                
+                                </div>
+                                <div class="form-group col-lg-6">                               
+                                    <input class="form-control">                                
+                                </div>
                             </div>
-                            <div class="form-group col-lg-5">                               
-                                <input class="form-control">                                
+
+                            <div class="col-lg-12">                       
+                                <div class="form-group col-lg-6">
+                                    <label class="radio-inline">                                    
+                                        <input type="radio" name="type">พนักงาน กสท / CAT Employee <br>                
+                                    </label>                                   
+                                </div>
+                                <div class="form-group col-lg-6">                               
+                                    <input class="form-control">                                
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">                       
+                                <div class="form-group col-lg-6">                       
+                                    <label class="radio-inline">                                    
+                                        <input type="radio" name="type">บุคคลทั่วไป / Other <br>                
+                                    </label>                                    
+                                </div>
+                            </div>
+                            <div class="col-lg-12">                       
+                                <div class="form-group col-lg-6"><br>
+                                    หมายเลขบัตรผ่านอาคาร / Visitor Card NO.                                                               
+                                </div>
+                                <div class="form-group col-lg-6"><br>                               
+                                    <input class="form-control">                                
+                                </div>
+                            </div>
+                            <div class="col-lg-12">                       
+                                <div class="form-group col-lg-6">                           
+                                    หมายเลขบัตรผ่าน IDC / IDC Card NO.                                                               
+                                </div>                                                     
+                                <div class="form-group col-lg-3">                            
+                                    <input class="form-control">
+                                </div>
+                                <div class="form-group col-lg-1">  
+                                    Type
+                                </div>
+                                <div class="form-group col-lg-2">                            
+                                    <input class="form-control">
+                                </div>                           
+                            </div>
+                            <div class="col-lg-12">                       
+                                <div class="form-group col-lg-6">  
+                                    รหัสบัตรประชาชน / ID Card NO. / Passport ID                                                              
+                                </div>
+                                <div class="form-group col-lg-6">                           
+                                    <input class="form-control">                                
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col-lg-10">                       
-                            <div class="form-group col-lg-5">
-                                <label class="radio-inline">                                    
-                                    <input type="radio" name="type">พนักงาน กสท / CAT Employee <br>                
-                                </label>                                   
-                            </div>
-                            <div class="form-group col-lg-5">                               
-                                <input class="form-control">                                
+                        <div class="col-lg-3">
+                            <div class="col-lg-6 text-center">
+                                <img src = "" width="150" height="180" border="1">
                             </div>
                         </div>
 
-                        <div class="col-lg-10">                       
-                            <div class="form-group col-lg-5">                       
-                                <label class="radio-inline">                                    
-                                    <input type="radio" name="type">บุคคลทั่วไป / Other <br>                
-                                </label>                                    
-                            </div>
-                        </div>
-                        <div class="col-lg-10">                       
-                            <div class="form-group col-lg-5"><br>
-                                หมายเลขบัตรผ่านอาคาร / Visitor Card NO.                                                               
-                            </div>
-                            <div class="form-group col-lg-5"><br>                               
-                                <input class="form-control">                                
-                            </div>
-                        </div>
-                        <div class="col-lg-10">                       
-                            <div class="form-group col-lg-5">                           
-                                หมายเลขบัตรผ่าน IDC / IDC Card NO.                                                               
-                            </div>                                                     
-                            <div class="form-group col-lg-3">                            
-                                <input class="form-control">
-                            </div>
-                            <div class="form-group col-lg-1">  
-                                Type
-                            </div>
-                            <div class="form-group col-lg-1">                            
-                                <input class="form-control">
-                            </div>                           
-                        </div>
-                        <div class="col-lg-10">                       
-                            <div class="form-group col-lg-5">  
-                                รหัสบัตรประชาชน / ID Card NO. / Passport ID                                                              
-                            </div>
-                            <div class="form-group col-lg-5">                           
-                                <input class="form-control">                                
-                            </div>
 
-                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <div class="col-lg-12"><br><br>                       
                             <div class="form-group col-lg-1">  
                                 ชื่อ/Name                                                              
