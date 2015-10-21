@@ -86,7 +86,7 @@ switch ($p) {
         $page['file'] = "../resource/viewIP.php";
         $page['name'] = "IP Address";
         break;
-     case "viewPort":
+    case "viewPort":
         $page['file'] = "../resource/viewPort.php";
         $page['name'] = "Ports";
         break;
@@ -98,7 +98,9 @@ switch ($p) {
         $page['file'] = "../EntryIDC/entryBeforePrint.php";
         $page['name'] = "Print Entry IDC";
         break;
-    
-    default : $page = "error404.php";
+
+    default :
+        $page['file'] = "../error404.php";
+        $page['name'] = "ERROR 404";
         break;
 }

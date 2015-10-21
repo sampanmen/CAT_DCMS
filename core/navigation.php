@@ -249,25 +249,34 @@
                             <a href="?p=serviceHome">Packages</a>
                         </li>
                         <li>
-                            <a href="?p=entryIDCShow">IDC Entry</a>
-                        </li>
-                        <li>
                             <a href="?p=searchCustomer">Search Customer</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
-<!--                <li>
-                    <a href=""><i class="fa fa-tasks fa-fw"></i> Ticket<span class="fa arrow"></span></a>
+                <li>
+                    <a href=""><i class="fa fa-users fa-fw"></i> Entry IDC<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">All Tickets</a>
+                            <a href="?p=entryIDCShow">Show IDC Entry</a>
                         </li>
                         <li>
-                            <a href="#">My Tickets</a>
+                            <a href="?p=entryIDCHistory">Entry IDC History</a>
                         </li>
                     </ul>
-                </li>-->
+                    <!-- /.nav-second-level -->
+                </li>
+                <!--                <li>
+                                    <a href=""><i class="fa fa-tasks fa-fw"></i> Ticket<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="#">All Tickets</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">My Tickets</a>
+                                        </li>
+                                    </ul>
+                                </li>-->
                 <li>
                     <a href=""><i class="fa fa-cubes fa-fw"></i> Resource<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
