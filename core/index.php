@@ -35,6 +35,9 @@
         <!-- Custom Fonts -->
         <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+        <!-- DateTime Picker -->
+        
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -62,6 +65,9 @@
         <!--DataTables JavaScript--> 
         <script src="../bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
         <script src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+        <!-- DateTime Picker -->
+        <script src="../bower_components/datetimepicker/js/datetimepicker_css.js"></script>
 
     </head>
 

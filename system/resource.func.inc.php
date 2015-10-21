@@ -350,6 +350,38 @@ function getRacks() {
     return $resultArr;
 }
 
+function getRackByCusID($cusID) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "`ResourceRackID`, "
+            . "`Zone`, "
+            . "`Position`, "
+            . "`SubPosition`, "
+            . "`RackType`, "
+            . "`RackSize`, "
+            . "`EnableResourceRack`, "
+            . "`OrderDetailID`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`CreateBy`, "
+            . "`UpdateBy`, "
+            . "`OrderID`, "
+            . "`PackageID`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_rack` "
+            . "WHERE `CustomerID`= :cusID ";
+//    echo $SQLCommand;
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":cusID" => $cusID));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
 function getRackValue($rackType) {
     global $connection;
     dbconnect();
@@ -488,7 +520,7 @@ function assignRack($rackID, $orderDetailID, $personID) {
     dbconnect();
     $SQLCommand = "UPDATE `resource_rack` SET `OrderDetailID`= :orderDetailID ,`UpdateBy`= :personID "
             . "WHERE `ResourceRackID` = :rackID";
-    echo $SQLCommand;
+//    echo $SQLCommand;
     $SQLPrepare = $connection->prepare($SQLCommand);
     $SQLPrepare->execute(array(":rackID" => $rackID, ":orderDetailID" => $orderDetailID, ":personID" => $personID));
 

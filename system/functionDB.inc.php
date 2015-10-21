@@ -142,7 +142,7 @@ function getContactByCustomer($cusID) {
     dbconnect();
     $SQLCommand = "SELECT "
             . "`PersonID`, `Fname`, `Lname`, `Phone`, `Email`, "
-            . "`CustomerID`, `Password`, `CatEmpID`, `IDCard`, `TypePerson`, "
+            . "`CustomerID`, `Password`, `CatEmpID`, `IDCard`, `IDCCard`, `IDCCardType`, `TypePerson`, "
             . "`Position` FROM `cus_person` "
             . "WHERE `CustomerID` = :cusID AND `PersonStatus` = 'active' "
             . "ORDER BY `cus_person`.`TypePerson` ASC";
@@ -153,6 +153,36 @@ function getContactByCustomer($cusID) {
         array_push($resultArr, $result);
     }
     return $resultArr;
+}
+
+function getContactByPersonID($personID_) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "SELECT "
+            . "`cusID`, "
+            . "`prefixID`, "
+            . "`cusStatus`, "
+            . "`cusName`, "
+            . "`cusType`, "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`Password`, "
+            . "`CatEmpID`, "
+            . "`IDCard`, "
+            . "`IDCCard`, "
+            . "`IDCCardType`, "
+            . "`TypePerson`, "
+            . "`Position`, "
+            . "`PersonStatus` "
+            . "FROM `view_contact` "
+            . "WHERE `PersonID`= :personID_";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":personID_" => $personID_));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
 }
 
 function addPackage($name, $detail, $type, $category, $status, $ip, $port, $rack, $service, $personID) {
