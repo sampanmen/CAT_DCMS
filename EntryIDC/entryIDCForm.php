@@ -5,12 +5,13 @@ $contactID = isset($_GET['contactID']) ? $_GET['contactID'] : "-1";
 
 $getContact = getContactByPersonID($contactID);
 $getCusRack = getRackByCusID($getContact['cusID']);
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
+//echo "<pre>";
+//print_r($_POST);
+//echo "</pre>";
 ?>
+<p><a href="?">Home</a> > <b>Entry IDC</b></p>
 <div class="row">
-    <form method="POST" action="">
+    <form method="POST" action="../EntryIDC/action/entryIDC.action.php?para=addEntryIDC">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -27,7 +28,8 @@ echo "</pre>";
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input class="form-control" name="cusID" value="<?php printf("%05d", $getContact['cusID']); ?>">                                
+                                    <input class="form-control" name="cusID" value="<?php printf("%05d", $getContact['cusID']); ?>">
+                                    <input type="hidden" name="conID" value="<?php echo $getContact['PersonID']; ?>">
                                 </div>
                             </div>
                             <div class="col-lg-12">                       
@@ -226,7 +228,6 @@ echo "</pre>";
                                         }
                                     </script>
                                 </table>
-                                <button type="submit">test</button>
                             </div>
                         </div>
                     </div>
@@ -367,8 +368,8 @@ echo "</pre>";
                     <!-- /.panel-body -->
                 </div>
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary">CANCLE</button>
-                    <a class="btn btn-primary" href="?p=entryBeforePrint" target="_blank">Save</a>
+                    <button type="reset" class="btn btn-primary">Reset</button>
+                    <button type="submit" class="btn btn-primary">Save</button>>
                     <br><br>
                 </div>
                 <!-- /.panel -->
