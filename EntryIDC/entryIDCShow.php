@@ -4,7 +4,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <label>
-                    Entry <a href="?p=entryIDCSearch">(Add)</a>
+                    Entry <a href="../EntryIDC/modal_entryIDC.php" data-toggle="modal" data-target="#myModal-lg">(Add)</a>
                 </label>               
             </div>
             <!-- /.panel-heading -->
