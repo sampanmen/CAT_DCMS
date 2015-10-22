@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2015 at 10:02 AM
+-- Generation Time: Oct 22, 2015 at 03:46 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `cus_customer` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `cus_item` (
   `RackID` int(11) DEFAULT NULL,
   `TimeIn` datetime DEFAULT NULL,
   `TimeOut` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `cus_order` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `cus_order_bundle_network` (
 `orderBundleNetworkID` int(11) NOT NULL,
   `OrderID` int(11) DEFAULT NULL,
   `BundleNetwork` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `cus_order_detail` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -156,11 +156,13 @@ CREATE TABLE IF NOT EXISTS `cus_person` (
   `CustomerID` int(11) DEFAULT NULL,
   `Password` varchar(45) DEFAULT NULL,
   `CatEmpID` varchar(45) DEFAULT NULL,
-  `IDCard` int(11) DEFAULT NULL,
+  `IDCard` varchar(45) DEFAULT NULL,
+  `IDCCard` varchar(45) DEFAULT NULL,
+  `IDCCardType` varchar(5) DEFAULT NULL,
   `TypePerson` varchar(45) DEFAULT NULL COMMENT 'staff\ncontact\nsubcontact\nvisitor',
   `Position` varchar(45) DEFAULT NULL,
   `PersonStatus` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -170,20 +172,22 @@ CREATE TABLE IF NOT EXISTS `cus_person` (
 
 DROP TABLE IF EXISTS `entry_idc`;
 CREATE TABLE IF NOT EXISTS `entry_idc` (
-  `EntryIDCID` int(11) NOT NULL,
+`EntryIDCID` int(11) NOT NULL,
   `PersonID` int(11) DEFAULT NULL,
   `VisitorCardID` varchar(45) DEFAULT NULL,
-  `IDCCardID` varchar(45) DEFAULT NULL,
+  `IDCard` varchar(45) DEFAULT NULL,
+  `IDCCard` varchar(45) DEFAULT NULL,
   `IDCCardType` varchar(45) DEFAULT NULL,
+  `EmpID` varchar(45) DEFAULT NULL,
   `TimeIn` datetime DEFAULT NULL,
   `TimeOut` datetime DEFAULT NULL,
-  `Purpose` varchar(150) DEFAULT NULL,
+  `Purpose` varchar(255) DEFAULT NULL,
   `InternetAccount` varchar(45) DEFAULT NULL,
   `DateTimeCreate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -196,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `entry_idc_zone` (
 `EntryIDCZoneID` int(11) NOT NULL,
   `EntryIDCID` int(11) DEFAULT NULL,
   `Zone` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -282,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `resource_switch` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -303,7 +307,7 @@ CREATE TABLE IF NOT EXISTS `resource_switch_port` (
   `DateTimeUpdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -316,7 +320,7 @@ CREATE TABLE IF NOT EXISTS `resource_switch_vlan` (
 `VlanID` int(11) NOT NULL,
   `VlanNumber` int(11) NOT NULL,
   `SwitchID` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -347,6 +351,62 @@ CREATE TABLE IF NOT EXISTS `ticket_event` (
   `TicketEvent` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_contact`
+--
+DROP VIEW IF EXISTS `view_contact`;
+CREATE TABLE IF NOT EXISTS `view_contact` (
+`cusID` int(11)
+,`prefixID` varchar(45)
+,`cusStatus` varchar(45)
+,`cusName` varchar(45)
+,`cusType` varchar(45)
+,`PersonID` int(11)
+,`Fname` varchar(45)
+,`Lname` varchar(45)
+,`Phone` varchar(45)
+,`Email` varchar(45)
+,`Password` varchar(45)
+,`CatEmpID` varchar(45)
+,`IDCard` varchar(45)
+,`IDCCard` varchar(45)
+,`IDCCardType` varchar(5)
+,`TypePerson` varchar(45)
+,`Position` varchar(45)
+,`PersonStatus` varchar(45)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_entry_idc`
+--
+DROP VIEW IF EXISTS `view_entry_idc`;
+CREATE TABLE IF NOT EXISTS `view_entry_idc` (
+`CustomerID` int(11)
+,`CustomerName` varchar(45)
+,`BusinessType` varchar(45)
+,`PersonID` int(11)
+,`Fname` varchar(45)
+,`Lname` varchar(45)
+,`EntryIDCID` int(11)
+,`EmpID` varchar(45)
+,`Phone` varchar(45)
+,`Email` varchar(45)
+,`VisitorCardID` varchar(45)
+,`IDCard` varchar(45)
+,`IDCCard` varchar(45)
+,`IDCCardType` varchar(45)
+,`TimeIn` datetime
+,`TimeOut` datetime
+,`Purpose` varchar(255)
+,`InternetAccount` varchar(45)
+,`DateTimeCreate` timestamp
+,`DateTimeUpdate` timestamp
+,`CreateBy` int(11)
+,`UpdateBy` int(11)
+);
 -- --------------------------------------------------------
 
 --
@@ -472,6 +532,35 @@ CREATE TABLE IF NOT EXISTS `view_switch_port` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `view_switch_port_balance`
+--
+DROP VIEW IF EXISTS `view_switch_port_balance`;
+CREATE TABLE IF NOT EXISTS `view_switch_port_balance` (
+`ResourceSwitchID` int(11)
+,`SwitchName` varchar(45)
+,`balance` decimal(23,0)
+);
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_contact`
+--
+DROP TABLE IF EXISTS `view_contact`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_contact` AS select `cus_customer`.`CustomerID` AS `cusID`,`cus_customer`.`PrefixID` AS `prefixID`,`cus_customer`.`CustomerStatus` AS `cusStatus`,`cus_customer`.`CustomerName` AS `cusName`,`cus_customer`.`BusinessType` AS `cusType`,`cus_person`.`PersonID` AS `PersonID`,`cus_person`.`Fname` AS `Fname`,`cus_person`.`Lname` AS `Lname`,`cus_person`.`Phone` AS `Phone`,`cus_person`.`Email` AS `Email`,`cus_person`.`Password` AS `Password`,`cus_person`.`CatEmpID` AS `CatEmpID`,`cus_person`.`IDCard` AS `IDCard`,`cus_person`.`IDCCard` AS `IDCCard`,`cus_person`.`IDCCardType` AS `IDCCardType`,`cus_person`.`TypePerson` AS `TypePerson`,`cus_person`.`Position` AS `Position`,`cus_person`.`PersonStatus` AS `PersonStatus` from (`cus_person` join `cus_customer` on((`cus_person`.`CustomerID` = `cus_customer`.`CustomerID`)));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_entry_idc`
+--
+DROP TABLE IF EXISTS `view_entry_idc`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_entry_idc` AS select `cus_customer`.`CustomerID` AS `CustomerID`,`cus_customer`.`CustomerName` AS `CustomerName`,`cus_customer`.`BusinessType` AS `BusinessType`,`cus_person`.`PersonID` AS `PersonID`,`cus_person`.`Fname` AS `Fname`,`cus_person`.`Lname` AS `Lname`,`entry_idc`.`EntryIDCID` AS `EntryIDCID`,`entry_idc`.`EmpID` AS `EmpID`,`cus_person`.`Phone` AS `Phone`,`cus_person`.`Email` AS `Email`,`entry_idc`.`VisitorCardID` AS `VisitorCardID`,`entry_idc`.`IDCard` AS `IDCard`,`entry_idc`.`IDCCard` AS `IDCCard`,`entry_idc`.`IDCCardType` AS `IDCCardType`,`entry_idc`.`TimeIn` AS `TimeIn`,`entry_idc`.`TimeOut` AS `TimeOut`,`entry_idc`.`Purpose` AS `Purpose`,`entry_idc`.`InternetAccount` AS `InternetAccount`,`entry_idc`.`DateTimeCreate` AS `DateTimeCreate`,`entry_idc`.`DateTimeUpdate` AS `DateTimeUpdate`,`entry_idc`.`CreateBy` AS `CreateBy`,`entry_idc`.`UpdateBy` AS `UpdateBy` from ((`entry_idc` join `cus_person` on((`entry_idc`.`PersonID` = `cus_person`.`PersonID`))) join `cus_customer` on((`cus_customer`.`CustomerID` = `cus_person`.`CustomerID`)));
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view `view_ip`
 --
 DROP TABLE IF EXISTS `view_ip`;
@@ -522,6 +611,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `
 DROP TABLE IF EXISTS `view_switch_port`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_switch_port` AS select `resource_switch_port`.`ResourceSwitchPortID` AS `ResourceSwitchPortID`,`resource_switch_port`.`ResourceSwitchID` AS `ResourceSwitchID`,`resource_switch_port`.`PortNumber` AS `PortNumber`,`resource_switch_port`.`PortType` AS `PortType`,`resource_switch_port`.`Uplink` AS `Uplink`,`resource_switch_port`.`EnableResourcePort` AS `EnableResourcePort`,`resource_switch_port`.`OrderDetailID` AS `OrderDetailID`,`resource_switch_port`.`DateTimeCreate` AS `DateTimeCreate`,`resource_switch_port`.`DateTimeUpdate` AS `DateTimeUpdate`,`resource_switch_port`.`CreateBy` AS `CreateBy`,`resource_switch_port`.`UpdateBy` AS `UpdateBy`,`resource_switch`.`SwitchName` AS `SwitchName`,`resource_switch`.`SwitchIP` AS `SwitchIP`,`resource_switch`.`TotalPort` AS `TotalPort`,`resource_switch`.`SnmpCommuPublic` AS `SnmpCommuPublic`,`resource_switch`.`SwitchType` AS `SwitchType`,`resource_switch`.`EnableResourceSW` AS `EnableResourceSW`,`cus_order_detail`.`OrderID` AS `OrderID`,`cus_customer`.`CustomerID` AS `CustomerID`,`cus_customer`.`CustomerName` AS `CustomerName` from ((((`resource_switch` left join `resource_switch_port` on((`resource_switch`.`ResourceSwitchID` = `resource_switch_port`.`ResourceSwitchID`))) left join `cus_order_detail` on((`cus_order_detail`.`OrderDetailID` = `resource_switch_port`.`OrderDetailID`))) left join `cus_order` on((`cus_order`.`OrderID` = `cus_order_detail`.`OrderID`))) left join `cus_customer` on((`cus_customer`.`CustomerID` = `cus_order`.`CustomerID`)));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_switch_port_balance`
+--
+DROP TABLE IF EXISTS `view_switch_port_balance`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`cat`@`localhost` SQL SECURITY DEFINER VIEW `view_switch_port_balance` AS select `resource_switch_port`.`ResourceSwitchID` AS `ResourceSwitchID`,`resource_switch`.`SwitchName` AS `SwitchName`,sum((case when isnull(`resource_switch_port`.`OrderDetailID`) then 1 else 0 end)) AS `balance` from (`resource_switch_port` join `resource_switch` on((`resource_switch_port`.`ResourceSwitchID` = `resource_switch`.`ResourceSwitchID`))) where (`resource_switch_port`.`Uplink` = 0) group by `resource_switch_port`.`ResourceSwitchID` order by `resource_switch_port`.`ResourceSwitchID`;
 
 --
 -- Indexes for dumped tables
@@ -637,27 +735,27 @@ ALTER TABLE `ticket_event`
 -- AUTO_INCREMENT for table `cus_customer`
 --
 ALTER TABLE `cus_customer`
-MODIFY `CustomerID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `CustomerID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `cus_item`
 --
 ALTER TABLE `cus_item`
-MODIFY `ItemID` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `ItemID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `cus_order`
 --
 ALTER TABLE `cus_order`
-MODIFY `OrderID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `OrderID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `cus_order_bundle_network`
 --
 ALTER TABLE `cus_order_bundle_network`
-MODIFY `orderBundleNetworkID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `orderBundleNetworkID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `cus_order_detail`
 --
 ALTER TABLE `cus_order_detail`
-MODIFY `OrderDetailID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `OrderDetailID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `cus_package`
 --
@@ -667,12 +765,17 @@ MODIFY `PackageID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 -- AUTO_INCREMENT for table `cus_person`
 --
 ALTER TABLE `cus_person`
-MODIFY `PersonID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `PersonID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
+--
+-- AUTO_INCREMENT for table `entry_idc`
+--
+ALTER TABLE `entry_idc`
+MODIFY `EntryIDCID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `entry_idc_zone`
 --
 ALTER TABLE `entry_idc_zone`
-MODIFY `EntryIDCZoneID` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `EntryIDCZoneID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=67;
 --
 -- AUTO_INCREMENT for table `resource_ip`
 --
@@ -692,14 +795,14 @@ MODIFY `ResourceServiceID` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `resource_switch`
 --
 ALTER TABLE `resource_switch`
-MODIFY `ResourceSwitchID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `ResourceSwitchID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `resource_switch_port`
 --
 ALTER TABLE `resource_switch_port`
-MODIFY `ResourceSwitchPortID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=51;
+MODIFY `ResourceSwitchPortID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=67;
 --
 -- AUTO_INCREMENT for table `resource_switch_vlan`
 --
 ALTER TABLE `resource_switch_vlan`
-MODIFY `VlanID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `VlanID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
