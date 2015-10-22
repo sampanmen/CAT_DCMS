@@ -6,15 +6,16 @@
  * and open the template in the editor.
  */
 
-function addEntryIDC($contactID, $VisitorCardID, $IDCard, $IDCCard, $IDCCardType, $TimeIn, $Purpose, $InternetAccount, $personID, $itemsArr, $zoneArr) {
+function addEntryIDC($contactID, $EmpID, $VisitorCardID, $IDCard, $IDCCard, $IDCCardType, $TimeIn, $Purpose, $InternetAccount, $personID, $itemsArr, $zoneArr) {
     $con = dbconnect();
-    $SQLCommand = "INSERT INTO `entry_idc`(`PersonID`, `VisitorCardID`, `IDCard`, `IDCCard`, `IDCCardType`, `TimeIn`, `Purpose`, `InternetAccount`,  `CreateBy`, `UpdateBy`) "
-            . "VALUES (:contactID, :VisitorCardID, :IDCard, :IDCCard, :IDCCardType, :TimeIn, :Purpose, :InternetAccount,  :personID, :personID)";
+    $SQLCommand = "INSERT INTO `entry_idc`(`PersonID`, `VisitorCardID`, `IDCard`, `IDCCard`, `IDCCardType`, `EmpID`, `TimeIn`, `Purpose`, `InternetAccount`,  `CreateBy`, `UpdateBy`) "
+            . "VALUES (:contactID, :VisitorCardID, :IDCard, :IDCCard, :IDCCardType, :EmpID, :TimeIn, :Purpose, :InternetAccount,  :personID, :personID)";
     $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":contactID" => $contactID, ":VisitorCardID" => $VisitorCardID, ":IDCard" => $IDCard, ":IDCCard" => $IDCCard, ":IDCCardType" => $IDCCardType, ":TimeIn" => $TimeIn, ":Purpose" => $Purpose, ":InternetAccount" => $InternetAccount, ":personID" => $personID));
+    $SQLPrepare->execute(array(":contactID" => $contactID, "EmpID" => $EmpID, ":VisitorCardID" => $VisitorCardID, ":IDCard" => $IDCard, ":IDCCard" => $IDCCard, ":IDCCardType" => $IDCCardType, ":TimeIn" => $TimeIn, ":Purpose" => $Purpose, ":InternetAccount" => $InternetAccount, ":personID" => $personID));
     if ($SQLPrepare->rowCount() > 0) {
         $EntryIDC_ID = $con->lastInsertId();
 //        echo "entryIDC_ID=" . $EntryIDC_ID . "<br>";
+        updateContact($contactID, $EmpID, $IDCard, $IDCCard, $IDCCardType);
         addEntryIDCArea($EntryIDC_ID, $zoneArr);
         addEntryIDCItem($EntryIDC_ID, $itemsArr, $TimeIn);
         return $EntryIDC_ID;
@@ -55,4 +56,97 @@ function addEntryIDCItem($EntryIDC_ID, $itemsArr, $TimeIn) {
         return true;
     } else
         return false;
+}
+
+function updateContact($contactID, $EmpID, $IDCard, $IDCCard, $IDCCardType) {
+    $con = dbconnect();
+    $SQLCommand = "UPDATE `cus_person` SET "
+            . "`CatEmpID`=:EmpID,"
+            . "`IDCard`=:IDCard,"
+            . "`IDCCard`=:IDCCard,"
+            . "`IDCCardType`=:IDCCardType "
+            . "WHERE `PersonID`= :contactID";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":contactID" => $contactID, ":EmpID" => $EmpID, ":IDCard" => $IDCard, ":IDCCard" => $IDCCard, ":IDCCardType" => $IDCCardType));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+function getEntryIDCNow() {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`CustomerID`, "
+            . "`CustomerName`, "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`EntryIDCID`, "
+            . "`TimeIn` "
+            . "FROM `view_entry_idc` "
+            . "WHERE `TimeOut` IS NULL "
+            . "ORDER BY `TimeIn` DESC";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function checkOut($entryID) {
+    $con = dbconnect();
+    $SQLCommand = "UPDATE `entry_idc` SET `TimeOut` = NOW() WHERE `entry_idc`.`EntryIDCID` = :entryID";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":entryID" => $entryID));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+function getEntryByID($entryID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`CustomerID`, "
+            . "`CustomerName`, "
+            . "`BusinessType`, "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`EntryIDCID`, "
+            . "`VisitorCardID`, "
+            . "`IDCard`, "
+            . "`IDCCard`, "
+            . "`IDCCardType`, "
+            . "`EmpID`, "
+            . "DATE(`TimeIn`) AS `DateIn`, "
+            . "TIME(`TimeIn`) AS `TimeIn`, "
+            . "DATE(`TimeOut`) AS `TimeOut`, "
+            . "TIME(`TimeOut`) AS `TimeOut`, "
+            . "`Purpose`, "
+            . "`InternetAccount` "
+            . "FROM `view_entry_idc` "
+            . "WHERE `EntryIDCID`= :entryID";
+//    echo $SQLCommand;
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":entryID" => $entryID));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function getEntryZone($entryID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT `EntryIDCZoneID`, `EntryIDCID`, `Zone` FROM `entry_idc_zone` WHERE `EntryIDCID`= :entryID";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":entryID" => $entryID));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
 }

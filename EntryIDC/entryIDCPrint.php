@@ -10,6 +10,10 @@
 
         <!-- Bootstrap Core CSS -->
         <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- jQuery -->
+        <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="../bower_components/jquery/dist/jQuery.print.js"></script>
         <style>
             @font-face {
                 font-family: 'THSarabunNewRegular';
@@ -129,12 +133,6 @@
 
             </div>
 
-
-
-
-
-
-
             <div class="row">
                 <div class="col-lg-12">                   
                     <div class="panel panel-default">
@@ -196,11 +194,6 @@
                             </div>
                             <!-- /.table-responsive -->
                         </div>
-
-
-
-
-
                         <!-- /.row (nested) -->
                     </div> 
 
@@ -218,7 +211,6 @@
                             <div class="col-print-3">                           
                                 <p>thidarat.c@outlook.com</p>                               
                             </div>
-
                         </div>
                         <div class="col-lg-12">                      
                             <div class="col-print-3">  
@@ -257,24 +249,10 @@
                         <p><b>
                                 สำหรับเจ้าหน้าที่ (For Staff Only)</b>
                         </p>
-                    </div> 
-
+                    </div>
                 </div>
             </div>
             <!-- /.panel-body -->
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             <!--เจ้าหน้าที่-->
             <div class="row">
@@ -293,9 +271,7 @@
                                 <div class="col-print-7">                                
                                     <p>(Username:.......................................................Password:..................................................)</p>     
                                 </div>
-
                             </div>
-
                             <!--IDC-->
                             <div class="col-print-12">                     
                                 <div class="col-print-1">                               
@@ -357,8 +333,6 @@
                                     <p>[_] Temp Office</p>
                                 </div>  
                             </div>
-
-
                         </div>
                         <!-- /.row (nested) -->
                     </div>
@@ -387,19 +361,23 @@
 
             </div>
         </div>
-        <script type="text/javascript">
-            function printDiv(divName) {
-                var printContents = document.getElementById(divName).innerHTML;
-                var originalContents = document.body.innerHTML;
 
-                document.body.innerHTML = printContents;
-                window.print();
-
-                document.body.innerHTML = originalContents;
-            }
-        </script>
         <div class="text-center">
-            <input type="button" value="Print" onClick='printDiv("print_out")'>
+            <input type="button" value="Print" id="printHere">
         </div>
+        <script type="text/javascript">
+            $("#printHere").click(function () {
+                $("#print_out").print();
+            });
+//            function printDiv(divName) {
+//                var printContents = document.getElementById(divName).innerHTML;
+//                var originalContents = document.body.innerHTML;
+//
+//                document.body.innerHTML = printContents;
+//                window.print();
+//
+//                document.body.innerHTML = originalContents;
+//            }
+        </script>
     </body>
 </html>

@@ -43,11 +43,19 @@ if ($para == "addEntryIDC") {
     $area = $_POST['area'];
     $datetime = $_POST['datetime'];
 
-    $res = addEntryIDC($conID, $visitCard, $IDCard, $IDCCard, $IDCCardType, $datetime, $purpose, $internetJson, $personID, $items, $area);
+    $res = addEntryIDC($conID, $EmpID, $visitCard, $IDCard, $IDCCard, $IDCCardType, $datetime, $purpose, $internetJson, $personID, $items, $area);
 
     if ($res > 0) {
-        header("Location: ../../core/?p=entryBeforePrint&entryID=" . $res . "&para=addEntrySuccess");
+        header("Location: ../../core/?p=entryBeforePrint&entryID=" . $res . "&contactID=" . $conID . "&para=addEntrySuccess");
     } else {
         header("Location: ../../core/?p=entryIDCForm&contactID=" . $conID . "&para=addEntryError");
+    }
+} else if ($para == "checkOut") {
+    $entryID = $_GET['entryID'];
+    $res = checkOut($entryID);
+    if ($res) {
+        echo "1";
+    } else {
+        echo "0";
     }
 }

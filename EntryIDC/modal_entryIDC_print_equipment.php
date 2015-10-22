@@ -1,85 +1,79 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
+<!-- jQuery -->
+<script src="../bower_components/jquery/dist/jQuery.print.js"></script>
+<style>
+    @font-face {
+        font-family: 'THSarabunNewRegular';
+        src: url('../font/THSarabunNew/thsarabunnew.eot');
+        src: url('../font/THSarabunNew/thsarabunnew.eot') format('embedded-opentype'),
+            url('../font/THSarabunNew/thsarabunnew.woff') format('woff'),
+            url('../font/THSarabunNew/thsarabunnew.ttf') format('truetype'),
+            url('../font/THSarabunNew/thsarabunnew.svg#THSarabunNewRegular') format('svg');
+    }
 
-        <title>Print Entry Form - DCMS</title>
-
-        <!-- Bootstrap Core CSS -->
-        <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            @font-face {
-                font-family: 'THSarabunNewRegular';
-                src: url('../font/THSarabunNew/thsarabunnew.eot');
-                src: url('../font/THSarabunNew/thsarabunnew.eot') format('embedded-opentype'),
-                    url('../font/THSarabunNew/thsarabunnew.woff') format('woff'),
-                    url('../font/THSarabunNew/thsarabunnew.ttf') format('truetype'),
-                    url('../font/THSarabunNew/thsarabunnew.svg#THSarabunNewRegular') format('svg');
-            }
-
-            body {
-                font-family: THSarabunNewRegular;
-                font-size: 1.5em;
-                line-height: 0.75em;
-            }
+    #print_out {
+        font-family: THSarabunNewRegular;
+        font-size: 1.5em;
+        line-height: 0.75em;
+    }
 
 
-            .underline1 {
-                width: 80%;
-                padding: 0px;
-                border: 1px;
-                border-color: #a7b5ce;
-                border-style: none none dotted none;
-                margin: 0;
-            }
-            .ddd {
-                padding: 40px 0px 0px 0px;
-                border: 0px;
-                border-color: #a7b5ce;
-                border-style: none none dotted none;
-                margin: 0;
-            }
-            .ddd1 {
-                padding: 0px 0px 20px 0px;
-                border: 0px;
-                border-color: #a7b5ce;
-                border-style: none none dotted none;
-                margin: 0;
-            }
-            .ddd2 {
-                padding: 0px 0px 40px 0px;
-                border: 0px;
-                border-color: #a7b5ce;
-                border-style: none none dotted none;
-                margin: 0;
-            }
-            .ddd3 {
-                padding: 20px 0px 0px 0px;
-                border: 0px;
-                border-color: #a7b5ce;
-                border-style: none none dotted none;
-                margin: 0;
-            }
+    .underline1 {
+        width: 80%;
+        padding: 0px;
+        border: 1px;
+        border-color: #a7b5ce;
+        border-style: none none dotted none;
+        margin: 0;
+    }
+    .ddd {
+        padding: 30px 0px 0px 0px;
+        border: 0px;
+        border-color: #a7b5ce;
+        border-style: none none dotted none;
+        margin: 0;
+    }
+    .ddd1 {
+        padding: 0px 0px 20px 0px;
+        border: 0px;
+        border-color: #a7b5ce;
+        border-style: none none dotted none;
+        margin: 0;
+    }
+    .ddd2 {
+        padding: 0px 0px 40px 0px;
+        border: 0px;
+        border-color: #a7b5ce;
+        border-style: none none dotted none;
+        margin: 0;
+    }
+    .ddd3 {
+        padding: 20px 0px 0px 0px;
+        border: 0px;
+        border-color: #a7b5ce;
+        border-style: none none dotted none;
+        margin: 0;
+    }
 
 
-            .col-print-1 {width:8%;  float:left;}
-            .col-print-2 {width:16%; float:left;}
-            .col-print-3 {width:25%; float:left;}
-            .col-print-4 {width:33%; float:left;}
-            .col-print-5 {width:42%; float:left;}
-            .col-print-6 {width:50%; float:left;}
-            .col-print-7 {width:58%; float:left;}
-            .col-print-8 {width:66%; float:left;}
-            .col-print-9 {width:75%; float:left;}
-            .col-print-10{width:83%; float:left;}
-            .col-print-11{width:92%; float:left;}
-            .col-print-12{width:100%; float:left;}
-        </style>
-    </head>
-    <body>
+    .col-print-1 {width:8%;  float:left;}
+    .col-print-2 {width:16%; float:left;}
+    .col-print-3 {width:25%; float:left;}
+    .col-print-4 {width:33%; float:left;}
+    .col-print-5 {width:42%; float:left;}
+    .col-print-6 {width:50%; float:left;}
+    .col-print-7 {width:58%; float:left;}
+    .col-print-8 {width:66%; float:left;}
+    .col-print-9 {width:75%; float:left;}
+    .col-print-10{width:83%; float:left;}
+    .col-print-11{width:92%; float:left;}
+    .col-print-12{width:100%; float:left;}
+</style>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="gridSystemModalLabel">Entry IDC</h4>
+</div>
+<div class="modal-body">
+    <div class="container-fluid">
         <div id="print_out">
             <div class="row">
                 <div class="col-lg-12">
@@ -107,10 +101,8 @@
                             </h4>
                         </div>
                     </div>
-
-
                 </div>
-
+                
                 <div class="col-lg-12 ddd">                             
                     <div class="col-lg-12">                       
                         <div class="col-print-12 text-right">  
@@ -129,12 +121,6 @@
                 </div>
 
             </div>
-
-
-
-
-
-
 
             <div class="row">
                 <div class="col-lg-12">                   
@@ -158,8 +144,6 @@
                                         <p> </p>
                                     </div>
                                 </div>
-
-
 
                                 <div class="col-print-12">                       
                                     <div class="col-print-8">
@@ -193,11 +177,6 @@
                             </div>
                             <!-- /.table-responsive -->
                         </div>
-
-
-
-
-
                         <!-- /.row (nested) -->
                     </div> 
 
@@ -215,7 +194,6 @@
                             <div class="col-print-3">                           
                                 <p>thidarat.c@outlook.com</p>                               
                             </div>
-
                         </div>
                         <div class="col-lg-12">                      
                             <div class="col-print-3">  
@@ -231,7 +209,6 @@
                                 <p>0869711277</p>                                
                             </div>
                         </div>
-
                     </div>
                     <div class="col-print-12 text-center ddd">                    
                         <p>
@@ -243,12 +220,9 @@
                             ( ธิดารัตน์  ช้างแก้ว )
                         </p>
                     </div>
-
-
                 </div>
             </div>
             <!-- /.panel-body -->
-
 
             <div>
                 <p><b>รายการอุปกรณ์ (Equipment)</b></p>
@@ -264,11 +238,9 @@
                             <th rowspan="2" width="30%" class=" text-center"><br>Serial No/Remake</th>
                             <th rowspan="2" width="10%" class=" text-center">Rack <br> Number</th>
                         </tr>
-
                         <tr>
-                            <TH>IN</TH><TH>OUT</TH>
-
-
+                            <th>IN</th>
+                            <th>OUT</th>
                         </tr>                                                     
                         <tr>
                             <td>เข้า</td>
@@ -293,29 +265,14 @@
                             <td>Roting</td>
                             <td>5520502978</td>
                             <td>112</td>
-                        </tr>         
-
+                        </tr>
                     </tbody>
                 </table>
-
-
-
             </div>
-
-
-
-
-
-
-
-
-
-
 
             <!--เจ้าหน้าที่-->
             <div class="row">
                 <div class="col-lg-12">
-
                     <div class="col-print-12 text-center ddd3 ">                    
                         <div class="col-print-6">                                
                             <p>เวลาเข้า...............................น.</p>    
@@ -325,10 +282,9 @@
                         </div>
                     </div>
 
-
                     <div class="col-print-12 text-center ddd">                    
                         <p class="col-print-6">
-                            ลงชื่อ (Sign)........................................................ เจ้าหน้าที่ 
+                            ลงชื่อ (Sign)........................................................ เจ้าหน้าที่
                         </p>
                         <p class="col-print-6">
                             ลงชื่อ (Sign)......................................................... เจ้าหน้าที่ตรวจสอบ 
@@ -339,33 +295,29 @@
                             ( ธิดารัตน์ ช้างแก้ว )
                         </p>
                         <div class="col-print-6  ddd1">  
-                            <p class="col-print-7 text-right">
+                            <p class="col-print-8 text-right">
                                 ( ธิดารัตน์ ช้างแก้ว )&nbsp;&nbsp;&nbsp;      
                             </p>
-                            <p class="col-print-3 text-left">
+                            <p class="col-print-4 text-left">
                                 วันที่..................
                             </p>
                         </div>
                     </div>
-
                     <!-- /.panel-body -->
                 </div>
-
             </div>
         </div>
-        <script type="text/javascript">
-            function printDiv(divName) {
-                var printContents = document.getElementById(divName).innerHTML;
-                var originalContents = document.body.innerHTML;
-
-                document.body.innerHTML = printContents;
-                window.print();
-
-                document.body.innerHTML = originalContents;
-            }
-        </script>
-        <div class="text-center">
-            <input type="button" value="Print" onClick='printDiv("print_out")'>
-        </div>
-    </body>
-</html>
+    </div>
+</div>
+<!--<div class="text-center">
+    <input type="button" class="btn btn-info btn-sm" value="Print" id="printHere">
+</div>-->
+<div class="modal-footer">
+    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+    <input type="button" class="btn btn-info" value="Print" id="printHere">
+</div>
+<script type="text/javascript">
+    $("#printHere").click(function () {
+        $("#print_out").print();
+    });
+</script>

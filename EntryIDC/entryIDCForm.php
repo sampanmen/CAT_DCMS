@@ -368,8 +368,8 @@ $getCusRack = getRackByCusID($getContact['cusID']);
                     <!-- /.panel-body -->
                 </div>
                 <div class="text-center">
-                    <button type="reset" class="btn btn-primary">Reset</button>
-                    <button type="submit" class="btn btn-primary">Save</button>>
+                    <button type="reset" class="btn btn-warning">Reset</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                     <br><br>
                 </div>
                 <!-- /.panel -->
