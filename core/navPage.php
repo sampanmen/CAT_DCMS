@@ -98,6 +98,10 @@ switch ($p) {
         $page['file'] = "../EntryIDC/entryBeforePrint.php";
         $page['name'] = "Print Entry IDC";
         break;
+    case "setting":
+        $page['file'] = "../admin/setting.php";
+        $page['name'] = "";
+        break;
 
     default :
         $page['file'] = "../error404.php";
