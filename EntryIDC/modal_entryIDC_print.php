@@ -262,7 +262,7 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                                 </p>
                             </div>
                             <div class="col-print-10">
-                                <p>[ <?php echo $internetAccount['user'] != "" ? "/" : "_"; ?> ] Internet Account  <?php if ($internetAccount['user'] != "") { ?>( Username: <?php echo $internetAccount['user']; ?> Password: <?php echo $internetAccount['pass']; ?> <?php } ?>)</p>    
+                                <p>[ <?php echo $internetAccount['user'] != "" ? "/" : "_"; ?> ] Internet Account  <?php if ($internetAccount['user'] != "") { ?>( Username: <?php echo $internetAccount['user']; ?> Password: <?php echo $internetAccount['pass'].")"; ?> <?php } ?></p>    
                             </div>
                             <!--IDC-->
                             <div class="col-print-12">

@@ -37,7 +37,7 @@ $getEntryIDCNow = getEntryIDCNow();
                                         <button type="button" onclick="if (confirm('Are you sure to Checkout.')) {
                                                         checkOut('<?php echo $value['EntryIDCID']; ?>');
                                                     }" class="btn btn-warning btn-sm">Out</button>
-                                        <button type="button" class="btn btn-info btn-sm">View</button>
+                                        <a class="btn btn-info btn-sm" href="?p=entryBeforePrint&entryID=<?php echo $value['EntryIDCID']; ?>">View</a>
                                     </td>
                                 </tr>
                             <?php } ?>

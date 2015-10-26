@@ -73,6 +73,40 @@ $summeryPort = getSummeryPort();
     </div>
 
     <div class="col-lg-6">
+        <!--Port-->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4><b>Port </b><a href="../resource/model_addPort.php" data-toggle="modal" data-target="#myModal">(Add)</a></h4>
+            </div>      
+
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables3">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Uplink</th>
+                                <th>Use</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($summeryPort as $value) {
+                                ?>
+                                <tr>
+                                    <td><?php echo "<a href='?p=viewPort&swID=" . $value['ResourceSwitchID'] . "'>" . $value['SwitchName'] . "</a>"; ?></td>
+                                    <td><?php echo $value['uplink']; ?></td>
+                                    <td><?php echo $value['use']; ?></td>
+                                    <td><?php echo $value['TotalPort']; ?></td>
+                                </tr>                                                     
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!--Servics-->
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -109,40 +143,6 @@ $summeryPort = getSummeryPort();
                 <!-- /.table-responsive -->
             </div>
             <!-- /.row (nested) -->
-        </div>
-
-        <!--Port-->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4><b>Port </b><a href="../resource/model_addPort.php" data-toggle="modal" data-target="#myModal">(Add)</a></h4>
-            </div>      
-
-            <div class="panel-body">
-                <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover" id="dataTables3">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Uplink</th>
-                                <th>Use</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            foreach ($summeryPort as $value) {
-                                ?>
-                                <tr>
-                                    <td><?php echo "<a href='?p=viewPort&swID=" . $value['ResourceSwitchID'] . "'>" . $value['SwitchName'] . "</a>"; ?></td>
-                                    <td><?php echo $value['uplink']; ?></td>
-                                    <td><?php echo $value['use']; ?></td>
-                                    <td><?php echo $value['TotalPort']; ?></td>
-                                </tr>                                                     
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
 </div>
