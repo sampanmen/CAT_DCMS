@@ -1,42 +1,34 @@
 <?php
 
 // function DB
-function addCustomer($PrefixID, $status, $CustomerName, $bisstype, $Email, $Phone, $Fax, $Address, $Township, $City, $Province, $Zipcode, $Country, $user) {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "INSERT INTO `cus_customer` (`PrefixID`, `CustomerStatus`, "
-            . "`CustomerName`, `BusinessType`, `Email`, `Phone`, `Fax`, `Address`, "
-            . "`Township`, `City`, `Province`, `Zipcode`, `Country`, `DateTimeCreate`, "
-            . "`DateTimeUpdate`, `CreateBy`, `UpdateBy`) "
-            . "VALUES (:prefix, :status, :name, :type, :email, :phone, :fax, "
-            . ":address, :township, :city, :province, :zipcode, :country, "
-            . "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, :user, :user);";
+function addCustomer($CustomerStatus, $CustomerName, $BusinessTypeID, $Email, $Phone, $Fax, $Address, $Township, $City, $Province, $Zipcode, $Country, $PersonID) {
+    $conn = dbconnect();
+    $SQLCommand = "INSERT INTO `customer`"
+            . "(`CustomerStatus`,`CustomerName`,`BusinessTypeID`,`Email`,`Phone`,`Fax`,`Address`,"
+            . "`Township`,`City`,`Province`,`Zipcode`,`Country`,`CreateBy`,`UpdateBy`) "
+            . "VALUES "
+            . "(:CustomerStatus, :CustomerName, :BusinessTypeID, :Email, :Phone, :Fax, :Address, "
+            . ":Township, :City, :Province, :Zipcode, :Country, :CreateBy, :UpdateBy)";
 
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":prefix" => $PrefixID, ":status" => $status,
-        ":name" => $CustomerName, ":type" => $bisstype, ":email" => $Email,
-        ":phone" => $Phone, ":fax" => $Fax, ":address" => $Address,
-        ":township" => $Township, ":city" => $City, ":province" => $Province,
-        ":zipcode" => $Zipcode, ":country" => $Country, ":user" => $user));
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array("CustomerStatus" => $CustomerStatus, "CustomerName" => $CustomerName,
+        "BusinessTypeID" => $BusinessTypeID, "Email" => $Email, "Phone" => $Phone, "Fax" => $Fax,
+        "Address" => $Address, "Township" => $Township, "City" => $City, "Province" => $Province,
+        "Zipcode" => $Zipcode, "Country" => $Country, "CreateBy" => $PersonID, "UpdateBy" => $PersonID));
 
-    if ($SQLPrepare->rowCount()) {
-        $cusID = $connection->lastInsertId();
+    if ($SQLPrepare->rowCount() > 0) {
+        $cusID = $conn->lastInsertId();
         return $cusID;
     } else {
+        echo $SQLCommand;
         return false;
     }
 }
 
 function getCustomers() {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "SELECT "
-            . "`CustomerID`, `PrefixID`, `CustomerStatus`, `CustomerName`, "
-            . "`BusinessType`, `Email`, `Phone`, `Fax`, `Address`, `Township`, "
-            . "`City`, `Province`, `Zipcode`, `Country`, `DateTimeCreate`, "
-            . "`DateTimeUpdate`, `CreateBy`, `UpdateBy` "
-            . "FROM `cus_customer`";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $conn = dbconnect();
+    $SQLCommand = "SELECT `CustomerID`, `CustomerStatus`, `CustomerName`, `Email`, `Phone`, `Fax`, `Address`, `Township`, `City`, `Province`, `Zipcode`, `Country`, `BusinessTypeID`, `BusinessType`, `CreateDateTime`, `UpdateDateTime`, `CreateBy`, `UpdateBy` FROM `view_customer`";
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
@@ -46,63 +38,115 @@ function getCustomers() {
 }
 
 function getCustomer($cusID) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "SELECT "
-            . "`CustomerID`, `PrefixID`, `CustomerStatus`, `CustomerName`, "
-            . "`BusinessType`, `Email`, `Phone`, `Fax`, `Address`, `Township`, "
-            . "`City`, `Province`, `Zipcode`, `Country`, `DateTimeCreate`, "
-            . "`DateTimeUpdate`, `CreateBy`, `UpdateBy` "
-            . "FROM `cus_customer` WHERE `CustomerID`=:cusID";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+            . "`CustomerID`, "
+            . "`CustomerStatus`, "
+            . "`CustomerName`, "
+            . "`BusinessTypeID`, "
+            . "`BusinessType`, "
+            . "`Email`, "
+            . "`Phone`, "
+            . "`Fax`, "
+            . "`Address`, "
+            . "`Township`, "
+            . "`City`, "
+            . "`Province`, "
+            . "`Zipcode`, "
+            . "`Country`, "
+            . "`CreateDateTime`, "
+            . "`UpdateDateTime`, "
+            . "`CreateBy`, "
+            . "`UpdateBy` "
+            . "FROM `view_customer` "
+            . "WHERE `CustomerID`= :cusID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":cusID" => $cusID));
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
 
-function checkEmail($email) {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "SELECT * FROM `cus_person` WHERE `Email` LIKE :email ";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array("email" => $email));
-    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+//function checkEmail($email) {
+//    $conn = dbconnect();
+//    $SQLCommand = "SELECT * FROM `cus_person` WHERE `Email` LIKE :email ";
+//    $SQLPrepare = $conn->prepare($SQLCommand);
+//    $SQLPrepare->execute(array("email" => $email));
+//    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+//    if ($SQLPrepare->rowCount() > 0) {
+//        return 1;
+//    } else {
+//        return 0;
+//    }
+//}
+
+function addPerson($Fname, $Lname, $Phone, $Email, $IDCard, $TypePerson, $PersonStatus) {
+    $conn = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_person`"
+            . "(`Fname`, `Lname`, `Phone`, `Email`, `IDCard`, `TypePerson`, `PersonStatus`) "
+            . "VALUES "
+            . "(:Fname, :Lname, :Phone, :Email, :IDCard, :TypePerson, :PersonStatus)";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array("Fname" => $Fname, "Lname" => $Lname, "Phone" => $Phone, "Email" => $Email, "IDCard" => $IDCard, "TypePerson" => $TypePerson, "PersonStatus" => $PersonStatus));
     if ($SQLPrepare->rowCount() > 0) {
-        return 1;
+        return $conn->lastInsertId();
     } else {
-        return 0;
+        return false;
     }
 }
 
-function addPerson($Fname, $Lname, $Phone, $Email, $Password, $empID, $IDCard, $type, $Position, $CustomerID, $status) {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "INSERT INTO `cus_person` (`Fname`, `Lname`, `Phone`, `Email`, "
-            . "`CustomerID`, `Password`, `CatEmpID`, `IDCard`, `TypePerson`, "
-            . "`Position`,`PersonStatus`) "
-            . "VALUES (:name, :sname, :phone, :email, :cusID, :pass, :empID, "
-            . ":IDCard, :type, :position, :status);";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":name" => $Fname, ":sname" => $Lname,
-        ":phone" => $Phone, ":email" => $Email, ":pass" => $Password,
-        ":empID" => $empID, ":IDCard" => $IDCard, ":type" => $type,
-        ":position" => $Position, ":cusID" => $CustomerID, ":status" => $status));
+function addContact($CustomerID, $PersonID, $IDCCard, $IDCCardType, $ContactType) {
+    $conn = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_person_contact`"
+            . "(`CustomerID`, `PersonID`, `IDCCard`, `IDCCardType`, `ContactType`) "
+            . "VALUES "
+            . "(:CustomerID, :PersonID, :IDCCard, :IDCCardType, :ContactType)";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array("CustomerID" => $CustomerID, "PersonID" => $PersonID,
+        "IDCCard" => $IDCCard, "IDCCardType" => $IDCCardType, "ContactType" => $ContactType));
+
     if ($SQLPrepare->rowCount() > 0) {
-        return $connection->lastInsertId();
+        return $conn->lastInsertId();
+    } else {
+        return false;
+    }
+}
+
+function addAccount($PersonID, $Username, $Password) {
+    $conn = dbconnect();
+    $SQLCommand = "INSERT INTO `account`(`PersonID`, `Username`, `Password`) "
+            . "VALUES (:PersonID, :Username, :Password)";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array("PersonID" => $PersonID, "Username" => $Username, "Password" => $Password));
+
+    if ($SQLPrepare->rowCount() > 0) {
+        return $conn->lastInsertId();
+    } else {
+        return false;
+    }
+}
+
+function addStaff($PersonID, $EmployeeID, $StaffPositionID) {
+    $conn = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_person_staff`(`PersonID`, `EmployeeID`, `StaffPositionID`) "
+            . "VALUES (:PersonID, :EmployeeID, :StaffPositionID)";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":PersonID" => $PersonID, ":EmployeeID" => $EmployeeID, ":StaffPositionID" => $StaffPositionID));
+
+    if ($SQLPrepare->rowCount() > 0) {
+        return $conn->lastInsertId();
     } else {
         return false;
     }
 }
 
 function editPerson($personID, $Fname, $Lname, $Phone, $Email, $Password, $empID, $IDCard, $type, $Position, $status) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "UPDATE `cus_person` SET `Fname`=:name,`Lname`=:sname,"
             . "`Phone`=:phone,`Email`=:email,`Password`=:pass,`CatEmpID`=:empID,"
             . "`IDCard`=:IDCard,`TypePerson`=:type,`Position`=:position,"
             . "`PersonStatus`=:status WHERE `cus_person`.`PersonID` = :personID;";
 //    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":name" => $Fname, ":sname" => $Lname,
         ":phone" => $Phone, ":email" => $Email, ":pass" => $Password,
         ":empID" => $empID, ":IDCard" => $IDCard, ":type" => $type,
@@ -115,29 +159,37 @@ function editPerson($personID, $Fname, $Lname, $Phone, $Email, $Password, $empID
 }
 
 function getPerson($personID) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "SELECT "
             . "`PersonID`, `Fname`, `Lname`, `Phone`, `Email`, "
             . "`CustomerID`, `Password`, `CatEmpID`, `IDCard`, "
             . "`TypePerson`, `Position`, `PersonStatus` "
             . "FROM `cus_person` WHERE `PersonID` = :personID";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":personID" => $personID));
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
 
 function getContactByCustomer($cusID) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "SELECT "
-            . "`PersonID`, `Fname`, `Lname`, `Phone`, `Email`, "
-            . "`CustomerID`, `Password`, `CatEmpID`, `IDCard`, `IDCCard`, `IDCCardType`, `TypePerson`, "
-            . "`Position` FROM `cus_person` "
-            . "WHERE `CustomerID` = :cusID AND `PersonStatus` = 'active' "
-            . "ORDER BY `cus_person`.`TypePerson` ASC";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`TypePerson`, "
+            . "`CustomerID`, "
+            . "`IDCCard`, "
+            . "`IDCCardType`, "
+            . "`ContactType`, "
+            . "`PersonStatus` "
+            . "FROM `view_contact` "
+            . "WHERE `CustomerID` = :cusID AND `PersonStatus`='Active' "
+            . "ORDER BY `view_contact`.`PersonID` ASC";
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":cusID" => $cusID));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
@@ -147,8 +199,7 @@ function getContactByCustomer($cusID) {
 }
 
 function getContactByPersonID($personID_) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "SELECT "
             . "`cusID`, "
             . "`prefixID`, "
@@ -170,33 +221,31 @@ function getContactByPersonID($personID_) {
             . "`PersonStatus` "
             . "FROM `view_contact` "
             . "WHERE `PersonID`= :personID_";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":personID_" => $personID_));
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
 
-function addPackage($name, $detail, $type, $category, $status, $ip, $port, $rack, $service, $personID) {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "INSERT INTO `cus_package` "
-            . "(`PackageName`, `PackageDetail`, `PackageType`, "
-            . "`PackageCategory`, `PackageStatus`, `IPAmount`, `PortAmount`, "
-            . "`RackAmount`, `ServiceAmount`, `DateTimeCreate`, "
-            . "`DateTimeUpdate`, `CreateBy`, `UpdateBy`) "
-            . "VALUES (:name, :detail, :type, :category, :status, :ip, "
-            . ":port, :rack, :service, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,"
-            . " :personID, :personID);";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":name" => $name, ":detail" => $detail, ":type" => $type,
-        ":category" => $category, ":status" => $status, ":ip" => $ip, ":port" => $port,
-        ":rack" => $rack, ":service" => $service, ":personID" => $personID));
-    return $SQLPrepare->rowCount();
+function addPackage($PackageName, $PackageDetail, $PackageType, $PackageCategoryID, $PackageStatus, $PersonID, $LocationID) {
+    $conn = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_package`"
+            . "(`PackageName`, `PackageDetail`, `PackageType`, `PackageCategoryID`, `PackageStatus`, `CreateBy`, `UpdateBy`, `LocationID`) "
+            . "VALUES "
+            . "(:PackageName, :PackageDetail, :PackageType, :PackageCategoryID, :PackageStatus, :CreateBy, :UpdateBy, :LocationID)";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array("PackageName" => $PackageName, "PackageDetail" => $PackageDetail,
+        "PackageType" => $PackageType, "PackageCategoryID" => $PackageCategoryID, "PackageStatus" => $PackageStatus,
+        "CreateBy" => $PersonID, "UpdateBy" => $PersonID, "LocationID" => $LocationID));
+
+    if ($SQLPrepare->rowCount() > 0) {
+        return $conn->lastInsertId();
+    } else
+        return false;
 }
 
 function editPackage($packageID, $name, $detail, $type, $category, $status, $ip, $port, $rack, $service, $personID) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "UPDATE `cus_package` SET "
             . "`PackageName` = :name, "
             . "`PackageDetail` = :detail, "
@@ -209,7 +258,7 @@ function editPackage($packageID, $name, $detail, $type, $category, $status, $ip,
             . "`ServiceAmount` = :service, "
             . "`UpdateBy` = :personID "
             . "WHERE `cus_package`.`PackageID` = :packageID;";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":packageID" => $packageID, ":name" => $name,
         ":detail" => $detail, ":type" => $type, ":category" => $category,
         ":status" => $status, ":ip" => $ip, ":port" => $port,
@@ -218,14 +267,13 @@ function editPackage($packageID, $name, $detail, $type, $category, $status, $ip,
 }
 
 function getPackages() {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "SELECT `PackageID`, `PackageName`, `PackageDetail`, "
             . "`PackageType`, `PackageCategory`, `PackageStatus`, `IPAmount`, "
             . "`PortAmount`, `RackAmount`, `ServiceAmount`, `DateTimeCreate`, "
             . "`DateTimeUpdate`, `CreateBy`, `UpdateBy` FROM `cus_package` "
             . "ORDER BY `cus_package`.`PackageStatus` ASC";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
@@ -235,15 +283,14 @@ function getPackages() {
 }
 
 function getPackagesActive() {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "SELECT `PackageID`, `PackageName`, `PackageDetail`, "
             . "`PackageType`, `PackageCategory`, `PackageStatus`, `IPAmount`, "
             . "`PortAmount`, `RackAmount`, `ServiceAmount`, `DateTimeCreate`, "
             . "`DateTimeUpdate`, `CreateBy`, `UpdateBy` "
             . "FROM `cus_package` WHERE `PackageStatus` LIKE 'active' "
             . "ORDER BY `cus_package`.`PackageCategory`,`cus_package`.`PackageType` DESC ,`cus_package`.`PackageName` ASC";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
@@ -253,88 +300,87 @@ function getPackagesActive() {
 }
 
 function getPackage($packageID) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "SELECT `PackageID`, `PackageName`, `PackageDetail`, "
             . "`PackageType`, `PackageCategory`, `PackageStatus`, `IPAmount`, "
             . "`PortAmount`, `RackAmount`, `ServiceAmount`, `DateTimeCreate`, "
             . "`DateTimeUpdate`, `CreateBy`, `UpdateBy` FROM `cus_package` "
             . "WHERE `PackageID`= :ID";
 //    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":ID" => $packageID));
     return $SQLPrepare->fetch(PDO::FETCH_ASSOC);
 }
 
-function addOrder($preID, $oldID, $cusID, $location, $status, $personID, $bundle, $package) {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "INSERT INTO `cus_order`(`OrderPreID`, `OrderIDOld`, `CustomerID`, `Location`, `StatusOrder`, `CreateBy`, `UpdateBy`) "
-            . "VALUES (:preID,:oldID,:cusID,:location,:status,:personID,:personID)";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":preID" => $preID, ":oldID" => $oldID, ":cusID" => $cusID,
-        ":location" => $location, ":status" => $status, ":personID" => $personID));
+function addService($CustomerID, $Name, $Location, $PersonID) {
+    $conn = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_order`(`CustomerID`, `Name`, `Location`, `CreateBy`) "
+            . "VALUES "
+            . "(:CustomerID, :Name, :Location, :CreateBy)";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array("CustomerID" => $CustomerID, "Name" => $Name,
+        "Location" => $Location, "CreateBy" => $PersonID));
 
     if ($SQLPrepare->rowCount() > 0) {
-
-        $orderID = $connection->lastInsertId();
-
-        // start insert bundle
-        $SQLCommand = "INSERT INTO `cus_order_bundle_network`( `OrderID`, `BundleNetwork`) VALUES (:orderID,:bundle)";
-        $SQLPrepare = $connection->prepare($SQLCommand);
-        foreach ($bundle as $value) {
-            $SQLPrepare->execute(array(":orderID" => $orderID, ":bundle" => $value));
-        }
-        // end insert bundle
-        // start insert package
-        $SQLCommand = "INSERT INTO `cus_order_detail`(`OrderID`, `PackageID`, `OrderDetailStatus`, `CreateBy`, `UpdateBy`) "
-                . "VALUES (:orderID, :packageID, :status, :personID, :personID)";
-        $SQLPrepare = $connection->prepare($SQLCommand);
-        for ($i = 0; $i < count($package['ID']); $i++) {
-            for ($j = 0; $j < $package['amount'][$i]; $j++) {
-                $SQLPrepare->execute(array(":orderID" => $orderID, ":packageID" => $package['ID'][$i], ":status" => $status, ":personID" => $personID));
-            }
-        }
-        // end insert package
-    }
-    return true;
+        return $conn->lastInsertId();
+    } else
+        return false;
 }
 
-function addOrderDetail($orderID, $package, $status, $personID) {
-    global $connection;
-    dbconnect();
-    // start insert package
-    $SQLCommand = "INSERT INTO `cus_order_detail`(`OrderID`, `PackageID`, `OrderDetailStatus`, `CreateBy`, `UpdateBy`) "
-            . "VALUES (:orderID, :packageID, :status, :personID, :personID)";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    for ($i = 0; $i < count($package['ID']); $i++) {
-        for ($j = 0; $j < $package['amount'][$i]; $j++) {
-            $SQLPrepare->execute(array(":orderID" => $orderID, ":packageID" => $package['ID'][$i], ":status" => $status, ":personID" => $personID));
-        }
-    }
-    // end insert package
+function addNetworkLink() {
+    $conn = dbconnect();
+    $SQLCommand = "";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array());
 
-    return true;
+    if ($SQLPrepare->rowCount() > 0) {
+        return $conn->lastInsertId();
+    } else
+        return false;
+}
+
+function addServiceDetail($OrderID, $PackageID) {
+    $conn = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_order_detail`(`OrderID`, `PackageID`) "
+            . "VALUES (:OrderID, :PackageID)";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array("OrderID" => $OrderID, "PackageID" => $PackageID));
+
+    if ($SQLPrepare->rowCount() > 0) {
+        return $conn->lastInsertId();
+    } else
+        return false;
+}
+
+function addServiceDetailAction($ServiceDetailID,$Action){
+    $conn = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_service_detail_action`(`ServiceDetailID`, `Action`) "
+            . "VALUES (:ServiceDetailID, :Action)";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":ServiceDetailID" => $ServiceDetailID, ":Action" => $Action));
+
+    if ($SQLPrepare->rowCount() > 0) {
+        return $conn->lastInsertId();
+    } else
+        return false;
 }
 
 function getOrderAmountPackage($orderID, $type) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "SELECT `PackageType`,count(`PackageType`) AS `Amount` "
             . "FROM `cus_order_detail` "
             . "INNER JOIN `cus_package` "
             . "ON `cus_order_detail`.`PackageID`=`cus_package`.`PackageID` "
             . "WHERE `OrderID`= :orderID AND `PackageType` LIKE :addon AND `cus_order_detail`.`OrderDetailStatus` NOT LIKE 'delete' "
             . "GROUP BY `PackageType`,`OrderID`";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":orderID" => $orderID, ":addon" => $type));
     $res = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $res['Amount'];
 }
 
 function getOrderByCusID($cusID) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "SELECT `OrderID`, "
             . "`OrderPreID`, "
             . "`OrderIDOld`, "
@@ -349,7 +395,7 @@ function getOrderByCusID($cusID) {
             . "FROM `cus_order` "
             . "WHERE `CustomerID`= :cusID "
             . "ORDER BY `cus_order`.`StatusOrder` ASC";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":cusID" => $cusID));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
@@ -359,8 +405,7 @@ function getOrderByCusID($cusID) {
 }
 
 function editCustomer($cusID, $status, $CustomerName, $bisstype, $Email, $Phone, $Fax, $Address, $Township, $City, $Province, $Zipcode, $Country, $personID) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "UPDATE `cus_customer` SET "
             . "`CustomerID`= :cusID,"
             . "`CustomerStatus`=:status,"
@@ -378,7 +423,7 @@ function editCustomer($cusID, $status, $CustomerName, $bisstype, $Email, $Phone,
             . "`UpdateBy`= :personID "
             . "WHERE `CustomerID`= :cusID";
 
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":cusID" => $cusID, ":status" => $status, ":name" => $CustomerName,
         ":type" => $bisstype, ":email" => $Email, ":phone" => $Phone,
         ":fax" => $Fax, ":address" => $Address, ":township" => $Township,
@@ -393,8 +438,7 @@ function editCustomer($cusID, $status, $CustomerName, $bisstype, $Email, $Phone,
 }
 
 function getOrderDetailByOrderID($orderID, $type) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "SELECT "
             . "`OrderDetailID`, "
             . "`OrderID`, "
@@ -412,7 +456,7 @@ function getOrderDetailByOrderID($orderID, $type) {
             . "WHERE `OrderID` = :orderID AND `PackageType` LIKE :type AND `OrderDetailStatus` NOT LIKE 'delete' "
             . "ORDER BY `view_order_detail`.`OrderDetailStatus`,`view_order_detail`.`DateTime` ASC";
 //    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":orderID" => $orderID, ":type" => $type));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
@@ -422,8 +466,7 @@ function getOrderDetailByOrderID($orderID, $type) {
 }
 
 function getOrderDetailPackageByID($orderDetailID) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "SELECT "
             . "`OrderDetailID`, "
             . "`OrderID`, "
@@ -435,16 +478,15 @@ function getOrderDetailPackageByID($orderDetailID) {
             . "`PackageCategory` "
             . "FROM `view_order_detail` "
             . "WHERE `OrderDetailID`= :orderDetailID ";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID));
     return $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
 }
 
 function editStatusOrderDetail($orderDetailID, $status) {
-    global $connection;
-    dbconnect();
+    $conn = dbconnect();
     $SQLCommand = "UPDATE `cus_order_detail` SET `OrderDetailStatus`= :status WHERE `OrderDetailID`= :orderDetailID";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID, ":status" => $status));
     return $SQLPrepare->rowCount();
 }
