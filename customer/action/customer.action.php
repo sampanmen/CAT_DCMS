@@ -3,12 +3,11 @@
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
-$personID = "-1";
+$PersonID = "-1";
 if ($para == "addCustomer") {
-
     $cus_name = $_POST['cus']['name'];
-    $status = "active";
-    $cus_bussType = $_POST['cus']['bussinessType'];
+    $cus_status = "Active";
+    $cus_bussTypeID = $_POST['cus']['bussinessTypeID'];
     $cus_email = $_POST['cus']['email'];
     $cus_phone = $_POST['cus']['phone'];
     $cus_fax = $_POST['cus']['fax'];
@@ -19,10 +18,11 @@ if ($para == "addCustomer") {
     $cus_zipcode = $_POST['cus']['zipcode'];
     $cus_country = $_POST['cus']['country'];
     $con = $_POST['con'];
-//    echo "<pre>";
-//    print_r($con);
-//    echo "</pre>";
-    $resInsertCus = addCustomer("CUS", $status, $cus_name, $cus_bussType, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, $cus_province, $cus_zipcode, $cus_country, '1');
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+    $resInsertCus = addCustomer($cus_status, $cus_name, $cus_bussTypeID, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, 
+            $cus_province, $cus_zipcode, $cus_country, $PersonID);
     if ($resInsertCus) {
 //        $resInsertCon = true;
         $countCon = count($con['name']);
@@ -32,9 +32,12 @@ if ($para == "addCustomer") {
             $con_sname = $con['sname'][$i];
             $con_phone = $con['phone'][$i];
             $con_email = $con['email'][$i];
-            $con_password = $con['password'][$i];
-            $con_type = $con['type'][$i];
-            $resInsertCon = addPerson($con_name, $con_sname, $con_phone, $con_email, $con_password, NULL, NULL, $con_type, NULL, $resInsertCus, "active");
+            $con_idcard = $con['IDCard'][$i];
+            $con_personType = "Contact";
+            $con_contactType = "Main";
+            $con_status = "Active";
+            $resInsertPerson = addPerson($con_name, $con_sname, $con_phone, $con_email, $con_idcard, $con_personType, $con_status);
+            $resInsertPersonContact = addContact($resInsertCus, $resInsertPerson, NULL, NULL, $con_contactType);
 //            echo $resInsertCon . "<br>.";
 //            echo "///";
 //            echo "<pre>";
@@ -42,12 +45,12 @@ if ($para == "addCustomer") {
 //            echo $resInsertCon."<br>";
 //            echo "</pre>";
 //            echo $_FILES["file"]["name"][$i]."<br>";
-            move_uploaded_file($_FILES["file"]["tmp_name"][$i], "../images/persons/" . $resInsertCon . ".jpg");
+            move_uploaded_file($_FILES["file"]["tmp_name"][$i], "../images/persons/" . $resInsertPerson . ".jpg");
         }
-        if ($resInsertCon) {
+        if ($resInsertPerson) {
             header("location: ../../core/?p=addOrder&cusID=" . $resInsertCus . "&para=addCustomerCompleted");
         } else {
-            header("location: ../../core/?p=viewCus&para=addCustomerFailed");
+            header("location: ../../core/?p=cusHome&para=addCustomerFailed");
         }
     }
 } else if ($para == "checkEmail") {

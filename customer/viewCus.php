@@ -2,7 +2,25 @@
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $cusID = $_GET['cusID'];
+
+$getContact = getContactByCustomer($cusID);
+
+//start Customer
 $getCus = getCustomer($cusID);
+$cusID = $getCus['CustomerID'];
+$cusStatus = $getCus['CustomerStatus'];
+$statusLabel = $cusStatus == "Active" ? "success" : ($cusStatus == "Suppened" ? "warning" : "danger");
+$cusName = $getCus['CustomerName'];
+$cusBissType = $getCus['BusinessType'];
+$cusEmail = $getCus['Email'];
+$cusPhone = $getCus['Phone'];
+$cusAddress = $getCus['Address'];
+$cusTownship = $getCus['Township'];
+$cusCity = $getCus['City'];
+$cusProvince = $getCus['Province'];
+$cusZipcode = $getCus['Zipcode'];
+$cusCountry = $getCus['Country'];
+//end Customer
 ?>
 
 <p><a href="?">Home</a> > <a href="?p=cusHome">Customers</a> > <b>Customer Detail</b></p>
@@ -18,12 +36,11 @@ $getCus = getCustomer($cusID);
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">                            
-                        <h1><b><?php echo $getCus['PrefixID'] . sprintf("%05d", $getCus['CustomerID']); ?></b></h1>
+                        <h1><b><?php echo sprintf("%05d", $cusID); ?></b></h1>
                     </div>
                     <div class="col-lg-12">
-                        <?php $statusLabel = $getCus['CustomerStatus'] == "active" ? "success" : ($getCus['CustomerStatus'] == "suppened" ? "warning" : "danger"); ?>
                         <label>Status</label>
-                        <p class="label label-<?php echo $statusLabel; ?>"><?php echo $getCus['CustomerStatus']; ?></p>
+                        <p class="label label-<?php echo $statusLabel; ?>"><?php echo $cusStatus; ?></p>
                     </div>
                 </div>
                 <!-- /.row (nested) -->
@@ -36,7 +53,7 @@ $getCus = getCustomer($cusID);
             <div class="panel-heading">
                 <label>
                     ข้อมูลบริษัท / Company Detail
-                    <a href="../customer/model_EditCus.php?cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal-lg">  (Edit)  </a>                     
+                    <a href="../customer/model_editCus.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">  (Edit)  </a>                     
                 </label>                   
             </div>
             <div class="panel-body">
@@ -46,7 +63,7 @@ $getCus = getCustomer($cusID);
                             <label>ชื่อ / Name</label>      
                         </div>
                         <div class="form-group  col-lg-6">                               
-                            <?php echo $getCus['CustomerName']; ?>
+                            <?php echo $cusName; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
@@ -54,7 +71,7 @@ $getCus = getCustomer($cusID);
                             <label>ประเภทธุรกิจ / Business Type</label>
                         </div>
                         <div class="form-group col-lg-6">                               
-                            <?php echo $getCus['BusinessType']; ?>
+                            <?php echo $cusBissType; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
@@ -62,7 +79,7 @@ $getCus = getCustomer($cusID);
                             <label>อีเมล์ / E-Mail</label>
                         </div>
                         <div class="form-group col-lg-6">                               
-                            <?php echo $getCus['Email']; ?>
+                            <?php echo $cusEmail; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
@@ -70,7 +87,7 @@ $getCus = getCustomer($cusID);
                             <label>โทรศัพท์ / Phone</label>
                         </div>
                         <div class="form-group col-lg-6">                               
-                            <?php echo $getCus['Phone']; ?>
+                            <?php echo $cusPhone; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
@@ -78,15 +95,15 @@ $getCus = getCustomer($cusID);
                             <label>แฟกต์ / Fax.</label>
                         </div>
                         <div class="form-group col-lg-6">                               
-                            <?php echo $getCus['Fax']; ?>
+                            <?php echo $cusFax = $getCus['Fax']; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
                         <div class="form-group col-lg-6">
                             <label>ที่อยู่ / Address</label>
                         </div>
-                        <div class="form-group col-lg-6">                               
-                            <?php echo $getCus['Address'] . " <br>ตำบล/Tambol: " . $getCus['Township'] . " <br>อำเภอ/City: " . $getCus['City'] . " <br>จังหวัด/Province: " . $getCus['Province'] . " <br>รหัสไปรษณีย์/Postalcode: " . $getCus['Zipcode'] . " <br>ประเทศ/Country: " . $getCus['Country']; ?>
+                        <div class="form-group col-lg-12">                               
+                            <?php echo $cusAddress . " ตำบล/Tambol: " . $cusTownship . " อำเภอ/City: " . $cusCity . " <br>จังหวัด/Province: " . $cusProvince . " รหัสไปรษณีย์/Postalcode: " . $cusZipcode . " <br>ประเทศ/Country: " . $cusCountry; ?>
                         </div>
                     </div>
                 </div>
@@ -106,8 +123,15 @@ $getCus = getCustomer($cusID);
                 <div class="row">                       
                     <div class="col-lg-12">
                         <?php
-                        $getContact = getContactByCustomer($cusID);
                         foreach ($getContact as $value) {
+                            $conFname = $value['Fname'];
+                            $conLname = $value['Lname'];
+                            $conEmail = $value['Email'];
+                            $conPhone = $value['Phone'];
+                            $conTypeContact = $value['ContactType'];
+                            $conTypePerson = $value['TypePerson'];
+                            $conPersonID = $value['PersonID'];
+                            $conCusID = $value['CustomerID'];
                             ?>
                             <div class=" well well-sm col-lg-12 ">
                                 <div class="col-lg-4 text-left">
@@ -139,7 +163,7 @@ $getCus = getCustomer($cusID);
                 <p>
                     <b>
                         Order Detail 
-<!--                            <a href="../core/?p=addOrder&cusID=<?php //echo $cusID;  ?>" >(ADD)</a>-->
+<!--                            <a href="../core/?p=addOrder&cusID=<?php //echo $cusID;      ?>" >(ADD)</a>-->
                         <a href="../customer/model_addOrder.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">(Add)</a>
                     </b>
                 </p>
@@ -186,7 +210,7 @@ $getCus = getCustomer($cusID);
                                         <p></p>                               
                                     </div>
                                     <div class="col-lg-2">                               
-                                        <p><a href="../core/?p=orderDetail&orderID=<?php echo $value['OrderID']; ?>&cusID=<?php echo $cusID;?>" >Detail</a></p>                               
+                                        <p><a href="../core/?p=orderDetail&orderID=<?php echo $value['OrderID']; ?>&cusID=<?php echo $cusID; ?>" >Detail</a></p>                               
                                     </div>
                                 </div>
                             </div>

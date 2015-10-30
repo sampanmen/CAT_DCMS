@@ -30,10 +30,10 @@
                                                 <p>ประเภทธุรกิจ<br>Bussiness Type</p>
                                             </div>
                                             <div class="form-group col-lg-3">
-                                                <select class="form-control" name="cus[bussinessType]" id="cusBissinessType">
-                                                    <option selected value="กสท">กสท</option>
-                                                    <option value="นิติบุคคล">นิติบุคคล</option>
-                                                    <option value="บุคคล">บุคคล</option>
+                                                <select class="form-control" name="cus[bussinessTypeID]" id="cusBissinessType">
+                                                    <option selected value="1">กสท</option>
+                                                    <option value="2">นิติบุคคล</option>
+                                                    <option value="3">บุคคล</option>
                                                 </select>    
                                             </div>
                                             <div class="form-group col-lg-2">
@@ -121,7 +121,6 @@
                                             </div>
                                             <div class="form-group col-lg-3"><br>
                                                 <input class="form-control" name="con[name][]">
-                                                <input type="hidden" value="contact" name="con[type][]">
                                             </div>
                                             <div class="form-group col-lg-2"><br>
                                                 <p>นามสกุล<br>Surname</p>                     
@@ -146,10 +145,10 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-group col-lg-3">
-                                                <p>รหัสผ่าน<br>Password</p>
+                                                <p>รหัสบัตรประชาชน<br>ID Card</p>
                                             </div>
                                             <div class="form-group col-lg-3">
-                                                <input class="form-control" type="password" name="con[password][]">      
+                                                <input class="form-control" type="text" name="con[IDCard][]">      
                                             </div>
                                             <div class="form-group col-lg-2">
                                                 <p>รูปภาพ<br>Picture</p>
@@ -216,10 +215,10 @@
                 </div>
                 <div class="col-lg-12">
                     <div class="form-group col-lg-3">
-                        <p>รหัสผ่าน<br>Password</p>
+                        <p>รหัสบัตรประชาชน<br>ID Card</p>
                     </div>
                     <div class="form-group col-lg-3">
-                        <input class="form-control" type="password" name="con[password][]">      
+                        <input class="form-control" type="text" name="con[IDCard][]">      
                     </div>
                     <div class="form-group col-lg-2">
                         <p>รูปภาพ<br>Picture</p>
