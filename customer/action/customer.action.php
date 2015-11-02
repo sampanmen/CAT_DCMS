@@ -130,24 +130,26 @@ if ($para == "addCustomer") {
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addContactFailed");
     }
 } else if ($para == "editContact") {
+    $cusID = $_GET['cusID'];
+    $personID = $_GET['personID'];
+
     $con_name = $_POST['name'];
     $con_sname = $_POST['sname'];
     $con_phone = $_POST['phone'];
     $con_email = $_POST['email'];
-    $con_password = $_POST['password'];
+    $con_idcard = $_POST['idcard'];
     $con_type = $_POST['type'];
     $con_status = $_POST['status'];
-    $cusID = $_GET['cusID'];
-    $personID = $_GET['personID'];
-    $resInsertCon = editPerson($personID, $con_name, $con_sname, $con_phone, $con_email, $con_password, NULL, NULL, $con_type, NULL, $con_status);
-//    echo $resInsertCon;
+
+    $resEditPerson = editPerson($personID, $con_name, $con_sname, $con_phone, $con_email, $con_idcard, $con_type, $con_status);
+    $resEditCon = editContactType($personID, $con_type);
     if (isset($_FILES)) {
         $uploadPic = move_uploaded_file($_FILES["file"]["tmp_name"], "../images/persons/" . $personID . ".jpg");
     }
-    if ($resInsertCon || $uploadPic) {
+    if ($resEditPerson || $resEditCon || $uploadPic) {
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editContactCompleted");
     } else {
-        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editContactFailed");
+//        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editContactFailed");
     }
 } else if ($para == "addOrder") {
     $cusID = $_POST['cusID'];
@@ -163,9 +165,8 @@ if ($para == "addCustomer") {
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addOrderFailed");
     }
 } else if ($para == "editCustomer") {
-//    echo "<pre>";
-//    print_r($_POST);
-//    echo "</pre>";
+
+    $cusID = $_GET['cusID'];
 
     $cus_name = $_POST['name'];
     $cus_bussType = $_POST['bussinessType'];
@@ -179,7 +180,6 @@ if ($para == "addCustomer") {
     $cus_zipcode = $_POST['zipcode'];
     $cus_country = $_POST['country'];
     $cus_status = $_POST['status'];
-    $cusID = $_GET['cusID'];
 
     $res = editCustomer($cusID, $cus_status, $cus_name, $cus_bussType, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, $cus_province, $cus_zipcode, $cus_country, $personID);
     if ($res) {

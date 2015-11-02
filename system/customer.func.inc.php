@@ -139,18 +139,67 @@ function addStaff($PersonID, $EmployeeID, $StaffPositionID) {
     }
 }
 
-function editPerson($personID, $Fname, $Lname, $Phone, $Email, $Password, $empID, $IDCard, $type, $Position, $status) {
+function editPerson($personID, $Fname, $Lname, $Phone, $Email, $IDCard, $type, $status) {
     $conn = dbconnect();
-    $SQLCommand = "UPDATE `cus_person` SET `Fname`=:name,`Lname`=:sname,"
-            . "`Phone`=:phone,`Email`=:email,`Password`=:pass,`CatEmpID`=:empID,"
-            . "`IDCard`=:IDCard,`TypePerson`=:type,`Position`=:position,"
-            . "`PersonStatus`=:status WHERE `cus_person`.`PersonID` = :personID;";
+    $SQLCommand = "UPDATE `customer_person` SET "
+            . "`Fname`=:Fname,"
+            . "`Lname`=:Lname,"
+            . "`Phone`=:Phone,"
+            . "`Email`=:Email,"
+            . "`IDCard`=:IDCard,"
+            . "`TypePerson`=:TypePerson,"
+            . "`PersonStatus`=:PersonStatus "
+            . "WHERE `PersonID`= :personID;";
 //    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":name" => $Fname, ":sname" => $Lname,
-        ":phone" => $Phone, ":email" => $Email, ":pass" => $Password,
-        ":empID" => $empID, ":IDCard" => $IDCard, ":type" => $type,
-        ":position" => $Position, ":status" => $status, ":personID" => $personID));
+    $SQLPrepare->execute(array(
+        ":Fname" => $Fname,
+        ":Lname" => $Lname,
+        ":Phone" => $Phone,
+        ":Email" => $Email,
+        ":IDCard" => $IDCard,
+        ":TypePerson" => $type,
+        ":PersonStatus" => $status,
+        ":personID" => $personID
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function editContactType($personID, $ContactType) {
+    $conn = dbconnect();
+    $SQLCommand = "UPDATE `customer_person_contact` SET "
+            . "`ContactType`=:ContactType "
+            . "WHERE `PersonID`= :personID;";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":ContactType" => $ContactType,
+        ":personID" => $personID
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function editContact($personID, $IDCCard, $IDCCardType, $ContactType) {
+    $conn = dbconnect();
+    $SQLCommand = "UPDATE `customer_person_contact` SET "
+            . "`IDCCard`=:IDCCard,"
+            . "`IDCCardType`=:IDCCardType,"
+            . "`ContactType`=:ContactType "
+            . "WHERE `PersonID`= :personID;";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":IDCCard" => $IDCCard,
+        ":IDCCardType" => $IDCCardType,
+        ":ContactType" => $ContactType,
+        ":personID" => $personID
+    ));
     if ($SQLPrepare->rowCount() > 0) {
         return true;
     } else {
@@ -187,7 +236,7 @@ function getContactByCustomer($cusID) {
             . "`ContactType`, "
             . "`PersonStatus` "
             . "FROM `view_contact` "
-            . "WHERE `CustomerID` = :cusID AND `PersonStatus`='Active' "
+            . "WHERE `CustomerID` = :cusID AND `PersonStatus` NOT LIKE 'Delete' "
             . "ORDER BY `view_contact`.`PersonID` ASC";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":cusID" => $cusID));
@@ -201,23 +250,17 @@ function getContactByCustomer($cusID) {
 function getContactByPersonID($personID_) {
     $conn = dbconnect();
     $SQLCommand = "SELECT "
-            . "`cusID`, "
-            . "`prefixID`, "
-            . "`cusStatus`, "
-            . "`cusName`, "
-            . "`cusType`, "
             . "`PersonID`, "
             . "`Fname`, "
             . "`Lname`, "
             . "`Phone`, "
             . "`Email`, "
-            . "`Password`, "
-            . "`CatEmpID`, "
             . "`IDCard`, "
+            . "`TypePerson`, "
+            . "`CustomerID`, "
             . "`IDCCard`, "
             . "`IDCCardType`, "
-            . "`TypePerson`, "
-            . "`Position`, "
+            . "`ContactType`, "
             . "`PersonStatus` "
             . "FROM `view_contact` "
             . "WHERE `PersonID`= :personID_";
@@ -443,29 +486,39 @@ function getOrderByCusID($cusID) {
 
 function editCustomer($cusID, $status, $CustomerName, $bisstype, $Email, $Phone, $Fax, $Address, $Township, $City, $Province, $Zipcode, $Country, $personID) {
     $conn = dbconnect();
-    $SQLCommand = "UPDATE `cus_customer` SET "
-            . "`CustomerID`= :cusID,"
-            . "`CustomerStatus`=:status,"
-            . "`CustomerName`= :name,"
-            . "`BusinessType`= :type,"
-            . "`Email`= :email,"
-            . "`Phone`= :phone,"
-            . "`Fax`= :fax,"
-            . "`Address`= :address,"
-            . "`Township`= :township,"
-            . "`City`= :city,"
-            . "`Province`= :province,"
-            . "`Zipcode`= :zipcode,"
-            . "`Country`= :country,"
-            . "`UpdateBy`= :personID "
-            . "WHERE `CustomerID`= :cusID";
+    $SQLCommand = "UPDATE `customer` SET "
+            . "`CustomerStatus`=:CustomerStatus,"
+            . "`CustomerName`=:CustomerName,"
+            . "`BusinessTypeID`=:BusinessTypeID,"
+            . "`Email`=:Email,"
+            . "`Phone`=:Phone,"
+            . "`Fax`=:Fax,"
+            . "`Address`=:Address,"
+            . "`Township`=:Township,"
+            . "`City`=:City,"
+            . "`Province`=:Province,"
+            . "`Zipcode`=:Zipcode,"
+            . "`Country`=:Country,"
+            . "`UpdateBy`=:personID "
+            . "WHERE `CustomerID`= :CustomerID";
 
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":cusID" => $cusID, ":status" => $status, ":name" => $CustomerName,
-        ":type" => $bisstype, ":email" => $Email, ":phone" => $Phone,
-        ":fax" => $Fax, ":address" => $Address, ":township" => $Township,
-        ":city" => $City, ":province" => $Province, ":zipcode" => $Zipcode,
-        ":country" => $Country, ":personID" => $personID));
+    $SQLPrepare->execute(array(
+        ":CustomerID" => $cusID,
+        ":CustomerStatus" => $status,
+        ":CustomerName" => $CustomerName,
+        ":BusinessTypeID" => $bisstype,
+        ":Email" => $Email,
+        ":Phone" => $Phone,
+        ":Fax" => $Fax,
+        ":Address" => $Address,
+        ":Township" => $Township,
+        ":City" => $City,
+        ":Province" => $Province,
+        ":Zipcode" => $Zipcode,
+        ":Country" => $Country,
+        ":personID" => $personID
+    ));
 
     if ($SQLPrepare->rowCount()) {
         return true;
@@ -536,6 +589,22 @@ function getLocation() {
             . "`Address`, "
             . "`Status` "
             . "FROM `location`";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getBusinessType() {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`BusinessTypeID`, "
+            . "`BusinessType`, "
+            . "`Status` "
+            . "FROM `customer_businesstype`";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();

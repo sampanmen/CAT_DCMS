@@ -54,57 +54,57 @@ $cusCountry = $getCus['Country'];
             <div class="panel-heading">
                 <label>
                     ข้อมูลบริษัท / Company Detail
-                    <a href="../customer/model_editCus.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">  (Edit)  </a>                     
+                    <a href="../customer/modal_editCustomer.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">  (Edit)  </a>                     
                 </label>                   
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>ชื่อ / Name</label>      
+                        <div class="form-group col-lg-4">
+                            <label>Name</label>      
                         </div>
-                        <div class="form-group  col-lg-6">                               
+                        <div class="form-group  col-lg-8">                               
                             <?php echo $cusName; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>ประเภทธุรกิจ / Business Type</label>
+                        <div class="form-group col-lg-4">
+                            <label>Business Type</label>
                         </div>
-                        <div class="form-group col-lg-6">                               
+                        <div class="form-group col-lg-8">                               
                             <?php echo $cusBissType; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>อีเมล์ / E-Mail</label>
+                        <div class="form-group col-lg-4">
+                            <label>E-Mail</label>
                         </div>
-                        <div class="form-group col-lg-6">                               
+                        <div class="form-group col-lg-8">                               
                             <?php echo $cusEmail; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>โทรศัพท์ / Phone</label>
+                        <div class="form-group col-lg-4">
+                            <label>Phone</label>
                         </div>
-                        <div class="form-group col-lg-6">                               
+                        <div class="form-group col-lg-8">                               
                             <?php echo $cusPhone; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>แฟกต์ / Fax.</label>
+                        <div class="form-group col-lg-4">
+                            <label>Fax.</label>
                         </div>
-                        <div class="form-group col-lg-6">                               
+                        <div class="form-group col-lg-8">                               
                             <?php echo $cusFax; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>ที่อยู่ / Address</label>
+                        <div class="form-group col-lg-4">
+                            <label>Address</label>
                         </div>
-                        <div class="form-group col-lg-12">                               
-                            <?php echo $cusAddress . " ตำบล/Tambol: " . $cusTownship . " อำเภอ/City: " . $cusCity . " <br>จังหวัด/Province: " . $cusProvince . " รหัสไปรษณีย์/Postalcode: " . $cusZipcode . " <br>ประเทศ/Country: " . $cusCountry; ?>
+                        <div class="form-group col-lg-8">                               
+                            <?php echo $cusAddress . " <br>ตำบล/Tambol: " . $cusTownship . " อำเภอ/City: " . $cusCity . " <br>จังหวัด/Province: " . $cusProvince . " รหัสไปรษณีย์/Postalcode: " . $cusZipcode . " <br>ประเทศ/Country: " . $cusCountry; ?>
                         </div>
                     </div>
                 </div>
@@ -117,7 +117,7 @@ $cusCountry = $getCus['Country'];
             <div class="panel-heading">
                 <label>
                     ข้อมูลผู้ติดต่อ / Contact Detail
-                    <a href="../customer/model_addContact.php?cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">  (Add)  </a>
+                    <a href="../customer/modal_addContact.php?cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">  (Add)  </a>
                 </label>
             </div>
             <div class="panel-body">
@@ -134,6 +134,7 @@ $cusCountry = $getCus['Country'];
                             $conTypePerson = $value['TypePerson'];
                             $conPersonID = $value['PersonID'];
                             $conCusID = $value['CustomerID'];
+                            $personStatus = $value['PersonStatus'];
                             ?>
                             <div class=" well well-sm col-lg-12 ">
                                 <div class="col-lg-4 text-left">
@@ -145,8 +146,9 @@ $cusCountry = $getCus['Country'];
                                     <p><b>Phone:</b> <?php echo $conPhone; ?></p>
                                     <p><b>ID Card:</b> <?php echo $conIDCard; ?></p>
                                     <p><b>Type:</b> <?php echo $conTypeContact; ?></p>
+                                    <p class="label label-<?php echo $personStatus == "Active" ? "success" : ($personStatus == "Deactive" ? "warning" : "danger"); ?>"><?php echo $personStatus; ?></p>
                                     <div class="text-right">
-                                        <a href="../customer/model_editContact.php?personID=<?php echo $value['PersonID']; ?>&cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">Detail</a>
+                                        <a href="../customer/modal_editContact.php?personID=<?php echo $value['PersonID']; ?>&cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">Edit</a>
                                     </div>
                                 </div>
                             </div>
@@ -166,8 +168,8 @@ $cusCountry = $getCus['Country'];
                 <p>
                     <b>
                         Order Detail 
-<!--                            <a href="../core/?p=addOrder&cusID=<?php //echo $cusID;       ?>" >(ADD)</a>-->
-                        <a href="../customer/model_addOrder.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">(Add)</a>
+<!--                            <a href="../core/?p=addOrder&cusID=<?php //echo $cusID;         ?>" >(ADD)</a>-->
+                        <a href="../customer/modal_addOrder.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">(Add)</a>
                     </b>
                 </p>
             </div>
@@ -238,19 +240,19 @@ $cusCountry = $getCus['Country'];
                     <tbody>
                         <tr>
                             <td>158.168.1.0</td>
-                            <td><a href="../customer/model_IP.php"  data-toggle="modal" data-target="#myModal">10</a></td>
+                            <td><a href="../resource/modal_IPUsed.php"  data-toggle="modal" data-target="#myModal">10</a></td>
                         </tr>                                                     
                         <tr>
                             <td>158.168.2.0</td>
-                            <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">10</a></td>
+                            <td><a href="../resource/modal_IPUsed.php" data-toggle="modal" data-target="#myModal">10</a></td>
                         </tr>          
                         <tr>
                             <td>158.168.3.0</td>
-                            <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">2</a></td>
+                            <td><a href="../resource/modal_IPUsed.php" data-toggle="modal" data-target="#myModal">2</a></td>
                         </tr>          
                         <tr>
                             <td>158.168.4.0</td>
-                            <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">3</a></td>
+                            <td><a href="../resource/modal_IPUsed.php" data-toggle="modal" data-target="#myModal">3</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -272,19 +274,19 @@ $cusCountry = $getCus['Country'];
                     <tbody>
                         <tr>
                             <td>Full Rack</td>
-                            <td><a href="../customer/model_Rack.php"  data-toggle="modal" data-target="#myModal">2</a></td>
+                            <td><a href="../resource/modal_RackUsed.php"  data-toggle="modal" data-target="#myModal">2</a></td>
                         </tr>                                                     
                         <tr>
                             <td>1/2 Rack</td>
-                            <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">2</a></td>
+                            <td><a href="../resource/modal_RackUsed.php" data-toggle="modal" data-target="#myModal">2</a></td>
                         </tr>          
                         <tr>
                             <td>1/4 Rack</td>
-                            <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">1</a></td>
+                            <td><a href="../resource/modal_RackUsed.php" data-toggle="modal" data-target="#myModal">1</a></td>
                         </tr>          
                         <tr>
                             <td>Shared Rack</td>
-                            <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">3</a></td>
+                            <td><a href="../resource/modal_RackUsed.php" data-toggle="modal" data-target="#myModal">3</a></td>
                         </tr>          
                     </tbody>
                 </table>
@@ -306,19 +308,19 @@ $cusCountry = $getCus['Country'];
                     <tbody>
                         <tr>
                             <td>Switch 1</td>
-                            <td><a href="../customer/model_Port.php"  data-toggle="modal" data-target="#myModal">7</a></td>
+                            <td><a href="../resource/modal_PortUsed.php"  data-toggle="modal" data-target="#myModal">7</a></td>
                         </tr>                                                     
                         <tr>
                             <td>Switch 2</td>
-                            <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">4</a></td>
+                            <td><a href="../resource/modal_PortUsed.php" data-toggle="modal" data-target="#myModal">4</a></td>
                         </tr>          
                         <tr>
                             <td>Switch 3</td>
-                            <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">5</a></td>
+                            <td><a href="../resource/modal_PortUsed.php" data-toggle="modal" data-target="#myModal">5</a></td>
                         </tr>          
                         <tr>
                             <td>Switch 5</td>
-                            <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">2</a></td>
+                            <td><a href="../resource/modal_PortUsed.php" data-toggle="modal" data-target="#myModal">2</a></td>
                         </tr>          
                     </tbody>
                 </table>
