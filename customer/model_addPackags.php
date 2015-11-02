@@ -1,3 +1,9 @@
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+
+$packageCategory = getPackageCategory();
+$location = getLocation();
+?>
 <form action="../customer/action/customer.action.php?para=addPackage" method="POST">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -21,43 +27,55 @@
                         <div class="form-group col-lg-6">
                             <label>ประเภทบริการ / Type Service</label>
                             <select class="form-control" name="type">
-                                <option value="main">Main Services</option>
-                                <option value="add-on">Add-On Services</option>
+                                <option value="Main">Main</option>
+                                <option value="Add-on">Add-on</option>
                             </select>  
                         </div>
                         <div class="form-group col-lg-6">
-                            <label>หมวดหมู่ / Category</label> 
-                            <select class="form-control" name="category">                                  
-                                <option value="full rack">Full Rack</option>
-                                <option value="1/2 rack">1/2 Rack</option>
-                                <option value="1/4 rack">1/4 Rack</option>
-                                <option value="shared rack">Shared Rack</option>
-                                <option value="firewall">Firewall</option>
-                                <option value="room">Room</option>
-                                <option value="add-on">Add on</option>
+                            <label>หมวดหมู่ / Category</label>
+                            <select class="form-control" name="category">
+                                <?php
+                                foreach ($packageCategory as $value) {
+                                    if ($value['Status'] == "Deactive")
+                                        continue;
+                                    ?>
+                                    <option value="<?php echo $value['PackageCategoryID']; ?>"><?php echo $value['PackageCategory']; ?></option>
+                                <?php } ?>
                             </select>   
                         </div>
                         <div class="form-group col-lg-6">
                             <label>จำนวน IP Addres</label> 
-                            <input class="form-control" type="number" name="ip" value="0">    
+                            <input class="form-control" type="number" name="amount[ip]" value="0">    
                         </div>
                         <div class="form-group col-lg-6">
                             <label>จำนวน Port</label> 
-                            <input class="form-control" type="number" name="port" value="0">    
+                            <input class="form-control" type="number" name="amount[port]" value="0">    
                         </div>
                         <div class="form-group col-lg-6">
-                            <label>จำนวน Rack</label> 
-                            <input class="form-control" type="number" name="rack" value="0">    
+                            <label>จำนวน Rack</label>
+                            <input class="form-control" type="number" name="amount[rack]" value="0">    
                         </div>
                         <div class="form-group col-lg-6">
                             <label>จำนวน Service</label> 
-                            <input class="form-control" type="number" name="service" value="0">    
+                            <input class="form-control" type="number" name="amount[service]" value="0">    
                         </div>
                         <div class="form-group col-lg-6">
-                            <label>สถานะ</label>
+                            <label>Location</label>
+                            <select class="form-control" name="location">                                  
+                                <?php
+                                foreach ($location as $value) {
+                                    if ($value['Status'] == "Deactive")
+                                        continue;
+                                    ?>
+                                    <option value="<?php echo $value['LocationID']; ?>"><?php echo $value['Location']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Status</label>
                             <select class="form-control" name="status">                                  
-                                <option value="active">Active</option>
-                                <option value="not active">Not Active</option>
+                                <option selected value="Active">Active</option>
+                                <option value="Deactive">Deactive</option>
                             </select>
                         </div>
                         <!-- /.row (nested) -->

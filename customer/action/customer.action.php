@@ -21,8 +21,7 @@ if ($para == "addCustomer") {
     echo "<pre>";
     print_r($_POST);
     echo "</pre>";
-    $resInsertCus = addCustomer($cus_status, $cus_name, $cus_bussTypeID, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, 
-            $cus_province, $cus_zipcode, $cus_country, $PersonID);
+    $resInsertCus = addCustomer($cus_status, $cus_name, $cus_bussTypeID, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, $cus_province, $cus_zipcode, $cus_country, $PersonID);
     if ($resInsertCus) {
 //        $resInsertCon = true;
         $countCon = count($con['name']);
@@ -57,52 +56,75 @@ if ($para == "addCustomer") {
     $email = isset($_GET['email']) ? $_GET['email'] : "no email";
     echo checkEmail($email);
 } else if ($para == "addPackage") {
-    $name = $_POST['name'];
-    $detail = $_POST['detail'];
-    $type = $_POST['type'];
-    $category = $_POST['category'];
-    $status = $_POST['status'];
-    $ip = $_POST['ip'];
-    $port = $_POST['port'];
-    $rack = $_POST['rack'];
-    $service = $_POST['service'];
+    //package
+    $PackageName = $_POST['name'];
+    $PackageDetail = $_POST['detail'];
+    $PackageType = $_POST['type'];
+    $PackageCategoryID = $_POST['category'];
+    $PackageStatus = $_POST['status'];
+    $LocationID = $_POST['location'];
 
-    $resInsert = addPackage($name, $detail, $type, $category, $status, $ip, $port, $rack, $service, "-1");
-    if ($resInsert) {
-        header("location: ../../core/?p=serviceHome&para=addPackageCompleted");
+    //amount
+    $ipAmount = $_POST['amount']['ip'];
+    $portAmount = $_POST['amount']['port'];
+    $rackAmount = $_POST['amount']['rack'];
+    $serviceAmount = $_POST['amount']['service'];
+
+    $resInsertPackage = addPackage($PackageName, $PackageDetail, $PackageType, $PackageCategoryID, $PackageStatus, $PersonID, $LocationID);
+    if ($resInsertPackage) {
+        echo "Add package completed.";
+        $resInsertAmount = addResourceAmount($resInsertPackage, $ipAmount, $portAmount, $rackAmount, $serviceAmount);
+        if ($resInsertAmount) {
+            echo "Add amount completed.";
+            header("location: ../../core/?p=packageHome&para=addPackageCompleted");
+        } else {
+            header("location: ../../core/?p=packageHome&para=addPackageFailed");
+        }
     } else {
-        header("location: ../../core/?p=serviceHome&para=addPackageFailed");
+        header("location: ../../core/?p=packageHome&para=addPackageFailed");
     }
 } else if ($para == "editPackage") {
+    $packageID = $_GET['packageID'];
     $name = $_POST['name'];
     $detail = $_POST['detail'];
     $type = $_POST['type'];
-    $category = $_POST['category'];
+    $categoryID = $_POST['category'];
     $status = $_POST['status'];
-    $ip = $_POST['ip'];
-    $port = $_POST['port'];
-    $rack = $_POST['rack'];
-    $service = $_POST['service'];
-    $packageID = $_GET['packageID'];
+    $locationID = $_POST['location'];
 
-    $resEdit = editPackage($packageID, $name, $detail, $type, $category, $status, $ip, $port, $rack, $service, "-2");
-    if ($resEdit) {
-        header("location: ../../core/?p=serviceHome&para=editPackageCompleted");
+    $ipAmount = $_POST['amount']['ip'];
+    $portAmount = $_POST['amount']['port'];
+    $rackAmount = $_POST['amount']['rack'];
+    $serviceAmount = $_POST['amount']['service'];
+
+    $resEditPackage = editPackage($packageID, $name, $detail, $type, $categoryID, $locationID, $status, $PersonID);
+    $resEditAmount = editResourceAmount($packageID, $ipAmount, $portAmount, $rackAmount, $serviceAmount);
+    if ($resEditPackage) {
+        echo "Edit package completed.";
+        if ($resEditAmount) {
+            echo "Edit package amount completed.";
+            header("location: ../../core/?p=packageHome&para=editPackageCompleted");
+        } else {
+            header("location: ../../core/?p=packageHome&para=editPackageAmountFailed");
+        }
     } else {
-        header("location: ../../core/?p=serviceHome&para=editPackageFailed");
+        header("location: ../../core/?p=packageHome&para=editPackageFailed");
     }
 } else if ($para == "addContact") {
     $con_name = $_POST['name'];
     $con_sname = $_POST['sname'];
     $con_phone = $_POST['phone'];
     $con_email = $_POST['email'];
-    $con_password = $_POST['password'];
-    $con_type = $_POST['type'];
+    $con_idcard = $_POST['idcard'];
+    $con_typePerson = "Contact";
+    $con_typeContact = $_POST['type'];
+    $con_statusPerson = "Active";
     $cusID = $_GET['cusID'];
-    $resInsertCon = addPerson($con_name, $con_sname, $con_phone, $con_email, $con_password, NULL, NULL, $con_type, NULL, $cusID, "active");
-//    echo $resInsertCon;
-    if ($resInsertCon) {
-        move_uploaded_file($_FILES["file"]["tmp_name"], "../images/persons/" . $resInsertCon . ".jpg");
+
+    $resInsertPerson = addPerson($con_name, $con_sname, $con_phone, $con_email, $con_idcard, $con_typePerson, $con_statusPerson);
+    $resInsertContact = addContact($cusID, $resInsertPerson, NULL, NULL, $con_typeContact);
+    if ($resInsertContact) {
+        move_uploaded_file($_FILES["file"]["tmp_name"], "../images/persons/" . $resInsertPerson . ".jpg");
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addContactCompleted");
     } else {
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addContactFailed");

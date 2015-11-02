@@ -105,7 +105,7 @@ function addContact($CustomerID, $PersonID, $IDCCard, $IDCCardType, $ContactType
         "IDCCard" => $IDCCard, "IDCCardType" => $IDCCardType, "ContactType" => $ContactType));
 
     if ($SQLPrepare->rowCount() > 0) {
-        return $conn->lastInsertId();
+        return true;
     } else {
         return false;
     }
@@ -239,40 +239,69 @@ function addPackage($PackageName, $PackageDetail, $PackageType, $PackageCategory
         "CreateBy" => $PersonID, "UpdateBy" => $PersonID, "LocationID" => $LocationID));
 
     if ($SQLPrepare->rowCount() > 0) {
-        return $conn->lastInsertId();
+//        return $conn->lastInsertId();
     } else
         return false;
 }
 
-function editPackage($packageID, $name, $detail, $type, $category, $status, $ip, $port, $rack, $service, $personID) {
+function editPackage($packageID, $name, $detail, $type, $categoryID, $locationID, $status, $personID) {
     $conn = dbconnect();
-    $SQLCommand = "UPDATE `cus_package` SET "
-            . "`PackageName` = :name, "
-            . "`PackageDetail` = :detail, "
-            . "`PackageType` = :type, "
-            . "`PackageCategory` = :category, "
-            . "`PackageStatus` = :status, "
-            . "`IPAmount` = :ip, "
-            . "`PortAmount` = :port, "
-            . "`RackAmount` = :rack, "
-            . "`ServiceAmount` = :service, "
-            . "`UpdateBy` = :personID "
-            . "WHERE `cus_package`.`PackageID` = :packageID;";
+    $SQLCommand = "UPDATE `customer_package` "
+            . "SET "
+            . "`PackageName`= :PackageName,"
+            . "`PackageDetail`= :PackageDetail,"
+            . "`PackageType`= :PackageType,"
+            . "`PackageCategoryID`= :PackageCategoryID,"
+            . "`PackageStatus`= :PackageStatus,"
+            . "`UpdateBy`= :personID,"
+            . "`LocationID`= :LocationID "
+            . "WHERE `PackageID` = :PackageID;";
+//    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":packageID" => $packageID, ":name" => $name,
-        ":detail" => $detail, ":type" => $type, ":category" => $category,
-        ":status" => $status, ":ip" => $ip, ":port" => $port,
-        ":rack" => $rack, ":service" => $service, ":personID" => $personID));
+    $SQLPrepare->execute(array(
+        ":PackageName" => $name,
+        ":PackageDetail" => $detail,
+        ":PackageType" => $type,
+        ":PackageCategoryID" => $categoryID,
+        ":PackageStatus" => $status,
+        ":personID" => $personID,
+        ":LocationID" => $locationID,
+        ":PackageID" => $packageID
+    ));
     return $SQLPrepare->rowCount();
 }
 
 function getPackages() {
     $conn = dbconnect();
-    $SQLCommand = "SELECT `PackageID`, `PackageName`, `PackageDetail`, "
-            . "`PackageType`, `PackageCategory`, `PackageStatus`, `IPAmount`, "
-            . "`PortAmount`, `RackAmount`, `ServiceAmount`, `DateTimeCreate`, "
-            . "`DateTimeUpdate`, `CreateBy`, `UpdateBy` FROM `cus_package` "
-            . "ORDER BY `cus_package`.`PackageStatus` ASC";
+    $SQLCommand = "SELECT "
+            . "`PackageID`, "
+            . "`PackageName`, "
+            . "`PackageDetail`, "
+            . "`PackageType`, "
+            . "`PackageCategoryID`, "
+            . "`PackageCategory`, "
+            . "`PackageStatus`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`LocationID`, "
+            . "`Location` "
+            . "FROM `view_package` ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getPackageCategory() {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PackageCategoryID`, "
+            . "`PackageCategory`, "
+            . "`Status` "
+            . "FROM `customer_package_category` ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();
@@ -301,14 +330,22 @@ function getPackagesActive() {
 
 function getPackage($packageID) {
     $conn = dbconnect();
-    $SQLCommand = "SELECT `PackageID`, `PackageName`, `PackageDetail`, "
-            . "`PackageType`, `PackageCategory`, `PackageStatus`, `IPAmount`, "
-            . "`PortAmount`, `RackAmount`, `ServiceAmount`, `DateTimeCreate`, "
-            . "`DateTimeUpdate`, `CreateBy`, `UpdateBy` FROM `cus_package` "
-            . "WHERE `PackageID`= :ID";
-//    echo $SQLCommand;
+    $SQLCommand = "SELECT "
+            . "`PackageID`, "
+            . "`PackageName`, "
+            . "`PackageDetail`, "
+            . "`PackageType`, "
+            . "`PackageCategoryID`, "
+            . "`PackageCategory`, "
+            . "`PackageStatus`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`LocationID`, "
+            . "`Location` "
+            . "FROM `view_package` "
+            . "WHERE `PackageID`= :packageID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":ID" => $packageID));
+    $SQLPrepare->execute(array(":packageID" => $packageID));
     return $SQLPrepare->fetch(PDO::FETCH_ASSOC);
 }
 
@@ -352,7 +389,7 @@ function addServiceDetail($OrderID, $PackageID) {
         return false;
 }
 
-function addServiceDetailAction($ServiceDetailID,$Action){
+function addServiceDetailAction($ServiceDetailID, $Action) {
     $conn = dbconnect();
     $SQLCommand = "INSERT INTO `customer_service_detail_action`(`ServiceDetailID`, `Action`) "
             . "VALUES (:ServiceDetailID, :Action)";
@@ -489,4 +526,21 @@ function editStatusOrderDetail($orderDetailID, $status) {
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID, ":status" => $status));
     return $SQLPrepare->rowCount();
+}
+
+function getLocation() {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`LocationID`, "
+            . "`Location`, "
+            . "`Address`, "
+            . "`Status` "
+            . "FROM `location`";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
 }

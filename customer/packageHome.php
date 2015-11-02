@@ -17,10 +17,10 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                         <thead>
                             <tr>
                                 <!--<th>ID Service</th>-->
-                                <th>Service Name</th>
-                                <th>Detail</th>
+                                <th>Name</th>
                                 <th>Type</th>
                                 <th>Category</th>
+                                <th>Location</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -28,18 +28,23 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                         <tbody>
                             <?php
                             $services = getPackages();
-                            foreach ($services as $service) {
+                            foreach ($services as $package) {
+                                $packageID = $package['PackageID'];
+                                $packageName = $package['PackageName'];
+                                $packageType = $package['PackageType'];
+                                $packageCategory = $package['PackageCategory'];
+                                $location = $package['Location'];
+                                $packageStatus = $package['PackageStatus'];
                                 ?>
-                                <tr class="odd gradeX">
-                                    <!--<td><?php //echo $service['PackageID']; ?></td>-->
-                                    <td><?php echo $service['PackageName']; ?></td>
-                                    <td><?php echo $service['PackageDetail']; ?></td>
-                                    <td><?php echo $service['PackageType']; ?></td>
-                                    <td><?php echo $service['PackageCategory']; ?></td>
-                                    <td><?php echo $service['PackageStatus']; ?></td>
+                                <tr>
+                                    <td><?php echo $packageName; ?></td>
+                                    <td><?php echo $packageType; ?></td>
+                                    <td><?php echo $packageCategory; ?></td>
+                                    <td><?php echo $location; ?></td>
+                                    <td><p class="label label-<?php echo $packageStatus == "Active" ? "success" : "danger"; ?>"><?php echo $packageStatus; ?></p></td>
                                     <td>
-                                        <a href="../customer/model_viewPackages.php?packageID=<?php echo $service['PackageID']; ?>" class="btn btn-primary" data-toggle="modal" data-target="#myModal">view</a>
-                                        <a href="../customer/model_editPackages.php?packageID=<?php echo $service['PackageID']; ?>" class="btn btn-warning" data-toggle="modal" data-target="#myModal">Edit</a>
+                                        <a href="../customer/model_viewPackages.php?packageID=<?php echo $packageID; ?>" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">view</a>
+                                        <a href="../customer/model_editPackages.php?packageID=<?php echo $packageID; ?>" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">Edit</a>
                                     </td>
                                 </tr>                                                     
                             <?php } ?>

@@ -14,6 +14,7 @@ $cusName = $getCus['CustomerName'];
 $cusBissType = $getCus['BusinessType'];
 $cusEmail = $getCus['Email'];
 $cusPhone = $getCus['Phone'];
+$cusFax = $getCus['Fax'];
 $cusAddress = $getCus['Address'];
 $cusTownship = $getCus['Township'];
 $cusCity = $getCus['City'];
@@ -95,7 +96,7 @@ $cusCountry = $getCus['Country'];
                             <label>แฟกต์ / Fax.</label>
                         </div>
                         <div class="form-group col-lg-6">                               
-                            <?php echo $cusFax = $getCus['Fax']; ?>
+                            <?php echo $cusFax; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
@@ -128,6 +129,7 @@ $cusCountry = $getCus['Country'];
                             $conLname = $value['Lname'];
                             $conEmail = $value['Email'];
                             $conPhone = $value['Phone'];
+                            $conIDCard = $value['IDCard'];
                             $conTypeContact = $value['ContactType'];
                             $conTypePerson = $value['TypePerson'];
                             $conPersonID = $value['PersonID'];
@@ -138,10 +140,11 @@ $cusCountry = $getCus['Country'];
                                     <img class="img-thumbnail" src = "../customer/images/persons/<?php echo $value['PersonID']; ?>.jpg" width="100%" height="" border="1">
                                 </div>
                                 <div class="col-lg-8 text-left">                      
-                                    <p><b>Name:</b> <?php echo $value['Fname'] . " " . $value['Lname']; ?></p>
-                                    <p><b>Email:</b> <?php echo $value['Email']; ?></p>
-                                    <p><b>Phone:</b> <?php echo $value['Phone']; ?></p>
-                                    <p><b>Type:</b> <?php echo $value['TypePerson']; ?></p>
+                                    <p><b>Name:</b> <?php echo $conFname . " " . $conLname; ?></p>
+                                    <p><b>Email:</b> <?php echo $conEmail; ?></p>
+                                    <p><b>Phone:</b> <?php echo $conPhone; ?></p>
+                                    <p><b>ID Card:</b> <?php echo $conIDCard; ?></p>
+                                    <p><b>Type:</b> <?php echo $conTypeContact; ?></p>
                                     <div class="text-right">
                                         <a href="../customer/model_editContact.php?personID=<?php echo $value['PersonID']; ?>&cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">Detail</a>
                                     </div>
@@ -163,7 +166,7 @@ $cusCountry = $getCus['Country'];
                 <p>
                     <b>
                         Order Detail 
-<!--                            <a href="../core/?p=addOrder&cusID=<?php //echo $cusID;      ?>" >(ADD)</a>-->
+<!--                            <a href="../core/?p=addOrder&cusID=<?php //echo $cusID;       ?>" >(ADD)</a>-->
                         <a href="../customer/model_addOrder.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">(Add)</a>
                     </b>
                 </p>

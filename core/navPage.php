@@ -18,9 +18,9 @@ switch ($p) {
         $page['file'] = "../customer/cusHome.php";
         $page['name'] = "Customer Management";
         break;
-    case "serviceHome":
-        $page['file'] = "../customer/serviceHome.php";
-        $page['name'] = "Service Management";
+    case "packageHome":
+        $page['file'] = "../customer/packageHome.php";
+        $page['name'] = "Package Management";
         break;
 
     // Customer // Add
