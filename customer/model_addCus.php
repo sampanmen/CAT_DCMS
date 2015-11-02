@@ -239,22 +239,22 @@
         $("#ddd").append(htmlAddCus);
     }
 
-    function checkEmail(email) {
+//    function checkEmail(email) {
         //alert(email);
-        $.get("../customer/action/customer.action.php?para=checkEmail&email=" + email, function (data, status) {
-            //alert("Data: " + data + "\nStatus: " + status);
-            if (data == "1") {
-                $("#btnSubmit").prop('disabled', true);
-                $("#alertEmail").append("<p class=\"label label-danger\" id=\"alertEmail\">" + email + " อีเมล์ซ้ำ กรุณาเปลี่ยนอีเมล์</p><br>");
-                alert(email + " E-Mail นี้ถูกใช้งานแล้ว");
-            }
-            else {
-                $("#btnSubmit").prop('disabled', false);
-                $("#alertEmail").html("");
-                //alert(email + " E-Mail นี้ใช้งานได้");
-            }
-        })
-    }
+//        $.get("../customer/action/customer.action.php?para=checkEmail&email=" + email, function (data, status) {
+//            //alert("Data: " + data + "\nStatus: " + status);
+//            if (data == "1") {
+//                $("#btnSubmit").prop('disabled', true);
+//                $("#alertEmail").append("<p class=\"label label-danger\" id=\"alertEmail\">" + email + " อีเมล์ซ้ำ กรุณาเปลี่ยนอีเมล์</p><br>");
+//                alert(email + " E-Mail นี้ถูกใช้งานแล้ว");
+//            }
+//            else {
+//                $("#btnSubmit").prop('disabled', false);
+//                $("#alertEmail").html("");
+//                //alert(email + " E-Mail นี้ใช้งานได้");
+//            }
+//        })
+//    }
 
     //    $.get("../customer/action/customer.action.php?para=getBussinessTypeHTML", function (data, status) {
     //            //alert("Data: " + data + "\nStatus: " + status);

@@ -1,7 +1,25 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 $cusID = $_GET['cusID'];
-$cus = getCustomer($cusID);
+
+//start Customer
+$getCus = getCustomer($cusID);
+//$cusID = $getCus['CustomerID'];
+$cusStatus = $getCus['CustomerStatus'];
+$statusLabel = $cusStatus == "Active" ? "success" : ($cusStatus == "Suppened" ? "warning" : "danger");
+$cusName = $getCus['CustomerName'];
+$cusBissType = $getCus['BusinessType'];
+$cusEmail = $getCus['Email'];
+$cusPhone = $getCus['Phone'];
+$cusFax = $getCus['Fax'];
+$cusAddress = $getCus['Address'];
+$cusTownship = $getCus['Township'];
+$cusCity = $getCus['City'];
+$cusProvince = $getCus['Province'];
+$cusZipcode = $getCus['Zipcode'];
+$cusCountry = $getCus['Country'];
+//end Customer
+
 ?>
 <form action="../customer/action/customer.action.php?para=editCustomer&cusID=<?php echo $cusID; ?>" method="POST">
     <div class="modal-header">
@@ -17,7 +35,7 @@ $cus = getCustomer($cusID);
                             <p>ชื่อลูกค้า <br> Name</p>
                         </div>
                         <div class="form-group col-lg-3">
-                            <input class="form-control" name="name" value="<?php echo $cus['CustomerName']; ?>">                                
+                            <input class="form-control" name="name" value="<?php echo $cusName; ?>">                                
                         </div>
                     </div>
                     <div class="col-lg-12"> 
@@ -26,16 +44,16 @@ $cus = getCustomer($cusID);
                         </div>
                         <div class="form-group col-lg-3"> 
                             <select class="form-control" name="bussinessType">
-                                <option <?php echo $cus['BusinessType'] == "กสท" ? "selected" : ""; ?> value="กสท">กสท</option>
-                                <option <?php echo $cus['BusinessType'] == "นิติบุคคล" ? "selected" : ""; ?> value="นิติบุคคล">นิติบุคคล</option>
-                                <option <?php echo $cus['BusinessType'] == "บุคคล" ? "selected" : ""; ?> value="บุคคล">บุคคล</option>                                 
+                                <option <?php echo $cusBissType == "กสท" ? "selected" : ""; ?> value="กสท">กสท</option>
+                                <option <?php echo $cusBissType == "นิติบุคคล" ? "selected" : ""; ?> value="นิติบุคคล">นิติบุคคล</option>
+                                <option <?php echo $cusBissType == "บุคคล" ? "selected" : ""; ?> value="บุคคล">บุคคล</option>                                 
                             </select>    
                         </div>
                         <div class="form-group col-lg-2">
                             <p>อีเมล์<br>E-Mail</p>
                         </div>
                         <div class="form-group col-lg-4">
-                            <input class="form-control" type="email" name="email" value="<?php echo $cus['Email']; ?>">      
+                            <input class="form-control" type="email" name="email" value="<?php echo $cusEmail; ?>">      
                         </div>
                     </div>
                     <div class="col-lg-12"> 
@@ -43,13 +61,13 @@ $cus = getCustomer($cusID);
                             <p>โทรศัพท์ <br>Phone</p>
                         </div>
                         <div class="form-group col-lg-3">
-                            <input class="form-control" name="phone" value="<?php echo $cus['Phone']; ?>">                                
+                            <input class="form-control" name="phone" value="<?php echo $cusPhone; ?>">                                
                         </div>
                         <div class="form-group col-lg-2">
                             <p>แฟกต์  <br>Fax</p>
                         </div>
                         <div class="form-group col-lg-4">
-                            <input class="form-control" name="fax" value="<?php echo $cus['Fax']; ?>">                                
+                            <input class="form-control" name="fax" value="<?php echo $cusFax; ?>">                                
                         </div>
                     </div>
 
@@ -58,13 +76,13 @@ $cus = getCustomer($cusID);
                             <p>ที่อยู่ <br>Address</p>                                                               
                         </div>
                         <div class="form-group col-lg-3">
-                            <input class="form-control" name="address" value="<?php echo $cus['Address']; ?>">                                
+                            <input class="form-control" name="address" value="<?php echo $cusAddress; ?>">                                
                         </div>
                         <div class="form-group col-lg-2">
                             <p>ตำบล <br>Tambol</p>                                                             
                         </div>
                         <div class="form-group col-lg-4">
-                            <input class="form-control" name="township" value="<?php echo $cus['Township']; ?>">                                
+                            <input class="form-control" name="township" value="<?php echo $cusTownship; ?>">                                
                         </div>
                     </div>
                     <div class="col-lg-12"> 
@@ -72,13 +90,13 @@ $cus = getCustomer($cusID);
                             <p>อำเภอ <br>City</p>                          
                         </div>
                         <div class="form-group col-lg-3">
-                            <input class="form-control" name="city" value="<?php echo $cus['City']; ?>">                                
+                            <input class="form-control" name="city" value="<?php echo $cusCity; ?>">                                
                         </div>
                         <div class="form-group col-lg-2">
                             <p>จังหวัด <br>Province</p>                     
                         </div>
                         <div class="form-group col-lg-4">
-                            <input class="form-control" name="province" value="<?php echo $cus['Province']; ?>">                                
+                            <input class="form-control" name="province" value="<?php echo $cusProvince; ?>">                                
                         </div>
                     </div>
                     <div class="col-lg-12"> 
@@ -86,14 +104,14 @@ $cus = getCustomer($cusID);
                             <p>รหัสไปรษณีย์  <br>Postalcode</p>                 
                         </div>
                         <div class="form-group col-lg-3">
-                            <input class="form-control" name="zipcode" value="<?php echo $cus['Zipcode']; ?>">                                
+                            <input class="form-control" name="zipcode" value="<?php echo $cusZipcode; ?>">                                
                         </div>
 
                         <div class="form-group col-lg-2">
                             <p>ประเทศ  <br>Country</p>
                         </div>
                         <div class="form-group col-lg-4">
-                            <input class="form-control" name="country" value="<?php echo $cus['Country']; ?>">                                
+                            <input class="form-control" name="country" value="<?php echo $cusCountry; ?>">                                
                         </div>
                     </div>
                     <div class="col-lg-12"> 
@@ -102,9 +120,9 @@ $cus = getCustomer($cusID);
                         </div>
                         <div class="form-group col-lg-3"> 
                             <select class="form-control" name="status">
-                                <option <?php echo $cus['CustomerStatus'] == "active" ? "selected" : ""; ?> value="active">Active</option>
-                                <option <?php echo $cus['CustomerStatus'] == "suppened" ? "selected" : ""; ?> value="suppened">Suppened</option>
-                                <option <?php echo $cus['CustomerStatus'] == "delete" ? "selected" : ""; ?> value="delete">Delete</option>
+                                <option <?php echo $cusStatus == "Active" ? "selected" : ""; ?> value="Active">Active</option>
+                                <option <?php echo $cusStatus == "Suppened" ? "selected" : ""; ?> value="Suppened">Suppened</option>
+                                <option <?php echo $cusStatus == "Delete" ? "selected" : ""; ?> value="Delete">Delete</option>
                             </select>    
                         </div>
                     </div>

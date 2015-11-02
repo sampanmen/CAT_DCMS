@@ -42,10 +42,10 @@
                     </div>
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
-                            <label>รหัสผ่าน / Password</label>
+                            <label>รหัสบัตรประชาชน / ID Card</label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <input class="form-control" type="password" name="password">                                   
+                            <input class="form-control" type="text" name="idcard">                                   
                         </div>
                     </div>
                     <div class="col-lg-12">  
@@ -54,8 +54,8 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <select class="form-control" name="type">
-                                <option selected value="contact">contact</option>
-                                <option value="subcontact">subcontact</option>
+                                <option selected value="Main">Main</option>
+                                <option value="Secondary">Secondary</option>
                             </select>
                         </div>
                     </div>

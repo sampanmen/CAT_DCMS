@@ -105,7 +105,7 @@ function addContact($CustomerID, $PersonID, $IDCCard, $IDCCardType, $ContactType
         "IDCCard" => $IDCCard, "IDCCardType" => $IDCCardType, "ContactType" => $ContactType));
 
     if ($SQLPrepare->rowCount() > 0) {
-        return $conn->lastInsertId();
+        return true;
     } else {
         return false;
     }

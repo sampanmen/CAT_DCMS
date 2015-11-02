@@ -96,13 +96,16 @@ if ($para == "addCustomer") {
     $con_sname = $_POST['sname'];
     $con_phone = $_POST['phone'];
     $con_email = $_POST['email'];
-    $con_password = $_POST['password'];
-    $con_type = $_POST['type'];
+    $con_idcard = $_POST['idcard'];
+    $con_typePerson = "Contact";
+    $con_typeContact = $_POST['type'];
+    $con_statusPerson = "Active";
     $cusID = $_GET['cusID'];
-    $resInsertCon = addPerson($con_name, $con_sname, $con_phone, $con_email, $con_password, NULL, NULL, $con_type, NULL, $cusID, "active");
-//    echo $resInsertCon;
-    if ($resInsertCon) {
-        move_uploaded_file($_FILES["file"]["tmp_name"], "../images/persons/" . $resInsertCon . ".jpg");
+    
+    $resInsertPerson = addPerson($con_name, $con_sname, $con_phone, $con_email, $con_idcard, $con_typePerson, $con_statusPerson);
+    $resInsertContact = addContact($cusID, $resInsertPerson, NULL, NULL, $con_typeContact);
+    if ($resInsertContact) {
+        move_uploaded_file($_FILES["file"]["tmp_name"], "../images/persons/" . $resInsertPerson . ".jpg");
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addContactCompleted");
     } else {
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addContactFailed");
