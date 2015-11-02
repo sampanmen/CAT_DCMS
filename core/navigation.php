@@ -246,7 +246,7 @@
                             <a href="?p=cusHome">Customers</a>
                         </li>
                         <li>
-                            <a href="?p=serviceHome">Packages</a>
+                            <a href="?p=packageHome">Packages</a>
                         </li>
                         <li>
                             <a href="?p=searchCustomer">Search Customer</a>
