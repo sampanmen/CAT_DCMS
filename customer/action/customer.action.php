@@ -21,8 +21,7 @@ if ($para == "addCustomer") {
     echo "<pre>";
     print_r($_POST);
     echo "</pre>";
-    $resInsertCus = addCustomer($cus_status, $cus_name, $cus_bussTypeID, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, 
-            $cus_province, $cus_zipcode, $cus_country, $PersonID);
+    $resInsertCus = addCustomer($cus_status, $cus_name, $cus_bussTypeID, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, $cus_province, $cus_zipcode, $cus_country, $PersonID);
     if ($resInsertCus) {
 //        $resInsertCon = true;
         $countCon = count($con['name']);
@@ -57,21 +56,33 @@ if ($para == "addCustomer") {
     $email = isset($_GET['email']) ? $_GET['email'] : "no email";
     echo checkEmail($email);
 } else if ($para == "addPackage") {
-    $name = $_POST['name'];
-    $detail = $_POST['detail'];
-    $type = $_POST['type'];
-    $category = $_POST['category'];
-    $status = $_POST['status'];
-    $ip = $_POST['ip'];
-    $port = $_POST['port'];
-    $rack = $_POST['rack'];
-    $service = $_POST['service'];
+    //package
+    $PackageName = $_POST['name'];
+    $PackageDetail = $_POST['detail'];
+    $PackageType = $_POST['type'];
+    $PackageCategoryID = $_POST['category'];
+    $PackageStatus = $_POST['status'];
+    $LocationID = $_POST['location'];
 
-    $resInsert = addPackage($name, $detail, $type, $category, $status, $ip, $port, $rack, $service, "-1");
-    if ($resInsert) {
-        header("location: ../../core/?p=serviceHome&para=addPackageCompleted");
+    //amount
+    $ipAmount = $_POST['amount']['ip'];
+    $portAmount = $_POST['amount']['port'];
+    $rackAmount = $_POST['amount']['rack'];
+    $serviceAmount = $_POST['amount']['service'];
+
+    $resInsertPackage = addPackage($PackageName, $PackageDetail, $PackageType, $PackageCategoryID, $PackageStatus, $PersonID, $LocationID);
+    if ($resInsertPackage) {
+        echo "Add package completed.";
+        $resInsertAmount = addResourceAmount($resInsertPackage, $ipAmount, $portAmount, $rackAmount, $serviceAmount);
+        if ($resInsertAmount) {
+            echo "Add amount completed.";
+            header("location: ../../core/?p=packageHome&para=addPackageCompleted");
+        }
+        else {
+            header("location: ../../core/?p=packageHome&para=addPackageFailed");
+        }
     } else {
-        header("location: ../../core/?p=serviceHome&para=addPackageFailed");
+        header("location: ../../core/?p=packageHome&para=addPackageFailed");
     }
 } else if ($para == "editPackage") {
     $name = $_POST['name'];
@@ -101,7 +112,7 @@ if ($para == "addCustomer") {
     $con_typeContact = $_POST['type'];
     $con_statusPerson = "Active";
     $cusID = $_GET['cusID'];
-    
+
     $resInsertPerson = addPerson($con_name, $con_sname, $con_phone, $con_email, $con_idcard, $con_typePerson, $con_statusPerson);
     $resInsertContact = addContact($cusID, $resInsertPerson, NULL, NULL, $con_typeContact);
     if ($resInsertContact) {
