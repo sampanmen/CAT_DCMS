@@ -32,14 +32,6 @@ switch ($p) {
         $page['file'] = "../customer/addContact.php";
         $page['name'] = "ADD New Contact";
         break;
-    case "addOrder":
-        $page['file'] = "../customer/addOrder.php";
-        $page['name'] = "Order Registration";
-        break;
-    case "addService":
-        $page['file'] = "../customer/addService.php";
-        $page['name'] = "Add Package";
-        break;
 
     // Customer // View
     case "viewCus":
