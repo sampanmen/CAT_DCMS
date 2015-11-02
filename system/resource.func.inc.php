@@ -693,3 +693,43 @@ function addResourceAmount($PackageID, $IPAmount, $PortAmount, $RackAmount, $Ser
     } else
         return false;
 }
+
+function getResourceAmount($packageID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`ResourceAmountID`, "
+            . "`PackageID`, "
+            . "`IPAmount`, "
+            . "`PortAmount`, "
+            . "`RackAmount`, "
+            . "`ServiceAmount` "
+            . "FROM `resource_amount` "
+            . "WHERE `PackageID`= :packageID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":packageID" => $packageID));
+    return $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+}
+
+function editResourceAmount($PackageID, $IPAmount, $PortAmount, $RackAmount, $ServiceAmount) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "UPDATE `resource_amount` SET "
+            . "`IPAmount`= :IPAmount,"
+            . "`PortAmount`= :PortAmount,"
+            . "`RackAmount`= :RackAmount,"
+            . "`ServiceAmount`= :ServiceAmount "
+            . "WHERE `PackageID`= :PackageID";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        "PackageID" => $PackageID,
+        "IPAmount" => $IPAmount,
+        "PortAmount" => $PortAmount,
+        "RackAmount" => $RackAmount,
+        "ServiceAmount" => $ServiceAmount
+    ));
+
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}

@@ -239,30 +239,35 @@ function addPackage($PackageName, $PackageDetail, $PackageType, $PackageCategory
         "CreateBy" => $PersonID, "UpdateBy" => $PersonID, "LocationID" => $LocationID));
 
     if ($SQLPrepare->rowCount() > 0) {
-        return $conn->lastInsertId();
+//        return $conn->lastInsertId();
     } else
         return false;
 }
 
-function editPackage($packageID, $name, $detail, $type, $category, $status, $ip, $port, $rack, $service, $personID) {
+function editPackage($packageID, $name, $detail, $type, $categoryID, $locationID, $status, $personID) {
     $conn = dbconnect();
-    $SQLCommand = "UPDATE `cus_package` SET "
-            . "`PackageName` = :name, "
-            . "`PackageDetail` = :detail, "
-            . "`PackageType` = :type, "
-            . "`PackageCategory` = :category, "
-            . "`PackageStatus` = :status, "
-            . "`IPAmount` = :ip, "
-            . "`PortAmount` = :port, "
-            . "`RackAmount` = :rack, "
-            . "`ServiceAmount` = :service, "
-            . "`UpdateBy` = :personID "
-            . "WHERE `cus_package`.`PackageID` = :packageID;";
+    $SQLCommand = "UPDATE `customer_package` "
+            . "SET "
+            . "`PackageName`= :PackageName,"
+            . "`PackageDetail`= :PackageDetail,"
+            . "`PackageType`= :PackageType,"
+            . "`PackageCategoryID`= :PackageCategoryID,"
+            . "`PackageStatus`= :PackageStatus,"
+            . "`UpdateBy`= :personID,"
+            . "`LocationID`= :LocationID "
+            . "WHERE `PackageID` = :PackageID;";
+//    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":packageID" => $packageID, ":name" => $name,
-        ":detail" => $detail, ":type" => $type, ":category" => $category,
-        ":status" => $status, ":ip" => $ip, ":port" => $port,
-        ":rack" => $rack, ":service" => $service, ":personID" => $personID));
+    $SQLPrepare->execute(array(
+        ":PackageName" => $name,
+        ":PackageDetail" => $detail,
+        ":PackageType" => $type,
+        ":PackageCategoryID" => $categoryID,
+        ":PackageStatus" => $status,
+        ":personID" => $personID,
+        ":LocationID" => $locationID,
+        ":PackageID" => $packageID
+    ));
     return $SQLPrepare->rowCount();
 }
 
@@ -325,14 +330,22 @@ function getPackagesActive() {
 
 function getPackage($packageID) {
     $conn = dbconnect();
-    $SQLCommand = "SELECT `PackageID`, `PackageName`, `PackageDetail`, "
-            . "`PackageType`, `PackageCategory`, `PackageStatus`, `IPAmount`, "
-            . "`PortAmount`, `RackAmount`, `ServiceAmount`, `DateTimeCreate`, "
-            . "`DateTimeUpdate`, `CreateBy`, `UpdateBy` FROM `cus_package` "
-            . "WHERE `PackageID`= :ID";
-//    echo $SQLCommand;
+    $SQLCommand = "SELECT "
+            . "`PackageID`, "
+            . "`PackageName`, "
+            . "`PackageDetail`, "
+            . "`PackageType`, "
+            . "`PackageCategoryID`, "
+            . "`PackageCategory`, "
+            . "`PackageStatus`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`LocationID`, "
+            . "`Location` "
+            . "FROM `view_package` "
+            . "WHERE `PackageID`= :packageID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":ID" => $packageID));
+    $SQLPrepare->execute(array(":packageID" => $packageID));
     return $SQLPrepare->fetch(PDO::FETCH_ASSOC);
 }
 

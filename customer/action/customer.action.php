@@ -77,30 +77,38 @@ if ($para == "addCustomer") {
         if ($resInsertAmount) {
             echo "Add amount completed.";
             header("location: ../../core/?p=packageHome&para=addPackageCompleted");
-        }
-        else {
+        } else {
             header("location: ../../core/?p=packageHome&para=addPackageFailed");
         }
     } else {
         header("location: ../../core/?p=packageHome&para=addPackageFailed");
     }
 } else if ($para == "editPackage") {
+    $packageID = $_GET['packageID'];
     $name = $_POST['name'];
     $detail = $_POST['detail'];
     $type = $_POST['type'];
-    $category = $_POST['category'];
+    $categoryID = $_POST['category'];
     $status = $_POST['status'];
-    $ip = $_POST['ip'];
-    $port = $_POST['port'];
-    $rack = $_POST['rack'];
-    $service = $_POST['service'];
-    $packageID = $_GET['packageID'];
+    $locationID = $_POST['location'];
 
-    $resEdit = editPackage($packageID, $name, $detail, $type, $category, $status, $ip, $port, $rack, $service, "-2");
-    if ($resEdit) {
-        header("location: ../../core/?p=serviceHome&para=editPackageCompleted");
+    $ipAmount = $_POST['amount']['ip'];
+    $portAmount = $_POST['amount']['port'];
+    $rackAmount = $_POST['amount']['rack'];
+    $serviceAmount = $_POST['amount']['service'];
+
+    $resEditPackage = editPackage($packageID, $name, $detail, $type, $categoryID, $locationID, $status, $PersonID);
+    $resEditAmount = editResourceAmount($packageID, $ipAmount, $portAmount, $rackAmount, $serviceAmount);
+    if ($resEditPackage) {
+        echo "Edit package completed.";
+        if ($resEditAmount) {
+            echo "Edit package amount completed.";
+            header("location: ../../core/?p=packageHome&para=editPackageCompleted");
+        } else {
+            header("location: ../../core/?p=packageHome&para=editPackageAmountFailed");
+        }
     } else {
-        header("location: ../../core/?p=serviceHome&para=editPackageFailed");
+        header("location: ../../core/?p=packageHome&para=editPackageFailed");
     }
 } else if ($para == "addContact") {
     $con_name = $_POST['name'];
