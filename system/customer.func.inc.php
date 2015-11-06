@@ -14,7 +14,8 @@ function addCustomer($CustomerStatus, $CustomerName, $BusinessTypeID, $Email, $P
     $SQLPrepare->execute(array("CustomerStatus" => $CustomerStatus, "CustomerName" => $CustomerName,
         "BusinessTypeID" => $BusinessTypeID, "Email" => $Email, "Phone" => $Phone, "Fax" => $Fax,
         "Address" => $Address, "Township" => $Township, "City" => $City, "Province" => $Province,
-        "Zipcode" => $Zipcode, "Country" => $Country, "CreateBy" => $PersonID, "UpdateBy" => $PersonID));
+        "Zipcode" => $Zipcode, "Country" => $Country, "CreateBy" => $PersonID, "UpdateBy" => $PersonID
+    ));
 
     if ($SQLPrepare->rowCount() > 0) {
         $cusID = $conn->lastInsertId();
@@ -731,6 +732,47 @@ function getBusinessType() {
             . "FROM `customer_businesstype`";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function searchCustomer($text) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`CustomerID`, "
+            . "`CustomerName`, "
+            . "`BusinessTypeID`, "
+            . "`BusinessType`, "
+            . "`cusEmail`, "
+            . "`cusPhone`, "
+            . "`Fax`, "
+            . "`Address`, "
+            . "`Township`, "
+            . "`City`, "
+            . "`Province`, "
+            . "`Zipcode`, "
+            . "`Country`, "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`conPhone`, "
+            . "`conEmail`, "
+            . "`IDCard`, "
+            . "`TypePerson`, "
+            . "`IDCCard`, "
+            . "`IDCCardType`, "
+            . "`ContactType` "
+            . "FROM `view_customer_contact` "
+            . "WHERE "
+            . "MATCH (`CustomerName`, `cusEmail`, `cusPhone`, `Fax`, `Address`, `Township`, `City`, `Province`, `Zipcode`, `Country`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR "
+            . "MATCH (`Fname`, `Lname`, `conPhone`, `conEmail`,`IDCard`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR "
+            . "MATCH (`BusinessType`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR MATCH (`IDCCard`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR "
+            . "`CustomerID` = :text ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":text" => $text));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);

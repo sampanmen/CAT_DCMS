@@ -1,69 +1,80 @@
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+
+$searchText = isset($_REQUEST['search']) ? $_REQUEST['search'] : "";
+$resultSearch = searchCustomer($searchText);
+
+//echo "<pre>";
+//print_r($resultSearch);
+//echo "</pre>";
+?>
 <div class="row">
-    <form> 
-        <div class="col-lg-12">
-         
-                <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover" id="dataTables">
-                            <thead>
-                                <tr>
-                                    <th>Customer ID</th>
-                                    <th>Customer Name</th>
-                                    <th>Contact Name</th>
-                                    <th>E-Mail</th>
-                                    <th>Tel.</th>
-                                    <th>Status</th>
-                                    <th>Detail</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>00001</td>
-                                    <td>Thailand HaHa</td>
-                                    <td>Thidarat Changkaew</td>
-                                    <td>thidarat.c@outlook.com</td>
-                                    <td>0869711277</td>
-                                    <td><p class="label label-success">Active</p></td>
-                                    <td><a class="btn btn-info" href="?p=viewCus&cusID=00000">Detail</a></td>
+    <div class="col-lg-12">
+        <div class="panel-body">
+            <?php
+            if ($resultSearch == NULL) {
+                echo '<h4>การค้นหาของคุณ -<label class="text-danger">' . $searchText . '</label>- ไม่ตรงกับเอกสารใด ๆ</h4>';
+            } else {
+                foreach ($resultSearch as $value) {
+                    $valCustomerID = $value['CustomerID'];
+                    $valCustomerName = $value['CustomerName'];
+                    $valBusinessTypeID = $value['BusinessTypeID'];
+                    $valBusinessType = $value['BusinessType'];
+                    $valCusEmail = $value['cusEmail'];
+                    $valCusPhone = $value['cusPhone'];
+                    $valFax = $value['Fax'];
+                    $valAddress = $value['Address'];
+                    $valTownship = $value['Township'];
+                    $valCity = $value['City'];
+                    $valProvince = $value['Province'];
+                    $valZipcode = $value['Zipcode'];
+                    $valCountry = $value['Country'];
+                    $valPersonID = $value['PersonID'];
+                    $valFname = $value['Fname'];
+                    $valLname = $value['Lname'];
+                    $valConPhone = $value['conPhone'];
+                    $valConEmail = $value['conEmail'];
+                    $valIDCard = $value['IDCard'];
+                    $valTypePerson = $value['TypePerson'];
+                    $valIDCCard = $value['IDCCard'];
+                    $valIDCCardType = $value['IDCCardType'];
+                    $valContactType = $value['ContactType'];
 
-                                </tr>                                                     
-                                <tr>
-                                    <td>00001</td>
-                                    <td>Thailand HaHa</td>
-                                    <td>Papapora Pianwimangsa</td>
-                                    <td>gib_love_you@outlook.com</td>
-                                    <td>0869999999</td>
-                                    <td><p class="label label-success">Active</p></td>
-                                    <td><a class="btn btn-info" href="?p=viewCus&cusID=00000">Detail</a></td>
+                    $resText = "Business: " . $valCustomerName . " " . $valBusinessType . " " .
+                            $valCusEmail . " " . $valCusPhone . " " . $valFax . " " . $valAddress . " " .
+                            $valTownship . " " . $valCity . " " . $valCountry . " " . "Person: " . $valFname . " " .
+                            $valLname . " " . $valConPhone . " " . $valConEmail . " " . $valIDCard . " " .
+                            $valTypePerson . " " . $valIDCCard . " " . $valContactType;
+                    $resText = str_replace($searchText, "<b class='text-success'>$searchText</b>", $resText);
 
-                                </tr>          
-                                <tr>
-                                    <td>00001</td>
-                                    <td>Thailand HaHa</td>
-                                    <td>Sukrit Wisartkaew</td>
-                                    <td>sukrut.w@outlook.com</td>
-                                    <td>0869852145</td>
-                                    <td><p class="label label-success">Active</p></td>
-                                    <td><a class="btn btn-info" href="?p=viewCus&cusID=00000">Detail</a></td>
+                    $Title = " " . $valCustomerName . " - " . $valBusinessType;
+                    $Title = str_replace($searchText, "<b class='text-success'>$searchText</b>", $Title);
 
-                                </tr>          
-                                <tr>
-                                    <td>00002</td>
-                                    <td>CPE KPS</td>
-                                    <td>Sampan Saraneyapong</td>
-                                    <td>sampan@outlook.com</td>
-                                    <td>0812567803</td>
-                                    <td><p class="label label-success">Active</p></td>
-                                    <td><a class="btn btn-info" href="?p=viewCus&cusID=00000">Detail</a></td>
-                                </tr>          
-
-                            </tbody>
-                        </table>
+                    $subTitle = $valFname . " " . $valLname . " (" . $valTypePerson . ")";
+                    $subTitle = str_replace($searchText, "<b class='text-success'>$searchText</b>", $subTitle);
+                    ?>
+                    <div class="col-lg-7">
+                        <div class="col-lg-12">
+                            <a href="?viewCus&cusID=<?php echo $valCustomerID; ?>" class="text-info" style="font-size: 1.3em;"><?php
+                                printf("%05d", $valCustomerID);
+                                echo $Title;
+                                ?></a>
+                        </div>
+                        <div class="col-lg-12 text-success">
+                            <?php echo $subTitle; ?>
+                        </div>
+                        <div class="col-lg-12">
+                            <p>
+                                <?php
+                                echo $resText;
+                                ?>
+                            </p><br>
+                        </div>
                     </div>
-                    <!-- /.table-responsive -->
-                </div>
-            </div>
+                    <?php
+                }
+            }
+            ?>
         </div>
-    </form>
-
+    </div>
 </div>

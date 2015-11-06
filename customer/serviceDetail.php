@@ -62,7 +62,7 @@ $getServiceDetailAddOn = getServiceDetailByServiceID($serviceID, "Add-on");
                                         </a>
                                     </td>
                                     <td>
-                                        <!--<a href="../customer/modal_viewServiceDetail.php?serviceDetailID=<?php // echo $serviceDetailID; ?>&cusID=<?php echo $cusID; ?>" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">view</a>-->
+                                        <!--<a href="../customer/modal_viewServiceDetail.php?serviceDetailID=<?php // echo $serviceDetailID;   ?>&cusID=<?php echo $cusID; ?>" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">view</a>-->
                                         <a href="../customer/modal_editServiceDetailStatus.php?serviceDetailID=<?php echo $serviceDetailID; ?>&cusID=<?php echo $cusID; ?>" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">status</a>
                                     </td>
                                 </tr>
@@ -126,7 +126,7 @@ $getServiceDetailAddOn = getServiceDetailByServiceID($serviceID, "Add-on");
                                         </a>
                                     </td>
                                     <td>
-                                        <!--<a href="../customer/modal_viewServiceDetail.php?serviceDetailID=<?php // echo $serviceDetailID; ?>&cusID=<?php echo $cusID; ?>" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">view</a>-->
+                                        <!--<a href="../customer/modal_viewServiceDetail.php?serviceDetailID=<?php // echo $serviceDetailID;   ?>&cusID=<?php echo $cusID; ?>" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">view</a>-->
                                         <a href="../customer/modal_editServiceDetailStatus.php?serviceDetailID=<?php echo $serviceDetailID; ?>&cusID=<?php echo $cusID; ?>" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">status</a>
                                     </td>
                                 </tr>
