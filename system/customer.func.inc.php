@@ -282,7 +282,7 @@ function addPackage($PackageName, $PackageDetail, $PackageType, $PackageCategory
         "CreateBy" => $PersonID, "UpdateBy" => $PersonID, "LocationID" => $LocationID));
 
     if ($SQLPrepare->rowCount() > 0) {
-//        return $conn->lastInsertId();
+        return $conn->lastInsertId();
     } else
         return false;
 }
