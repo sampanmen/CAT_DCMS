@@ -1,8 +1,9 @@
+
 <div class="row">
     <div class="col-lg-6"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Staff</b></h5>
+                <h5><b>Staff</b><a href="?p=showStaff"> (show Staff)</a></h5>
             </div>      
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -11,40 +12,31 @@
                             <tr>
                                 <th width="70" class="text-center">ID</th>
                                 <th>Position</th>
-                                <th>Action</th>
+                                <th>Status</th>
+                               
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="text-center">1</td>
-                                <td>Admin</td>
-                                <td><select class="form-control">
-                                        <option>active</option>
-                                        <option>suspend</option>
-                                        <option>delete</option>
-
-                                    </select>
+                                <td><a href="../admin/model_editPosition.php" data-toggle="modal" data-target="#myModal">Admin</a></td>
+                                <td><label class="label label-success">active</label>   
                                 </td>
+                                
                             </tr>
                             <tr>
                                 <td class="text-center">2</td>
                                 <td>Operater</td>
-                                <td><select class="form-control">
-                                        <option>active</option>
-                                        <option>suspend</option>
-                                        <option>delete</option>
-
-                                    </select>
+                                <td><label class="label label-success">active</label>  
                                 </td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td class="text-center"><button type="button" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
-                                <td><input class="form-control" name="IDstaff" ></td>
+                                <td><input class="form-control" name="nameStaff" ></td>
                                 <td><select class="form-control">
                                         <option>active</option>
-                                        <option>suspend</option>
                                         <option>delete</option>
 
                                     </select>

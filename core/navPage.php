@@ -70,6 +70,9 @@ switch ($p) {
         $page['file'] = "../customer/serviceDetail.php";
         $page['name'] = "Service Detail";
         break;
+    
+    
+    
     case "resourceHome":
         $page['file'] = "../resource/resourceHome.php";
         $page['name'] = "Resource Summery";
@@ -94,7 +97,10 @@ switch ($p) {
         $page['file'] = "../admin/setting.php";
         $page['name'] = "";
         break;
-
+case "showStaff":
+        $page['file'] = "../admin/showStaff.php";
+        $page['name'] = "";
+        break;
     default :
         $page['file'] = "../error404.php";
         $page['name'] = "ERROR 404";
