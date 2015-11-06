@@ -32,14 +32,6 @@ switch ($p) {
         $page['file'] = "../customer/addContact.php";
         $page['name'] = "ADD New Contact";
         break;
-    case "addOrder":
-        $page['file'] = "../customer/addOrder.php";
-        $page['name'] = "Order Registration";
-        break;
-    case "addService":
-        $page['file'] = "../customer/addService.php";
-        $page['name'] = "Add Package";
-        break;
 
     // Customer // View
     case "viewCus":
@@ -74,9 +66,9 @@ switch ($p) {
         $page['file'] = "../customer/searchCustomer.php";
         $page['name'] = "Search Customer";
         break;
-    case "orderDetail":
-        $page['file'] = "../customer/orderDetail.php";
-        $page['name'] = "Order Detail";
+    case "serviceDetail":
+        $page['file'] = "../customer/serviceDetail.php";
+        $page['name'] = "Service Detail";
         break;
     case "resourceHome":
         $page['file'] = "../resource/resourceHome.php";

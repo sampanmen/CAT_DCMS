@@ -4,6 +4,16 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
 $cusID = $_GET['cusID'];
 
 $getContact = getContactByCustomer($cusID);
+$getServiceDetailCountCategory = getServiceDetailCountByCategory($cusID);
+
+//get service detail summary
+$getServiceDetailSummary = getServiceDetailSummary($cusID);
+$summaryTotal = $getServiceDetailSummary['total'];
+$summaryMain = $getServiceDetailSummary['sumMain'];
+$summaryAddon = $getServiceDetailSummary['sumAddOn'];
+$summaryActive = $getServiceDetailSummary['sumActive'];
+$summarySuppened = $getServiceDetailSummary['sumSuppened'];
+$summaryDeactive = $getServiceDetailSummary['sumDeactive'];
 
 //start Customer
 $getCus = getCustomer($cusID);
@@ -22,6 +32,9 @@ $cusProvince = $getCus['Province'];
 $cusZipcode = $getCus['Zipcode'];
 $cusCountry = $getCus['Country'];
 //end Customer
+
+$getServices = getServiceByCustomerID($cusID);
+$getServiceDetail = getServiceDetailByCustomerID($cusID);
 ?>
 
 <p><a href="?">Home</a> > <a href="?p=cusHome">Customers</a> > <b>Customer Detail</b></p>
@@ -30,9 +43,7 @@ $cusCountry = $getCus['Country'];
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <label>
-                    Customer Detail
-                </label>
+                <b>Customer Detail</b>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -52,59 +63,57 @@ $cusCountry = $getCus['Country'];
         <!--Company Detail-->  
         <div class="panel panel-default">
             <div class="panel-heading">
-                <label>
-                    ข้อมูลบริษัท / Company Detail
-                    <a href="../customer/model_editCus.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">  (Edit)  </a>                     
-                </label>                   
+                <b>ข้อมูลบริษัท / Company Detail</b>
+                <a href="../customer/modal_editCustomer.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg"> (Edit)</a>
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>ชื่อ / Name</label>      
+                        <div class="form-group col-lg-4">
+                            <label>Name</label>      
                         </div>
-                        <div class="form-group  col-lg-6">                               
+                        <div class="form-group  col-lg-8">                               
                             <?php echo $cusName; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>ประเภทธุรกิจ / Business Type</label>
+                        <div class="form-group col-lg-4">
+                            <label>Business Type</label>
                         </div>
-                        <div class="form-group col-lg-6">                               
+                        <div class="form-group col-lg-8">                               
                             <?php echo $cusBissType; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>อีเมล์ / E-Mail</label>
+                        <div class="form-group col-lg-4">
+                            <label>E-Mail</label>
                         </div>
-                        <div class="form-group col-lg-6">                               
+                        <div class="form-group col-lg-8">                               
                             <?php echo $cusEmail; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>โทรศัพท์ / Phone</label>
+                        <div class="form-group col-lg-4">
+                            <label>Phone</label>
                         </div>
-                        <div class="form-group col-lg-6">                               
+                        <div class="form-group col-lg-8">                               
                             <?php echo $cusPhone; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>แฟกต์ / Fax.</label>
+                        <div class="form-group col-lg-4">
+                            <label>Fax.</label>
                         </div>
-                        <div class="form-group col-lg-6">                               
+                        <div class="form-group col-lg-8">                               
                             <?php echo $cusFax; ?>
                         </div>
                     </div>
                     <div class="col-lg-12">                       
-                        <div class="form-group col-lg-6">
-                            <label>ที่อยู่ / Address</label>
+                        <div class="form-group col-lg-4">
+                            <label>Address</label>
                         </div>
-                        <div class="form-group col-lg-12">                               
-                            <?php echo $cusAddress . " ตำบล/Tambol: " . $cusTownship . " อำเภอ/City: " . $cusCity . " <br>จังหวัด/Province: " . $cusProvince . " รหัสไปรษณีย์/Postalcode: " . $cusZipcode . " <br>ประเทศ/Country: " . $cusCountry; ?>
+                        <div class="form-group col-lg-8">                               
+                            <?php echo $cusAddress . " <br>ตำบล/Tambol: " . $cusTownship . " อำเภอ/City: " . $cusCity . " <br>จังหวัด/Province: " . $cusProvince . " รหัสไปรษณีย์/Postalcode: " . $cusZipcode . " <br>ประเทศ/Country: " . $cusCountry; ?>
                         </div>
                     </div>
                 </div>
@@ -115,10 +124,8 @@ $cusCountry = $getCus['Country'];
         <!-- /.panel -->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <label>
-                    ข้อมูลผู้ติดต่อ / Contact Detail
-                    <a href="../customer/model_addContact.php?cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">  (Add)  </a>
-                </label>
+                <b>ข้อมูลผู้ติดต่อ / Contact Detail</b>
+                <a href="../customer/modal_addContact.php?cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">  (Add)  </a>
             </div>
             <div class="panel-body">
                 <div class="row">                       
@@ -134,6 +141,7 @@ $cusCountry = $getCus['Country'];
                             $conTypePerson = $value['TypePerson'];
                             $conPersonID = $value['PersonID'];
                             $conCusID = $value['CustomerID'];
+                            $personStatus = $value['PersonStatus'];
                             ?>
                             <div class=" well well-sm col-lg-12 ">
                                 <div class="col-lg-4 text-left">
@@ -145,8 +153,9 @@ $cusCountry = $getCus['Country'];
                                     <p><b>Phone:</b> <?php echo $conPhone; ?></p>
                                     <p><b>ID Card:</b> <?php echo $conIDCard; ?></p>
                                     <p><b>Type:</b> <?php echo $conTypeContact; ?></p>
+                                    <p class="label label-<?php echo $personStatus == "Active" ? "success" : ($personStatus == "Deactive" ? "warning" : "danger"); ?>"><?php echo $personStatus; ?></p>
                                     <div class="text-right">
-                                        <a href="../customer/model_editContact.php?personID=<?php echo $value['PersonID']; ?>&cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">Detail</a>
+                                        <a href="../customer/modal_editContact.php?personID=<?php echo $value['PersonID']; ?>&cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">Edit</a>
                                     </div>
                                 </div>
                             </div>
@@ -159,98 +168,165 @@ $cusCountry = $getCus['Country'];
         </div>
     </div>
 
-    <!--Order Detail-->  
+    <!--Service Panel-->
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <p>
-                    <b>
-                        Order Detail 
-<!--                            <a href="../core/?p=addOrder&cusID=<?php //echo $cusID;       ?>" >(ADD)</a>-->
-                        <a href="../customer/model_addOrder.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">(Add)</a>
-                    </b>
-                </p>
+                <b>Service </b>
+                <a href="../customer/modal_addService.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">(Add</a>,
+                <a href="../customer/modal_viewServiceDetailChange.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">Change</a>,
+                <a href="../customer/modal_viewServiceDetailLog.php?cusID=<?php echo $cusID; ?>" data-toggle="modal" data-target="#myModal-lg">History)</a>
             </div>
+            <!-- /.panel-heading -->
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <?php
-                        $getOrders = getOrderByCusID($cusID);
-                        foreach ($getOrders as $value) {
-                            $amountMain = getOrderAmountPackage($value['OrderID'], "main");
-                            $amountAddOn = getOrderAmountPackage($value['OrderID'], "add-on");
-                            ?>
-                            <div class=" well well-sm col-lg-12 ">
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">                        
-                                        <h3><b><?php echo $value['OrderPreID'] . sprintf("%05d", $value['OrderID']); ?></b> </h3>  
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Date:</b></p>      
-                                    </div>
-                                    <div class="col-lg-8">                               
-                                        <?php echo $value['DateTimeUpdate']; ?>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Total Packages:</b></p>      
-                                    </div>
-                                    <div class="col-lg-8">                               
-                                        <p>Main: <font size="3"><b><?php echo $amountMain; ?></b></font> Add-On: <font size="2"><b><?php echo $amountAddOn == NULL ? "0" : $amountAddOn; ?></b></font></p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="col-lg-4">
-                                        <p><b>Status:</b></p>      
-                                    </div>
-                                    <div class="col-lg-3">                               
-                                        <p class="label label-success">Active</p>                               
-                                    </div>
-                                    <div class="col-lg-3">                               
-                                        <p></p>                               
-                                    </div>
-                                    <div class="col-lg-2">                               
-                                        <p><a href="../core/?p=orderDetail&orderID=<?php echo $value['OrderID']; ?>&cusID=<?php echo $cusID; ?>" >Detail</a></p>                               
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#summary" data-toggle="tab" aria-expanded="true">Summary</a>
+                    </li>
+                    <li class=""><a href="#main" data-toggle="tab" aria-expanded="false">Main Package</a>
+                    </li>
+                    <li class=""><a href="#addon" data-toggle="tab" aria-expanded="false">Add on Package</a>
+                    </li>
+                    <li class=""><a href="#category" data-toggle="tab" aria-expanded="false">Category</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="summary">
+                        <!--<h4>Summary</h4>-->
+                        <br>
+
+                        <div class="col-lg-6">
+                            <div class="col-lg-8"><b>Total service</b></div>
+                            <div class="col-lg-4"><p style="font-size:1.3em" class="label label-info"><?php echo $summaryTotal; ?></p></div><br><br>
+
+                            <div class="col-lg-8"><b>Main / Add on</b></div>
+                            <div class="col-lg-4"><p style="font-size:1em" class="label label-default"><?php echo $summaryMain . " / " . $summaryAddon; ?></p></div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="col-lg-12"><b>Active </b><p class="label label-success"><?php echo $summaryActive; ?></p></div>
+                            <div class="col-lg-12"><b>Suppened </b><p class="label label-warning"><?php echo $summarySuppened; ?></p></div>
+                            <div class="col-lg-12"><b>Deactive </b><p class="label label-danger"><?php echo $summaryDeactive; ?></p></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="main">
+                        <!--<h4>Main</h4>--><br>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>DateTime</th>
+                                    <th>Package</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ($getServiceDetail as $value) {
+                                    if ($value['PackageType'] != "Main" || $value['Status'] == "Deactive") {
+                                        continue;
+                                    }
+                                    $valTime = $value['DateTimeAction'];
+                                    $valPackageID = $value['PackageID'];
+                                    $valPackage = $value['PackageName'];
+                                    $valCategory = $value['PackageCategory'];
+                                    $valStatus = $value['Status'];
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $valTime; ?></td>
+                                        <td><?php echo $valPackage; ?></td>
+                                        <td><?php echo $valCategory; ?></td>
+                                        <td><label class="label label-<?php echo $valStatus == "Active" ? "success" : ($valStatus == "Suppened" ? "warning" : "danger"); ?>"><?php echo $valStatus; ?></label></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="addon">
+                        <!--<h4>Add on</h4>--><br>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>DateTime</th>
+                                    <th>Package</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ($getServiceDetail as $value) {
+                                    if ($value['PackageType'] != "Add-on" || $value['Status'] == "Deactive") {
+                                        continue;
+                                    }
+                                    $valTime = $value['DateTimeAction'];
+                                    $valPackageID = $value['PackageID'];
+                                    $valPackage = $value['PackageName'];
+                                    $valCategory = $value['PackageCategory'];
+                                    $valStatus = $value['Status'];
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $valTime; ?></td>
+                                        <td><?php echo $valPackage; ?></td>
+                                        <td><?php echo $valCategory; ?></td>
+                                        <td><label class="label label-<?php echo $valStatus == "Active" ? "success" : ($valStatus == "Suppened" ? "warning" : "danger"); ?>"><?php echo $valStatus; ?></label></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="category">
+                        <!--<h4>Category</h4>--><br>
+                        <div class="list-group">
+                            <?php
+                            foreach ($getServiceDetailCountCategory as $value) {
+                                $varCategory = $value['PackageCategory'];
+                                $varCategoryID = $value['PackageCategoryID'];
+                                $varCountCategoryActive = $value['sumActive'];
+                                $varCountCategorySuppened = $value['sumSuppened'];
+                                $varCountCategoryDeactive = $value['sumDeactive'];
+                                ?>
+                                <a href="../customer/modal_viewServiceDetailLog.php?cusID=<?php echo $cusID; ?>&categoryID=<?php echo $varCategoryID; ?>" class="list-group-item" data-toggle="modal" data-target="#myModal-lg">
+                                    <?php echo $varCategory; ?>
+                                    <span class="badge alert-danger"><?php echo $varCountCategoryDeactive; ?></span>
+                                    <span class="badge alert-warning"><?php echo $varCountCategorySuppened; ?></span>
+                                    <span class="badge alert-success"><?php echo $varCountCategoryActive; ?></span>
+                                </a>
+                            <?php } ?>
+                        </div>
                     </div>
                 </div>
-                <!-- /.row (nested) -->
             </div>
             <!-- /.panel-body -->
         </div>
-        <!-- Contact Detail -->
     </div>
 
     <!-------IP-->
     <div class="col-lg-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <p><b> IP</b> </p>
+                <b>IP</b>
             </div>                
-            <div class="panel-body">                   
+            <div class="panel-body">
                 <table class="table ">
                     <tbody>
                         <tr>
                             <td>158.168.1.0</td>
-                            <td><a href="../customer/model_IP.php"  data-toggle="modal" data-target="#myModal">10</a></td>
+                            <td><a href="../resource/modal_IPUsed.php"  data-toggle="modal" data-target="#myModal">10</a></td>
                         </tr>                                                     
                         <tr>
                             <td>158.168.2.0</td>
-                            <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">10</a></td>
+                            <td><a href="../resource/modal_IPUsed.php" data-toggle="modal" data-target="#myModal">10</a></td>
                         </tr>          
                         <tr>
                             <td>158.168.3.0</td>
-                            <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">2</a></td>
+                            <td><a href="../resource/modal_IPUsed.php" data-toggle="modal" data-target="#myModal">2</a></td>
                         </tr>          
                         <tr>
                             <td>158.168.4.0</td>
-                            <td><a href="../customer/model_IP.php" data-toggle="modal" data-target="#myModal">3</a></td>
+                            <td><a href="../resource/modal_IPUsed.php" data-toggle="modal" data-target="#myModal">3</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -265,26 +341,26 @@ $cusCountry = $getCus['Country'];
     <div class="col-lg-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <p><b> Rack</b> </p>
+                <b>Rack</b>
             </div>                
             <div class="panel-body">                   
                 <table class="table ">
                     <tbody>
                         <tr>
                             <td>Full Rack</td>
-                            <td><a href="../customer/model_Rack.php"  data-toggle="modal" data-target="#myModal">2</a></td>
+                            <td><a href="../resource/modal_RackUsed.php"  data-toggle="modal" data-target="#myModal">2</a></td>
                         </tr>                                                     
                         <tr>
                             <td>1/2 Rack</td>
-                            <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">2</a></td>
+                            <td><a href="../resource/modal_RackUsed.php" data-toggle="modal" data-target="#myModal">2</a></td>
                         </tr>          
                         <tr>
                             <td>1/4 Rack</td>
-                            <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">1</a></td>
+                            <td><a href="../resource/modal_RackUsed.php" data-toggle="modal" data-target="#myModal">1</a></td>
                         </tr>          
                         <tr>
                             <td>Shared Rack</td>
-                            <td><a href="../customer/model_Rack.php" data-toggle="modal" data-target="#myModal">3</a></td>
+                            <td><a href="../resource/modal_RackUsed.php" data-toggle="modal" data-target="#myModal">3</a></td>
                         </tr>          
                     </tbody>
                 </table>
@@ -299,26 +375,26 @@ $cusCountry = $getCus['Country'];
     <div class="col-lg-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <p><b>Port</b> </p>
+                <b>Port</b>
             </div>                
             <div class="panel-body">                   
                 <table class="table ">
                     <tbody>
                         <tr>
                             <td>Switch 1</td>
-                            <td><a href="../customer/model_Port.php"  data-toggle="modal" data-target="#myModal">7</a></td>
+                            <td><a href="../resource/modal_PortUsed.php"  data-toggle="modal" data-target="#myModal">7</a></td>
                         </tr>                                                     
                         <tr>
                             <td>Switch 2</td>
-                            <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">4</a></td>
+                            <td><a href="../resource/modal_PortUsed.php" data-toggle="modal" data-target="#myModal">4</a></td>
                         </tr>          
                         <tr>
                             <td>Switch 3</td>
-                            <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">5</a></td>
+                            <td><a href="../resource/modal_PortUsed.php" data-toggle="modal" data-target="#myModal">5</a></td>
                         </tr>          
                         <tr>
                             <td>Switch 5</td>
-                            <td><a href="../customer/model_Port.php" data-toggle="modal" data-target="#myModal">2</a></td>
+                            <td><a href="../resource/modal_PortUsed.php" data-toggle="modal" data-target="#myModal">2</a></td>
                         </tr>          
                     </tbody>
                 </table>

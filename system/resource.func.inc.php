@@ -733,3 +733,25 @@ function editResourceAmount($PackageID, $IPAmount, $PortAmount, $RackAmount, $Se
     } else
         return false;
 }
+
+function getNetworkLink($locationID) {
+    $connection = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`ResourceNetworkLinkID`, "
+            . "`NetworkLink`, "
+            . "`CoperateName`, "
+            . "`ContactName`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`NetworkLinkStatus`, "
+            . "`LocationID` "
+            . "FROM `resource_network_link` "
+            . "WHERE `LocationID` LIKE :location ";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":location" => $locationID));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}

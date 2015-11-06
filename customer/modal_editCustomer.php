@@ -1,14 +1,15 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
+
 $cusID = $_GET['cusID'];
 
 //start Customer
 $getCus = getCustomer($cusID);
-//$cusID = $getCus['CustomerID'];
 $cusStatus = $getCus['CustomerStatus'];
 $statusLabel = $cusStatus == "Active" ? "success" : ($cusStatus == "Suppened" ? "warning" : "danger");
 $cusName = $getCus['CustomerName'];
-$cusBissType = $getCus['BusinessType'];
+$cusBussType = $getCus['BusinessType'];
+$cusBussTypeID = $getCus['BusinessTypeID'];
 $cusEmail = $getCus['Email'];
 $cusPhone = $getCus['Phone'];
 $cusFax = $getCus['Fax'];
@@ -19,7 +20,8 @@ $cusProvince = $getCus['Province'];
 $cusZipcode = $getCus['Zipcode'];
 $cusCountry = $getCus['Country'];
 //end Customer
-
+//get Business type
+$getBusinessType = getBusinessType();
 ?>
 <form action="../customer/action/customer.action.php?para=editCustomer&cusID=<?php echo $cusID; ?>" method="POST">
     <div class="modal-header">
@@ -44,9 +46,16 @@ $cusCountry = $getCus['Country'];
                         </div>
                         <div class="form-group col-lg-3"> 
                             <select class="form-control" name="bussinessType">
-                                <option <?php echo $cusBissType == "กสท" ? "selected" : ""; ?> value="กสท">กสท</option>
-                                <option <?php echo $cusBissType == "นิติบุคคล" ? "selected" : ""; ?> value="นิติบุคคล">นิติบุคคล</option>
-                                <option <?php echo $cusBissType == "บุคคล" ? "selected" : ""; ?> value="บุคคล">บุคคล</option>                                 
+                                <?php
+                                foreach ($getBusinessType as $value) {
+                                    if ($value['Status'] != "Active") {
+                                        continue;
+                                    }
+                                    $businessType = $value['BusinessType'];
+                                    $businessTypeID = $value['BusinessTypeID'];
+                                    ?>
+                                    <option <?php echo $cusBussTypeID == $businessTypeID ? "selected" : ""; ?> value="<?php echo $businessTypeID; ?>"><?php echo $businessType; ?></option>
+                                <?php } ?>
                             </select>    
                         </div>
                         <div class="form-group col-lg-2">
@@ -131,7 +140,6 @@ $cusCountry = $getCus['Country'];
         </div>
     </div>
     <div class="modal-footer">
-        <input type="hidden" value="">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Save changes</button>
     </div>

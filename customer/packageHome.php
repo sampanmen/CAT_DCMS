@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
         <div class="panel panel-default">
             <div class="panel-heading">
                 <label>
-                    Packages  <a href="../customer/model_addPackags.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>   
+                    Packages  <a href="../customer/modal_addPackags.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>   
                 </label>
             </div>
             <!-- /.panel-heading -->
@@ -43,8 +43,8 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     <td><?php echo $location; ?></td>
                                     <td><p class="label label-<?php echo $packageStatus == "Active" ? "success" : "danger"; ?>"><?php echo $packageStatus; ?></p></td>
                                     <td>
-                                        <a href="../customer/model_viewPackages.php?packageID=<?php echo $packageID; ?>" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">view</a>
-                                        <a href="../customer/model_editPackages.php?packageID=<?php echo $packageID; ?>" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">Edit</a>
+                                        <a href="../customer/modal_viewPackages.php?packageID=<?php echo $packageID; ?>" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">view</a>
+                                        <a href="../customer/modal_editPackages.php?packageID=<?php echo $packageID; ?>" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">Edit</a>
                                     </td>
                                 </tr>                                                     
                             <?php } ?>

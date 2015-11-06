@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 $orderDetailID = $_GET['orderDetailID'];
 $cusID = $_GET['cusID'];
-$OrderDetailPackage = getOrderDetailPackageByID($orderDetailID);
+//$OrderDetailPackage = getOrderDetailPackageByID($orderDetailID);
 //print_r($OrderDetailPackage);
 ?>
 <div class="modal-header">
