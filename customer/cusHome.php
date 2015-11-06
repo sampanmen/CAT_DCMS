@@ -37,9 +37,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $value['CustomerStatus']; ?></span></td>
                                     <td>
                                         <a class="btn btn-primary btn-sm" href="?p=viewCus&cusID=<?php echo $value['CustomerID']; ?>">View</a>
-                                        <!--<a class="btn btn-info" href="?p=addOrder&cusID=<?php // echo $value['CustomerID'];  ?>">Add Order</a>-->
-                                        <a class="btn btn-info btn-sm" href="../customer/model_addOrder.php?cusID=<?php echo $value['CustomerID']; ?>" data-toggle="modal" data-target="#myModal-lg">Add Order</a>
-                                        <!--<a class="btn btn-warning" href="">Edit</a>-->
+                                        <a class="btn btn-info btn-sm" href="../customer/modal_addService.php?cusID=<?php echo $value['CustomerID']; ?>" data-toggle="modal" data-target="#myModal-lg">Add Service</a>
                                     </td>
                                 </tr>  
                             <?php } ?>

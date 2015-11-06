@@ -66,9 +66,9 @@ switch ($p) {
         $page['file'] = "../customer/searchCustomer.php";
         $page['name'] = "Search Customer";
         break;
-    case "orderDetail":
-        $page['file'] = "../customer/orderDetail.php";
-        $page['name'] = "Order Detail";
+    case "serviceDetail":
+        $page['file'] = "../customer/serviceDetail.php";
+        $page['name'] = "Service Detail";
         break;
     case "resourceHome":
         $page['file'] = "../resource/resourceHome.php";

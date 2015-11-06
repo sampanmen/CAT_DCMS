@@ -47,7 +47,7 @@ if ($para == "addCustomer") {
             move_uploaded_file($_FILES["file"]["tmp_name"][$i], "../images/persons/" . $resInsertPerson . ".jpg");
         }
         if ($resInsertPerson) {
-            header("location: ../../core/?p=addOrder&cusID=" . $resInsertCus . "&para=addCustomerCompleted");
+            header("location: ../../core/?p=viewCus&cusID=" . $resInsertCus . "&para=addCustomerCompleted");
         } else {
             header("location: ../../core/?p=cusHome&para=addCustomerFailed");
         }
@@ -151,18 +151,27 @@ if ($para == "addCustomer") {
     } else {
 //        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editContactFailed");
     }
-} else if ($para == "addOrder") {
-    $cusID = $_POST['cusID'];
-    $oldID = $_POST['oldID'];
+} else if ($para == "addService") {
+    $CustomerID = $_POST['cusID'];
     $package = $_POST['package'];
-    $bundle = $_POST['bundle'];
-    $location = $_POST['location'];
+    $networkLink = $_POST['networkLink'];
+    $Location = $_POST['location'];
+    $CreateBy = $PersonID;
 
-    $res = addOrder("A", $oldID, $cusID, $location, "active", $personID, $bundle, $package);
-    if ($res) {
-        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addOrderCompleted");
+    $resService = addService($CustomerID, $Location, $CreateBy);
+    if ($resService) {
+        for ($i = 0; $i < count($package['amount']); $i++) {
+            for ($j = 0; $j < $package['amount'][$i]; $j++) {
+                $resServiceDetail = addServiceDetail($resService, $package['ID'][$i]);
+                $resServiceDetailAction = addServiceDetailAction($resServiceDetail, "Active", "Create Service");
+            }
+        }
+        // add network link detail
+    }
+    if ($resService) {
+        header("location: ../../core/?p=viewCus&cusID=" . $CustomerID . "&para=addServiceCompleted");
     } else {
-        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=addOrderFailed");
+        header("location: ../../core/?p=viewCus&cusID=" . $CustomerID . "&para=addServiceFailed");
     }
 } else if ($para == "editCustomer") {
 
@@ -214,4 +223,16 @@ if ($para == "addCustomer") {
     } else {
         header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=AddOrderDetailFailed");
     }
+} else if ($para == "changeServiceDetailStatus") {
+    $cusID = $_GET['cusID'];
+    $arrServiceDetailID = $_POST['serviceDetailID'];
+    $arrStatus = $_POST['status'];
+    $arrCause = $_POST['cause'];
+
+    $countItem = count($arrServiceDetailID);
+    for ($i = 0; $i < $countItem; $i++) {
+        addServiceDetailAction($arrServiceDetailID[$i], $arrStatus[$i], $arrCause[$i]);
+    }
+
+    header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=AddServiceDetailStatusCompleted");
 }
