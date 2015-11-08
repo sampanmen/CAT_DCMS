@@ -211,14 +211,97 @@ function editContact($personID, $IDCCard, $IDCCardType, $ContactType) {
 function getPerson($personID) {
     $conn = dbconnect();
     $SQLCommand = "SELECT "
-            . "`PersonID`, `Fname`, `Lname`, `Phone`, `Email`, "
-            . "`CustomerID`, `Password`, `CatEmpID`, `IDCard`, "
-            . "`TypePerson`, `Position`, `PersonStatus` "
-            . "FROM `cus_person` WHERE `PersonID` = :personID";
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `customer_person` "
+            . "WHERE `PersonID` = :personID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":personID" => $personID));
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
+}
+
+function getStaffByPosition($position) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PersonID`, "
+            . "`PersonStaffID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`EmployeeID`, "
+            . "`StaffPositionID`, "
+            . "`Position`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `view_staff` "
+            . "WHERE `Position` LIKE :position ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":position" => $position
+    ));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getStaff($personID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PersonID`, "
+            . "`PersonStaffID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`EmployeeID`, "
+            . "`StaffPositionID`, "
+            . "`Position`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `view_staff` "
+            . "WHERE `PersonID`= :personID";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":personID" => $personID
+    ));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function getPersonByType($type) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `customer_person` "
+            . "WHERE `TypePerson` LIKE :type ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":type" => $type
+    ));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
 }
 
 function getContactByCustomer($cusID) {
@@ -259,6 +342,7 @@ function getContactByPersonID($personID_) {
             . "`IDCard`, "
             . "`TypePerson`, "
             . "`CustomerID`, "
+            . "`CustomerName`,"
             . "`IDCCard`, "
             . "`IDCCardType`, "
             . "`ContactType`, "
