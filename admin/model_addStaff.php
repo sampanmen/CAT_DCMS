@@ -33,6 +33,14 @@
                     </div>
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
+                            <label>ID Card</label>
+                        </div>
+                        <div class="form-group col-lg-6"> 
+                             <input class="form-control" name="staffCard" >
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
                             <label>e-mail</label>
                         </div>
                         <div class="form-group col-lg-6"> 

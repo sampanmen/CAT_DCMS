@@ -1,4 +1,6 @@
-
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+?>
 <div class="row">
     <div class="col-lg-6"> 
         <div class="panel panel-default">
@@ -128,20 +130,22 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td><a href="../admin/model_editZone.php" data-toggle="modal" data-target="#myModal">VIP1</a></td>
-                                <td >Nonthaburi</td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">2</td>
-                                <td>VIP2</td>
-                                <td>Nonthaburi</td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
-                        </tbody>
+                        <?php
+                            $zone = getZone();
+                            foreach ($zone as $Zone) {
+                                $EntryZoneID = $Zone['EntryZoneID'];
+                                $EntryZone = $Zone['EntryZone'];
+                                $Location = $Zone['Location'];
+                                $statusLabel = $Zone['Status'] == "Active" ? "success" : ($Zone['Status'] == "Suppened" ? "warning" : "danger");
+                               
+                                ?>
+                                <tr>
+                                    <td><?php echo $EntryZoneID; ?></td>
+                                    <td><?php echo $EntryZone; ?></td>
+                                    <td><?php echo $Location ?></td>
+                                    <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $Zone['Status']; ?></span></td>
+                                </tr>                                                     
+                            <?php } ?>
                         <tfoot>
                             <tr>
                                 <td class="text-center"><button type="button" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
@@ -194,19 +198,23 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td><a href="../admin/model_editLocation.php" data-toggle="modal" data-target="#myModal">Nonthaburi</a></td>
-                                <td>lk;lkldk;dlkfjhkjklmvkxvz.</td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">2</td>
-                                <td>Bangruk</td>
-                                <td>sdhjfghjkjkll</td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
+                        <tbody>                            
+                            <?php
+                            $loca = getLocation();
+                            foreach ($loca as $locav) {
+                                $LocationID = $locav['LocationID'];
+                                $Location = $locav['Location'];
+                                $Address = $locav['Address'];
+                                $statusLabel = $locav['Status'] == "Active" ? "success" : ($locav['Status'] == "Suppened" ? "warning" : "danger");
+                               
+                                ?>
+                                <tr>
+                                    <td><?php echo $LocationID; ?></td>
+                                    <td><?php echo $Location; ?></td>
+                                    <td><?php echo $Address ?></td>
+                                    <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $locav['Status']; ?></span></td>
+                                </tr>                                                     
+                            <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr>
@@ -250,22 +258,21 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td><a href="../admin/model_editBusi.php" data-toggle="modal" data-target="#myModal">กสท</a></td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">2</td>
-                                <td>นิติบุคคล</td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">3</td>
-                                <td>ส่วนบุคคล</td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
+                        <tbody>                            
+                            <?php
+                            $business = getBusinessType();
+                            foreach ($business as $bus) {
+                               
+                                $BusinessTypeID = $bus['BusinessTypeID'];
+                                $BusinessType = $bus['BusinessType'];  
+                                $statusLabel = $bus['Status'] == "Active" ? "success" : ($bus['Status'] == "Suppened" ? "warning" : "danger");
+                                ?>
+                                <tr>
+                                    <td><?php echo $BusinessTypeID; ?></td>
+                                    <td><?php echo $BusinessType; ?></td>
+                                    <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $bus['Status']; ?></span></td>
+                                </tr>                                                     
+                            <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr> 
