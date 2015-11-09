@@ -7,14 +7,7 @@
         <div class="container-fluid">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-lg-12">  
-                        <div class="col-lg-6">                                           
-                            <label>Position ID</label>
-                        </div>
-                        <div class="form-group col-lg-3"> 
-                             1
-                        </div>
-                    </div>
+                    
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
                             <label>Position</label>

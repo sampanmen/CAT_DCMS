@@ -76,3 +76,18 @@ function getViewstaff() {
     }
     return $resultArr;
 }
+
+function addPosition($Position, $Status) {
+    $con = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_person_staff_position`(`Position`, `Status`) "
+            . "VALUES (:Position,:Status)";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":Position" => $Position,
+        ":Status" => $Status
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
