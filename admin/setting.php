@@ -131,8 +131,9 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             </tr>
                         </thead>
                         <?php
-                            $zone = getZone();
-                            foreach ($zone as $Zone) {
+                            $zones = getZone();
+//                            print_r($zones);
+                            foreach ($zones as $Zone) {
                                 $EntryZoneID = $Zone['EntryZoneID'];
                                 $EntryZone = $Zone['EntryZone'];
                                 $Location = $Zone['Location'];
