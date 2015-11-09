@@ -865,22 +865,4 @@ function searchCustomer($text) {
 }
 
 
-function getZone() {
-    $conn = dbconnect();
-    $SQLCommand = "SELECT"
-            ."`entry_zone`.`EntryZoneID`," 
-            ."`entry_zone`.`EntryZone` ,"
-            ."`location`.`Location`," 
-            ."`entry_zone`.`Status`"
-            ."FROM `entry_zone`"
-            ."inner join `location`"
-            ."ON `entry_zone`.`LocationID`=`location`.`LocationID`";
-//    echo $SQLCommand;
-    $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute();
-    $resultArr = array();
-    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
-        array_push($resultArr, $result);
-    }
-    return $resultArr;
-}
+

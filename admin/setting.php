@@ -18,16 +18,20 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td><a href="../admin/model_editPosition.php" data-toggle="modal" data-target="#myModal">Admin</a></td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">2</td>
-                                <td>Operater</td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
+                            <?php
+                            $staff = getStaffPosition();
+                            foreach ($staff as $staffPo) {
+                                $StaffPositionID = $staffPo['StaffPositionID'];
+                                $Position = $staffPo['Position'];
+                                $statusLabel = $staffPo['Status'] == "Active" ? "success" : ($staffPo['Status'] == "Suppened" ? "warning" : "danger");
+                               
+                                ?>
+                                <tr>
+                                    <td class="text-center"><?php echo $StaffPositionID; ?></td>
+                                    <td><?php echo $Position; ?></td>
+                                    <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $staffPo['Status']; ?></span></td>
+                                </tr>                                                     
+                            <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr>
@@ -67,21 +71,20 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td><a href="../admin/model_editCat.php" data-toggle="modal" data-target="#myModal">1/2 Rack</a></td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">2</td>
-                                <td>1/4 Rack</td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">3</td>
-                                <td>Shered Rack Rack</td>
-                                <td><label class="label label-success">active</label></td>
-                            </tr>
+                            <?php
+                            $cat = getCatagory();
+                            foreach ($cat as $pacCat) {
+                                $PackageCategoryID = $pacCat['PackageCategoryID'];
+                                $PackageCategory = $pacCat['PackageCategory'];
+                                $statusLabel = $pacCat['Status'] == "Active" ? "success" : ($pacCat['Status'] == "Suppened" ? "warning" : "danger");
+                               
+                                ?>
+                                <tr>
+                                    <td class="text-center"><?php echo $PackageCategoryID; ?></td>
+                                    <td><?php echo $PackageCategory; ?></td>
+                                    <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $pacCat['Status']; ?></span></td>
+                                </tr>                                                     
+                            <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr> 
@@ -130,6 +133,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                 <th>Action</th>
                             </tr>
                         </thead>
+                        <tbody>
                         <?php
                             $zones = getZone();
 //                            print_r($zones);
@@ -141,12 +145,13 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                
                                 ?>
                                 <tr>
-                                    <td><?php echo $EntryZoneID; ?></td>
+                                    <td class="text-center"><?php echo $EntryZoneID; ?></td>
                                     <td><?php echo $EntryZone; ?></td>
                                     <td><?php echo $Location ?></td>
                                     <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $Zone['Status']; ?></span></td>
                                 </tr>                                                     
                             <?php } ?>
+                        </tbody>
                         <tfoot>
                             <tr>
                                 <td class="text-center"><button type="button" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
@@ -210,7 +215,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                
                                 ?>
                                 <tr>
-                                    <td><?php echo $LocationID; ?></td>
+                                    <td class="text-center"><?php echo $LocationID; ?></td>
                                     <td><?php echo $Location; ?></td>
                                     <td><?php echo $Address ?></td>
                                     <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $locav['Status']; ?></span></td>
@@ -269,7 +274,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                 $statusLabel = $bus['Status'] == "Active" ? "success" : ($bus['Status'] == "Suppened" ? "warning" : "danger");
                                 ?>
                                 <tr>
-                                    <td><?php echo $BusinessTypeID; ?></td>
+                                    <td class="text-center"><?php echo $BusinessTypeID; ?></td>
                                     <td><?php echo $BusinessType; ?></td>
                                     <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $bus['Status']; ?></span></td>
                                 </tr>                                                     
