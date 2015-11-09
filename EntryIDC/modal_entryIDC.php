@@ -12,7 +12,9 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             <div class="panel-body">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Customers List
+                        <b>Customers List </b>
+                        <a href="#contact" onclick="getPerson('Staff','Vender');">(Vender</a>,
+                        <a href="#contact" onclick="getPerson('Visitor','');">Visitor)</a>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -38,7 +40,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                             <td><?php printf("%05d", $value['CustomerID']); ?></td>
                                             <td><?php echo $value['CustomerName']; ?></td>
                                             <td><?php echo $value['BusinessType']; ?></td>
-                                            <td><a class="btn btn-info" onclick="getContact('<?php echo $value['CustomerID']; ?>');" href="#contact">Select</a></td>
+                                            <td><a class="btn btn-info btn-sm" onclick="getContact('<?php echo $value['CustomerID']; ?>');" href="#contact">Select</a></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -66,7 +68,12 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
         });
     });
     function getContact(cusID) {
-        $.get("../EntryIDC/action/entryIDC.content.php?para=getContact&cusID=" + cusID, function (data, status) {
+        $.get("../EntryIDC/action/entryIDC.content.php?para=getContact&type=Contact&cusID=" + cusID, function (data, status) {
+            $("#contact").html(data);
+        });
+    }
+    function getPerson(type, position) {
+        $.get("../EntryIDC/action/entryIDC.content.php?para=getPerson&type=" + type + "&position=" + position, function (data, status) {
             $("#contact").html(data);
         });
     }

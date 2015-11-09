@@ -1,21 +1,48 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
-$contactID = isset($_GET['contactID']) ? $_GET['contactID'] : "-1";
+$getPersonID = isset($_GET['personID']) ? $_GET['personID'] : "-1";
+$getPersonType = isset($_GET['type']) ? $_GET['type'] : "";
+$getPosition = isset($_GET['position']) ? $_GET['position'] : "";
+$getCusID = isset($_GET['cusID']) ? $_GET['cusID'] : "";
+$isPerson = isset($_GET['isPerson']) ? $_GET['isPerson'] : "1";
 
-$getContact = getContactByPersonID($contactID);
-$getCusRack = getRackByCusID($getContact['cusID']);
+if ($getPersonType == "Contact") {
+    $getPerson = getContactByPersonID($getPersonID);
+} else if ($getPersonType == "Staff") {
+    $getPerson = getStaff($getPersonID);
+} else {
+    $getPerson = getPerson($getPersonID);
+}
+
+//echo "<pre>";
+//print_r($getPerson);
+//echo "</pre>";
+
+$valCustomerID = ($getCusID != "") ? number_pad($getCusID, 5) : "";
+$valCustomerName = isset($getPerson['CustomerName']) ? $getPerson['CustomerName'] : "";
+$valPersonID = isset($getPerson['PersonID']) ? $getPerson['PersonID'] : "";
+$valCatEmpID = isset($getPerson['EmployeeID']) ? $getPerson['EmployeeID'] : "";
+$valIDCCard = isset($getPerson['IDCCard']) ? $getPerson['IDCCard'] : "";
+$valIDCCardType = isset($getPerson['IDCCardType']) ? $getPerson['IDCCardType'] : "";
+$valIDCard = isset($getPerson['IDCard']) ? $getPerson['IDCard'] : "";
+$valFname = isset($getPerson['Fname']) ? $getPerson['Fname'] : "";
+$valLname = isset($getPerson['Lname']) ? $getPerson['Lname'] : "";
+$valEmail = isset($getPerson['Email']) ? $getPerson['Email'] : "";
+$valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
+
+//$getCusRack = getRackByCusID($getPerson['CustomerID']);
 //echo "<pre>";
 //print_r($_POST);
 //echo "</pre>";
 ?>
-<p><a href="?">Home</a> > <b>Entry IDC</b></p>
+<p><a href="?">Home</a> > <a href="?p=entryIDCShow">Show Entry IDC</a> > <b>Entry IDC</b></p>
 <div class="row">
     <form method="POST" action="../EntryIDC/action/entryIDC.action.php?para=addEntryIDC">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <p><b>ข้อมูลกรณีไม่ใช่ผู้ติดต่อ</b></p>
+                    <b>ข้อมูลเพิ่มเติม </b>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -23,31 +50,31 @@ $getCusRack = getRackByCusID($getContact['cusID']);
                             <div class="col-lg-12">
                                 <div class="form-group col-lg-6">
                                     <label class="radio-inline">                                    
-                                        <!--<input type="radio" name="type">-->
+                                        <input <?php echo $getPersonType == 'Contact' ? "checked" : ""; ?> type="radio" name="type">
                                         ลูกค้า / Customer <br>
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input class="form-control" name="cusID" value="<?php printf("%05d", $getContact['cusID']); ?>">
-                                    <input type="hidden" name="conID" value="<?php echo $getContact['PersonID']; ?>">
+                                    <input class="form-control" name="cusID" value="<?php echo $valCustomerID; ?>">
+                                    <input type="hidden" name="conID" value="<?php echo $valPersonID; ?>">
                                 </div>
                             </div>
                             <div class="col-lg-12">                       
                                 <div class="form-group col-lg-6">
                                     <label class="radio-inline">
-                                        <!--<input type="radio" name="type">-->
+                                        <input <?php echo $getPersonType == 'Staff' ? "checked" : ""; ?> type="radio" name="type">
                                         พนักงาน กสท / CAT Employee <br>
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">                               
-                                    <input class="form-control" name="EmpID" value="<?php echo $getContact['CatEmpID']; ?>">                                
+                                    <input class="form-control" name="EmpID" value="<?php echo $valCatEmpID; ?>">                                
                                 </div>
                             </div>
 
                             <div class="col-lg-12">                       
                                 <div class="form-group col-lg-6">                       
                                     <label class="radio-inline">                                    
-                                        <!--<input type="radio" name="type">บุคคลทั่วไป / Other--> 
+                                        <input <?php echo $getPersonType == 'Visitor' ? "checked" : ""; ?> type="radio" name="type">บุคคลทั่วไป / Other 
                                         <br>                
                                     </label>                                    
                                 </div>
@@ -65,13 +92,13 @@ $getCusRack = getRackByCusID($getContact['cusID']);
                                     หมายเลขบัตรผ่าน IDC / IDC Card NO.                                                               
                                 </div>                                                     
                                 <div class="form-group col-lg-3">                            
-                                    <input class="form-control" name="IDCCard" value="<?php echo $getContact['IDCCard']; ?>">
+                                    <input class="form-control" name="IDCCard" value="<?php echo $valIDCCard; ?>">
                                 </div>
                                 <div class="form-group col-lg-1">  
                                     Type
                                 </div>
                                 <div class="form-group col-lg-2">                            
-                                    <input class="form-control" name="IDCCardType" value="<?php echo $getContact['IDCCardType']; ?>">
+                                    <input class="form-control" name="IDCCardType" value="<?php echo $valIDCCardType; ?>">
                                 </div>                           
                             </div>
                             <div class="col-lg-12">                       
@@ -79,14 +106,19 @@ $getCusRack = getRackByCusID($getContact['cusID']);
                                     รหัสบัตรประชาชน / ID Card NO. / Passport ID                                                              
                                 </div>
                                 <div class="form-group col-lg-6">                           
-                                    <input class="form-control" name="IDCard" value="<?php echo $getContact['IDCard']; ?>">                                
+                                    <input class="form-control" name="IDCard" value="<?php echo $valIDCard; ?>">                                
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-lg-3">
                             <div class="col-lg-12 text-center">
-                                <img class="img-thumbnail" src = "../customer/images/persons/<?php echo $getContact['PersonID']; ?>.jpg" width="100%">
+                                <?php
+                                $images = '../customer/images/persons/' . $valPersonID . ".jpg";
+                                $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
+                                ?>
+                                <img class="img-thumbnail" src="<?php echo $showImage; ?>" width="100%">
+
                             </div>
                         </div>
 
@@ -95,19 +127,19 @@ $getCusRack = getRackByCusID($getContact['cusID']);
                                 ชื่อ/Name                                                              
                             </div>
                             <div class="form-group col-lg-2">                           
-                                <input class="form-control" name="conName" value="<?php echo $getContact['Fname']; ?>">                                
+                                <input class="form-control" name="conName" value="<?php echo $valFname; ?>">                                
                             </div>
                             <div class="form-group col-lg-2">  
                                 นามสกุล/Lastname                                                              
                             </div>
                             <div class="form-group col-lg-2">                           
-                                <input class="form-control" name="conLname" value="<?php echo $getContact['Lname']; ?>">                                
+                                <input class="form-control" name="conLname" value="<?php echo $valLname; ?>">                                
                             </div>
                             <div class="form-group col-lg-1">  
                                 E-Mail                                                              
                             </div>
                             <div class="form-group col-lg-4">                           
-                                <input class="form-control" name="conEmail" value="<?php echo $getContact['Email']; ?>">                                
+                                <input class="form-control" name="conEmail" value="<?php echo $valEmail; ?>">                                
                             </div>
                         </div>
                         <div class="col-lg-12">                      
@@ -115,13 +147,13 @@ $getCusRack = getRackByCusID($getContact['cusID']);
                                 ชื่อบริษัท                                                             
                             </div>
                             <div class="form-group col-lg-6">                           
-                                <input class="form-control" name="cusName" value="<?php echo $getContact['cusName']; ?>">                                
+                                <input class="form-control" name="cusName" value="<?php echo $valCustomerName; ?>">                                
                             </div>
                             <div class="form-group col-lg-1">  
                                 โทร./Tel.                                                              
                             </div>
                             <div class="form-group col-lg-4">                           
-                                <input class="form-control" name="conPhone" value="<?php echo $getContact['Phone']; ?>">                                
+                                <input class="form-control" name="conPhone" value="<?php echo $valPhone; ?>">                                
                             </div>
                         </div>
                         <div class="col-lg-12">                      
@@ -140,18 +172,19 @@ $getCusRack = getRackByCusID($getContact['cusID']);
                 <div class="panel-body" id="btn_showItem">
                     <div class="row">
                         <div class="col-lg-12">
-                            <button type="button" class="btn btn-info" onclick="$('#item').show();$('#btn_showItem').hide();">Add items</button>
+                            <button type="button" class="btn btn-info" onclick="$('#item').show();
+                                    $('#btn_showItem').hide();">Add items</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-12" id="item">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <label>รายการอุปกรณ์ (Equipment List)</label>
+                            <b>รายการอุปกรณ์ (Equipment List) </b>
                         </div>
                         <div class="panel-body">
                             <div class="row col-lg-12">
-                                <table class="table table-bordered" id="">
+                                <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -236,7 +269,7 @@ $getCusRack = getRackByCusID($getContact['cusID']);
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <label>สำหรับเจ้าหน้าที่ </label>
+                            <b>สำหรับเจ้าหน้าที่ </b>
                         </div>
                         <div class="panel-body">
                             <div class="row">

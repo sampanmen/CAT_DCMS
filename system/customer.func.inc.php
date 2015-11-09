@@ -870,11 +870,12 @@ function getZone() {
     $SQLCommand = "SELECT"
             ."`entry_zone`.`EntryZoneID`," 
             ."`entry_zone`.`EntryZone` ,"
-            ."`location`.`Location`,'" 
+            ."`location`.`Location`," 
             ."`entry_zone`.`Status`"
             ."FROM `entry_zone`"
             ."inner join `location`"
             ."ON `entry_zone`.`LocationID`=`location`.`LocationID`";
+//    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();

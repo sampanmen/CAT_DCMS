@@ -145,7 +145,16 @@ $getServiceDetail = getServiceDetailByCustomerID($cusID);
                             ?>
                             <div class=" well well-sm col-lg-12 ">
                                 <div class="col-lg-4 text-left">
-                                    <img class="img-thumbnail" src = "../customer/images/persons/<?php echo $value['PersonID']; ?>.jpg" width="100%" height="" border="1">
+                                    <?php
+//                                    $images = '../customer/images/persons/' . $value['PersonID'] . ".jpg";
+//                                    $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
+                                    
+                                    $images = '../customer/images/persons/' . $value['PersonID'] . ".jpg";
+                                    $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
+                                    $showImage = "../system/image_1-1.php?url=" . $showImage;
+//                        echo $showImage;
+                                    ?>
+                                    <img class="img-thumbnail img-circle" src = "<?php echo $showImage; ?>" width="100%" height="" border="1">
                                 </div>
                                 <div class="col-lg-8 text-left">                      
                                     <p><b>Name:</b> <?php echo $conFname . " " . $conLname; ?></p>
