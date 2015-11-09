@@ -8,7 +8,7 @@ $getEntryIDCNow = getEntryIDCNow();
         <div class="panel panel-default">
             <div class="panel-heading">
                 <label>
-                    Entry <a href="entryIDC/modal_entryIDC.php" data-toggle="modal" data-target="#myModal-lg">(Add)</a>
+                    Entry <a href="EntryIDC/modal_entryIDC.php" data-toggle="modal" data-target="#myModal-lg">(Add)</a>
                 </label>               
             </div>
             <!-- /.panel-heading -->
