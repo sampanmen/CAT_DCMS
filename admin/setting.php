@@ -273,7 +273,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     ?>
                                     <tr>
                                         <td class="text-center"><?php echo $BusinessTypeID; ?></td>
-                                        <td><?php echo $BusinessType; ?></td>
+                                        <td><a href="../admin/model_editBusi.php?BusinessTypeID=<?php echo $bus['BusinessTypeID']; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $BusinessType; ?></a></td>         
                                         <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $bus['Status']; ?></span></td>
                                     </tr>                                                     
                                 <?php } ?>

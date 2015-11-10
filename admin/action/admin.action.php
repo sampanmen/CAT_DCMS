@@ -97,4 +97,16 @@ if ($para == "addStaffposition") {
     } else {
         header("location: ../../core/?p=setting&para=addPositionFailed");
     }
+}else if ($para == "editBusinesstype") {
+    //   print_r($_POST);
+    $businessTypeID = $_GET['BusinessTypeID'];
+    $businessType = $_POST['businessType'];
+    $status = $_POST['status'];
+
+    $res = editBusinesstype($businessTypeID, $businessType, $status);
+    if ($res) {
+        header("location: ../../core/?p=setting&para=editBusinesstypeCompleted");
+    } else {
+        header("location: ../../core/?p=setting&para=editBusinesstypeFailed");
+    }
 }
