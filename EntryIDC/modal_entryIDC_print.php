@@ -89,7 +89,7 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                 <div class="col-lg-12">
                     <div class="col-print-12 ddd3">
                         <div class="col-print-2 text-right">
-                            <img src = "entryIDC/action/images/200px-CATTelecom_Logo.png" height="30">
+                            <img src = "../EntryIDC/action/images/200px-CATTelecom_Logo.png" height="30">
                         </div>
                         <div class="col-print-8 text-center">                                                                                  
                             <h4>

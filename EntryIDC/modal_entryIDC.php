@@ -13,8 +13,23 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <b>Customers List </b>
-                        <a href="#contact" onclick="getPerson('Staff','Vender');">(Vender</a>,
-                        <a href="#contact" onclick="getPerson('Visitor','');">Visitor)</a>
+                        <a href="#contact" onclick="getPerson('Staff', 'Vender');">(CAT Employee</a>,
+                        <a href="#" onclick="">Contact)</a>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <a href="#customer" class="btn btn-info btn-lg" onclick="getCustomer();">Customer</a>
+                        <a href="#contact" class="btn btn-info btn-lg" onclick="getPerson('Staff', 'Vender');">CAT Employee</a>
+                        <!--<a type="button" class="btn btn-primary btn-lg">Outsource</a>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body" id="customer">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <b>Customers List</b>
+                        <a href="#person">(Other)</a>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -31,9 +46,6 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                 <tbody>
                                     <?php
                                     $getCus = getCustomers();
-//                                    echo "<pre>";
-//                                    print_r($getCus);
-//                                    echo "</pre>";
                                     foreach ($getCus as $value) {
                                         ?>
                                         <tr>
@@ -50,7 +62,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                 </div>
             </div>
 
-            <div class="panel-body" id="contact">
+            <div class="panel-body" id="person">
                 <!-- show contact -->
             </div>
         </div>
@@ -67,14 +79,21 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             lengthMenu: [[5, 10, 15, 25, 50, -1], [5, 10, 15, 25, 50, "All"]]
         });
     });
+    function getCustomer(){
+        $('#customer').show();
+        $('#person').hide();
+    }
     function getContact(cusID) {
-        $.get("../EntryIDC/action/entryIDC.content.php?para=getContact&type=Contact&cusID=" + cusID, function (data, status) {
-            $("#contact").html(data);
+        $('#person').show();
+        $.get("../entryIDC/action/entryIDC.content.php?para=getContact&type=Contact&cusID=" + cusID, function (data, status) {
+            $("#person").html(data);
         });
     }
     function getPerson(type, position) {
-        $.get("../EntryIDC/action/entryIDC.content.php?para=getPerson&type=" + type + "&position=" + position, function (data, status) {
-            $("#contact").html(data);
+        $('#person').show();
+        $('#customer').hide();
+        $.get("../entryIDC/action/entryIDC.content.php?para=getPerson&type=" + type + "&position=" + position, function (data, status) {
+            $("#person").html(data);
         });
     }
 </script>
