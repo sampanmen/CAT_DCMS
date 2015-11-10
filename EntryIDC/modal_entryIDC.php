@@ -12,43 +12,23 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             <div class="panel-body">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Customers List
+                        <b>Choose Type </b>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <div class="dataTable_wrapper">
-                            <table class="table table-striped table-bordered table-hover" id="dataTablesModalEntryIDC">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Select</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $getCus = getCustomers();
-//                                    echo "<pre>";
-//                                    print_r($getCus);
-//                                    echo "</pre>";
-                                    foreach ($getCus as $value) {
-                                        ?>
-                                        <tr>
-                                            <td><?php printf("%05d", $value['CustomerID']); ?></td>
-                                            <td><?php echo $value['CustomerName']; ?></td>
-                                            <td><?php echo $value['BusinessType']; ?></td>
-                                            <td><a class="btn btn-info" onclick="getContact('<?php echo $value['CustomerID']; ?>');" href="#contact">Select</a></td>
-                                        </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
-                        </div>
+                        <a href="#customer" class="btn btn-info btn-lg" onclick="getCustomer();">Customer</a>
+                        <a href="#catDivision" class="btn btn-info btn-lg" onclick="getDivision('CAT');">CAT Employee</a>
+                        <a href="#catDivision" class="btn btn-info btn-lg" onclick="getDivision('Vender');">Vender</a>
+                        <!--<a type="button" class="btn btn-primary btn-lg">Outsource</a>-->
                     </div>
                 </div>
             </div>
 
-            <div class="panel-body" id="contact">
+            <div class="panel-body" id="customer">
+                <!--show Customer or CAT Division-->
+            </div>
+
+            <div class="panel-body" id="person">
                 <!-- show contact -->
             </div>
         </div>
@@ -65,9 +45,30 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             lengthMenu: [[5, 10, 15, 25, 50, -1], [5, 10, 15, 25, 50, "All"]]
         });
     });
+    function getCustomer() {
+        $('#person').hide();
+        $('#customer').show();
+        $.get("../entryIDC/action/entryIDC.content.php?para=getCustomer", function (data, status) {
+            $("#customer").html(data);
+        });
+    }
+    function getDivision(organi) {
+        $('#person').hide();
+        $('#customer').show();
+        $.get("../entryIDC/action/entryIDC.content.php?para=getDivision&organi=" + organi, function (data, status) {
+            $("#customer").html(data);
+        });
+    }
     function getContact(cusID) {
-        $.get("../EntryIDC/action/entryIDC.content.php?para=getContact&cusID=" + cusID, function (data, status) {
-            $("#contact").html(data);
+        $('#person').show();
+        $.get("../entryIDC/action/entryIDC.content.php?para=getContact&type=Contact&cusID=" + cusID, function (data, status) {
+            $("#person").html(data);
+        });
+    }
+    function getStaff(division) {
+        $('#person').show();
+        $.get("../entryIDC/action/entryIDC.content.php?para=getStaff&division=" + division, function (data, status) {
+            $("#person").html(data);
         });
     }
 </script>
