@@ -233,7 +233,22 @@ function addBusinesstype($Businesstype, $Status) {
         return false;
 }
 
-//<!--Businesstype-->
+//<!--Location-->
+function getLocationByID($LocationID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`LocationID`, "
+            . "`Location`, "
+            . "`Address`, "
+            . "`Status` "
+            . "FROM `location`"
+            . "WHERE `LocationID`= :LocationID";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":LocationID" => $LocationID));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
 function addLocation($Location, $Address, $Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO`location`(`Location`, `Address`, `Status`) "
@@ -248,4 +263,25 @@ function addLocation($Location, $Address, $Status) {
         return true;
     } else
         return false;
+}
+
+function editLocation($LocationID, $Location,$Address, $Status) {
+    $conn = dbconnect();
+    $SQLCommand = "UPDATE `location` SET "
+            . "`Location`=:Location, "
+            . "`Address`=:Address, "
+            . "`Status`=:Status "
+            . "WHERE `LocationID`= :LocationID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":Location" => $Location,
+        ":Address" => $Address,
+        ":Status" => $Status,
+        ":LocationID" => $LocationID
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }

@@ -214,7 +214,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     ?>
                                     <tr>
                                         <td class="text-center"><?php echo $LocationID; ?></td>
-                                        <td><?php echo $Location; ?></td>
+                                        <td><a href="../admin/model_editLocation.php?LocationID=<?php echo $locav['LocationID']; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $Location; ?></a></td>
                                         <td><?php echo $Address ?></td>
                                         <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $locav['Status']; ?></span></td>
                                     </tr>                                                     
