@@ -21,6 +21,29 @@ function getZone() {
     return $resultArr;
 }
 
+function getZoneByLocationID($locationID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT"
+            . "`entry_zone`.`EntryZoneID`,"
+            . "`entry_zone`.`EntryZone` ,"
+            . "`location`.`Location`,"
+            . "`entry_zone`.`Status`"
+            . "FROM `entry_zone`"
+            . "inner join `location`"
+            . "ON `entry_zone`.`LocationID`=`location`.`LocationID` "
+            . "WHERE `location`.`LocationID` = :locationID";
+//    echo $SQLCommand;
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":locationID" => $locationID
+    ));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
 function addZone($EntryZone, $LocationID, $Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO `entry_zone`(`EntryZone`, `LocationID`, `Status`)"
@@ -36,11 +59,6 @@ function addZone($EntryZone, $LocationID, $Status) {
     } else
         return false;
 }
-
-
-
-
-
 
 //<!--Catagory-->
 function getCatagory() {
@@ -109,13 +127,6 @@ function editCategory($PackageCategoryID, $PackageCategory, $Status) {
     }
 }
 
-
-
-
-
-
-
-
 //<!--Position-->
 function getStaffPosition() {
     $conn = dbconnect();
@@ -182,11 +193,6 @@ function editPosition($StaffPositionID, $Position, $Status) {
     }
 }
 
-
-
-
-
-
 //<!--Viewstaff-->
 function getViewstaff() {
     $conn = dbconnect();
@@ -211,11 +217,6 @@ function getViewstaff() {
     return $resultArr;
 }
 
-
-
-
-
-
 //<!--Businesstype-->
 function addBusinesstype($Businesstype, $Status) {
     $con = dbconnect();
@@ -231,8 +232,6 @@ function addBusinesstype($Businesstype, $Status) {
     } else
         return false;
 }
-
-
 
 //<!--Businesstype-->
 function addLocation($Location, $Address, $Status) {
@@ -250,9 +249,3 @@ function addLocation($Location, $Address, $Status) {
     } else
         return false;
 }
-
-
-
-
-
-
