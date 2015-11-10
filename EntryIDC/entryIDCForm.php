@@ -14,7 +14,7 @@ if ($getPersonType == "Contact") {
 } else {
     $getPerson = getPerson($getPersonID);
 }
-
+ 
 //echo "<pre>";
 //print_r($getPerson);
 //echo "</pre>";
@@ -38,7 +38,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
 ?>
 <p><a href="?">Home</a> > <a href="?p=entryIDCShow">Show Entry IDC</a> > <b>Entry IDC</b></p>
 <div class="row">
-    <form method="POST" action="../entryIDC/action/entryIDC.action.php?para=addEntryIDC">
+    <form method="POST" action="../EntryIDC/action/entryIDC.action.php?para=addEntryIDC">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
