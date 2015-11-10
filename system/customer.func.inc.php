@@ -870,6 +870,7 @@ function searchCustomer($text) {
     return $resultArr;
 }
 
+<<<<<<< HEAD
 function getZone() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
@@ -935,3 +936,7 @@ function getStaffByDivision($divisionID) {
     }
     return $resultArr;
 }
+=======
+
+
+>>>>>>> refs/remotes/origin/setting
