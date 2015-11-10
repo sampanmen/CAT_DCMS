@@ -143,7 +143,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     ?>
                                     <tr>
                                         <td class="text-center"><?php echo $EntryZoneID; ?></td>
-                                        <td><?php echo $EntryZone; ?></td>
+                                        <td><a href="../admin/model_editZone.php?EntryZoneID=<?php echo $Zone['EntryZoneID']; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $EntryZone; ?></a></td> 
                                         <td><?php echo $Location ?></td>
                                         <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $Zone['Status']; ?></span></td>
                                     </tr>                                                     

@@ -44,6 +44,24 @@ function getZoneByLocationID($locationID) {
     return $resultArr;
 }
 
+
+function getZoneByID($EntryZoneID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT"
+            . "`entry_zone`.`EntryZoneID`,"
+            . "`entry_zone`.`EntryZone` ,"
+            . "`location`.`Location`,"
+            . "`entry_zone`.`Status`"
+            . "FROM `entry_zone`"
+            . "inner join `location`"
+            . "ON `entry_zone`.`LocationID`=`location`.`LocationID` "
+            . "WHERE `entry_zone`.`EntryZoneID` = :EntryZoneID";
+//    echo $SQLCommand;
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":EntryZoneID" => $EntryZoneID));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
 function addZone($EntryZone, $LocationID, $Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO `entry_zone`(`EntryZone`, `LocationID`, `Status`)"
@@ -59,6 +77,28 @@ function addZone($EntryZone, $LocationID, $Status) {
     } else
         return false;
 }
+
+function editZone($EntryZoneID, $EntryZone,$LocationID, $Status) {
+    $conn = dbconnect();
+    $SQLCommand = "UPDATE `entry_zone` SET "
+            . "`EntryZone`=:EntryZone, "
+             . "`LocationID`=:LocationID, "
+            . "`Status`=:Status "
+            . "WHERE `EntryZoneID`= :EntryZoneID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":EntryZone" => $EntryZone,
+         ":LocationID" => $LocationID,
+        ":Status" => $Status,
+        ":EntryZoneID" => $EntryZoneID
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 //<!--Catagory-->
 function getCatagory() {

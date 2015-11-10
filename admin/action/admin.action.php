@@ -91,19 +91,32 @@ if ($para == "addStaffposition") {
     $address = $_POST['address'];
     $status = $_POST['status'];
 
-    $res = editLocation($locationID, $location,$address, $status);
+    $res = editLocation($locationID, $location, $address, $status);
     if ($res) {
         header("location: ../../core/?p=setting&para=addPositionCompleted");
     } else {
         header("location: ../../core/?p=setting&para=addPositionFailed");
     }
-}else if ($para == "editBusinesstype") {
+} else if ($para == "editBusinesstype") {
     //   print_r($_POST);
     $businessTypeID = $_GET['BusinessTypeID'];
     $businessType = $_POST['businessType'];
     $status = $_POST['status'];
 
     $res = editBusinesstype($businessTypeID, $businessType, $status);
+    if ($res) {
+        header("location: ../../core/?p=setting&para=editBusinesstypeCompleted");
+    } else {
+        header("location: ../../core/?p=setting&para=editBusinesstypeFailed");
+    }
+} else if ($para == "editZone") {
+    //   print_r($_POST);
+    $entryZoneID = $_GET['EntryZoneID'];
+    $zone = $_POST['zone'];
+    $location = $_POST['location'];
+    $status = $_POST['status'];
+
+    $res = editZone($entryZoneID, $zone,$location, $status);
     if ($res) {
         header("location: ../../core/?p=setting&para=editBusinesstypeCompleted");
     } else {
