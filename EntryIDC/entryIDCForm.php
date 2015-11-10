@@ -5,7 +5,7 @@ $getPersonID = isset($_GET['personID']) ? $_GET['personID'] : "-1";
 $getPersonType = isset($_GET['type']) ? $_GET['type'] : "";
 $getPosition = isset($_GET['position']) ? $_GET['position'] : "";
 $getCusID = isset($_GET['cusID']) ? $_GET['cusID'] : "";
-$isPerson = isset($_GET['isPerson']) ? $_GET['isPerson'] : "1";
+$isPerson = isset($_GET['isPerson']) ? $_GET['isPerson'] : "0";
 
 if ($getPersonType == "Contact") {
     $getPerson = getContactByPersonID($getPersonID);
@@ -15,12 +15,16 @@ if ($getPersonType == "Contact") {
     $getPerson = getPerson($getPersonID);
 }
 
-//echo "<pre>";
-//print_r($getPerson);
-//echo "</pre>";
+// set $valCustomerName
+if (isset($getPerson['CustomerName'])) {
+    $valCustomerName = $getPerson['CustomerName'];
+} else if (isset($getPerson['Organization'])) {
+    $valCustomerName = "[" . $getPerson['Organization'] . "] " . $getPerson['Division'];
+} else {
+    $valCustomerName = "";
+}
 
 $valCustomerID = ($getCusID != "") ? number_pad($getCusID, 5) : "";
-$valCustomerName = isset($getPerson['CustomerName']) ? $getPerson['CustomerName'] : "";
 $valPersonID = isset($getPerson['PersonID']) ? $getPerson['PersonID'] : "";
 $valCatEmpID = isset($getPerson['EmployeeID']) ? $getPerson['EmployeeID'] : "";
 $valIDCCard = isset($getPerson['IDCCard']) ? $getPerson['IDCCard'] : "";
@@ -50,31 +54,31 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                             <div class="col-lg-12">
                                 <div class="form-group col-lg-6">
                                     <label class="radio-inline">                                    
-                                        <input <?php echo $getPersonType == 'Contact' ? "checked" : ""; ?> type="radio" name="type">
+                                        <input <?php echo $getPersonType == 'Contact' ? "checked" : ""; ?> <?php echo $isPerson == '1' ? "disabled" : ""; ?> type="radio" name="type">
                                         ลูกค้า / Customer <br>
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input class="form-control" name="cusID" value="<?php echo $valCustomerID; ?>">
-                                    <input type="hidden" name="conID" value="<?php echo $valPersonID; ?>">
+                                    <input class="form-control" name="cusID" value="<?php echo $valCustomerID; ?>" <?php echo!($getPersonType == 'Contact') ? "disabled" : ""; ?>>
+                                    <input type="hidden" name="personID" value="<?php echo $valPersonID; ?>">
                                 </div>
                             </div>
                             <div class="col-lg-12">                       
                                 <div class="form-group col-lg-6">
                                     <label class="radio-inline">
-                                        <input <?php echo ($getPersonType == 'Staff' && $valCatEmpID != "") ? "checked" : ""; ?> type="radio" name="type">
+                                        <input <?php echo ($getPersonType == 'Staff' && $valCatEmpID != "") ? "checked" : ""; ?> <?php echo $isPerson == '1' ? "disabled" : ""; ?> type="radio" name="type">
                                         พนักงาน กสท / CAT Employee <br>
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">                               
-                                    <input class="form-control" name="EmpID" value="<?php echo $valCatEmpID; ?>">                                
+                                    <input class="form-control" name="EmpID" value="<?php echo $valCatEmpID; ?>" <?php echo!($getPersonType == 'Staff' && $valCatEmpID != "") ? "disabled" : ""; ?>>                                
                                 </div>
                             </div>
 
                             <div class="col-lg-12">                       
                                 <div class="form-group col-lg-6">                       
                                     <label class="radio-inline">                                    
-                                        <input <?php echo ($getPersonType == 'Visitor' || ($getPersonType == 'Staff' && $valCatEmpID == "")) ? "checked" : ""; ?> type="radio" name="type">บุคคลทั่วไป / Other 
+                                        <input <?php echo ($getPersonType == 'Visitor' || ($getPersonType == 'Staff' && $valCatEmpID == "")) ? "checked" : ""; ?> <?php echo $isPerson == '1' ? "disabled" : ""; ?> type="radio" name="type">บุคคลทั่วไป / Other 
                                         <br>                
                                     </label>                                    
                                 </div>
@@ -275,6 +279,15 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <div class="form-group col-lg-3">
+                                        <label for="location">Location</label>
+                                        <select class="form-control" id="location">
+                                            <option>NON1</option>
+                                            <option>NON2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
                                     <div class="form-group col-lg-2">
                                         <label class="checkbox-inline">
                                             <input type="checkbox" value="chk" id="chkInternetAccount" onchange="chkInternet();">Internet Account               
@@ -302,8 +315,8 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                         }
                                     </script>
                                 </div>
-                                <!--IDC-->
-                                <div class="col-lg-12"><br>
+                                <!--Zone-->
+                                <div class="col-lg-12">
                                     <div class="form-group col-lg-1">
                                         <label class="checkbox-inline">                                    
                                             <input type="checkbox" value="Customer Room" name="area[]">Customer Room               
@@ -346,69 +359,27 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                             <input type="checkbox" value="Core Network" name="area[]">Core Network
                                         </label>                                
                                     </div>
-                                </div>
-                                <!--VIP-->
-                                <div class="col-lg-12">                       
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP1" name="area[]">VIP1
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP2" name="area[]">VIP2
-                                        </label>                                
-                                    </div>
+                                </div><!--End Zone-->
 
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP3" name="area[]">VIP3
-                                        </label>                                
-                                    </div>
-
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP4" name="area[]">VIP4
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP5" name="area[]">VIP5
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP6" name="area[]">VIP6
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP7" name="area[]">VIP7
-                                        </label>                                
+                                <!--Date Time-->
+                                <div class='col-lg-12'>
+                                    <div class="form-group col-lg-3">
+                                        <label for="datetimepicker1">เวลาเข้า</label>
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <input type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">                       
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Office" name="area[]">Office
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-2">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Temp Office" name="area[]">Temp Office
-                                        </label>                                
-                                    </div>  
-                                </div>
-                                <div class="col-lg-5">
-                                    <label>เวลาเข้า</label>
-                                    <div class="input-group">
-                                        <input type='text' class="form-control" id='datetimein' name="datetime">
-                                        <span class="input-group-addon" onclick="javascript:NewCssCal('
-                                                        datetimein', 'yyyyMMdd', 'dropdown', true, '24', true);" style="cursor:pointer">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker1').datetimepicker({
+                                            format: "YYYY/MM/DD HH:mm:ss"
+                                        });
+                                    });
+                                </script><!--End Date Time-->
                             </div>
                         </div>
                         <!-- /.row (nested) -->
