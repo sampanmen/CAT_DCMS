@@ -37,6 +37,21 @@ function getCatagory() {
     return $resultArr;
 }
 
+function getCatagoryByID($PackageCategoryID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT"
+            . "`PackageCategoryID`,"
+            . "`PackageCategory`,"
+            . "`Status`"
+            . "FROM `customer_package_category`"
+            . "WHERE `PackageCategoryID`= :packageCategoryID";
+//    echo $SQLCommand;
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":packageCategoryID" => $PackageCategoryID));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
 function getStaffPosition() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
@@ -54,7 +69,6 @@ function getStaffPosition() {
     return $resultArr;
 }
 
-
 function getStaffPositionByID($StaffPositionID) {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
@@ -68,8 +82,6 @@ function getStaffPositionByID($StaffPositionID) {
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
-
-
 
 function getViewstaff() {
     $conn = dbconnect();
@@ -109,7 +121,6 @@ function addPosition($Position, $Status) {
         return false;
 }
 
-
 function addBusinesstype($Businesstype, $Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO `customer_businesstype`(`BusinessType`, `Status`) "
@@ -125,8 +136,7 @@ function addBusinesstype($Businesstype, $Status) {
         return false;
 }
 
-
-function addLocation($Location,$Address, $Status) {
+function addLocation($Location, $Address, $Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO`location`(`Location`, `Address`, `Status`) "
             . "VALUES (:Location,:Address,:Status)";
@@ -141,7 +151,6 @@ function addLocation($Location,$Address, $Status) {
     } else
         return false;
 }
-
 
 function addPacCatagory($PackageCategory, $Status) {
     $con = dbconnect();
@@ -174,7 +183,6 @@ function addZone($EntryZone, $LocationID, $Status) {
         return false;
 }
 
-
 function editPosition($StaffPositionID, $Position, $Status) {
     $conn = dbconnect();
     $SQLCommand = "UPDATE `customer_person_staff_position` SET "
@@ -193,7 +201,3 @@ function editPosition($StaffPositionID, $Position, $Status) {
         return false;
     }
 }
-
-
-
-

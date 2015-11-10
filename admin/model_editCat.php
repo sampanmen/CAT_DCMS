@@ -7,20 +7,13 @@
         <div class="container-fluid">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-lg-12">  
-                        <div class="col-lg-6">                                           
-                            <label>Catagory ID</label>
-                        </div>
-                        <div class="form-group col-lg-3"> 
-                             1
-                        </div>
-                    </div>
+                    
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
                             <label>Catagory</label>
                         </div>
                         <div class="form-group col-lg-6"> 
-                             1/2 Rack
+                            <input class="form-control" name="cat" >  
                         </div>
                     </div>
                     
@@ -29,9 +22,9 @@
                             <label>Status</label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <select class="form-control" name="type">
-                                <option value="">Active</option>
-                                <option value="">NonActive</option> 
+                            <select class="form-control" name="status">
+                                <option <?php echo $status == "Active" ? "selected" : ""; ?> value="Active">Active</option>
+                                <option <?php echo $status == "Deactive" ? "selected" : ""; ?> value="Deactive">Deactive</option>
                             </select>
                         </div>
                     </div>
