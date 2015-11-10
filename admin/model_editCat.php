@@ -1,4 +1,18 @@
-<form method="POST" action="">
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+
+$getPackageCategoryID = $_GET['PackageCategoryID'];
+
+//get position
+$getCatagory = getCatagoryByID($getPackageCategoryID);
+$packageCategory = $getCatagory['PackageCategory'];
+$status = $getCatagory['Status'];
+
+?>
+
+
+
+<form method="POST" action="../admin/action/admin.action.php?para=editCategory&PackageCategoryID=<?php echo $getPackageCategoryID; ?>" enctype="multipart/form-data">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="gridSystemModalLabel">Catagory</h4>
@@ -13,7 +27,7 @@
                             <label>Catagory</label>
                         </div>
                         <div class="form-group col-lg-6"> 
-                            <input class="form-control" name="cat" >  
+                            <input class="form-control" name="packageCategory" value="<?php echo $packageCategory; ?>" >  
                         </div>
                     </div>
                     

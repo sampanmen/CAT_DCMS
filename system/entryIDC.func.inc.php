@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 function addEntryIDC($contactID, $EmpID, $VisitorCardID, $IDCard, $IDCCard, $IDCCardType, $TimeIn, $Purpose, $InternetAccount, $personID, $itemsArr, $zoneArr) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO `entry_idc`(`PersonID`, `VisitorCardID`, `IDCard`, `IDCCard`, `IDCCardType`, `EmpID`, `TimeIn`, `Purpose`, `InternetAccount`,  `CreateBy`, `UpdateBy`) "

@@ -72,4 +72,16 @@ if ($para == "addStaffposition") {
     } else {
         header("location: ../../core/?p=setting&para=addPositionFailed");
     }
+}else if ($para == "editCategory") {
+    //   print_r($_POST);
+    $packageCategoryID = $_GET['PackageCategoryID'];
+    $packageCategory = $_POST['packageCategory'];
+    $status = $_POST['status'];
+    
+    $res = editCategory($packageCategoryID,$packageCategory,$status);
+    if ($res) {
+        header("location: ../../core/?p=setting&para=addPositionCompleted");
+    } else {
+        header("location: ../../core/?p=setting&para=addPositionFailed");
+    }
 }
