@@ -42,7 +42,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
 ?>
 <p><a href="?">Home</a> > <a href="?p=entryIDCShow">Show Entry IDC</a> > <b>Entry IDC</b></p>
 <div class="row">
-    <form method="POST" action="../EntryIDC/action/entryIDC.action.php?para=addEntryIDC">
+    <form method="POST" action="../EntryIDC/action/entryIDC.action.php?para=addEntryIDC&personType=<?php echo $getPersonType; ?>">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -281,13 +281,32 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                 <div class="col-lg-12">
                                     <div class="form-group col-lg-3">
                                         <label for="location">Location</label>
-                                        <select class="form-control" id="location">
-                                            <option>NON1</option>
-                                            <option>NON2</option>
+                                        <select class="form-control" id="location" name="locationID" onchange="getZones();">
+                                            <option selected value="0">Choose Location</option>
+                                            <?php
+                                            $getLocations = getLocation();
+//                                            print_r($getLocations);
+                                            foreach ($getLocations as $value) {
+                                                $valLocationID = $value['LocationID'];
+                                                $valLocation = $value['Location'];
+                                                ?>
+                                                <option value="<?php echo $valLocationID; ?>"><?php echo $valLocation; ?></option>
+                                            <?php } ?>
                                         </select>
+                                        <script>
+                                            function getZones() {
+                                                var locatID = $("#location").val();
+                                                $.get("../entryIDC/action/entryIDC.content.php?para=getZone&locationID=" + locatID, function (data, status) {
+                                                    $("#zones").html(data);
+                                                });
+                                            }
+                                        </script>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
+                                    <div class="col-lg-12">
+                                        <p><b>Internet</b></p>
+                                    </div>
                                     <div class="form-group col-lg-2">
                                         <label class="checkbox-inline">
                                             <input type="checkbox" value="chk" id="chkInternetAccount" onchange="chkInternet();">Internet Account               
@@ -295,11 +314,11 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                     </div>
                                     <div class="form-group col-lg-3">
                                         <label>Username:</label>
-                                        <input disabled type="text" class="form-control" name="internet_user" id="internet_user">
+                                        <input disabled type="text" class="form-control" name="internet[user]" id="internet_user">
                                     </div>
                                     <div class="form-group col-lg-3">
                                         <label>Password:</label>
-                                        <input disabled type="text" class="form-control" name="internet_pass" id="internet_pass">
+                                        <input disabled type="text" class="form-control" name="internet[pass]" id="internet_pass">
                                     </div>
                                     <script>
                                         function chkInternet() {
@@ -317,47 +336,8 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                 </div>
                                 <!--Zone-->
                                 <div class="col-lg-12">
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Customer Room" name="area[]">Customer Room               
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="IDC1" name="area[]">IDC1               
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="IDC2" name="area[]">IDC2               
-                                        </label>                                
-                                    </div>
-
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="NOC" name="area[]">NOC
-                                        </label>
-                                    </div>
-
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Power" name="area[]">Power
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Meeting" name="area[]">Meeting
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Manager" name="area[]">Manager
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-2">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Core Network" name="area[]">Core Network
-                                        </label>                                
+                                    <div class="form-group col-lg-12" id="zones">
+                                        <!--Get Zones-->
                                     </div>
                                 </div><!--End Zone-->
 
