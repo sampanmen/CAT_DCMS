@@ -12,19 +12,22 @@ if ($para == "addEntryIDC") {
     print_r($_GET);
     echo "</pre>";
 
-//    $cusID = $_POST['cusID'];
-//    $EmpID = $_POST['EmpID'];
-//    $visitCard = $_POST['visitCard'];
-//    $IDCCard = $_POST['IDCCard'];
-//    $IDCCardType = $_POST['IDCCardType'];
-//    $IDCard = $_POST['IDCard'];
-//    $conID = $_POST['conID'];
-//    $conName = $_POST['conName'];
-//    $conLname = $_POST['conLname'];
-//    $conEmail = $_POST['conEmail'];
-//    $cusName = $_POST['cusName'];
-//    $conPhone = $_POST['conPhone'];
-//    $purpose = $_POST['purpose'];
+    $getPersonID = $_POST['personID'];
+    $personType = $_GET['personType'];
+    $cusID = isset($_POST['cusID']) ? $_POST['cusID'] : "";
+    $EmpID = isset($_POST['EmpID']) ? $_POST['EmpID'] : "";
+    $visitCard = $_POST['visitCard'];
+    $IDCCard = $_POST['IDCCard'];
+    $IDCCardType = $_POST['IDCCardType'];
+    $IDCard = $_POST['IDCard'];
+    $conName = $_POST['conName'];
+    $conLname = $_POST['conLname'];
+    $conEmail = $_POST['conEmail'];
+    $cusName = $_POST['cusName'];
+    $conPhone = $_POST['conPhone'];
+    $purpose = $_POST['purpose'];
+    $locationID = $_POST['locationID'];
+
     //items
 //    $item_name = $_POST['item_name'];
 //    $item_brand = $_POST['item_brand'];
@@ -38,21 +41,20 @@ if ($para == "addEntryIDC") {
 //    $items['serialno'] = $item_serialno;
 //    $items['rackID'] = $item_rackID;
     //end item
-    //
     //internet
-//    $internet['user'] = $_POST['internet_user'];
-//    $internet['pass'] = $_POST['internet_pass'];
-//    $internetJson = json_encode($internet);
+    $internet = $_POST['internet'];
+    $internetJson = json_encode($internet);
     //end internet
-//    $area = $_POST['area'];
-//    $datetime = $_POST['datetime'];
-//
-//    $res = addEntryIDC($conID, $EmpID, $visitCard, $IDCard, $IDCCard, $IDCCardType, $datetime, $purpose, $internetJson, $personID, $items, $area);
-//    if ($res > 0) {
-//        header("Location: ../../core/?p=entryBeforePrint&entryID=" . $res . "&contactID=" . $conID . "&para=addEntrySuccess");
-//    } else {
-//        header("Location: ../../core/?p=entryIDCForm&contactID=" . $conID . "&para=addEntryError");
-//    }
+
+    $area = $_POST['area'];
+    $datetime = $_POST['datetime'];
+
+    $res = addEntryIDC($conID, $EmpID, $visitCard, $IDCard, $IDCCard, $IDCCardType, $datetime, $purpose, $internetJson, $personID, $items, $area);
+    if ($res > 0) {
+        header("Location: ../../core/?p=entryBeforePrint&entryID=" . $res . "&contactID=" . $conID . "&para=addEntrySuccess");
+    } else {
+        header("Location: ../../core/?p=entryIDCForm&contactID=" . $conID . "&para=addEntryError");
+    }
 } else if ($para == "checkOut") {
     $entryID = $_GET['entryID'];
     $res = checkOut($entryID);
