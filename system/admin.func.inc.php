@@ -54,6 +54,23 @@ function getStaffPosition() {
     return $resultArr;
 }
 
+
+function getStaffPositionByID($StaffPositionID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT"
+            . "`StaffPositionID`,"
+            . "`Position`,"
+            . "`Status`"
+            . "FROM `customer_person_staff_position`"
+            . "WHERE `StaffPositionID`= :staffPositionID";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":staffPositionID" => $StaffPositionID));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+
+
 function getViewstaff() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
@@ -156,6 +173,27 @@ function addZone($EntryZone, $LocationID, $Status) {
     } else
         return false;
 }
+
+
+function editPosition($StaffPositionID, $Position, $Status) {
+    $conn = dbconnect();
+    $SQLCommand = "UPDATE `customer_person_staff_position` SET "
+            . "`Position`=:Position, "
+            . "`Status`=:Status "
+            . "WHERE `StaffPositionID`= :StaffPositionID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":Position" => $Position,
+        ":Status" => $Status,
+        ":StaffPositionID" => $StaffPositionID
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 
 

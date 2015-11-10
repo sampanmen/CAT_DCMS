@@ -28,12 +28,11 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     ?>
                                     <tr>
                                         <td class="text-center"><?php echo $StaffPositionID; ?></td>
-                                        <td><a href="../admin/model_editPosition.php"  data-toggle="modal" data-target="#myModal"><?php echo $Position; ?></a></td>
+                                        <td><a href="../admin/model_editPosition.php?StaffPositionID=<?php echo $staffPo['StaffPositionID']; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $Position; ?></a></td>
                                         <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $staffPo['Status']; ?></span></td>
                                     </tr>                                                     
                                 <?php } ?>
                             </tbody>
-
                             <tfoot>
                                 <tr>
 
@@ -44,8 +43,6 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                             <option value="Deactive">Deactive</option>
                                         </select>
                                     </td>
-
-
                                 </tr>
                             </tfoot>
                         </table>
@@ -63,8 +60,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
         <div class="panel panel-default" id="CatagoryPackage">
             <div class="panel-heading">
                 <h5><b>Package Category</b></h5>
-            </div>      
-
+            </div>    
             <div class="panel-body">
                 <div class="dataTable_wrapper">
                     <form method="POST" action="../admin/action/admin.action.php?para=addPacCatagory">
@@ -100,9 +96,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                             <option value="Deactive">Deactive</option>
                                         </select>
                                     </td>
-
                                 </tr>
-
                             </tfoot>
                         </table>
                     </form>
@@ -124,8 +118,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
         <div class="panel panel-default" id="zone">
             <div class="panel-heading">
                 <h5><b>Zone</b></h5>
-            </div>      
-
+            </div>     
             <div class="panel-body">
                 <div class="dataTable_wrapper">
                     <form method="POST" action="../admin/action/admin.action.php?para=addZone">
@@ -177,9 +170,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                             <option value="Deactive">Deactive</option>
                                         </select>
                                     </td>
-
                                 </tr>
-
                             </tfoot>
                         </table>
                     </form>
@@ -199,8 +190,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
         <div class="panel panel-default" id="location">
             <div class="panel-heading">
                 <h5><b>Location</b></h5>
-            </div>      
-
+            </div>  
             <div class="panel-body">
                 <div class="dataTable_wrapper">
                     <form method="POST" action="../admin/action/admin.action.php?para=addLocation">
@@ -240,9 +230,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                             <option value="Deactive">Deactive</option>
                                         </select>
                                     </td>
-
                                 </tr>
-
                             </tfoot>
                         </table>
                     </form>
@@ -255,6 +243,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
     </div>
 
 
+    
     <!--business-->
     <div class="col-lg-6"> 
         <div class="panel panel-default" id="Businesstype">
@@ -298,9 +287,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                             <option value="Deactive">Deactive</option>
                                         </select>
                                     </td>
-
                                 </tr>
-
                             </tfoot>
                         </table>
                     </form>

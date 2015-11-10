@@ -48,8 +48,7 @@ if ($para == "addStaffposition") {
     } else {
         header("location: ../../core/?p=setting&para=addPositionFailed#CatagoryPackage");
     }
-}
-else if ($para == "addZone") {
+}else if ($para == "addZone") {
     //   print_r($_POST);
     $zone = $_POST['zone'];
     $locazone = $_POST['locazone'];
@@ -60,5 +59,17 @@ else if ($para == "addZone") {
         header("location: ../../core/?p=setting&para=addPositionCompleted#zone");
     } else {
         header("location: ../../core/?p=setting&para=addPositionFailed#zone");
+    }
+}else if ($para == "editPosition") {
+    //   print_r($_POST);
+    $staffPositionID = $_GET['StaffPositionID'];
+    $position = $_POST['position'];
+    $status = $_POST['status'];
+    
+    $res = editPosition($staffPositionID,$position,$status);
+    if ($res) {
+        header("location: ../../core/?p=setting&para=addPositionCompleted");
+    } else {
+        header("location: ../../core/?p=setting&para=addPositionFailed");
     }
 }
