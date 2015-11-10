@@ -35,9 +35,6 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             </tbody>
 
                             <tfoot>
-
-
-
                                 <tr>
 
                                     <td class="text-center"><button type="submit" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
@@ -51,7 +48,8 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
 
                                 </tr>
                             </tfoot>
-                        </table></form>
+                        </table>
+                    </form>
                 </div>
             </div>
         </div>
@@ -90,7 +88,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     <td><?php echo $PackageCategory; ?></td>
                                     <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $pacCat['Status']; ?></span></td>
                                 </tr>                                                     
-<?php } ?>
+                            <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr> 
@@ -140,22 +138,22 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             </tr>
                         </thead>
                         <tbody>
-<?php
-$zones = getZone();
+                            <?php
+                            $zones = getZone();
 //                            print_r($zones);
-foreach ($zones as $Zone) {
-    $EntryZoneID = $Zone['EntryZoneID'];
-    $EntryZone = $Zone['EntryZone'];
-    $Location = $Zone['Location'];
-    $statusLabel = $Zone['Status'] == "Active" ? "success" : ($Zone['Status'] == "Suppened" ? "warning" : "danger");
-    ?>
+                            foreach ($zones as $Zone) {
+                                $EntryZoneID = $Zone['EntryZoneID'];
+                                $EntryZone = $Zone['EntryZone'];
+                                $Location = $Zone['Location'];
+                                $statusLabel = $Zone['Status'] == "Active" ? "success" : ($Zone['Status'] == "Suppened" ? "warning" : "danger");
+                                ?>
                                 <tr>
                                     <td class="text-center"><?php echo $EntryZoneID; ?></td>
                                     <td><?php echo $EntryZone; ?></td>
                                     <td><?php echo $Location ?></td>
                                     <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $Zone['Status']; ?></span></td>
                                 </tr>                                                     
-<?php } ?>
+                            <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr>
@@ -210,21 +208,21 @@ foreach ($zones as $Zone) {
                             </tr>
                         </thead>
                         <tbody>                            
-<?php
-$loca = getLocation();
-foreach ($loca as $locav) {
-    $LocationID = $locav['LocationID'];
-    $Location = $locav['Location'];
-    $Address = $locav['Address'];
-    $statusLabel = $locav['Status'] == "Active" ? "success" : ($locav['Status'] == "Suppened" ? "warning" : "danger");
-    ?>
+                            <?php
+                            $loca = getLocation();
+                            foreach ($loca as $locav) {
+                                $LocationID = $locav['LocationID'];
+                                $Location = $locav['Location'];
+                                $Address = $locav['Address'];
+                                $statusLabel = $locav['Status'] == "Active" ? "success" : ($locav['Status'] == "Suppened" ? "warning" : "danger");
+                                ?>
                                 <tr>
                                     <td class="text-center"><?php echo $LocationID; ?></td>
                                     <td><?php echo $Location; ?></td>
                                     <td><?php echo $Address ?></td>
                                     <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $locav['Status']; ?></span></td>
                                 </tr>                                                     
-<?php } ?>
+                            <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr>
@@ -253,13 +251,14 @@ foreach ($loca as $locav) {
 
     <!--business-->
     <div class="col-lg-6"> 
-        <div class="panel panel-default">
+        <div class="panel panel-default" id="Businesstype">
             <div class="panel-heading">
                 <h5><b>Business Type</b></h5>
             </div>      
 
             <div class="panel-body">
                 <div class="dataTable_wrapper">
+                    <form method="POST" action="../admin/action/admin.action.php?para=addBusinesstype">
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
@@ -269,37 +268,36 @@ foreach ($loca as $locav) {
                             </tr>
                         </thead>
                         <tbody>                            
-<?php
-$business = getBusinessType();
-foreach ($business as $bus) {
+                            <?php
+                            $business = getBusinessType();
+                            foreach ($business as $bus) {
 
-    $BusinessTypeID = $bus['BusinessTypeID'];
-    $BusinessType = $bus['BusinessType'];
-    $statusLabel = $bus['Status'] == "Active" ? "success" : ($bus['Status'] == "Suppened" ? "warning" : "danger");
-    ?>
+                                $BusinessTypeID = $bus['BusinessTypeID'];
+                                $BusinessType = $bus['BusinessType'];
+                                $statusLabel = $bus['Status'] == "Active" ? "success" : ($bus['Status'] == "Suppened" ? "warning" : "danger");
+                                ?>
                                 <tr>
                                     <td class="text-center"><?php echo $BusinessTypeID; ?></td>
                                     <td><?php echo $BusinessType; ?></td>
                                     <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $bus['Status']; ?></span></td>
                                 </tr>                                                     
-<?php } ?>
+                            <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr> 
-                                <td class="text-center"><button type="button" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
+                                <td class="text-center"><button type="submit" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
                                 <td><input class="form-control" name="businessType" ></td>
-                                <td><select class="form-control">
-                                        <option>active</option>
-                                        <option>suspend</option>
-                                        <option>delete</option>
-
-                                    </select>
+                                <td><select class="form-control" name="status">
+                                            <option value="Active">Active</option>
+                                            <option value="Deactive">Deactive</option>
+                                        </select>
                                 </td>
 
                             </tr>
 
                         </tfoot>
                     </table>
+                    </form>
                 </div>
                 <!-- /.table-responsive -->
             </div>

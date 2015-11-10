@@ -91,3 +91,20 @@ function addPosition($Position, $Status) {
     } else
         return false;
 }
+
+
+function addBusinesstype($Businesstype, $Status) {
+    $con = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_businesstype`(`BusinessType`, `Status`) "
+            . "VALUES (:BusinessType,:Status)";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":BusinessType" => $Businesstype,
+        ":Status" => $Status
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
