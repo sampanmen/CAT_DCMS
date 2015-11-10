@@ -1,5 +1,6 @@
 <?php
 
+//<!--ZONE-->
 function getZone() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
@@ -20,6 +21,28 @@ function getZone() {
     return $resultArr;
 }
 
+function addZone($EntryZone, $LocationID, $Status) {
+    $con = dbconnect();
+    $SQLCommand = "INSERT INTO `entry_zone`(`EntryZone`, `LocationID`, `Status`)"
+            . "VALUES (:EntryZone,:LocationID,:Status)";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":EntryZone" => $EntryZone,
+        ":LocationID" => $LocationID,
+        ":Status" => $Status
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+
+
+
+
+
+//<!--Catagory-->
 function getCatagory() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
@@ -52,6 +75,48 @@ function getCatagoryByID($PackageCategoryID) {
     return $result;
 }
 
+function addPacCatagory($PackageCategory, $Status) {
+    $con = dbconnect();
+    $SQLCommand = "INSERT INTO`customer_package_category`(`PackageCategory`,`Status`)"
+            . "VALUES (:PackageCategory,:Status)";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":PackageCategory" => $PackageCategory,
+        ":Status" => $Status
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+function editCategory($PackageCategoryID, $PackageCategory, $Status) {
+    $conn = dbconnect();
+    $SQLCommand = "UPDATE `customer_package_category` SET "
+            . "`PackageCategory`=:PackageCategory, "
+            . "`Status`=:Status "
+            . "WHERE `PackageCategoryID`= :PackageCategoryID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":PackageCategory" => $PackageCategory,
+        ":Status" => $Status,
+        ":PackageCategoryID" => $PackageCategoryID
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
+
+
+
+
+
+//<!--Position-->
 function getStaffPosition() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
@@ -83,29 +148,6 @@ function getStaffPositionByID($StaffPositionID) {
     return $result;
 }
 
-function getViewstaff() {
-    $conn = dbconnect();
-    $SQLCommand = "SELECT"
-            . "`customer_person_staff`.`EmployeeID`,"
-            . "`customer_person`.`Fname`,"
-            . "`customer_person`.`Lname`,"
-            . "`customer_person_staff_position`.`Position`,"
-            . "`customer_person`.`PersonStatus`"
-            . "FROM `customer_person`"
-            . "JOIN `customer_person_staff`"
-            . "ON  `customer_person`.`PersonID`  =  `customer_person_staff`.`PersonID`"
-            . "JOIN `customer_person_staff_position` "
-            . "ON  `customer_person_staff`.`StaffPositionID`  = `customer_person_staff_position`.`StaffPositionID`";
-//   echo $SQLCommand;
-    $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute();
-    $resultArr = array();
-    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
-        array_push($resultArr, $result);
-    }
-    return $resultArr;
-}
-
 function addPosition($Position, $Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO `customer_person_staff_position`(`Position`, `Status`) "
@@ -113,68 +155,6 @@ function addPosition($Position, $Status) {
     $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":Position" => $Position,
-        ":Status" => $Status
-    ));
-    if ($SQLPrepare->rowCount() > 0) {
-        return true;
-    } else
-        return false;
-}
-
-function addBusinesstype($Businesstype, $Status) {
-    $con = dbconnect();
-    $SQLCommand = "INSERT INTO `customer_businesstype`(`BusinessType`, `Status`) "
-            . "VALUES (:BusinessType,:Status)";
-    $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(
-        ":BusinessType" => $Businesstype,
-        ":Status" => $Status
-    ));
-    if ($SQLPrepare->rowCount() > 0) {
-        return true;
-    } else
-        return false;
-}
-
-function addLocation($Location, $Address, $Status) {
-    $con = dbconnect();
-    $SQLCommand = "INSERT INTO`location`(`Location`, `Address`, `Status`) "
-            . "VALUES (:Location,:Address,:Status)";
-    $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(
-        ":Location" => $Location,
-        ":Address" => $Address,
-        ":Status" => $Status
-    ));
-    if ($SQLPrepare->rowCount() > 0) {
-        return true;
-    } else
-        return false;
-}
-
-function addPacCatagory($PackageCategory, $Status) {
-    $con = dbconnect();
-    $SQLCommand = "INSERT INTO`customer_package_category`(`PackageCategory`,`Status`)"
-            . "VALUES (:PackageCategory,:Status)";
-    $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(
-        ":PackageCategory" => $PackageCategory,
-        ":Status" => $Status
-    ));
-    if ($SQLPrepare->rowCount() > 0) {
-        return true;
-    } else
-        return false;
-}
-
-function addZone($EntryZone, $LocationID, $Status) {
-    $con = dbconnect();
-    $SQLCommand = "INSERT INTO `entry_zone`(`EntryZone`, `LocationID`, `Status`)"
-            . "VALUES (:EntryZone,:LocationID,:Status)";
-    $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(
-        ":EntryZone" => $EntryZone,
-        ":LocationID" => $LocationID,
         ":Status" => $Status
     ));
     if ($SQLPrepare->rowCount() > 0) {
@@ -201,3 +181,78 @@ function editPosition($StaffPositionID, $Position, $Status) {
         return false;
     }
 }
+
+
+
+
+
+
+//<!--Viewstaff-->
+function getViewstaff() {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT"
+            . "`customer_person_staff`.`EmployeeID`,"
+            . "`customer_person`.`Fname`,"
+            . "`customer_person`.`Lname`,"
+            . "`customer_person_staff_position`.`Position`,"
+            . "`customer_person`.`PersonStatus`"
+            . "FROM `customer_person`"
+            . "JOIN `customer_person_staff`"
+            . "ON  `customer_person`.`PersonID`  =  `customer_person_staff`.`PersonID`"
+            . "JOIN `customer_person_staff_position` "
+            . "ON  `customer_person_staff`.`StaffPositionID`  = `customer_person_staff_position`.`StaffPositionID`";
+//   echo $SQLCommand;
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+
+
+
+
+
+//<!--Businesstype-->
+function addBusinesstype($Businesstype, $Status) {
+    $con = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_businesstype`(`BusinessType`, `Status`) "
+            . "VALUES (:BusinessType,:Status)";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":BusinessType" => $Businesstype,
+        ":Status" => $Status
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+
+
+//<!--Businesstype-->
+function addLocation($Location, $Address, $Status) {
+    $con = dbconnect();
+    $SQLCommand = "INSERT INTO`location`(`Location`, `Address`, `Status`) "
+            . "VALUES (:Location,:Address,:Status)";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":Location" => $Location,
+        ":Address" => $Address,
+        ":Status" => $Status
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+
+
+
+
+

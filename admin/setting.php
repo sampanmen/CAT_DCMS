@@ -82,7 +82,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     ?>
                                     <tr>
                                         <td class="text-center"><?php echo $PackageCategoryID; ?></td>
-                                        <td><?php echo $PackageCategory; ?></td>
+                                        <td><a href="../admin/model_editCat.php?PackageCategoryID=<?php echo $pacCat['PackageCategoryID']; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $PackageCategory; ?></a></td>                                      
                                         <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $pacCat['Status']; ?></span></td>
                                     </tr>                                                     
                                 <?php } ?>
