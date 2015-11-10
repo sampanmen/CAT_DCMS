@@ -231,7 +231,6 @@ function getStaffByPosition($position) {
     $conn = dbconnect();
     $SQLCommand = "SELECT "
             . "`PersonID`, "
-            . "`PersonStaffID`, "
             . "`Fname`, "
             . "`Lname`, "
             . "`Phone`, "
@@ -240,9 +239,13 @@ function getStaffByPosition($position) {
             . "`EmployeeID`, "
             . "`StaffPositionID`, "
             . "`Position`, "
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
+            . "`Address`, "
             . "`TypePerson`, "
             . "`PersonStatus` "
-            . "FROM `view_staff` "
+            . "FROM `view_staff`"
             . "WHERE `Position` LIKE :position ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(
@@ -259,7 +262,6 @@ function getStaff($personID) {
     $conn = dbconnect();
     $SQLCommand = "SELECT "
             . "`PersonID`, "
-            . "`PersonStaffID`, "
             . "`Fname`, "
             . "`Lname`, "
             . "`Phone`, "
@@ -268,6 +270,10 @@ function getStaff($personID) {
             . "`EmployeeID`, "
             . "`StaffPositionID`, "
             . "`Position`, "
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
+            . "`Address`, "
             . "`TypePerson`, "
             . "`PersonStatus` "
             . "FROM `view_staff` "
@@ -864,20 +870,65 @@ function searchCustomer($text) {
     return $resultArr;
 }
 
-
 function getZone() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
-            ."`entry_zone`.`EntryZoneID`," 
-            ."`entry_zone`.`EntryZone` ,"
-            ."`location`.`Location`," 
-            ."`entry_zone`.`Status`"
-            ."FROM `entry_zone`"
-            ."inner join `location`"
-            ."ON `entry_zone`.`LocationID`=`location`.`LocationID`";
+            . "`entry_zone`.`EntryZoneID`,"
+            . "`entry_zone`.`EntryZone` ,"
+            . "`location`.`Location`,"
+            . "`entry_zone`.`Status`"
+            . "FROM `entry_zone`"
+            . "inner join `location`"
+            . "ON `entry_zone`.`LocationID`=`location`.`LocationID`";
 //    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getDivision() {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
+            . "`Address` "
+            . "FROM `customer_person_staff_division`";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getStaffByDivision($divisionID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`EmployeeID`, "
+            . "`StaffPositionID`, "
+            . "`Position`, "
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
+            . "`Address`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `view_staff` "
+            . "WHERE `DivisionID`= :divisionID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":divisionID" => $divisionID));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);

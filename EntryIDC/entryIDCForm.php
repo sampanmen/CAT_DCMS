@@ -62,7 +62,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                             <div class="col-lg-12">                       
                                 <div class="form-group col-lg-6">
                                     <label class="radio-inline">
-                                        <input <?php echo $getPersonType == 'Staff' ? "checked" : ""; ?> type="radio" name="type">
+                                        <input <?php echo ($getPersonType == 'Staff' && $valCatEmpID != "") ? "checked" : ""; ?> type="radio" name="type">
                                         พนักงาน กสท / CAT Employee <br>
                                     </label>
                                 </div>
@@ -74,7 +74,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                             <div class="col-lg-12">                       
                                 <div class="form-group col-lg-6">                       
                                     <label class="radio-inline">                                    
-                                        <input <?php echo $getPersonType == 'Visitor' ? "checked" : ""; ?> type="radio" name="type">บุคคลทั่วไป / Other 
+                                        <input <?php echo ($getPersonType == 'Visitor' || ($getPersonType == 'Staff' && $valCatEmpID == "")) ? "checked" : ""; ?> type="radio" name="type">บุคคลทั่วไป / Other 
                                         <br>                
                                     </label>                                    
                                 </div>
@@ -173,6 +173,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                     <div class="row">
                         <div class="col-lg-12">
                             <button type="button" class="btn btn-info" onclick="$('#item').show();
+
                                     $('#btn_showItem').hide();">Add items</button>
                         </div>
                     </div>
@@ -276,17 +277,30 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                 <div class="col-lg-12">
                                     <div class="form-group col-lg-2">
                                         <label class="checkbox-inline">
-                                            <input type="checkbox">Internet Account               
+                                            <input type="checkbox" value="chk" id="chkInternetAccount" onchange="chkInternet();">Internet Account               
                                         </label>
                                     </div>
                                     <div class="form-group col-lg-3">
                                         <label>Username:</label>
-                                        <input type="text" class="form-control" name="internet_user">
+                                        <input disabled type="text" class="form-control" name="internet_user" id="internet_user">
                                     </div>
                                     <div class="form-group col-lg-3">
                                         <label>Password:</label>
-                                        <input type="text" class="form-control" name="internet_pass">
+                                        <input disabled type="text" class="form-control" name="internet_pass" id="internet_pass">
                                     </div>
+                                    <script>
+                                        function chkInternet() {
+                                            var chkInternet = $("#chkInternetAccount").prop("checked");
+                                            if (chkInternet) {
+                                                $("#internet_user").prop("disabled", false);
+                                                $("#internet_pass").prop("disabled", false);
+                                            }
+                                            else {
+                                                $("#internet_user").prop("disabled", true);
+                                                $("#internet_pass").prop("disabled", true);
+                                            }
+                                        }
+                                    </script>
                                 </div>
                                 <!--IDC-->
                                 <div class="col-lg-12"><br>
@@ -389,7 +403,8 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                     <label>เวลาเข้า</label>
                                     <div class="input-group">
                                         <input type='text' class="form-control" id='datetimein' name="datetime">
-                                        <span class="input-group-addon" onclick="javascript:NewCssCal('datetimein', 'yyyyMMdd', 'dropdown', true, '24', true);" style="cursor:pointer">
+                                        <span class="input-group-addon" onclick="javascript:NewCssCal('
+                                                        datetimein', 'yyyyMMdd', 'dropdown', true, '24', true);" style="cursor:pointer">
                                             <span class="glyphicon glyphicon-calendar"></span>
                                         </span>
                                     </div>

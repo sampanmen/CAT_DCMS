@@ -7,9 +7,8 @@ $getEntryIDCNow = getEntryIDCNow();
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <label>
-                    Entry <a href="../EntryIDC/modal_entryIDC.php" data-toggle="modal" data-target="#myModal-lg">(Add)</a>
-                </label>               
+                <b>Show Entry</b>
+                <a href="../EntryIDC/modal_entryIDC.php" data-toggle="modal" data-target="#myModal-lg">(Add)</a>        
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -38,8 +37,8 @@ $getEntryIDCNow = getEntryIDCNow();
                                         <td><?php echo $value['TimeIn']; ?></td>
                                         <td>
                                             <button type="button" onclick="if (confirm('Are you sure to Checkout.')) {
-                                                        checkOut('<?php echo $value['EntryIDCID']; ?>');
-                                                    }" class="btn btn-warning btn-sm">Out</button>
+                                                                checkOut('<?php echo $value['EntryIDCID']; ?>');
+                                                            }" class="btn btn-warning btn-sm">Out</button>
                                             <a class="btn btn-info btn-sm" href="?p=entryBeforePrint&entryID=<?php echo $value['EntryIDCID']; ?>">View</a>
                                         </td>
                                     </tr>
@@ -48,7 +47,7 @@ $getEntryIDCNow = getEntryIDCNow();
                         </table>
                         <script>
                             function checkOut(id) {
-                                $.get("../EntryIDC/action/entryIDC.action.php?para=checkOut&entryID=" + id, function (data, status) {
+                                $.get("../entryIDC/action/entryIDC.action.php?para=checkOut&entryID=" + id, function (data, status) {
                                     if (data == '1') {
                                         $('#tr_showEntry_' + id).hide();
                                     }
@@ -59,8 +58,8 @@ $getEntryIDCNow = getEntryIDCNow();
                             }
                         </script>
                     </div>
-                <?php } 
-                else {
+                    <?php
+                } else {
                     echo "<h3>No Entry Now!</h3>";
                 }
                 ?>
@@ -70,4 +69,3 @@ $getEntryIDCNow = getEntryIDCNow();
         </div>
     </div>
 </div>
-
