@@ -12,54 +12,20 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             <div class="panel-body">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <b>Customers List </b>
-                        <a href="#contact" onclick="getPerson('Staff', 'Vender');">(CAT Employee</a>,
-                        <a href="#" onclick="">Contact)</a>
+                        <b>Choose Type </b>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <a href="#customer" class="btn btn-info btn-lg" onclick="getCustomer();">Customer</a>
-                        <a href="#contact" class="btn btn-info btn-lg" onclick="getPerson('Staff', 'Vender');">CAT Employee</a>
+                        <a href="#catDivision" class="btn btn-info btn-lg" onclick="getDivision('CAT');">CAT Employee</a>
+                        <a href="#catDivision" class="btn btn-info btn-lg" onclick="getDivision('Vender');">Vender</a>
                         <!--<a type="button" class="btn btn-primary btn-lg">Outsource</a>-->
                     </div>
                 </div>
             </div>
 
             <div class="panel-body" id="customer">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <b>Customers List</b>
-                        <a href="#person">(Other)</a>
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <div class="dataTable_wrapper">
-                            <table class="table table-striped table-bordered table-hover" id="dataTablesModalEntryIDC">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Select</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $getCus = getCustomers();
-                                    foreach ($getCus as $value) {
-                                        ?>
-                                        <tr>
-                                            <td><?php printf("%05d", $value['CustomerID']); ?></td>
-                                            <td><?php echo $value['CustomerName']; ?></td>
-                                            <td><?php echo $value['BusinessType']; ?></td>
-                                            <td><a class="btn btn-info btn-sm" onclick="getContact('<?php echo $value['CustomerID']; ?>');" href="#contact">Select</a></td>
-                                        </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                <!--show Customer or CAT Division-->
             </div>
 
             <div class="panel-body" id="person">
@@ -79,9 +45,19 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             lengthMenu: [[5, 10, 15, 25, 50, -1], [5, 10, 15, 25, 50, "All"]]
         });
     });
-    function getCustomer(){
-        $('#customer').show();
+    function getCustomer() {
         $('#person').hide();
+        $('#customer').show();
+        $.get("../entryIDC/action/entryIDC.content.php?para=getCustomer", function (data, status) {
+            $("#customer").html(data);
+        });
+    }
+    function getDivision(organi) {
+        $('#person').hide();
+        $('#customer').show();
+        $.get("../entryIDC/action/entryIDC.content.php?para=getDivision&organi=" + organi, function (data, status) {
+            $("#customer").html(data);
+        });
     }
     function getContact(cusID) {
         $('#person').show();
@@ -89,10 +65,9 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             $("#person").html(data);
         });
     }
-    function getPerson(type, position) {
+    function getStaff(division) {
         $('#person').show();
-        $('#customer').hide();
-        $.get("../entryIDC/action/entryIDC.content.php?para=getPerson&type=" + type + "&position=" + position, function (data, status) {
+        $.get("../entryIDC/action/entryIDC.content.php?para=getStaff&division=" + division, function (data, status) {
             $("#person").html(data);
         });
     }
