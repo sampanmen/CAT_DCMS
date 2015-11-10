@@ -35,9 +35,6 @@ $valLname = isset($getPerson['Lname']) ? $getPerson['Lname'] : "";
 $valEmail = isset($getPerson['Email']) ? $getPerson['Email'] : "";
 $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
 
-// Get Zone
-$getZones = getZone();
-
 //$getCusRack = getRackByCusID($getPerson['CustomerID']);
 //echo "<pre>";
 //print_r($_POST);
@@ -282,6 +279,15 @@ $getZones = getZone();
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <div class="form-group col-lg-3">
+                                        <label for="location">Location</label>
+                                        <select class="form-control" id="location">
+                                            <option>NON1</option>
+                                            <option>NON2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
                                     <div class="form-group col-lg-2">
                                         <label class="checkbox-inline">
                                             <input type="checkbox" value="chk" id="chkInternetAccount" onchange="chkInternet();">Internet Account               
@@ -309,8 +315,8 @@ $getZones = getZone();
                                         }
                                     </script>
                                 </div>
-                                <!--IDC-->
-                                <div class="col-lg-12"><br>
+                                <!--Zone-->
+                                <div class="col-lg-12">
                                     <div class="form-group col-lg-1">
                                         <label class="checkbox-inline">                                    
                                             <input type="checkbox" value="Customer Room" name="area[]">Customer Room               
@@ -353,69 +359,27 @@ $getZones = getZone();
                                             <input type="checkbox" value="Core Network" name="area[]">Core Network
                                         </label>                                
                                     </div>
-                                </div>
-                                <!--VIP-->
-                                <div class="col-lg-12">                       
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP1" name="area[]">VIP1
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP2" name="area[]">VIP2
-                                        </label>                                
-                                    </div>
+                                </div><!--End Zone-->
 
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP3" name="area[]">VIP3
-                                        </label>                                
-                                    </div>
-
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP4" name="area[]">VIP4
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP5" name="area[]">VIP5
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP6" name="area[]">VIP6
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="VIP7" name="area[]">VIP7
-                                        </label>                                
+                                <!--Date Time-->
+                                <div class='col-lg-12'>
+                                    <div class="form-group col-lg-3">
+                                        <label for="datetimepicker1">เวลาเข้า</label>
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <input type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">                       
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Office" name="area[]">Office
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-2">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Temp Office" name="area[]">Temp Office
-                                        </label>                                
-                                    </div>  
-                                </div>
-                                <div class="col-lg-5">
-                                    <label>เวลาเข้า</label>
-                                    <div class="input-group">
-                                        <input type='text' class="form-control" id='datetimein' name="datetime">
-                                        <span class="input-group-addon" onclick="javascript:NewCssCal('
-                                                        datetimein', 'yyyyMMdd', 'dropdown', true, '24', true);" style="cursor:pointer">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker1').datetimepicker({
+                                            format: "YYYY/MM/DD HH:mm:ss"
+                                        });
+                                    });
+                                </script><!--End Date Time-->
                             </div>
                         </div>
                         <!-- /.row (nested) -->
