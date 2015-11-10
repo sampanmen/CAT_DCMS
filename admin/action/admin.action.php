@@ -25,4 +25,40 @@ if ($para == "addStaffposition") {
     } else {
         header("location: ../../core/?p=setting&para=addPositionFailed#Businesstype");
     }
+}else if ($para == "addLocation") {
+    //   print_r($_POST);
+    $location = $_POST['location'];
+    $address = $_POST['address'];
+    $status = $_POST['status'];
+    
+    $res = addLocation($location,$address, $status);
+    if ($res) {
+        header("location: ../../core/?p=setting&para=addPositionCompleted#location");
+    } else {
+        header("location: ../../core/?p=setting&para=addPositionFailed#location");
+    }
+}else if ($para == "addPacCatagory") {
+    //   print_r($_POST);
+    $category = $_POST['category'];
+    $status = $_POST['status'];
+    
+    $res = addPacCatagory($category, $status) ;
+    if ($res) {
+        header("location: ../../core/?p=setting&para=addPositionCompleted#CatagoryPackage");
+    } else {
+        header("location: ../../core/?p=setting&para=addPositionFailed#CatagoryPackage");
+    }
+}
+else if ($para == "addZone") {
+    //   print_r($_POST);
+    $zone = $_POST['zone'];
+    $locazone = $_POST['locazone'];
+    $status = $_POST['status'];
+    
+    $res = addZone($zone, $locazone, $status) ;
+    if ($res) {
+        header("location: ../../core/?p=setting&para=addPositionCompleted#zone");
+    } else {
+        header("location: ../../core/?p=setting&para=addPositionFailed#zone");
+    }
 }

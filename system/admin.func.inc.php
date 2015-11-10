@@ -108,3 +108,54 @@ function addBusinesstype($Businesstype, $Status) {
         return false;
 }
 
+
+function addLocation($Location,$Address, $Status) {
+    $con = dbconnect();
+    $SQLCommand = "INSERT INTO`location`(`Location`, `Address`, `Status`) "
+            . "VALUES (:Location,:Address,:Status)";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":Location" => $Location,
+        ":Address" => $Address,
+        ":Status" => $Status
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+
+function addPacCatagory($PackageCategory, $Status) {
+    $con = dbconnect();
+    $SQLCommand = "INSERT INTO`customer_package_category`(`PackageCategory`,`Status`)"
+            . "VALUES (:PackageCategory,:Status)";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":PackageCategory" => $PackageCategory,
+        ":Status" => $Status
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+function addZone($EntryZone, $LocationID, $Status) {
+    $con = dbconnect();
+    $SQLCommand = "INSERT INTO `entry_zone`(`EntryZone`, `LocationID`, `Status`)"
+            . "VALUES (:EntryZone,:LocationID,:Status)";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":EntryZone" => $EntryZone,
+        ":LocationID" => $LocationID,
+        ":Status" => $Status
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+
+
