@@ -5,7 +5,7 @@ $getPersonID = isset($_GET['personID']) ? $_GET['personID'] : "-1";
 $getPersonType = isset($_GET['type']) ? $_GET['type'] : "";
 $getPosition = isset($_GET['position']) ? $_GET['position'] : "";
 $getCusID = isset($_GET['cusID']) ? $_GET['cusID'] : "";
-$isPerson = isset($_GET['isPerson']) ? $_GET['isPerson'] : "1";
+$isPerson = isset($_GET['isPerson']) ? $_GET['isPerson'] : "0";
 
 if ($getPersonType == "Contact") {
     $getPerson = getContactByPersonID($getPersonID);
@@ -15,12 +15,16 @@ if ($getPersonType == "Contact") {
     $getPerson = getPerson($getPersonID);
 }
 
-//echo "<pre>";
-//print_r($getPerson);
-//echo "</pre>";
+// set $valCustomerName
+if (isset($getPerson['CustomerName'])) {
+    $valCustomerName = $getPerson['CustomerName'];
+} else if (isset($getPerson['Organization'])) {
+    $valCustomerName = "[" . $getPerson['Organization'] . "] " . $getPerson['Division'];
+} else {
+    $valCustomerName = "";
+}
 
 $valCustomerID = ($getCusID != "") ? number_pad($getCusID, 5) : "";
-$valCustomerName = isset($getPerson['CustomerName']) ? $getPerson['CustomerName'] : "";
 $valPersonID = isset($getPerson['PersonID']) ? $getPerson['PersonID'] : "";
 $valCatEmpID = isset($getPerson['EmployeeID']) ? $getPerson['EmployeeID'] : "";
 $valIDCCard = isset($getPerson['IDCCard']) ? $getPerson['IDCCard'] : "";
@@ -30,6 +34,9 @@ $valFname = isset($getPerson['Fname']) ? $getPerson['Fname'] : "";
 $valLname = isset($getPerson['Lname']) ? $getPerson['Lname'] : "";
 $valEmail = isset($getPerson['Email']) ? $getPerson['Email'] : "";
 $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
+
+// Get Zone
+$getZones = getZone();
 
 //$getCusRack = getRackByCusID($getPerson['CustomerID']);
 //echo "<pre>";
@@ -50,31 +57,31 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                             <div class="col-lg-12">
                                 <div class="form-group col-lg-6">
                                     <label class="radio-inline">                                    
-                                        <input <?php echo $getPersonType == 'Contact' ? "checked" : ""; ?> type="radio" name="type">
+                                        <input <?php echo $getPersonType == 'Contact' ? "checked" : ""; ?> <?php echo $isPerson == '1' ? "disabled" : ""; ?> type="radio" name="type">
                                         ลูกค้า / Customer <br>
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input class="form-control" name="cusID" value="<?php echo $valCustomerID; ?>">
-                                    <input type="hidden" name="conID" value="<?php echo $valPersonID; ?>">
+                                    <input class="form-control" name="cusID" value="<?php echo $valCustomerID; ?>" <?php echo!($getPersonType == 'Contact') ? "disabled" : ""; ?>>
+                                    <input type="hidden" name="personID" value="<?php echo $valPersonID; ?>">
                                 </div>
                             </div>
                             <div class="col-lg-12">                       
                                 <div class="form-group col-lg-6">
                                     <label class="radio-inline">
-                                        <input <?php echo ($getPersonType == 'Staff' && $valCatEmpID != "") ? "checked" : ""; ?> type="radio" name="type">
+                                        <input <?php echo ($getPersonType == 'Staff' && $valCatEmpID != "") ? "checked" : ""; ?> <?php echo $isPerson == '1' ? "disabled" : ""; ?> type="radio" name="type">
                                         พนักงาน กสท / CAT Employee <br>
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">                               
-                                    <input class="form-control" name="EmpID" value="<?php echo $valCatEmpID; ?>">                                
+                                    <input class="form-control" name="EmpID" value="<?php echo $valCatEmpID; ?>" <?php echo!($getPersonType == 'Staff' && $valCatEmpID != "") ? "disabled" : ""; ?>>                                
                                 </div>
                             </div>
 
                             <div class="col-lg-12">                       
                                 <div class="form-group col-lg-6">                       
                                     <label class="radio-inline">                                    
-                                        <input <?php echo ($getPersonType == 'Visitor' || ($getPersonType == 'Staff' && $valCatEmpID == "")) ? "checked" : ""; ?> type="radio" name="type">บุคคลทั่วไป / Other 
+                                        <input <?php echo ($getPersonType == 'Visitor' || ($getPersonType == 'Staff' && $valCatEmpID == "")) ? "checked" : ""; ?> <?php echo $isPerson == '1' ? "disabled" : ""; ?> type="radio" name="type">บุคคลทั่วไป / Other 
                                         <br>                
                                     </label>                                    
                                 </div>
