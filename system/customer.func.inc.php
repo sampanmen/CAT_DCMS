@@ -870,23 +870,6 @@ function searchCustomer($text) {
     return $resultArr;
 }
 
-function getDivision() {
-    $conn = dbconnect();
-    $SQLCommand = "SELECT "
-            . "`DivisionID`, "
-            . "`Division`, "
-            . "`Organization`, "
-            . "`Address` "
-            . "FROM `customer_person_staff_division`";
-    $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute();
-    $resultArr = array();
-    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
-        array_push($resultArr, $result);
-    }
-    return $resultArr;
-}
-
 function getStaffByDivision($divisionID) {
     $conn = dbconnect();
     $SQLCommand = "SELECT "
