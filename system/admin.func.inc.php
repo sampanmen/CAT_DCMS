@@ -359,6 +359,10 @@ function editLocation($LocationID, $Location, $Address, $Status) {
     }
 }
 
+
+
+
+//<!--Divition-->
 function getDivition() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
@@ -378,6 +382,22 @@ function getDivition() {
     return $resultArr;
 }
 
+function getDivitionByID($DivisionID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT"
+            . "`DivisionID`,"
+            . "`Division`,"
+            . "`Organization`,"
+            . "`Address`, "
+            . "`Status` "
+            . "FROM `customer_person_staff_division`"
+            . "WHERE `DivisionID`= :DivisionID";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":DivisionID" => $DivisionID));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
 function addDivition($Division,$Organization,$Address,$Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO `customer_person_staff_division`(`Division`, `Organization`, `Address`, `Status`) "
@@ -393,4 +413,26 @@ function addDivition($Division,$Organization,$Address,$Status) {
         return true;
     } else
         return false;
+}
+function editDivition($DivisionID, $Division,$Organization, $Address, $Status) {
+    $conn = dbconnect();
+    $SQLCommand = "UPDATE `customer_person_staff_division` SET "
+            . "`Division`=:Division, "
+            . "`Organization`=:Organization, "
+            . "`Address`=:Address, "
+            . "`Status`=:Status "
+            . "WHERE `DivisionID`= :DivisionID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":Division" => $Division,
+        ":Organization" => $Organization,
+        ":Address" => $Address,
+        ":Status" => $Status,
+        ":DivisionID" => $DivisionID
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }

@@ -153,4 +153,19 @@ if ($para == "addStaffposition") {
     } else {
         header("location: ../../core/?p=setting&para=addaddStaffFailed");
     }
+}else if ($para == "editDivition") {
+    //   print_r($_POST);
+    $divisionID = $_GET['DivisionID'];
+    
+    $divition = $_POST['divition'];
+    $organization = $_POST['organization'];
+    $address = $_POST['address'];
+    $status = $_POST['status'];
+
+    $res = editDivition($divisionID, $divition, $organization, $address, $status);
+    if ($res) {
+        header("location: ../../core/?p=setting&para=editDivitionCompleted");
+    } else {
+        header("location: ../../core/?p=setting&para=editDivitionFailed");
+    }
 } 

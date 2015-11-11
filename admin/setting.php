@@ -352,7 +352,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                             ?>
                                             <tr>
                                                 <td class="text-center"><?php echo $DivisionID; ?></td>
-                                                <td><a href="../admin/model_editDivition.php?DivisionID=<?php echo $divi['$Division']; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $Division; ?></a></td>
+                                                <td><a href="../admin/model_editDivition.php?DivisionID=<?php echo $DivisionID; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $Division; ?></a></td>
                                                 <td><?php echo $Organization ?></td>
                                                 <td><?php echo $Address ?></td>
                                                 <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $status; ?></span></td>
