@@ -185,6 +185,33 @@ function getEntryNow() {
     return $resultArr;
 }
 
+function getEntryLog() {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`EntryID`, "
+            . "`PersonID`, "
+            . "`TimeIn`, "
+            . "`TimeOut`, "
+            . "`Purpose`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`TypePerson`, "
+            . "`CustomerID`, "
+            . "`CustomerName`, "
+            . "`Organization`, "
+            . "`Division`"
+            . "FROM `view_entry` "
+            . "WHERE 1 "
+            . "ORDER BY `TimeIn` DESC";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
 function getOutEntry($entryID) {
     $con = dbconnect();
     $SQLCommand = "";

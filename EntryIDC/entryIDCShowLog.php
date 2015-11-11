@@ -1,14 +1,13 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
-$getEntryNow = getEntryNow();
+$getEntryNow = getEntryLog();
 ?>
-<p><a href="?">Home</a> > <b>Show Entry IDC</b></p>
+<p><a href="?">Home</a> > <b>Entry IDC Log</b></p>
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <b>Show Entry IDC</b>
-                <a href="../EntryIDC/modal_entryIDC.php" data-toggle="modal" data-target="#myModal-lg">(Add)</a>        
+                <b>Entry IDC Log</b>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -16,7 +15,7 @@ $getEntryNow = getEntryNow();
                 if ($getEntryNow != NULL) {
                     ?>
                     <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover" id="">
+                        <table class="table table-striped table-bordered table-hover" id="dataTables">
                             <thead>
                                 <tr>
                                     <th>Organization</th>
@@ -24,7 +23,8 @@ $getEntryNow = getEntryNow();
                                     <th>Type</th>
                                     <th>Purpose</th>
                                     <th>DateTime In</th>
-                                    <th>Action</th>
+                                    <th>DateTime Out</th>
+                                    <!--<th>Action</th>-->
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,6 +40,7 @@ $getEntryNow = getEntryNow();
                                     $valPersonType = $value['TypePerson'];
                                     $valPurpose = $value['Purpose'];
                                     $valDateTimeIN = $value['TimeIn'];
+                                    $valDateTimeOUT = ($value['TimeOut'] == NULL) ? "n/a" : "";
                                     ?>
                                     <tr id="tr_showEntry_<?php echo $valEntryID; ?>">
                                         <td><?php echo $valOrganization; ?></td>
@@ -47,12 +48,10 @@ $getEntryNow = getEntryNow();
                                         <td><?php echo $valPersonType; ?></td>
                                         <td><?php echo $valPurpose; ?></td>
                                         <td><?php echo $valDateTimeIN; ?></td>
-                                        <td>
-                                            <button type="button" onclick="if (confirm('Are you sure to Checkout.')) {
-                                                                checkOut('<?php echo $valEntryID; ?>');
-                                                            }" class="btn btn-warning btn-sm">Out</button>
+                                        <td><?php echo $valDateTimeOUT; ?></td>
+        <!--                                        <td>
                                             <a class="btn btn-info btn-sm" href="?p=entryBeforePrint&entryID=<?php echo $valEntryID; ?>">View</a>
-                                        </td>
+                                        </td>-->
                                     </tr>
                                 <?php } ?>
                             </tbody>
