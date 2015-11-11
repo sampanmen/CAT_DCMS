@@ -1,10 +1,20 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 $getEntryNow = getEntryNow();
+$para = isset($_GET['para']) ? $_GET['para'] : "";
 ?>
 <p><a href="?">Home</a> > <b>Show Entry IDC</b></p>
 <div class="row">
     <div class="col-lg-12">
+        <?php
+        if ($para == "addEntrySuccess") {
+            ?>
+            <div class="alert alert-success" role="alert">
+                <b>Success:</b> Add Entry IDC Completed.
+            </div>
+            <?php
+        }
+        ?>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <b>Show Entry IDC</b>
@@ -51,7 +61,7 @@ $getEntryNow = getEntryNow();
                                             <button type="button" onclick="if (confirm('Are you sure to Checkout.')) {
                                                                 checkOut('<?php echo $valEntryID; ?>');
                                                             }" class="btn btn-warning btn-sm">Out</button>
-                                            <a class="btn btn-info btn-sm" href="?p=entryBeforePrint&entryID=<?php echo $valEntryID; ?>">View</a>
+                                            <a class="btn btn-info btn-sm" href="?p=entryBeforePrint&entryID=<?php echo $valEntryID; ?>"><i class="glyphicon glyphicon-print"></i> Print</a>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -59,12 +69,12 @@ $getEntryNow = getEntryNow();
                         </table>
                         <script>
                             function checkOut(id) {
-                                $.get("../entryIDC/action/entryIDC.action.php?para=checkOut&entryID=" + id, function (data, status) {
+                                $.get("../entryIDC/action/entryIDC.action.php?para=CheckOut&entryID=" + id, function (data, status) {
                                     if (data == '1') {
                                         $('#tr_showEntry_' + id).hide();
                                     }
                                     else {
-                                        alert("Can't Checkout.");
+                                        alert("Can't CheckOut.");
                                     }
                                 });
                             }

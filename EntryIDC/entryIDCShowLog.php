@@ -40,7 +40,7 @@ $getEntryNow = getEntryLog();
                                     $valPersonType = $value['TypePerson'];
                                     $valPurpose = $value['Purpose'];
                                     $valDateTimeIN = $value['TimeIn'];
-                                    $valDateTimeOUT = ($value['TimeOut'] == NULL) ? "n/a" : "";
+                                    $valDateTimeOUT = ($value['TimeOut'] == NULL) ? "n/a" : $value['TimeOut'];
                                     ?>
                                     <tr id="tr_showEntry_<?php echo $valEntryID; ?>">
                                         <td><?php echo $valOrganization; ?></td>
@@ -56,18 +56,6 @@ $getEntryNow = getEntryLog();
                                 <?php } ?>
                             </tbody>
                         </table>
-                        <script>
-                            function checkOut(id) {
-                                $.get("../entryIDC/action/entryIDC.action.php?para=checkOut&entryID=" + id, function (data, status) {
-                                    if (data == '1') {
-                                        $('#tr_showEntry_' + id).hide();
-                                    }
-                                    else {
-                                        alert("Can't Checkout.");
-                                    }
-                                });
-                            }
-                        </script>
                     </div>
                     <?php
                 } else {

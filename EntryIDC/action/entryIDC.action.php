@@ -70,9 +70,9 @@ if ($para == "addEntryIDC") {
     } else {
         header("Location: ../../core/?p=entryIDCForm&personID=" . $getPersonID . "&type=" . $personType . "&isPerson=1&para=addEntryError");
     }
-} else if ($para == "checkOut") {
+} else if ($para == "CheckOut") {
     $entryID = $_GET['entryID'];
-    $res = checkOut($entryID);
+    $res = checkOutEntry($entryID, $personID);
     if ($res) {
         echo "1";
     } else {
