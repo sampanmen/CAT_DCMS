@@ -36,7 +36,7 @@
         <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
         <!-- DateTime Picker -->
-        
+        <link href="../bower_components/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -67,7 +67,8 @@
         <script src="../bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
 
         <!-- DateTime Picker -->
-        <script src="../bower_components/datetimepicker/js/datetimepicker_css.js"></script>
+        <script src="../bower_components/datetimepicker/js/moment-with-locales.js"></script>
+        <script src="../bower_components/datetimepicker/js/bootstrap-datetimepicker.js"></script>
 
     </head>
 

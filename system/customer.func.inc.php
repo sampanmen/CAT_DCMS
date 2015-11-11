@@ -14,7 +14,8 @@ function addCustomer($CustomerStatus, $CustomerName, $BusinessTypeID, $Email, $P
     $SQLPrepare->execute(array("CustomerStatus" => $CustomerStatus, "CustomerName" => $CustomerName,
         "BusinessTypeID" => $BusinessTypeID, "Email" => $Email, "Phone" => $Phone, "Fax" => $Fax,
         "Address" => $Address, "Township" => $Township, "City" => $City, "Province" => $Province,
-        "Zipcode" => $Zipcode, "Country" => $Country, "CreateBy" => $PersonID, "UpdateBy" => $PersonID));
+        "Zipcode" => $Zipcode, "Country" => $Country, "CreateBy" => $PersonID, "UpdateBy" => $PersonID
+    ));
 
     if ($SQLPrepare->rowCount() > 0) {
         $cusID = $conn->lastInsertId();
@@ -210,14 +211,103 @@ function editContact($personID, $IDCCard, $IDCCardType, $ContactType) {
 function getPerson($personID) {
     $conn = dbconnect();
     $SQLCommand = "SELECT "
-            . "`PersonID`, `Fname`, `Lname`, `Phone`, `Email`, "
-            . "`CustomerID`, `Password`, `CatEmpID`, `IDCard`, "
-            . "`TypePerson`, `Position`, `PersonStatus` "
-            . "FROM `cus_person` WHERE `PersonID` = :personID";
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `customer_person` "
+            . "WHERE `PersonID` = :personID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":personID" => $personID));
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
+}
+
+function getStaffByPosition($position) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`EmployeeID`, "
+            . "`StaffPositionID`, "
+            . "`Position`, "
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
+            . "`Address`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `view_staff`"
+            . "WHERE `Position` LIKE :position ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":position" => $position
+    ));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getStaff($personID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`EmployeeID`, "
+            . "`StaffPositionID`, "
+            . "`Position`, "
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
+            . "`Address`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `view_staff` "
+            . "WHERE `PersonID`= :personID";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":personID" => $personID
+    ));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function getPersonByType($type) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `customer_person` "
+            . "WHERE `TypePerson` LIKE :type ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":type" => $type
+    ));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
 }
 
 function getContactByCustomer($cusID) {
@@ -258,6 +348,7 @@ function getContactByPersonID($personID_) {
             . "`IDCard`, "
             . "`TypePerson`, "
             . "`CustomerID`, "
+            . "`CustomerName`,"
             . "`IDCCard`, "
             . "`IDCCardType`, "
             . "`ContactType`, "
@@ -282,7 +373,7 @@ function addPackage($PackageName, $PackageDetail, $PackageType, $PackageCategory
         "CreateBy" => $PersonID, "UpdateBy" => $PersonID, "LocationID" => $LocationID));
 
     if ($SQLPrepare->rowCount() > 0) {
-//        return $conn->lastInsertId();
+        return $conn->lastInsertId();
     } else
         return false;
 }
@@ -731,6 +822,93 @@ function getBusinessType() {
             . "FROM `customer_businesstype`";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function searchCustomer($text) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`CustomerID`, "
+            . "`CustomerName`, "
+            . "`BusinessTypeID`, "
+            . "`BusinessType`, "
+            . "`cusEmail`, "
+            . "`cusPhone`, "
+            . "`Fax`, "
+            . "`Address`, "
+            . "`Township`, "
+            . "`City`, "
+            . "`Province`, "
+            . "`Zipcode`, "
+            . "`Country`, "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`conPhone`, "
+            . "`conEmail`, "
+            . "`IDCard`, "
+            . "`TypePerson`, "
+            . "`IDCCard`, "
+            . "`IDCCardType`, "
+            . "`ContactType` "
+            . "FROM `view_customer_contact` "
+            . "WHERE "
+            . "MATCH (`CustomerName`, `cusEmail`, `cusPhone`, `Fax`, `Address`, `Township`, `City`, `Province`, `Zipcode`, `Country`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR "
+            . "MATCH (`Fname`, `Lname`, `conPhone`, `conEmail`,`IDCard`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR "
+            . "MATCH (`BusinessType`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR MATCH (`IDCCard`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR "
+            . "`CustomerID` = :text ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":text" => $text));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getDivision() {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
+            . "`Address` "
+            . "FROM `customer_person_staff_division`";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getStaffByDivision($divisionID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`EmployeeID`, "
+            . "`StaffPositionID`, "
+            . "`Position`, "
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
+            . "`Address`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `view_staff` "
+            . "WHERE `DivisionID`= :divisionID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":divisionID" => $divisionID));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);

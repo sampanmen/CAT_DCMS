@@ -42,27 +42,24 @@ switch ($p) {
         $page['file'] = "../EntryIDC/entryIDCShow.php";
         $page['name'] = "Show Entry IDC";
         break;
+    case "entryIDCShowLog":
+        $page['file'] = "../EntryIDC/entryIDCShowLog.php";
+        $page['name'] = "Entry IDC Log";
+        break;
 
     // Customer // Edit
-    case "editCus":
-        $page['file'] = "../customer/editCus.php";
-        $page['name'] = "Edit Customer";
-        break;
     case "editContact":
         $page['file'] = "../customer/editContact.php";
         $page['name'] = "Edit Contact";
         break;
 
     // Customer // Form
-    case "entryIDCSearch":
-        $page['file'] = "../EntryIDC/entryIDCSearch.php";
-        $page['name'] = "Entry IDC Search";
-        break;
+    
     case "entryIDCForm":
         $page['file'] = "../EntryIDC/entryIDCForm.php";
         $page['name'] = "Entry IDC Form";
         break;
-    case "searchCustomer_":
+    case "searchCustomer":
         $page['file'] = "../customer/searchCustomer.php";
         $page['name'] = "Search Customer";
         break;
@@ -70,6 +67,8 @@ switch ($p) {
         $page['file'] = "../customer/serviceDetail.php";
         $page['name'] = "Service Detail";
         break;
+
+    // Resource
     case "resourceHome":
         $page['file'] = "../resource/resourceHome.php";
         $page['name'] = "Resource Summery";
@@ -92,9 +91,12 @@ switch ($p) {
         break;
     case "setting":
         $page['file'] = "../admin/setting.php";
-        $page['name'] = "";
+        $page['name'] = "Setting";
         break;
-
+    case "showStaff":
+        $page['file'] = "../admin/showStaff.php";
+        $page['name'] = "Show Staff";
+        break;
     default :
         $page['file'] = "../error404.php";
         $page['name'] = "ERROR 404";

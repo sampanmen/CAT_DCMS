@@ -224,9 +224,10 @@
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
                 <li class="sidebar-search">
-                    <form action="?p=searchCustomer" method="POST">
+                    <form action="?p=searchCustomer" method="GET">
                         <div class="input-group custom-search-form">
-                            <input type="text" name="search" class="form-control" placeholder="Search...">
+                            <input type="hidden" name="p" value="searchCustomer">
+                            <input type="text" name="search" class="form-control" placeholder="Search..." value="<?php echo isset($_REQUEST['search']) ? $_REQUEST['search'] : "" ?>">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit">
                                     <i class="fa fa-search"></i>
@@ -248,9 +249,13 @@
                         <li>
                             <a href="?p=packageHome">Packages</a>
                         </li>
-                        <li>
-                            <a href="?p=searchCustomer">Search Customer</a>
-                        </li>
+                        <?php
+                        if (isset($_REQUEST['search'])) {
+                            ?>
+                            <li>
+                                <a href="?p=searchCustomer">Search Customer</a>
+                            </li>
+                        <?php } ?>
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
@@ -261,7 +266,7 @@
                             <a href="?p=entryIDCShow">Show IDC Entry</a>
                         </li>
                         <li>
-                            <a href="?p=entryIDCHistory">Entry IDC History</a>
+                            <a href="?p=entryIDCShowLog">Entry IDC History</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

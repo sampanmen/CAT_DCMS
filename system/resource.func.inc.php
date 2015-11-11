@@ -705,6 +705,7 @@ function getResourceAmount($packageID) {
             . "`ServiceAmount` "
             . "FROM `resource_amount` "
             . "WHERE `PackageID`= :packageID ";
+//    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":packageID" => $packageID));
     return $SQLPrepare->fetch(PDO::FETCH_ASSOC);

@@ -71,6 +71,7 @@ if ($para == "addCustomer") {
     $serviceAmount = $_POST['amount']['service'];
 
     $resInsertPackage = addPackage($PackageName, $PackageDetail, $PackageType, $PackageCategoryID, $PackageStatus, $PersonID, $LocationID);
+    echo $resInsertPackage;
     if ($resInsertPackage) {
         echo "Add package completed.";
         $resInsertAmount = addResourceAmount($resInsertPackage, $ipAmount, $portAmount, $rackAmount, $serviceAmount);
