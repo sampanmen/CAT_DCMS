@@ -35,6 +35,8 @@ $valLname = isset($getPerson['Lname']) ? $getPerson['Lname'] : "";
 $valEmail = isset($getPerson['Email']) ? $getPerson['Email'] : "";
 $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
 
+$para = isset($_GET['para']) ? $_GET['para'] : "";
+
 //$getCusRack = getRackByCusID($getPerson['CustomerID']);
 //echo "<pre>";
 //print_r($_POST);
@@ -42,8 +44,16 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
 ?>
 <p><a href="?">Home</a> > <a href="?p=entryIDCShow">Show Entry IDC</a> > <b>Entry IDC</b></p>
 <div class="row">
-    <form method="POST" action="../EntryIDC/action/entryIDC.action.php?para=addEntryIDC&personType=<?php echo $getPersonType; ?>">
+
+    <form method="POST" action="../EntryIDC/action/entryIDC.action.php?para=addEntryIDC&personType=<?php echo $getPersonType; ?>&isPerson=<?php echo $isPerson; ?>">
         <div class="col-lg-12">
+            <?php
+            if ($para == "addEntryError") {
+                ?>
+                <div class="alert alert-danger" role="alert">
+                    <b>Error:</b> Can't add Entry IDC, please try again.
+                </div>
+            <?php } ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <b>ข้อมูลเพิ่มเติม </b>
@@ -346,7 +356,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                     <div class="form-group col-lg-3">
                                         <label for="datetimepicker1">เวลาเข้า</label>
                                         <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" />
+                                            <input type='text' class="form-control" name="datetimeIN">
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>

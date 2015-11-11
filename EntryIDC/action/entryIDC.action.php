@@ -7,10 +7,12 @@ $personID = "-1";
 
 if ($para == "addEntryIDC") {
 
-    echo "<pre>";
-    print_r($_POST);
-    print_r($_GET);
-    echo "</pre>";
+//    echo "<pre>";
+//    print_r($_POST);
+//    print_r($_GET);
+//    echo "</pre>";
+
+    $isPerson = $_GET['isPerson'];
 
     $getPersonID = $_POST['personID'];
     $personType = $_GET['personType'];
@@ -34,7 +36,8 @@ if ($para == "addEntryIDC") {
 //    $item_model = $_POST['item_model'];
 //    $item_serialno = $_POST['item_serialno'];
 //    $item_rackID = $_POST['item_rackID'];
-//
+
+    $items = array();
 //    $items['name'] = $item_name;
 //    $items['brand'] = $item_brand;
 //    $items['model'] = $item_model;
@@ -42,18 +45,30 @@ if ($para == "addEntryIDC") {
 //    $items['rackID'] = $item_rackID;
     //end item
     //internet
-    $internet = $_POST['internet'];
-    $internetJson = json_encode($internet);
+    if (isset($_POST['internet'])) {
+        $internet = $_POST['internet'];
+        $internet = json_encode($internet);
+    } else {
+        $internet = NULL;
+    }
+
     //end internet
 
-    $area = $_POST['area'];
-    $datetime = $_POST['datetime'];
+    $zoneArr = $_POST['area'];
+    $datetimeIN = $_POST['datetimeIN'];
 
-    $res = addEntryIDC($conID, $EmpID, $visitCard, $IDCard, $IDCCard, $IDCCardType, $datetime, $purpose, $internetJson, $personID, $items, $area);
+    $res = addEntry($getPersonID, $visitCard, $IDCard, $IDCCard, $IDCCardType, $EmpID, $datetimeIN, NULL, $purpose, $internet, $personID);
     if ($res > 0) {
-        header("Location: ../../core/?p=entryBeforePrint&entryID=" . $res . "&contactID=" . $conID . "&para=addEntrySuccess");
+        addZoneDetail($res, $zoneArr);
+        updatePerson($getPersonID, $conName, $conLname, $conPhone, $conEmail, $IDCard);
+        if ($personType == "Contact") {
+            updateContact($getPersonID, $IDCCard, $IDCCardType);
+        } else if ($personType == "Staff") {
+            updateStaff($getPersonID, $EmpID);
+        }
+        header("Location: ../../core/?p=entryIDCShow&para=addEntrySuccess");
     } else {
-        header("Location: ../../core/?p=entryIDCForm&contactID=" . $conID . "&para=addEntryError");
+        header("Location: ../../core/?p=entryIDCForm&personID=" . $getPersonID . "&type=" . $personType . "&isPerson=1&para=addEntryError");
     }
 } else if ($para == "checkOut") {
     $entryID = $_GET['entryID'];
