@@ -266,7 +266,7 @@
                             <a href="?p=entryIDCShow">Show IDC Entry</a>
                         </li>
                         <li>
-                            <a href="?p=entryIDCHistory">Entry IDC History</a>
+                            <a href="?p=entryIDCShowLog">Entry IDC History</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
