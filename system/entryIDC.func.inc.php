@@ -212,15 +212,23 @@ function getEntryLog() {
     return $resultArr;
 }
 
-function getOutEntry($entryID) {
+function checkOutEntry($entryID, $PersonID) {
     $con = dbconnect();
-    $SQLCommand = "";
+    $SQLCommand = "UPDATE `entry` SET "
+            . "`TimeOut`= CURRENT_TIMESTAMP ,"
+            . "`UpdateBy`=:UpdateBy "
+            . "WHERE `EntryID`=:EntryID";
     $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":entryID" => $entryID));
+    $SQLPrepare->execute(
+            array(
+                ":EntryID" => $entryID,
+                ":UpdateBy" => $PersonID
+            )
+    );
     if ($SQLPrepare->rowCount() > 0) {
-        return true;
+        return 1;
     } else
-        return false;
+        return 0;
 }
 
 function getEntryByID($entryID) {
