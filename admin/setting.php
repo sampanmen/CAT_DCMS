@@ -341,7 +341,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     </thead>
                                     <tbody>                            
                                         <?php
-                                        $Divition = getDivision();
+                                        $Divition = getDivition();
                                         foreach ($Divition as $divi) {
                                             $DivisionID = $divi['DivisionID'];
                                             $Division = $divi['Division'];
@@ -363,7 +363,11 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                         <tr>
                                             <td class="text-center"><button type="submit" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
                                             <td ><div class="form-group form-group-sm"><input class="form-control" name="divition" ></div></td>
-                                            <td ><div class="form-group form-group-sm"><input class="form-control" name="organization" ></div></td>
+                                            <td ><div class="form-group form-group-sm">
+                                             <select class="form-control" name="organization">
+                                                        <option value="CAT">CAT</option>
+                                                        <option value="Vender">Vender</option>
+                                                    </select></div></td>
                                             <td><div class="form-group form-group-sm"><textarea class="form-control" name="address" ></textarea></div></td>
                                             <td><div class="form-group form-group-sm">
                                                     <select class="form-control" name="status">

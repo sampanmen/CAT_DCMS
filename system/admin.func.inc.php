@@ -377,3 +377,20 @@ function getDivition() {
     }
     return $resultArr;
 }
+
+function addDivition($Division,$Organization,$Address,$Status) {
+    $con = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_person_staff_division`(`Division`, `Organization`, `Address`, `Status`) "
+            . "VALUES (:Division,:Organization,:Address,:Status)";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":Division" => $Division,
+        ":Organization" => $Organization,
+        ":Address" => $Address,
+        ":Status" => $Status
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}

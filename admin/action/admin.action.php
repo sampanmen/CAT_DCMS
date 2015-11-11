@@ -48,6 +48,19 @@ if ($para == "addStaffposition") {
     } else {
         header("location: ../../core/?p=setting&para=addPacCatagoryFailed#CatagoryPackage");
     }
+} else if ($para == "addDivition") {
+    //   print_r($_POST);
+    $divition = $_POST['divition'];
+    $organization = $_POST['organization'];
+    $address = $_POST['address'];
+    $status = $_POST['status'];
+
+    $res = addDivition($divition,$organization,$address,$status);
+    if ($res) {
+        header("location: ../../core/?p=setting&para=addDivitionCompleted#divition");
+    } else {
+        header("location: ../../core/?p=setting&para=addDivitionFailed#divition");
+    }
 } else if ($para == "addZone") {
     //   print_r($_POST);
     $zone = $_POST['zone'];
@@ -116,13 +129,13 @@ if ($para == "addStaffposition") {
     $location = $_POST['location'];
     $status = $_POST['status'];
 
-    $res = editZone($entryZoneID, $zone,$location, $status);
+    $res = editZone($entryZoneID, $zone, $location, $status);
     if ($res) {
         header("location: ../../core/?p=setting&para=editZoneCompleted");
     } else {
         header("location: ../../core/?p=setting&para=editZoneFailed");
     }
-}else if ($para == "addStaff") {
+} else if ($para == "addStaff") {
     //   print_r($_POST);
     $IDStaff = $_POST['IDStaff'];
     $nameStaff = $_POST['nameStaff'];
@@ -134,7 +147,7 @@ if ($para == "addStaffposition") {
     $file = $_POST['file'];
     $status = $_POST['status'];
 
-    $res = addStaff($IDStaff, $nameStaff,$snameStaff, $phoneStaff, $emailStaff,$idcardStaff, $positionStaff,$file, $status);
+    $res = addStaff($IDStaff, $nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $positionStaff, $file, $status);
     if ($res) {
         header("location: ../../core/?p=setting&para=addaddStaffCompleted");
     } else {
