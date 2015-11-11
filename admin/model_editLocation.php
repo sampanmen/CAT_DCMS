@@ -37,7 +37,7 @@ $status = $getLocation['Status'];
                             <label>Address</label>
                         </div>
                         <div class="form-group col-lg-6"> 
-                            <textarea class="form-control" name="address" value="<?php echo $address; ?>"></textarea>
+                            <textarea class="form-control" name="address"><?php echo $address; ?></textarea>
                         </div>
                     </div>
                     <div class="col-lg-12">  

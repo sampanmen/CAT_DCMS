@@ -50,6 +50,7 @@ function getZoneByID($EntryZoneID) {
     $SQLCommand = "SELECT"
             . "`entry_zone`.`EntryZoneID`,"
             . "`entry_zone`.`EntryZone` ,"
+            . "`location`.`LocationID`,"
             . "`location`.`Location`,"
             . "`entry_zone`.`Status`"
             . "FROM `entry_zone`"

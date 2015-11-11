@@ -42,7 +42,7 @@ $status = $getZone['Status'];
                                     if ($value['Status'] == "Deactive")
                                         continue;
                                     ?>
-                                    <option <?php echo $locationID == $loca  ? "selected" : ""; ?> value="<?php echo $value['LocationID']; ?>"><?php echo $value['Location']; ?></option>
+                                    <option <?php echo $locationID == $value['LocationID']  ? "selected" : ""; ?> value="<?php echo $value['LocationID']; ?>"><?php echo $value['Location']; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
