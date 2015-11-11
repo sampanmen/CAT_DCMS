@@ -44,7 +44,6 @@ function getZoneByLocationID($locationID) {
     return $resultArr;
 }
 
-
 function getZoneByID($EntryZoneID) {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
@@ -63,6 +62,7 @@ function getZoneByID($EntryZoneID) {
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
+
 function addZone($EntryZone, $LocationID, $Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO `entry_zone`(`EntryZone`, `LocationID`, `Status`)"
@@ -79,17 +79,17 @@ function addZone($EntryZone, $LocationID, $Status) {
         return false;
 }
 
-function editZone($EntryZoneID, $EntryZone,$LocationID, $Status) {
+function editZone($EntryZoneID, $EntryZone, $LocationID, $Status) {
     $conn = dbconnect();
     $SQLCommand = "UPDATE `entry_zone` SET "
             . "`EntryZone`=:EntryZone, "
-             . "`LocationID`=:LocationID, "
+            . "`LocationID`=:LocationID, "
             . "`Status`=:Status "
             . "WHERE `EntryZoneID`= :EntryZoneID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":EntryZone" => $EntryZone,
-         ":LocationID" => $LocationID,
+        ":LocationID" => $LocationID,
         ":Status" => $Status,
         ":EntryZoneID" => $EntryZoneID
     ));
@@ -99,7 +99,6 @@ function editZone($EntryZoneID, $EntryZone,$LocationID, $Status) {
         return false;
     }
 }
-
 
 //<!--Catagory-->
 function getCatagory() {
@@ -358,4 +357,23 @@ function editLocation($LocationID, $Location, $Address, $Status) {
     } else {
         return false;
     }
+}
+
+function getDivition() {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT"
+            . "`DivisionID`,"
+            . "`Division`,"
+            . "`Organization`,"
+            . "`Address`, "
+            . "`Status` "
+            . "FROM `customer_person_staff_division`";
+//    echo $SQLCommand;
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
 }
