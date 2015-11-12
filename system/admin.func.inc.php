@@ -44,7 +44,6 @@ function getZoneByLocationID($locationID) {
     return $resultArr;
 }
 
-
 function getZoneByID($EntryZoneID) {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
@@ -63,6 +62,7 @@ function getZoneByID($EntryZoneID) {
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
+
 function addZone($EntryZone, $LocationID, $Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO `entry_zone`(`EntryZone`, `LocationID`, `Status`)"
@@ -79,17 +79,17 @@ function addZone($EntryZone, $LocationID, $Status) {
         return false;
 }
 
-function editZone($EntryZoneID, $EntryZone,$LocationID, $Status) {
+function editZone($EntryZoneID, $EntryZone, $LocationID, $Status) {
     $conn = dbconnect();
     $SQLCommand = "UPDATE `entry_zone` SET "
             . "`EntryZone`=:EntryZone, "
-             . "`LocationID`=:LocationID, "
+            . "`LocationID`=:LocationID, "
             . "`Status`=:Status "
             . "WHERE `EntryZoneID`= :EntryZoneID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":EntryZone" => $EntryZone,
-         ":LocationID" => $LocationID,
+        ":LocationID" => $LocationID,
         ":Status" => $Status,
         ":EntryZoneID" => $EntryZoneID
     ));
@@ -99,7 +99,6 @@ function editZone($EntryZoneID, $EntryZone,$LocationID, $Status) {
         return false;
     }
 }
-
 
 //<!--Catagory-->
 function getCatagory() {
@@ -352,6 +351,84 @@ function editLocation($LocationID, $Location, $Address, $Status) {
         ":Address" => $Address,
         ":Status" => $Status,
         ":LocationID" => $LocationID
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
+
+//<!--Divition-->
+function getDivition() {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT"
+            . "`DivisionID`,"
+            . "`Division`,"
+            . "`Organization`,"
+            . "`Address`, "
+            . "`Status` "
+            . "FROM `customer_person_staff_division`";
+//    echo $SQLCommand;
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getDivitionByID($DivisionID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT"
+            . "`DivisionID`,"
+            . "`Division`,"
+            . "`Organization`,"
+            . "`Address`, "
+            . "`Status` "
+            . "FROM `customer_person_staff_division`"
+            . "WHERE `DivisionID`= :DivisionID";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":DivisionID" => $DivisionID));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function addDivition($Division,$Organization,$Address,$Status) {
+    $con = dbconnect();
+    $SQLCommand = "INSERT INTO `customer_person_staff_division`(`Division`, `Organization`, `Address`, `Status`) "
+            . "VALUES (:Division,:Organization,:Address,:Status)";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":Division" => $Division,
+        ":Organization" => $Organization,
+        ":Address" => $Address,
+        ":Status" => $Status
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+function editDivition($DivisionID, $Division,$Organization, $Address, $Status) {
+    $conn = dbconnect();
+    $SQLCommand = "UPDATE `customer_person_staff_division` SET "
+            . "`Division`=:Division, "
+            . "`Organization`=:Organization, "
+            . "`Address`=:Address, "
+            . "`Status`=:Status "
+            . "WHERE `DivisionID`= :DivisionID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":Division" => $Division,
+        ":Organization" => $Organization,
+        ":Address" => $Address,
+        ":Status" => $Status,
+        ":DivisionID" => $DivisionID
     ));
     if ($SQLPrepare->rowCount() > 0) {
         return true;

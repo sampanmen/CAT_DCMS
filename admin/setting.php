@@ -14,6 +14,8 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
         </li>
         <li class=""><a href="#zone" data-toggle="tab" aria-expanded="false">Zone</a>
         </li>
+        <li class=""><a href="#divition" data-toggle="tab" aria-expanded="false">Divition</a>
+        </li>
     </ul>
 
     <!-- Tab panes -->
@@ -138,7 +140,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
                             <form method="POST" action="../admin/action/admin.action.php?para=addBusinesstype">
-                                <table class="table table-striped table-bordered table-hover"id="dataTables4">
+                                <table class="table table-striped table-bordered table-hover"id="dataTables2">
                                     <thead>
                                         <tr>
                                             <th width="70" class="text-center">ID</th>
@@ -255,7 +257,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
                             <form method="POST" action="../admin/action/admin.action.php?para=addZone">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables2">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables4">
                                     <thead>
                                         <tr>
                                             <th width="70"class="text-center">ID</th>
@@ -315,6 +317,85 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             </div>
 
         </div>
+
+
+        <div class="tab-pane fade" id="divition">
+            <br>
+            <div class="col-lg-9"> 
+                <div class="panel panel-default" id="divition">
+                    <div class="panel-heading">
+                        <h5><b>Divition</b></h5>
+                    </div>  
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            <form method="POST" action="../admin/action/admin.action.php?para=addDivition">
+                                <table class="table table-striped table-bordered table-hover"id="dataTables5">
+                                    <thead>
+                                        <tr>
+                                            <th width="70"class="text-center">ID</th>
+                                            <th>Division</th>
+                                            <th>Organization</th>
+                                            <th>Address</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>                            
+                                        <?php
+                                        $Divition = getDivition();
+                                        foreach ($Divition as $divi) {
+                                            $DivisionID = $divi['DivisionID'];
+                                            $Division = $divi['Division'];
+                                            $Organization = $divi['Organization'];
+                                            $Address = $divi['Address'];
+                                            $status = $divi['Status'];
+                                            $statusLabel = $status == "Active" ? "success" : ($status == "Suppened" ? "warning" : "danger");
+                                            ?>
+                                            <tr>
+                                                <td class="text-center"><?php echo $DivisionID; ?></td>
+                                                <td><a href="../admin/model_editDivition.php?DivisionID=<?php echo $DivisionID; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $Division; ?></a></td>
+                                                <td><?php echo $Organization ?></td>
+                                                <td><?php echo $Address ?></td>
+                                                <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $status; ?></span></td>
+                                            </tr>                                                     
+                                        <?php } ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td class="text-center"><button type="submit" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
+                                            <td ><div class="form-group form-group-sm"><input class="form-control" name="divition" ></div></td>
+                                            <td ><div class="form-group form-group-sm">
+                                             <select class="form-control" name="organization">
+                                                        <option value="CAT">CAT</option>
+                                                        <option value="Vender">Vender</option>
+                                                    </select></div></td>
+                                            <td><div class="form-group form-group-sm"><textarea class="form-control" name="address" ></textarea></div></td>
+                                            <td><div class="form-group form-group-sm">
+                                                    <select class="form-control" name="status">
+                                                        <option value="Active">Active</option>
+                                                        <option value="Deactive">Deactive</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </form>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+        </div>
+
+
+
+
+
+
+
     </div>
 
 
@@ -346,6 +427,13 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
 <script>
     $(document).ready(function () {
         $('#dataTables4').DataTable({
+            responsive: true
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#dataTables5').DataTable({
             responsive: true
         });
     });
