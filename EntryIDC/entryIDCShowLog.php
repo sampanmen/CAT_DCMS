@@ -21,10 +21,10 @@ $getEntryNow = getEntryLog();
                                     <th>Organization</th>
                                     <th>Person</th>
                                     <th>Type</th>
-                                    <th>Purpose</th>
+                                    <th>Location</th>
                                     <th>DateTime In</th>
                                     <th>DateTime Out</th>
-                                    <!--<th>Action</th>-->
+                                    <th>Print</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,7 +38,7 @@ $getEntryNow = getEntryLog();
                                     }
                                     $valPersonName = $value['Fname'] . " " . $value['Lname'];
                                     $valPersonType = $value['TypePerson'];
-                                    $valPurpose = $value['Purpose'];
+                                    $valLocation = $value['Location'];
                                     $valDateTimeIN = $value['TimeIn'];
                                     $valDateTimeOUT = ($value['TimeOut'] == NULL) ? "n/a" : $value['TimeOut'];
                                     ?>
@@ -46,12 +46,12 @@ $getEntryNow = getEntryLog();
                                         <td><?php echo $valOrganization; ?></td>
                                         <td><?php echo $valPersonName; ?></td>
                                         <td><?php echo $valPersonType; ?></td>
-                                        <td><?php echo $valPurpose; ?></td>
+                                        <td><?php echo $valLocation; ?></td>
                                         <td><?php echo $valDateTimeIN; ?></td>
                                         <td><?php echo $valDateTimeOUT; ?></td>
-        <!--                                        <td>
-                                            <a class="btn btn-info btn-sm" href="?p=entryBeforePrint&entryID=<?php echo $valEntryID; ?>">View</a>
-                                        </td>-->
+                                        <td>
+                                            <a class="btn btn-info btn-sm" href="?p=entryBeforePrint&entryID=<?php echo $valEntryID; ?>"><i class="glyphicon glyphicon-print"></i></a>
+                                        </td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
