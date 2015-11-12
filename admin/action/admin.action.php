@@ -55,7 +55,7 @@ if ($para == "addStaffposition") {
     $address = $_POST['address'];
     $status = $_POST['status'];
 
-    $res = addDivition($divition,$organization,$address,$status);
+    $res = addDivition($divition, $organization, $address, $status);
     if ($res) {
         header("location: ../../core/?p=setting&para=addDivitionCompleted#divition");
     } else {
@@ -153,10 +153,10 @@ if ($para == "addStaffposition") {
     } else {
         header("location: ../../core/?p=setting&para=addaddStaffFailed");
     }
-}else if ($para == "editDivition") {
+} else if ($para == "editDivition") {
     //   print_r($_POST);
     $divisionID = $_GET['DivisionID'];
-    
+
     $divition = $_POST['divition'];
     $organization = $_POST['organization'];
     $address = $_POST['address'];
@@ -168,4 +168,38 @@ if ($para == "addStaffposition") {
     } else {
         header("location: ../../core/?p=setting&para=editDivitionFailed");
     }
-} 
+} else if ($para == "addStaff") {
+    $IDStaff = $_POST['IDStaff'];
+    $nameStaff = $_POST['nameStaff'];
+    $snameStaff = $_POST['snameStaff'];
+    $phoneStaff = $_POST['phoneStaff'];
+    $emailStaff = $_POST['emailStaff'];
+    $idcardStaff = $_POST['idcardStaff'];
+    $personType = "Staff";
+    $positionStaff = $_POST['positionStaff'];
+    $divitionStaff = $_POST['divitionStaff'];
+    $status = $_POST['status'];
+    $con = $_POST['con'];
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+    $resInsertStaff = addPerson($IDStaff, $nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $personType, $positionStaff, $status, $PersonID);
+    if ($resInsertStaff) {
+//        $resInsertCon = true;
+        $resInsertPersonContact = addStaff($resInsertCus, $resInsertPerson, NULL, NULL, $con_contactType);
+//            echo $resInsertCon . "<br>.";
+//            echo "///";
+//            echo "<pre>";
+////            print_r($_FILES);
+//            echo $resInsertCon."<br>";
+//            echo "</pre>";
+//            echo $_FILES["file"]["name"][$i]."<br>";
+        move_uploaded_file($_FILES["file"]["tmp_name"][$i], "../../customer/images/persons/" . $resInsertPerson . ".jpg");
+
+        if ($resInsertPerson) {
+            header("location: ../../core/?p=viewCus&cusID=" . $resInsertCus . "&para=addCustomerCompleted");
+        } else {
+            header("location: ../../core/?p=cusHome&para=addCustomerFailed");
+        }
+    }
+}

@@ -363,7 +363,7 @@ function editLocation($LocationID, $Location, $Address, $Status) {
 
 
 //<!--Divition-->
-function getDivition() {
+function getDivision() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
             . "`DivisionID`,"
@@ -371,7 +371,9 @@ function getDivition() {
             . "`Organization`,"
             . "`Address`, "
             . "`Status` "
-            . "FROM `customer_person_staff_division`";
+            . "FROM `customer_person_staff_division`"
+            . "ORDER BY Organization ";
+    
 //    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
@@ -382,7 +384,7 @@ function getDivition() {
     return $resultArr;
 }
 
-function getDivitionByID($DivisionID) {
+function getDivisionByID($DivisionID) {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
             . "`DivisionID`,"
@@ -398,7 +400,7 @@ function getDivitionByID($DivisionID) {
     return $result;
 }
 
-function addDivition($Division,$Organization,$Address,$Status) {
+function addDivision($Division,$Organization,$Address,$Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO `customer_person_staff_division`(`Division`, `Organization`, `Address`, `Status`) "
             . "VALUES (:Division,:Organization,:Address,:Status)";
@@ -414,7 +416,7 @@ function addDivition($Division,$Organization,$Address,$Status) {
     } else
         return false;
 }
-function editDivition($DivisionID, $Division,$Organization, $Address, $Status) {
+function editDivision($DivisionID, $Division,$Organization, $Address, $Status) {
     $conn = dbconnect();
     $SQLCommand = "UPDATE `customer_person_staff_division` SET "
             . "`Division`=:Division, "

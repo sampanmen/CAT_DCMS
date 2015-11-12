@@ -80,6 +80,23 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                     </div>
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
+                            <label>Divition / Position</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <select class="form-control" name="divitionStaff">
+                                <?php
+                                $positon = getDivition();
+                                foreach ($positon as $value) {
+                                    if ($value['Status'] == "Deactive")
+                                        continue;
+                                    ?>
+                                    <option value="<?php echo $value['DivisionID']; ?>">[<?php echo $value['Organization']; ?>] <?php echo $value['Division']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
                             <label>รูปภาพ / Picture</label>
                         </div>
                         <div class="form-group col-lg-6">
