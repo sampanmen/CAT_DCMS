@@ -135,24 +135,6 @@ if ($para == "addStaffposition") {
     } else {
         header("location: ../../core/?p=setting&para=editZoneFailed");
     }
-} else if ($para == "addStaff") {
-    //   print_r($_POST);
-    $IDStaff = $_POST['IDStaff'];
-    $nameStaff = $_POST['nameStaff'];
-    $snameStaff = $_POST['snameStaff'];
-    $phoneStaff = $_POST['phoneStaff'];
-    $emailStaff = $_POST['emailStaff'];
-    $idcardStaff = $_POST['idcardStaff'];
-    $positionStaff = $_POST['positionStaff'];
-    $file = $_POST['file'];
-    $status = $_POST['status'];
-
-    $res = addStaff($IDStaff, $nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $positionStaff, $file, $status);
-    if ($res) {
-        header("location: ../../core/?p=setting&para=addaddStaffCompleted");
-    } else {
-        header("location: ../../core/?p=setting&para=addaddStaffFailed");
-    }
 } else if ($para == "editDivision") {
     //   print_r($_POST);
     $divisionID = $_GET['DivisionID'];
@@ -176,17 +158,18 @@ if ($para == "addStaffposition") {
     $emailStaff = $_POST['emailStaff'];
     $idcardStaff = $_POST['idcardStaff'];
     $personType = "Staff";
-    $positionStaff = $_POST['positionStaff'];
+    $positionStaff = $_POST['positionStaffID'];
     $divisionStaff = $_POST['divisionStaff'];
-    $status = $_POST['status'];
+    $status = "Active" ;
     $con = $_POST['con'];
     echo "<pre>";
     print_r($_POST);
     echo "</pre>";
-    $resInsertStaff = addPerson($IDStaff, $nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $personType, $positionStaff, $status, $PersonID);
-    if ($resInsertStaff) {
+    $resInsertPerson = addPerson($nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $personType, $status, $PersonID);
+    if ($resInsertPerson) {
 //        $resInsertCon = true;
-        $resInsertPersonContact = addStaff($resInsertCus, $resInsertPerson, NULL, NULL, $con_contactType);
+        $resInsertStaff= addStaff($resInsertPerson, $IDStaff,$positionStaff,$divisionStaff);
+        
 //            echo $resInsertCon . "<br>.";
 //            echo "///";
 //            echo "<pre>";
@@ -194,12 +177,12 @@ if ($para == "addStaffposition") {
 //            echo $resInsertCon."<br>";
 //            echo "</pre>";
 //            echo $_FILES["file"]["name"][$i]."<br>";
-        move_uploaded_file($_FILES["file"]["tmp_name"][$i], "../../customer/images/persons/" . $resInsertPerson . ".jpg");
+        move_uploaded_file($_FILES["file"]["tmp_name"][$i], "../../customer/images/persons/" . $resInsertStaff . ".jpg");
 
-        if ($resInsertPerson) {
-            header("location: ../../core/?p=viewCus&cusID=" . $resInsertCus . "&para=addCustomerCompleted");
+        if ($resInsertStaff) {
+            header("location: ../../core/?p=showStaff&personID=" . $resInsertPerson . "&para=addStaffCompleted");
         } else {
-            header("location: ../../core/?p=cusHome&para=addCustomerFailed");
+            header("location: ../../core/?p=showStaff&para=addStaffailed");
         }
     }
 }

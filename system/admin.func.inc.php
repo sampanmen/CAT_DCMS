@@ -241,12 +241,16 @@ function getViewstaff() {
             . "`customer_person`.`Fname`,"
             . "`customer_person`.`Lname`,"
             . "`customer_person_staff_position`.`Position`,"
+            . "`customer_person_staff_division`.`Organization`,"
+            . "`customer_person_staff_division`.`Division`,"
             . "`customer_person`.`PersonStatus`"
             . "FROM `customer_person`"
             . "JOIN `customer_person_staff`"
             . "ON  `customer_person`.`PersonID`  =  `customer_person_staff`.`PersonID`"
             . "JOIN `customer_person_staff_position` "
-            . "ON  `customer_person_staff`.`StaffPositionID`  = `customer_person_staff_position`.`StaffPositionID`";
+            . "ON  `customer_person_staff`.`StaffPositionID`  = `customer_person_staff_position`.`StaffPositionID`"
+            . "JOIN `customer_person_staff_division` "
+            . "ON `customer_person_staff`.`DivisionID` = `customer_person_staff_division`.`DivisionID`";
 //   echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
@@ -265,7 +269,7 @@ function getBusinessTypeByID($BusinessTypeID) {
             . "`BusinessType`, "
             . "`Status` "
             . "FROM `customer_businesstype`"
-            . "WHERE `BusinessTypeID`= :BusinessTypeID ";
+            . "WHERE `BusinessTypeID` = :BusinessTypeID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":BusinessTypeID" => $BusinessTypeID));
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
@@ -275,7 +279,7 @@ function getBusinessTypeByID($BusinessTypeID) {
 function addBusinesstype($Businesstype, $Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO `customer_businesstype`(`BusinessType`, `Status`) "
-            . "VALUES (:BusinessType,:Status)";
+            . "VALUES (:BusinessType, :Status)";
     $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":BusinessType" => $Businesstype,
@@ -290,9 +294,9 @@ function addBusinesstype($Businesstype, $Status) {
 function editBusinesstype($BusinessTypeID, $BusinessType, $Status) {
     $conn = dbconnect();
     $SQLCommand = "UPDATE `customer_businesstype` SET "
-            . "`BusinessType`=:BusinessType, "
-            . "`Status`=:Status "
-            . "WHERE `BusinessTypeID`= :BusinessTypeID ";
+            . "`BusinessType` = :BusinessType, "
+            . "`Status` = :Status "
+            . "WHERE `BusinessTypeID` = :BusinessTypeID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":BusinessType" => $BusinessType,
@@ -315,7 +319,7 @@ function getLocationByID($LocationID) {
             . "`Address`, "
             . "`Status` "
             . "FROM `location`"
-            . "WHERE `LocationID`= :LocationID";
+            . "WHERE `LocationID` = :LocationID";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":LocationID" => $LocationID));
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
@@ -325,7 +329,7 @@ function getLocationByID($LocationID) {
 function addLocation($Location, $Address, $Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO`location`(`Location`, `Address`, `Status`) "
-            . "VALUES (:Location,:Address,:Status)";
+            . "VALUES (:Location, :Address, :Status)";
     $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":Location" => $Location,
@@ -341,10 +345,10 @@ function addLocation($Location, $Address, $Status) {
 function editLocation($LocationID, $Location, $Address, $Status) {
     $conn = dbconnect();
     $SQLCommand = "UPDATE `location` SET "
-            . "`Location`=:Location, "
-            . "`Address`=:Address, "
-            . "`Status`=:Status "
-            . "WHERE `LocationID`= :LocationID ";
+            . "`Location` = :Location, "
+            . "`Address` = :Address, "
+            . "`Status` = :Status "
+            . "WHERE `LocationID` = :LocationID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":Location" => $Location,
@@ -359,21 +363,18 @@ function editLocation($LocationID, $Location, $Address, $Status) {
     }
 }
 
-
-
-
 //<!--Division-->
 function getDivision() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
-            . "`DivisionID`,"
-            . "`Division`,"
-            . "`Organization`,"
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
             . "`Address`, "
             . "`Status` "
             . "FROM `customer_person_staff_division`"
             . "ORDER BY Organization ";
-    
+
 //    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
@@ -387,23 +388,23 @@ function getDivision() {
 function getDivisionByID($DivisionID) {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
-            . "`DivisionID`,"
-            . "`Division`,"
-            . "`Organization`,"
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
             . "`Address`, "
             . "`Status` "
             . "FROM `customer_person_staff_division`"
-            . "WHERE `DivisionID`= :DivisionID";
+            . "WHERE `DivisionID` = :DivisionID";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":DivisionID" => $DivisionID));
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
 
-function addDivision($Division,$Organization,$Address,$Status) {
+function addDivision($Division, $Organization, $Address, $Status) {
     $con = dbconnect();
     $SQLCommand = "INSERT INTO `customer_person_staff_division`(`Division`, `Organization`, `Address`, `Status`) "
-            . "VALUES (:Division,:Organization,:Address,:Status)";
+            . "VALUES (:Division, :Organization, :Address, :Status)";
     $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":Division" => $Division,
@@ -416,14 +417,15 @@ function addDivision($Division,$Organization,$Address,$Status) {
     } else
         return false;
 }
-function editDivision($DivisionID, $Division,$Organization, $Address, $Status) {
+
+function editDivision($DivisionID, $Division, $Organization, $Address, $Status) {
     $conn = dbconnect();
     $SQLCommand = "UPDATE `customer_person_staff_division` SET "
-            . "`Division`=:Division, "
-            . "`Organization`=:Organization, "
-            . "`Address`=:Address, "
-            . "`Status`=:Status "
-            . "WHERE `DivisionID`= :DivisionID ";
+            . "`Division` = :Division, "
+            . "`Organization` = :Organization, "
+            . "`Address` = :Address, "
+            . "`Status` = :Status "
+            . "WHERE `DivisionID` = :DivisionID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":Division" => $Division,

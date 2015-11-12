@@ -66,7 +66,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             <label>ตำแหน่ง / Position</label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <select class="form-control" name="positionStaff">
+                            <select class="form-control" name="positionStaffID">
                                 <?php
                                 $positon = getStaffPosition();
                                 foreach ($positon as $value) {
