@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
         </li>
         <li class=""><a href="#zone" data-toggle="tab" aria-expanded="false">Zone</a>
         </li>
-        <li class=""><a href="#divition" data-toggle="tab" aria-expanded="false">Divition</a>
+        <li class=""><a href="#division" data-toggle="tab" aria-expanded="false">Division</a>
         </li>
     </ul>
 
