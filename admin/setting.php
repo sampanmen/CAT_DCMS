@@ -319,16 +319,16 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
         </div>
 
 
-        <div class="tab-pane fade" id="divition">
+        <div class="tab-pane fade" id="division">
             <br>
             <div class="col-lg-9"> 
-                <div class="panel panel-default" id="divition">
+                <div class="panel panel-default" id="division">
                     <div class="panel-heading">
-                        <h5><b>Divition</b></h5>
+                        <h5><b>Division</b></h5>
                     </div>  
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-                            <form method="POST" action="../admin/action/admin.action.php?para=addDivition">
+                            <form method="POST" action="../admin/action/admin.action.php?para=addDivision">
                                 <table class="table table-striped table-bordered table-hover"id="dataTables5">
                                     <thead>
                                         <tr>
@@ -341,8 +341,8 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     </thead>
                                     <tbody>                            
                                         <?php
-                                        $Divition = getDivition();
-                                        foreach ($Divition as $divi) {
+                                        $Division = getDivision();
+                                        foreach ($Division as $divi) {
                                             $DivisionID = $divi['DivisionID'];
                                             $Division = $divi['Division'];
                                             $Organization = $divi['Organization'];
@@ -352,7 +352,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                             ?>
                                             <tr>
                                                 <td class="text-center"><?php echo $DivisionID; ?></td>
-                                                <td><a href="../admin/model_editDivition.php?DivisionID=<?php echo $DivisionID; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $Division; ?></a></td>
+                                                <td><a href="../admin/model_editDivision.php?DivisionID=<?php echo $DivisionID; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $Division; ?></a></td>
                                                 <td><?php echo $Organization ?></td>
                                                 <td><?php echo $Address ?></td>
                                                 <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $status; ?></span></td>
@@ -362,7 +362,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     <tfoot>
                                         <tr>
                                             <td class="text-center"><button type="submit" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
-                                            <td ><div class="form-group form-group-sm"><input class="form-control" name="divition" ></div></td>
+                                            <td ><div class="form-group form-group-sm"><input class="form-control" name="division" ></div></td>
                                             <td ><div class="form-group form-group-sm">
                                              <select class="form-control" name="organization">
                                                         <option value="CAT">CAT</option>

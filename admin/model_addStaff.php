@@ -80,12 +80,12 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                     </div>
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
-                            <label>Divition / Position</label>
+                            <label>Division / Position</label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <select class="form-control" name="divitionStaff">
+                            <select class="form-control" name="divisionStaff">
                                 <?php
-                                $positon = getDivition();
+                                $positon = getDivision();
                                 foreach ($positon as $value) {
                                     if ($value['Status'] == "Deactive")
                                         continue;

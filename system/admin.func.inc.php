@@ -362,7 +362,7 @@ function editLocation($LocationID, $Location, $Address, $Status) {
 
 
 
-//<!--Divition-->
+//<!--Division-->
 function getDivision() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"

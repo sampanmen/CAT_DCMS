@@ -48,18 +48,18 @@ if ($para == "addStaffposition") {
     } else {
         header("location: ../../core/?p=setting&para=addPacCatagoryFailed#CatagoryPackage");
     }
-} else if ($para == "addDivition") {
+} else if ($para == "addDivision") {
     //   print_r($_POST);
-    $divition = $_POST['divition'];
+    $division = $_POST['division'];
     $organization = $_POST['organization'];
     $address = $_POST['address'];
     $status = $_POST['status'];
 
-    $res = addDivition($divition, $organization, $address, $status);
+    $res = addDivision($division, $organization, $address, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=addDivitionCompleted#divition");
+        header("location: ../../core/?p=setting&para=addDivisionCompleted#division");
     } else {
-        header("location: ../../core/?p=setting&para=addDivitionFailed#divition");
+        header("location: ../../core/?p=setting&para=addDivisionFailed#division");
     }
 } else if ($para == "addZone") {
     //   print_r($_POST);
@@ -153,20 +153,20 @@ if ($para == "addStaffposition") {
     } else {
         header("location: ../../core/?p=setting&para=addaddStaffFailed");
     }
-} else if ($para == "editDivition") {
+} else if ($para == "editDivision") {
     //   print_r($_POST);
     $divisionID = $_GET['DivisionID'];
 
-    $divition = $_POST['divition'];
+    $division = $_POST['division'];
     $organization = $_POST['organization'];
     $address = $_POST['address'];
     $status = $_POST['status'];
 
-    $res = editDivition($divisionID, $divition, $organization, $address, $status);
+    $res = editDivision($divisionID, $division, $organization, $address, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=editDivitionCompleted");
+        header("location: ../../core/?p=setting&para=editDivisionCompleted");
     } else {
-        header("location: ../../core/?p=setting&para=editDivitionFailed");
+        header("location: ../../core/?p=setting&para=editDivisionFailed");
     }
 } else if ($para == "addStaff") {
     $IDStaff = $_POST['IDStaff'];
@@ -177,7 +177,7 @@ if ($para == "addStaffposition") {
     $idcardStaff = $_POST['idcardStaff'];
     $personType = "Staff";
     $positionStaff = $_POST['positionStaff'];
-    $divitionStaff = $_POST['divitionStaff'];
+    $divisionStaff = $_POST['divisionStaff'];
     $status = $_POST['status'];
     $con = $_POST['con'];
     echo "<pre>";
