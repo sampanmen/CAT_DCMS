@@ -160,7 +160,7 @@ if ($para == "addStaffposition") {
     $personType = "Staff";
     $positionStaff = $_POST['positionStaffID'];
     $divisionStaff = $_POST['divisionStaff'];
-    $status = "Active" ;
+    $status = "Active";
     $con = $_POST['con'];
     echo "<pre>";
     print_r($_POST);
@@ -168,8 +168,8 @@ if ($para == "addStaffposition") {
     $resInsertPerson = addPerson($nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $personType, $status, $PersonID);
     if ($resInsertPerson) {
 //        $resInsertCon = true;
-        $resInsertStaff= addStaff($resInsertPerson, $IDStaff,$positionStaff,$divisionStaff);
-        
+        $resInsertStaff = addStaff($resInsertPerson, $IDStaff, $positionStaff, $divisionStaff);
+
 //            echo $resInsertCon . "<br>.";
 //            echo "///";
 //            echo "<pre>";
@@ -184,5 +184,29 @@ if ($para == "addStaffposition") {
         } else {
             header("location: ../../core/?p=showStaff&para=addStaffailed");
         }
+    }
+} else if ($para == "editStaff") {
+    //   print_r($_POST);
+    $personID = $_GET['personID'];
+    print_r($_POST);
+
+    $employeeID = $_POST['employeeID'];
+    $nameStaff = $_POST['nameStaff'];
+    $snameStaff = $_POST['snameStaff'];
+    $phoneStaff = $_POST['phoneStaff'];
+    $emailStaff = $_POST['emailStaff'];
+    $idcardStaff = $_POST['idcardStaff'];
+    $personType = "Staff";
+    $positionStaff = $_POST['positionStaffID'];
+    $divisionStaff = $_POST['divisionStaff'];
+    $position = $_POST['position'];
+    $status = $_POST['status'];
+
+    $resEditPerson = editPerson($personID, $nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $positionStaff, $status);
+    $resEditStaff = editStaff($resInsertPerson, $employeeID, $positionStaff, $divisionStaff);
+    if ($resEditPerson || $resStaff ) {
+        header("location: ../../core/?p=viewCus&cusID=" . $personID . "&para=editContactCompleted");
+    } else {
+//        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editContactFailed");
     }
 }

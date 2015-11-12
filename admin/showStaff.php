@@ -45,7 +45,8 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     <td><?php echo $viewstaff['Organization']; ?></td>
                                     <td><?php echo $viewstaff['Division']; ?></td>
                                     <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $viewstaff['PersonStatus']; ?></span></td>
-                                    <td><button type="button" class="btn btn-info btn-circle"><i class="glyphicon-wrench"></i></button>
+                                    <td><a href="../admin/model_editStaff.php?personID="  data-toggle="modal" data-target="#myModal">test</a>
+                                        <a href="../admin/model_editStaff.php&personID= "data-toggle="modal" data-target="#myModal" <button type="button" class="btn btn-info btn-circle"><i class="glyphicon-wrench"></i></button></a>
                                         <button type="button" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button>
                                     </td>
                                 </tr>                                                     

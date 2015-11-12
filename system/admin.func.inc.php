@@ -261,6 +261,43 @@ function getViewstaff() {
     return $resultArr;
 }
 
+function editStaff($PersonID, $EmployeeID, $StaffPositionID, $DivisionID) {
+    $conn = dbconnect();
+    $SQLCommand = "UPDATE `customer_person_staff` SET "
+            . "`EmployeeID`=:EmployeeID, "
+            . "`StaffPositionID`=:StaffPositionID, "
+            . "`DivisionID`=:DivisionID "
+            . "WHERE `PersonID`= :PersonID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":EmployeeID" => $EmployeeID,
+        ":StaffPositionID" => $StaffPositionID,
+        ":DivisionID" => $DivisionID,
+        ":PersonID" => $PersonID
+    ));
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function getStaffByID($PersonID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT"
+            . "`staffID`,"
+            . "`EmployeeID`,"
+            . "`PersonID`,"
+            . "`StaffPositionID`,"
+            . "`DivisionID`"
+            . "FROM `customer_person_staff`"
+            . "WHERE `PersonID`= :PersonID";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":PersonID" => $PersonID));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
 //<!--Businesstype-->
 function getBusinessTypeByID($BusinessTypeID) {
     $conn = dbconnect();
