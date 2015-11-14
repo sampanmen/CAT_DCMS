@@ -237,13 +237,14 @@ function editPosition($StaffPositionID, $Position, $Status) {
 function getViewstaff() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
+            ."`customer_person`.`PersonID`,"
             . "`customer_person_staff`.`EmployeeID`,"
             . "`customer_person`.`Fname`,"
             . "`customer_person`.`Lname`,"
             . "`customer_person_staff_position`.`Position`,"
             . "`customer_person_staff_division`.`Organization`,"
             . "`customer_person_staff_division`.`Division`,"
-            . "`customer_person`.`PersonStatus`"
+            . "`customer_person`.`PersonStatus`"           
             . "FROM `customer_person`"
             . "JOIN `customer_person_staff`"
             . "ON  `customer_person`.`PersonID`  =  `customer_person_staff`.`PersonID`"
@@ -260,20 +261,19 @@ function getViewstaff() {
     }
     return $resultArr;
 }
-
-function editStaff($PersonID, $EmployeeID, $StaffPositionID, $DivisionID) {
+function editStaff($personID, $EmployeeID, $StaffPositionID, $DivisionID) {
     $conn = dbconnect();
-    $SQLCommand = "UPDATE `customer_person_staff` SET "
-            . "`EmployeeID`=:EmployeeID, "
-            . "`StaffPositionID`=:StaffPositionID, "
-            . "`DivisionID`=:DivisionID "
-            . "WHERE `PersonID`= :PersonID ";
+    $SQLCommand = "UPDATE `customer_person_staff`  SET "
+            . " `EmployeeID`=:EmployeeID,"
+            . "`StaffPositionID`=:StaffPositionID,"
+            . "`DivisionID`=:DivisionID,"
+            . "WHERE `PersonID`= :personID";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":EmployeeID" => $EmployeeID,
         ":StaffPositionID" => $StaffPositionID,
         ":DivisionID" => $DivisionID,
-        ":PersonID" => $PersonID
+        ":personID" => $personID
     ));
     if ($SQLPrepare->rowCount() > 0) {
         return true;

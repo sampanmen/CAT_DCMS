@@ -186,26 +186,26 @@ if ($para == "addStaffposition") {
         }
     }
 } else if ($para == "editStaff") {
-    //   print_r($_POST);
-    $personID = $_GET['personID'];
-    print_r($_POST);
+    $personID = $_GET['PersonID'];
 
-    $employeeID = $_POST['employeeID'];
+    $IDStaff = $_POST['IDStaff'];
     $nameStaff = $_POST['nameStaff'];
     $snameStaff = $_POST['snameStaff'];
     $phoneStaff = $_POST['phoneStaff'];
     $emailStaff = $_POST['emailStaff'];
     $idcardStaff = $_POST['idcardStaff'];
-    $personType = "Staff";
-    $positionStaff = $_POST['positionStaffID'];
+    $typestaff = "Staff";
+    $positionStaffID = $_POST['positionStaffID'];
     $divisionStaff = $_POST['divisionStaff'];
-    $position = $_POST['position'];
     $status = $_POST['status'];
-
-    $resEditPerson = editPerson($personID, $nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $positionStaff, $status);
-    $resEditStaff = editStaff($resInsertPerson, $employeeID, $positionStaff, $divisionStaff);
-    if ($resEditPerson || $resStaff ) {
-        header("location: ../../core/?p=viewCus&cusID=" . $personID . "&para=editContactCompleted");
+    
+    $resEditPerson = editPerson($personID, $nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $typestaff, $status);
+    $resEditStaff = editStaff($personID,$IDStaff,$positionStaffID,$divisionStaff);
+    if (isset($_FILES)) {
+        $uploadPic = move_uploaded_file($_FILES["file"]["tmp_name"], "../../customer/images/persons/" . $personID . ".jpg");
+    }
+    if ($resEditPerson || $resEditStaff || $uploadPic) {
+        header("location: ../../core/?p=showStaff&PersonID=" . $personID . "&para=editStaffCompleted");
     } else {
 //        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editContactFailed");
     }

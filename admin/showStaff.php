@@ -32,6 +32,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             $staff = getViewstaff();
                             foreach ($staff as $viewstaff) {
                                 $EmployeeID = $viewstaff['EmployeeID'];
+                               $personID=$viewstaff['PersonID'];
                                 $Fname = $viewstaff['Fname'];
                                 $Lname = $viewstaff['Lname'];
                                 $Position = $viewstaff['Position'];
@@ -44,9 +45,8 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     <td><?php echo $Position; ?></td>
                                     <td><?php echo $viewstaff['Organization']; ?></td>
                                     <td><?php echo $viewstaff['Division']; ?></td>
-                                    <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $viewstaff['PersonStatus']; ?></span></td>
-                                    <td><a href="../admin/model_editStaff.php?personID="  data-toggle="modal" data-target="#myModal">test</a>
-                                        <a href="../admin/model_editStaff.php&personID= "data-toggle="modal" data-target="#myModal" <button type="button" class="btn btn-info btn-circle"><i class="glyphicon-wrench"></i></button></a>
+                                    <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $statusLabel; ?></span></td>
+                                    <td><a class="btn btn-info btn-sm" href="../admin/model_editStaff.php?PersonID=<?php echo $personID; ?>" data-toggle="modal" data-target="#myModal">Edit</a>                                            
                                         <button type="button" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button>
                                     </td>
                                 </tr>                                                     
