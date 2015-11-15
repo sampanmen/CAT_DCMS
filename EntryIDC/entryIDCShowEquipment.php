@@ -2,17 +2,17 @@
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 $getEquipments = getEquipments();
 ?>
-<p><a href="?">Home</a> > <b>Entry IDC Log</b></p>
+<p><a href="?">Home</a> > <b>Equipments</b></p>
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <b>Entry IDC Log</b>
+                <b>Equipments</b>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <?php
-                if ($getEntryNow != NULL) {
+                if ($getEquipments != NULL) {
                     ?>
                     <div class="dataTable_wrapper">
                         <table class="table table-striped table-bordered table-hover" id="dataTables">
@@ -41,6 +41,7 @@ $getEquipments = getEquipments();
                                     <tr>
                                         <td><?php echo $valEquipment; ?></td>
                                         <td><?php echo $valBrand; ?></td>
+                                        <td><?php echo $valModel; ?></td>
                                         <td><?php echo $valSerialNo; ?></td>
                                         <td><?php echo $valRack; ?></td>
                                         <td><?php echo $valDateTimeIN; ?></td>
@@ -54,7 +55,7 @@ $getEquipments = getEquipments();
                     </div>
                     <?php
                 } else {
-                    echo "<h3>No Entry Now!</h3>";
+                    echo "<h3>No Equipment Now!</h3>";
                 }
                 ?>
                 <!-- /.table-responsive -->
