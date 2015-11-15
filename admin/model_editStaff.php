@@ -111,8 +111,8 @@ $DivisionID = $getStafff['DivisionID'];
                         <div class="form-group col-lg-6">
                             <select class="form-control" name="divisionStaff">
                                 <?php
-                                $positon = getDivision();
-                                foreach ($positon as $value) {
+                                $division = getDivision();
+                                foreach ($division as $value) {
                                     if ($value['Status'] == "Deactive")
                                         continue;
                                     ?>
@@ -131,6 +131,14 @@ $DivisionID = $getStafff['DivisionID'];
                                 <option <?php echo $staffStatus == "Active" ? "selected" : ""; ?> value="Active">Active</option>
                                 <option <?php echo $staffStatus == "Deactive" ? "selected" : ""; ?> value="Deactive">Deactive</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>รูปภาพ / Picture</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <input type="file" name="file"  accept=".jpg">                                    
                         </div>
                     </div>
                 </div>
