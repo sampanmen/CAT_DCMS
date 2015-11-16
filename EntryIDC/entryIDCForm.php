@@ -161,7 +161,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                                 ชื่อบริษัท                                                             
                             </div>
                             <div class="form-group col-lg-6">                           
-                                <input class="form-control" name="cusName" value="<?php echo $valCustomerName; ?>">                                
+                                <input class="form-control" readonly name="cusName" value="<?php echo $valCustomerName; ?>">                                
                             </div>
                             <div class="form-group col-lg-1">  
                                 โทร./Tel.                                                              
@@ -232,6 +232,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                                             </td>
                                             <td>
                                                 <select class="form-control" id="item_rack">
+                                                    <option selected value="-1,n/a">n/a</option>
                                                     <?php
                                                     foreach ($getCusRack as $value) {
                                                         $rackPosition = $value['Zone'] . $value['Position'] . "-" . $value['SubPosition'];

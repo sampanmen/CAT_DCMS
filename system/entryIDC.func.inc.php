@@ -1,9 +1,9 @@
 <?php
 
-function addEntry($PersonID, $VisitorCardID, $IDCard, $IDCCard, $IDCCardType, $EmpID, $TimeIn, $TimeOut, $Purpose, $InternetAccount, $personID_) {
+function addEntry($PersonID, $VisitorCardID, $IDCard, $IDCCard, $IDCCardType, $EmpID, $TimeIn, $TimeOut, $Purpose, $InternetAccount, $locationID, $personID_) {
     $con = dbconnect();
-    $SQLCommand = "INSERT INTO `entry`(`PersonID`, `VisitorCardID`, `IDCard`, `IDCCard`, `IDCCardType`, `EmpID`, `TimeIn`, `TimeOut`, `Purpose`, `InternetAccount`,`CreateBy`, `UpdateBy`) "
-            . "VALUES (:PersonID, :VisitorCardID, :IDCard, :IDCCard, :IDCCardType, :EmpID, :TimeIn, :TimeOut, :Purpose, :InternetAccount, :personID_, :personID_)";
+    $SQLCommand = "INSERT INTO `entry`(`PersonID`, `VisitorCardID`, `IDCard`, `IDCCard`, `IDCCardType`, `EmpID`, `TimeIn`, `TimeOut`, `Purpose`, `InternetAccount`, `LocationID`,`CreateBy`, `UpdateBy`) "
+            . "VALUES (:PersonID, :VisitorCardID, :IDCard, :IDCCard, :IDCCardType, :EmpID, :TimeIn, :TimeOut, :Purpose, :InternetAccount, :LocationID, :personID_, :personID_)";
     $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(
             array(
@@ -17,6 +17,7 @@ function addEntry($PersonID, $VisitorCardID, $IDCard, $IDCCard, $IDCCardType, $E
                 ":TimeOut" => $TimeOut,
                 ":Purpose" => $Purpose,
                 ":InternetAccount" => $InternetAccount,
+                ":LocationID" => $locationID,
                 ":personID_" => $personID_
             )
     );
@@ -41,7 +42,7 @@ function addZoneDetail($EntryID, $zoneArr) {
         );
     }
     if ($SQLPrepare->rowCount() > 0) {
-        return true;
+        return $con->lastInsertId();
     } else
         return false;
 }
@@ -51,13 +52,13 @@ function addEquipment($equipmentArr) {
     $SQLCommand = "INSERT INTO `entry_equipment`(`Equipment`, `Brand`, `Model`, `SerialNo`, `RackID`) "
             . "VALUES (:Equipment, :Brand, :Model, :SerialNo, :RackID)";
     $SQLPrepare = $con->prepare($SQLCommand);
-    $count = count($itemsArr['brand']);
+    $count = count($equipmentArr['brand']);
     for ($i = 0; $i < $count; $i++) {
-        $Equipment = $itemsArr['name'][$i];
-        $Brand = $itemsArr['brand'][$i];
-        $Model = $itemsArr['model'][$i];
-        $SerialNo = $itemsArr['serialno'][$i];
-        $RackID = $itemsArr['rackID'][$i];
+        $Equipment = $equipmentArr['name'][$i];
+        $Brand = $equipmentArr['brand'][$i];
+        $Model = $equipmentArr['model'][$i];
+        $SerialNo = $equipmentArr['serialno'][$i];
+        $RackID = ($equipmentArr['rackID'][$i] != "-1") ? $equipmentArr['rackID'][$i] : NULL;
 
         $SQLPrepare->execute(
                 array(
@@ -70,7 +71,7 @@ function addEquipment($equipmentArr) {
         );
     }
     if ($SQLPrepare->rowCount() > 0) {
-        return true;
+        return $con->lastInsertId();
     } else
         return false;
 }
@@ -89,7 +90,7 @@ function addEquipmentDetail($EquipmentID, $EntryID, $EquipmentAction, $DateTime)
             )
     );
     if ($SQLPrepare->rowCount() > 0) {
-        return true;
+        return $con->lastInsertId();
     } else
         return false;
 }
@@ -172,7 +173,9 @@ function getEntryNow() {
             . "`CustomerID`, "
             . "`CustomerName`, "
             . "`Organization`, "
-            . "`Division`"
+            . "`Division`,"
+            . "`LocationID`, "
+            . "`Location` "
             . "FROM `view_entry` "
             . "WHERE `TimeOut` IS NULL "
             . "ORDER BY `TimeIn` DESC";
@@ -199,7 +202,9 @@ function getEntryLog() {
             . "`CustomerID`, "
             . "`CustomerName`, "
             . "`Organization`, "
-            . "`Division`"
+            . "`Division` ,"
+            . "`LocationID`, "
+            . "`Location` "
             . "FROM `view_entry` "
             . "WHERE 1 "
             . "ORDER BY `TimeIn` DESC";
@@ -233,19 +238,81 @@ function checkOutEntry($entryID, $PersonID) {
 
 function getEntryByID($entryID) {
     $con = dbconnect();
-    $SQLCommand = "";
-//    echo $SQLCommand;
+    $SQLCommand = "SELECT "
+            . "`EntryID`, "
+            . "`PersonID`, "
+            . "`VisitorCardID`, "
+            . "`IDCard`, "
+            . "`IDCCard`, "
+            . "`IDCCardType`, "
+            . "`EmpID`, "
+            . "`TimeIn`, "
+            . "`TimeOut`, "
+            . "`Purpose`, "
+            . "`InternetAccount`, "
+            . "`LocationID`, "
+            . "`Location`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`TypePerson`, "
+            . "`CustomerID`, "
+            . "`CustomerName`, "
+            . "`Organization`, "
+            . "`Division` "
+            . "FROM `view_entry` "
+            . "WHERE `EntryID`= :EntryID ";
     $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":entryID" => $entryID));
+    $SQLPrepare->execute(
+            array(
+                ":EntryID" => $entryID
+            )
+    );
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
 
 function getZoneByEntryID($entryID) {
     $con = dbconnect();
-    $SQLCommand = "";
+    $SQLCommand = "SELECT "
+            . "`ZoneDetailID`, "
+            . "`EntryID`, "
+            . "`ZoneID` "
+            . "FROM `entry_zone_detail` "
+            . "WHERE `EntryID`= :EntryID ";
     $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":entryID" => $entryID));
+    $SQLPrepare->execute(
+            array(
+                ":EntryID" => $entryID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result['ZoneID']);
+    }
+    return $resultArr;
+}
+
+function getEquipments() {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`EquipmentID`, "
+            . "`Equipment`, "
+            . "`Brand`, "
+            . "`Model`, "
+            . "`SerialNo`, "
+            . "`RackID`, "
+            . "`EquipmentAction`, "
+            . "`DateTime`, "
+            . "`ResourceRackID`, "
+            . "`Col`, "
+            . "`Row`, "
+            . "`PositionRack` "
+            . "FROM `view_equipment` "
+            . "WHERE `EquipmentAction`='in'";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute();
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);

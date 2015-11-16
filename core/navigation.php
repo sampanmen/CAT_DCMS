@@ -268,6 +268,9 @@
                         <li>
                             <a href="?p=entryIDCShowLog">Entry IDC History</a>
                         </li>
+                        <li>
+                            <a href="?p=entryIDCShowEquipment">Equipments</a>
+                        </li>
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>

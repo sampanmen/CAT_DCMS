@@ -46,6 +46,10 @@ switch ($p) {
         $page['file'] = "../EntryIDC/entryIDCShowLog.php";
         $page['name'] = "Entry IDC Log";
         break;
+    case "entryIDCShowEquipment":
+        $page['file'] = "../EntryIDC/entryIDCShowEquipment.php";
+        $page['name'] = "Entry IDC Equipment";
+        break;
 
     // Customer // Edit
     case "editContact":
