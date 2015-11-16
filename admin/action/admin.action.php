@@ -207,6 +207,6 @@ if ($para == "addStaffposition") {
     if ($resEditPerson || $resEditStaff || $uploadPic) {
         header("location: ../../core/?p=showStaff&PersonID=" . $personID . "&para=editStaffCompleted");
     } else {
-//        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editContactFailed");
+        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editContactFailed");
     }
 }

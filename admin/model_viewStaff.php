@@ -5,22 +5,25 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
 $getPersonID = $_GET['PersonID'];
 
 //get Person
-$getPersons = getPerson($getPersonID);
-$staffFname = $getPersons['Fname'];
-$staffLname = $getPersons['Lname'];
-$staffPhone = $getPersons['Phone'];
-$staffEmail = $getPersons['Email'];
-$staffIDCard = $getPersons['IDCard'];
+$getStaffID = getStaffByID($getPersonID);
+$staffFname = $getStaffID['Fname'];
+$staffLname = $getStaffID['Lname'];
+$staffPhone = $getStaffID['Phone'];
+$staffEmail = $getStaffID['Email'];
+$staffIDCard = $getStaffID['IDCard'];
 //$staffType = $getPersons['ContactType'];
-$staffStatus = $getPersons['PersonStatus'];
+$staffStatus = $getStaffID['PersonStatus'];
 
 //get staff
 
-$getStafff = getStaffByID($getPersonID);
-$staffID = $getStafff['staffID'];
-$EmployeeID = $getStafff['EmployeeID'];
-$StaffPositionID = $getStafff['StaffPositionID'];
-$DivisionID = $getStafff['DivisionID'];
+//$staffID = $getStaffID['staffID'];
+$EmployeeID = $getStaffID['EmployeeID'];
+$StaffPositionID = $getStaffID['StaffPositionID'];
+$Position = $getStaffID['Position'];
+$DivisionID = $getStaffID['DivisionID'];
+$Division = $getStaffID['Division'];
+$Organization= $getStaffID['Organization'];
+
 ?>
 
 <!--<form method="POST" action="../admin/action/admin.action.php?para=editStaff&PersonID=<?php echo $getPersonID; ?>" enctype="multipart/form-data">-->
@@ -95,7 +98,7 @@ $DivisionID = $getStafff['DivisionID'];
                             <p><b>Position:</b> </p> 
                         </div>
                         <div class="col-lg-8">
-                            <p> <?php echo $StaffPositionID; ?></p>
+                            <p> <?php echo $Position; ?></p>
                         </div>
                     </div>
                     <div class="col-lg-12">
@@ -103,7 +106,7 @@ $DivisionID = $getStafff['DivisionID'];
                             <p><b>Divition :</b> </p> 
                         </div>
                         <div class="col-lg-8">
-                            <p> <?php echo $DivisionID; ?></p>
+                            <p> [<?php echo $Organization; ?>] <?php echo $Division; ?></p>
                         </div>
                     </div>
                     <div class="col-lg-12">

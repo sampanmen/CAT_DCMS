@@ -237,21 +237,22 @@ function editPosition($StaffPositionID, $Position, $Status) {
 function getViewstaff() {
     $conn = dbconnect();
     $SQLCommand = "SELECT"
-            ."`customer_person`.`PersonID`,"
-            . "`customer_person_staff`.`EmployeeID`,"
-            . "`customer_person`.`Fname`,"
-            . "`customer_person`.`Lname`,"
-            . "`customer_person_staff_position`.`Position`,"
-            . "`customer_person_staff_division`.`Organization`,"
-            . "`customer_person_staff_division`.`Division`,"
-            . "`customer_person`.`PersonStatus`"           
-            . "FROM `customer_person`"
-            . "JOIN `customer_person_staff`"
-            . "ON  `customer_person`.`PersonID`  =  `customer_person_staff`.`PersonID`"
-            . "JOIN `customer_person_staff_position` "
-            . "ON  `customer_person_staff`.`StaffPositionID`  = `customer_person_staff_position`.`StaffPositionID`"
-            . "JOIN `customer_person_staff_division` "
-            . "ON `customer_person_staff`.`DivisionID` = `customer_person_staff_division`.`DivisionID`";
+            . "`PersonID`,"
+            . "`Fname`,"
+            . "`Lname`,"
+            . "`Phone`,"
+            . "`Email`,"
+            . "`IDCard`,"
+            . "`EmployeeID`,"
+            . "`StaffPositionID`,"
+            . "`Position`,"
+            . "`DivisionID`,"
+            . "`Division`,"
+            . "`Organization`,"
+            . "`Address`,"
+            . "`TypePerson`,"
+            . "`PersonStatus`"
+            . "FROM `view_staff`";
 //   echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute();
@@ -261,12 +262,39 @@ function getViewstaff() {
     }
     return $resultArr;
 }
+
+function getStaffByID($PersonID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT"
+            . "`PersonID`,"
+            . "`Fname`,"
+            . "`Lname`,"
+            . "`Phone`,"
+            . "`Email`,"
+            . "`IDCard`,"
+            . "`EmployeeID`,"
+            . "`StaffPositionID`,"
+            . "`Position`,"
+            . "`DivisionID`,"
+            . "`Division`,"
+            . "`Organization`,"
+            . "`Address`,"
+            . "`TypePerson`,"
+            . "`PersonStatus`"
+            . "FROM `view_staff`"
+            . "WHERE `PersonID`= :PersonID ";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(":PersonID" => $PersonID));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
 function editStaff($personID, $EmployeeID, $StaffPositionID, $DivisionID) {
     $conn = dbconnect();
     $SQLCommand = "UPDATE `customer_person_staff`  SET "
             . " `EmployeeID`=:EmployeeID,"
             . "`StaffPositionID`=:StaffPositionID,"
-            . "`DivisionID`=:DivisionID,"
+            . "`DivisionID`=:DivisionID "
             . "WHERE `PersonID`= :personID";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(
@@ -282,21 +310,7 @@ function editStaff($personID, $EmployeeID, $StaffPositionID, $DivisionID) {
     }
 }
 
-function getStaffByID($PersonID) {
-    $conn = dbconnect();
-    $SQLCommand = "SELECT"
-            . "`staffID`,"
-            . "`EmployeeID`,"
-            . "`PersonID`,"
-            . "`StaffPositionID`,"
-            . "`DivisionID`"
-            . "FROM `customer_person_staff`"
-            . "WHERE `PersonID`= :PersonID";
-    $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":PersonID" => $PersonID));
-    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
-    return $result;
-}
+
 
 //<!--Businesstype-->
 function getBusinessTypeByID($BusinessTypeID) {
