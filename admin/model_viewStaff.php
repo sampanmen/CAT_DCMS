@@ -15,15 +15,13 @@ $staffIDCard = $getStaffID['IDCard'];
 $staffStatus = $getStaffID['PersonStatus'];
 
 //get staff
-
 //$staffID = $getStaffID['staffID'];
 $EmployeeID = $getStaffID['EmployeeID'];
 $StaffPositionID = $getStaffID['StaffPositionID'];
 $Position = $getStaffID['Position'];
 $DivisionID = $getStaffID['DivisionID'];
 $Division = $getStaffID['Division'];
-$Organization= $getStaffID['Organization'];
-
+$Organization = $getStaffID['Organization'];
 ?>
 
 <!--<form method="POST" action="../admin/action/admin.action.php?para=editStaff&PersonID=<?php echo $getPersonID; ?>" enctype="multipart/form-data">-->
@@ -32,24 +30,19 @@ $Organization= $getStaffID['Organization'];
     <h4 class="modal-title" id="gridSystemModalLabel"></h4>
 </div>
 
-
-
-
-
 <div class="modal-body">
     <div class="container-fluid">
         <div class="row">                       
             <div class="col-lg-12">
 
                 <div class="col-lg-4 text-left">
-<?php
-//                                    $images = '../customer/images/persons/' . $value['PersonID'] . ".jpg";
-//                                    $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
-//$images = '../../customer/images/persons/' . $value['PersonID'] . ".jpg";
-//$showImage = file_exists($images) ? $images : "../../customer/images/persons/noPic.jpg";
-//$showImage = "../system/image_1-1.php?url=" . $showImage;
-//                        echo $showImage;
-?>
+                    <?php
+                    $images = '../customer/images/persons/' . $getPersonID . ".jpg";
+                    $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
+                    $images = '../customer/images/persons/' . $getPersonID . ".jpg";
+                    $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
+                    $showImage = "../system/image_1-1.php?url=" . $showImage;
+                    ?>
                     <img class="img-thumbnail " src = "<?php echo $showImage; ?>" width="100%" height="" border="1">
                 </div>
                 <div class="col-lg-8 text-left">
