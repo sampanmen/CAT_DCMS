@@ -1,4 +1,10 @@
-<form method="POST" action="">
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+
+?>
+
+
+<form action="../admin/action/admin.action.php?para=addStaff" method="POST" enctype="multipart/form-data">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="gridSystemModalLabel">Add Staff</h4>
@@ -9,74 +15,102 @@
                 <div class="row">
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
-                            <label>Staff ID</label>
+                            <label>ID Staff</label>
                         </div>
-                        <div class="form-group col-lg-3"> 
-                             <input class="form-control" name="staffID">
+                        <div class="form-group col-lg-6"> 
+                            <input class="form-control" name="IDStaff"> 
                         </div>
                     </div>
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
-                            <label>Name</label>
+                            <label>ชื่อพนักงาน / Staff Name</label>
                         </div>
                         <div class="form-group col-lg-6"> 
-                             <input class="form-control" name="staffname" >
+                            <input class="form-control" name="nameStaff"> 
                         </div>
                     </div>
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
-                            <label>Surname</label>
-                        </div>
-                        <div class="form-group col-lg-6"> 
-                             <input class="form-control" name="staffser" >
-                        </div>
-                    </div>
-                    <div class="col-lg-12">  
-                        <div class="col-lg-6">                                           
-                            <label>ID Card</label>
-                        </div>
-                        <div class="form-group col-lg-6"> 
-                             <input class="form-control" name="staffCard" >
-                        </div>
-                    </div>
-                    <div class="col-lg-12">  
-                        <div class="col-lg-6">                                           
-                            <label>e-mail</label>
-                        </div>
-                        <div class="form-group col-lg-6"> 
-                            <input class="form-control" name="staffemail" type="email" >
-                        </div>
-                    </div>
-                    <div class="col-lg-12">  
-                        <div class="col-lg-6">
-                            <label>Position</label>
+                            <label>นามสกุล / Surname</label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <select class="form-control" name="type">
-                                <option value="">Admin</option>
-                                <option value="">Service Desk</option>   
-                                <option value="">Operater</option>
-                                <option value="">Support Team</option>     
+                            <input class="form-control" name="snameStaff">                                
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>โทรศัพท์ / Phone</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <input class="form-control" name="phoneStaff">                                
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>อีเมล์ / E-Mail</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <input class="form-control" type="email" name="emailStaff">                                   
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>รหัสบัตรประชาชน / ID Card</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <input class="form-control" type="text" name="idcardStaff">                                   
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>ตำแหน่ง / Position</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <select class="form-control" name="positionStaffID">
+                                <?php
+                                $positon = getStaffPosition();
+                                foreach ($positon as $value) {
+                                    if ($value['Status'] == "Deactive")
+                                        continue;
+                                    ?>
+                                    <option value="<?php echo $value['StaffPositionID']; ?>"><?php echo $value['Position']; ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-12">  
-                        <div class="col-lg-6">
-                            <label>Status</label>
+                        <div class="col-lg-6">                                           
+                            <label>แผนก / Division </label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <select class="form-control" name="type">
-                                <option value="">Active</option>
-                                <option value="">NonActive</option> 
+                            <select class="form-control" name="divisionStaff">
+                                <?php
+                                $positon = getDivision();
+                                foreach ($positon as $value) {
+                                    if ($value['Status'] == "Deactive")
+                                        continue;
+                                    ?>
+                                    <option value="<?php echo $value['DivisionID']; ?>">[<?php echo $value['Organization']; ?>] <?php echo $value['Division']; ?></option>
+                                <?php } ?>
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>รูปภาพ / Picture</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <input type="file" name="file"  accept=".jpg">                                    
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- /.row (nested) -->
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save</button>
-    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Add</button>
+</div>
 </form>
