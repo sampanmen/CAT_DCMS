@@ -42,7 +42,7 @@ function addZoneDetail($EntryID, $zoneArr) {
         );
     }
     if ($SQLPrepare->rowCount() > 0) {
-        return true;
+        return $con->lastInsertId();
     } else
         return false;
 }
@@ -71,7 +71,7 @@ function addEquipment($equipmentArr) {
         );
     }
     if ($SQLPrepare->rowCount() > 0) {
-        return true;
+        return $con->lastInsertId();
     } else
         return false;
 }
@@ -90,7 +90,7 @@ function addEquipmentDetail($EquipmentID, $EntryID, $EquipmentAction, $DateTime)
             )
     );
     if ($SQLPrepare->rowCount() > 0) {
-        return true;
+        return $con->lastInsertId();
     } else
         return false;
 }
