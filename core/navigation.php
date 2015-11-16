@@ -227,7 +227,7 @@
                     <form action="?p=searchCustomer" method="GET">
                         <div class="input-group custom-search-form">
                             <input type="hidden" name="p" value="searchCustomer">
-                            <input type="text" name="search" class="form-control" placeholder="Search..." value="<?php echo isset($_REQUEST['search']) ? $_REQUEST['search'] : "" ?>">
+                            <input type="text" name="search" class="form-control" placeholder="Cusotmer Search..." value="<?php echo isset($_REQUEST['search']) ? $_REQUEST['search'] : "" ?>">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit">
                                     <i class="fa fa-search"></i>
