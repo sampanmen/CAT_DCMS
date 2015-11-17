@@ -38,8 +38,8 @@ switch ($p) {
         $page['file'] = "../customer/viewCus.php";
         $page['name'] = "Customer Detail";
         break;
-    case "entryIDCShow":
-        $page['file'] = "../EntryIDC/entryIDCShow.php";
+    case "entryIDCShowHome":
+        $page['file'] = "../EntryIDC/entryIDCShowHome.php";
         $page['name'] = "Show Entry IDC";
         break;
     case "entryIDCShowLog":
