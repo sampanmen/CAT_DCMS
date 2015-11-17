@@ -283,6 +283,23 @@ function checkOutEquipment($entryID, $equipmentID) {
         return FALSE;
 }
 
+function cancelCheckOutEquipment($equipmentID) {
+    $con = dbconnect();
+    $SQLCommand = "UPDATE `entry_equipment` SET "
+            . "`EntryID_OUT`= NULL "
+            . "WHERE `EquipmentID`=:EquipmentID";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":EquipmentID" => $equipmentID
+            )
+    );
+    if ($SQLPrepare->rowCount() > 0) {
+        return TRUE;
+    } else
+        return FALSE;
+}
+
 function getEntryByID($entryID) {
     $con = dbconnect();
     $SQLCommand = "SELECT "
@@ -292,7 +309,7 @@ function getEntryByID($entryID) {
             . "`IDCard`, "
             . "`IDCCard`, "
             . "`IDCCardType`, "
-            . "`EmpID`, "
+            . "`EmployeeID`, "
             . "`TimeIn`, "
             . "`TimeOut`, "
             . "`Purpose`, "

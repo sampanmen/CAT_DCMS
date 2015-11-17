@@ -7,7 +7,7 @@ $getEquipments = getEquipments();
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <b>Equipments</b>
+                <b>Equipments </b>(<a href="javascript:location.reload();">Reload</a>)
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -39,6 +39,8 @@ $getEquipments = getEquipments();
                                     $valRack = $value['Col'] . $value['Row'] . "-" . $value['PositionRack'];
                                     $valDateTimeIN = $value['TimeIn'];
                                     $valDateTimeOUT = $value['TimeOut'];
+                                    $valEntryID_IN = $value['EntryID_IN'];
+                                    $valEntryID_OUT = $value['EntryID_OUT'];
                                     if ($valDateTimeOUT != NULL) {
                                         continue;
                                     }
@@ -50,7 +52,15 @@ $getEquipments = getEquipments();
                                         <td><?php echo $valSerialNo; ?></td>
                                         <td><?php echo $valRack; ?></td>
                                         <td><?php echo $valDateTimeIN; ?></td>
-                                        <td><a href="../EntryIDC/modal_equipmentOut.php?equipmentID=<?php echo $valEquipmentID; ?>&cusID=<?php echo $valCusID; ?>" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">OUT</a></td>
+                                        <td>
+                                            <?php
+                                            if ($valEntryID_OUT == NULL) {
+                                                ?>
+                                                <a href="../EntryIDC/modal_equipmentOut.php?equipmentID=<?php echo $valEquipmentID; ?>&cusID=<?php echo $valCusID; ?>" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">OUT</a>
+                                            <?php } else { ?>
+                                                Ready for out <a href="../EntryIDC/action/entryIDC.action.php?para=cancelGetOutEquipment&equipmentID=<?php echo $valEquipmentID; ?>" data-toggle="modal" data-target="#myModal-sm">(Cancel)</a>
+                                            <?php } ?>
+                                        </td>
                                     </tr>
                                 <?php } ?>
                             </tbody>

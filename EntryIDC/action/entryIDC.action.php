@@ -59,18 +59,9 @@ if ($para == "addEntryIDC") {
 
     $EntryID = addEntry($getPersonID, $visitCard, $IDCCard, $IDCCardType, $datetimeIN, NULL, $purpose, $internet, $locationID, $personID);
     if ($EntryID > 0) {
-        
-        $EquipmentID = addEquipment($items,$EntryID); //Add Equipment
-        
+        $EquipmentID = addEquipment($items, $EntryID); //Add Equipment
         addZoneDetail($EntryID, $zoneArr); // Add Zone Detail
-        
-//        updatePerson($getPersonID, $conName, $conLname, $conPhone, $conEmail, $IDCard);
-//        if ($personType == "Contact") {
-//            updateContact($getPersonID, $IDCCard, $IDCCardType);
-//        } else if ($personType == "Staff") {
-//            updateStaff($getPersonID, $EmpID);
-//        }
-        header("Location: ../../core/?p=entryIDCShow&para=addEntrySuccess");
+        header("Location: ../../core/?p=entryIDCShowHome&para=addEntrySuccess");
     } else {
         header("Location: ../../core/?p=entryIDCForm&personID=" . $getPersonID . "&type=" . $personType . "&isPerson=1&para=addEntryError");
     }
@@ -90,5 +81,14 @@ if ($para == "addEntryIDC") {
         header("Location: ../../core/?p=entryIDCShowEquipment&para=checkOutEquipmentSuccess");
     } else {
         header("Location: ../../core/?p=entryIDCShowEquipment&para=checkOutEquipmentError");
+    }
+} else if ($para == "cancelGetOutEquipment") {
+    $equipmentID = $_GET['equipmentID'];
+    
+    $res = cancelCheckOutEquipment($equipmentID);
+    if ($res) {
+        echo "<p class='text-success'>Cancel check out equipment success</p>";
+    } else {
+        echo "<p class='text-danger'>Cancel check out equipment error</p>";
     }
 } 
