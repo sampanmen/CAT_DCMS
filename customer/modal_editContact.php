@@ -81,8 +81,8 @@ $conStatus = $getContact['PersonStatus'];
                         <div class="form-group col-lg-6">
                             <select class="form-control" name="status">
                                 <option <?php echo $conStatus == "Active" ? "selected" : ""; ?> value="Active">Active</option>
+                                <option <?php echo $conStatus == "Suppened" ? "selected" : ""; ?> value="Suppened">Suppened</option>
                                 <option <?php echo $conStatus == "Deactive" ? "selected" : ""; ?> value="Deactive">Deactive</option>
-                                <option <?php echo $conStatus == "Delete" ? "selected" : ""; ?> value="Delete">Delete</option>
                             </select>
                         </div>
                     </div>

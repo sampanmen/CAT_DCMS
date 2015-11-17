@@ -131,7 +131,7 @@ $getBusinessType = getBusinessType();
                             <select class="form-control" name="status">
                                 <option <?php echo $cusStatus == "Active" ? "selected" : ""; ?> value="Active">Active</option>
                                 <option <?php echo $cusStatus == "Suppened" ? "selected" : ""; ?> value="Suppened">Suppened</option>
-                                <option <?php echo $cusStatus == "Delete" ? "selected" : ""; ?> value="Delete">Delete</option>
+                                <option <?php echo $cusStatus == "Deactive" ? "selected" : ""; ?> value="Deactive">Deactive</option>
                             </select>    
                         </div>
                     </div>
