@@ -227,7 +227,7 @@
                     <form action="?p=searchCustomer" method="GET">
                         <div class="input-group custom-search-form">
                             <input type="hidden" name="p" value="searchCustomer">
-                            <input type="text" name="search" class="form-control" placeholder="Cusotmer Search..." value="<?php echo isset($_REQUEST['search']) ? $_REQUEST['search'] : "" ?>">
+                            <input type="text" name="search" class="form-control" placeholder="Search..." value="<?php echo isset($_REQUEST['search']) ? $_REQUEST['search'] : "" ?>">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit">
                                     <i class="fa fa-search"></i>
@@ -263,7 +263,7 @@
                     <a href=""><i class="fa fa-users fa-fw"></i> Entry IDC<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="?p=entryIDCShow">Show IDC Entry</a>
+                            <a href="?p=entryIDCShowHome">Show IDC Entry</a>
                         </li>
                         <li>
                             <a href="?p=entryIDCShowLog">Entry IDC History</a>
@@ -310,14 +310,6 @@
                         </li>
                         <li>
                             <a href="#">IP Monitoring</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href=""><i class="fa fa-gears fa-fw"></i> Setting<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="?p=setting">Setting</a>
                         </li>
                     </ul>
                 </li>
