@@ -57,20 +57,19 @@ if ($para == "addEntryIDC") {
     $zoneArr = $_POST['area'];
     $datetimeIN = $_POST['datetimeIN'];
 
-    $EntryID = addEntry($getPersonID, $visitCard, $IDCard, $IDCCard, $IDCCardType, $EmpID, $datetimeIN, NULL, $purpose, $internet, $locationID, $personID);
+    $EntryID = addEntry($getPersonID, $visitCard, $IDCCard, $IDCCardType, $datetimeIN, NULL, $purpose, $internet, $locationID, $personID);
     if ($EntryID > 0) {
         
-        $EquipmentID = addEquipment($items); //Add Equipment
-        addEquipmentDetail($EquipmentID, $EntryID, "in", $datetimeIN); // Add Equipment Detail
+        $EquipmentID = addEquipment($items,$EntryID); //Add Equipment
         
         addZoneDetail($EntryID, $zoneArr); // Add Zone Detail
         
-        updatePerson($getPersonID, $conName, $conLname, $conPhone, $conEmail, $IDCard);
-        if ($personType == "Contact") {
-            updateContact($getPersonID, $IDCCard, $IDCCardType);
-        } else if ($personType == "Staff") {
-            updateStaff($getPersonID, $EmpID);
-        }
+//        updatePerson($getPersonID, $conName, $conLname, $conPhone, $conEmail, $IDCard);
+//        if ($personType == "Contact") {
+//            updateContact($getPersonID, $IDCCard, $IDCCardType);
+//        } else if ($personType == "Staff") {
+//            updateStaff($getPersonID, $EmpID);
+//        }
         header("Location: ../../core/?p=entryIDCShow&para=addEntrySuccess");
     } else {
         header("Location: ../../core/?p=entryIDCForm&personID=" . $getPersonID . "&type=" . $personType . "&isPerson=1&para=addEntryError");
@@ -82,5 +81,14 @@ if ($para == "addEntryIDC") {
         echo "1";
     } else {
         echo "0";
+    }
+} else if ($para == "getOutEquipment") {
+    $equipmentID = $_GET['equipmentID'];
+    $entryID = $_POST['entryID'];
+    $res = checkOutEquipment($entryID, $equipmentID);
+    if ($res) {
+        header("Location: ../../core/?p=entryIDCShowEquipment&para=checkOutEquipmentSuccess");
+    } else {
+        header("Location: ../../core/?p=entryIDCShowEquipment&para=checkOutEquipmentError");
     }
 } 

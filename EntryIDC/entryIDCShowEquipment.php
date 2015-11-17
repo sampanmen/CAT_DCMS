@@ -30,13 +30,18 @@ $getEquipments = getEquipments();
                             <tbody>
                                 <?php
                                 foreach ($getEquipments as $value) {
+                                    $valCusID = $value['CustomerID'];
                                     $valEquipmentID = $value['EquipmentID'];
                                     $valEquipment = $value['Equipment'];
                                     $valBrand = $value['Brand'];
                                     $valModel = $value['Model'];
                                     $valSerialNo = $value['SerialNo'];
-                                    $valRack = $value['Col'].$value['Row']."-".$value['PositionRack'];
-                                    $valDateTimeIN = $value['DateTime'];
+                                    $valRack = $value['Col'] . $value['Row'] . "-" . $value['PositionRack'];
+                                    $valDateTimeIN = $value['TimeIn'];
+                                    $valDateTimeOUT = $value['TimeOut'];
+                                    if ($valDateTimeOUT != NULL) {
+                                        continue;
+                                    }
                                     ?>
                                     <tr>
                                         <td><?php echo $valEquipment; ?></td>
@@ -45,9 +50,7 @@ $getEquipments = getEquipments();
                                         <td><?php echo $valSerialNo; ?></td>
                                         <td><?php echo $valRack; ?></td>
                                         <td><?php echo $valDateTimeIN; ?></td>
-                                        <td>
-                                            <!--<a class="btn btn-info btn-sm" href="?p=entryBeforePrint&entryID=<?php echo $valEntryID; ?>"><i class="glyphicon glyphicon-print"></i></a>-->
-                                        </td>
+                                        <td><a href="../EntryIDC/modal_equipmentOut.php?equipmentID=<?php echo $valEquipmentID; ?>&cusID=<?php echo $valCusID; ?>" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">OUT</a></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
