@@ -756,3 +756,28 @@ function getNetworkLink($locationID) {
     }
     return $resultArr;
 }
+
+function addResourceService($name, $detail, $tag, $personID, $enableResourceService, $dateTimeCreate, $dateTimeUpdate, $createBy, $updateBy, $locationID) {
+    global $connection;
+    dbconnect();
+    $SQLCommand = "INSERT INTO `resource_service`(`Name`, `Detail`, `Tag`, `PersonID`, `EnableResourceService`, `DateTimeCreate`, `DateTimeUpdate`, `CreateBy`, `UpdateBy`, `LocationID`)"
+            . "VALUES (:name,:detail,:tag,:personID,:enableResourceService,:dateTimeCreate,:dateTimeUpdate,:createBy,:updateBy,:locationID)";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":name" => $name,
+        ":detail" => $detail,
+        ":tag" => $tag,
+        ":personID" => $personID,
+        ":enableResourceService" => $enableResourceService,
+        ":dateTimeCreate" => $dateTimeCreate,
+        ":dateTimeUpdate" => $dateTimeUpdate,
+        ":createBy" => $createBy,
+        ":updateBy" => $updateBy,
+        ":locationID" => $locationID
+    ));
+
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}

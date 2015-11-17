@@ -1,23 +1,34 @@
 <?php
+
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
 $personID = "-1";
 
 if ($para == "addEntryIDC") {
-    $cusID = $_POST['cusID'];
-    $EmpID = $_POST['EmpID'];
+
+//    echo "<pre>";
+//    print_r($_POST);
+//    print_r($_GET);
+//    echo "</pre>";
+
+    $isPerson = $_GET['isPerson'];
+
+    $getPersonID = $_POST['personID'];
+    $personType = $_GET['personType'];
+    $cusID = isset($_POST['cusID']) ? $_POST['cusID'] : "";
+    $EmpID = isset($_POST['EmpID']) ? $_POST['EmpID'] : NULL;
     $visitCard = $_POST['visitCard'];
     $IDCCard = $_POST['IDCCard'];
     $IDCCardType = $_POST['IDCCardType'];
     $IDCard = $_POST['IDCard'];
-    $conID = $_POST['conID'];
     $conName = $_POST['conName'];
     $conLname = $_POST['conLname'];
     $conEmail = $_POST['conEmail'];
     $cusName = $_POST['cusName'];
     $conPhone = $_POST['conPhone'];
     $purpose = $_POST['purpose'];
+    $locationID = $_POST['locationID'];
 
     //items
     $item_name = $_POST['item_name'];
@@ -26,6 +37,7 @@ if ($para == "addEntryIDC") {
     $item_serialno = $_POST['item_serialno'];
     $item_rackID = $_POST['item_rackID'];
 
+    $items = array();
     $items['name'] = $item_name;
     $items['brand'] = $item_brand;
     $items['model'] = $item_model;
@@ -34,27 +46,49 @@ if ($para == "addEntryIDC") {
     //end item
     //
     //internet
-    $internet['user'] = $_POST['internet_user'];
-    $internet['pass'] = $_POST['internet_pass'];
-    $internetJson = json_encode($internet);
+    if (isset($_POST['internet'])) {
+        $internet = $_POST['internet'];
+        $internet = json_encode($internet);
+    } else {
+        $internet = NULL;
+    }
     //end internet
 
-    $area = $_POST['area'];
-    $datetime = $_POST['datetime'];
+    $zoneArr = $_POST['area'];
+    $datetimeIN = $_POST['datetimeIN'];
 
-    $res = addEntryIDC($conID, $EmpID, $visitCard, $IDCard, $IDCCard, $IDCCardType, $datetime, $purpose, $internetJson, $personID, $items, $area);
-
-    if ($res > 0) {
-        header("Location: ../../core/?p=entryBeforePrint&entryID=" . $res . "&contactID=" . $conID . "&para=addEntrySuccess");
+    $EntryID = addEntry($getPersonID, $visitCard, $IDCCard, $IDCCardType, $datetimeIN, NULL, $purpose, $internet, $locationID, $personID);
+    if ($EntryID > 0) {
+        $EquipmentID = addEquipment($items, $EntryID); //Add Equipment
+        addZoneDetail($EntryID, $zoneArr); // Add Zone Detail
+        header("Location: ../../core/?p=entryIDCShowHome&para=addEntrySuccess");
     } else {
-        header("Location: ../../core/?p=entryIDCForm&contactID=" . $conID . "&para=addEntryError");
+        header("Location: ../../core/?p=entryIDCForm&personID=" . $getPersonID . "&type=" . $personType . "&isPerson=1&para=addEntryError");
     }
-} else if ($para == "checkOut") {
+} else if ($para == "CheckOut") {
     $entryID = $_GET['entryID'];
-    $res = checkOut($entryID);
+    $res = checkOutEntry($entryID, $personID);
     if ($res) {
         echo "1";
     } else {
         echo "0";
     }
-}
+} else if ($para == "getOutEquipment") {
+    $equipmentID = $_GET['equipmentID'];
+    $entryID = $_POST['entryID'];
+    $res = checkOutEquipment($entryID, $equipmentID);
+    if ($res) {
+        header("Location: ../../core/?p=entryIDCShowEquipment&para=checkOutEquipmentSuccess");
+    } else {
+        header("Location: ../../core/?p=entryIDCShowEquipment&para=checkOutEquipmentError");
+    }
+} else if ($para == "cancelGetOutEquipment") {
+    $equipmentID = $_GET['equipmentID'];
+    
+    $res = cancelCheckOutEquipment($equipmentID);
+    if ($res) {
+        echo "<p class='text-success'>Cancel check out equipment success</p>";
+    } else {
+        echo "<p class='text-danger'>Cancel check out equipment error</p>";
+    }
+} 

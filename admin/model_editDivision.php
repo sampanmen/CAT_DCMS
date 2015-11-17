@@ -1,50 +1,57 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
-$getEntryZoneID = $_GET['EntryZoneID'];
+$getDivisionID = $_GET['DivisionID'];
 
-//get position
-$getZone = getZoneByID($getEntryZoneID);
-$entryZone = $getZone['EntryZone'];
-$locationID = $getZone['LocationID'];
-$status = $getZone['Status'];
+
+$getDivision = getDivisionByID($getDivisionID);
+$division = $getDivision['Division'];
+$organization = $getDivision['Organization'];
+$address = $getDivision['Address'];
+$status = $getDivision['Status'];
 
 
 ?>
 
-<form method="POST" action="../admin/action/admin.action.php?para=editZone&EntryZoneID=<?php echo $getEntryZoneID; ?>" enctype="multipart/form-data">
+
+
+
+
+<form method="POST" action="../admin/action/admin.action.php?para=editDivision&DivisionID=<?php echo $getDivisionID; ?>" enctype="multipart/form-data">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Zone</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Division</h4>
     </div>
     <div class="modal-body">
         <div class="container-fluid">
             <div class="panel-body">
                 <div class="row">
-
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
-                            <label>Zone</label>
+                            <label>Division</label>
                         </div>
                         <div class="form-group col-lg-6"> 
-                            <input class="form-control" name="zone" value="<?php echo $entryZone; ?>" >  
+                            <input class="form-control" name="division" value="<?php echo $division; ?>" >
                         </div>
                     </div>
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
-                            <label>location</label>
+                            <label>Organization</label>
                         </div>
                         <div class="form-group col-lg-6"> 
-                            <select class="form-control" name="location">
-                                <?php
-                                $loca = getLocation();
-                                foreach ($loca as $value) {
-                                    if ($value['Status'] == "Deactive")
-                                        continue;
-                                    ?>
-                                    <option <?php echo $locationID == $value['LocationID']  ? "selected" : ""; ?> value="<?php echo $value['LocationID']; ?>"><?php echo $value['Location']; ?></option>
-                                <?php } ?>
+                            <select class="form-control" name="organization">
+                                <option <?php echo $organization == "CAT" ? "selected" : ""; ?> value="CAT">CAT</option>
+                                <option <?php echo $organization == "Vender" ? "selected" : ""; ?> value="Vender">Vender</option>
                             </select>
+                                
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>Address</label>
+                        </div>
+                        <div class="form-group col-lg-6"> 
+                            <textarea class="form-control" name="address"><?php echo $address; ?></textarea>
                         </div>
                     </div>
 

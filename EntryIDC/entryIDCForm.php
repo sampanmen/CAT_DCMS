@@ -35,6 +35,8 @@ $valLname = isset($getPerson['Lname']) ? $getPerson['Lname'] : "";
 $valEmail = isset($getPerson['Email']) ? $getPerson['Email'] : "";
 $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
 
+$para = isset($_GET['para']) ? $_GET['para'] : "";
+
 //$getCusRack = getRackByCusID($getPerson['CustomerID']);
 //echo "<pre>";
 //print_r($_POST);
@@ -42,8 +44,16 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
 ?>
 <p><a href="?">Home</a> > <a href="?p=entryIDCShow">Show Entry IDC</a> > <b>Entry IDC</b></p>
 <div class="row">
-    <form method="POST" action="../EntryIDC/action/entryIDC.action.php?para=addEntryIDC">
+
+    <form method="POST" action="../EntryIDC/action/entryIDC.action.php?para=addEntryIDC&personType=<?php echo $getPersonType; ?>&isPerson=<?php echo $isPerson; ?>">
         <div class="col-lg-12">
+            <?php
+            if ($para == "addEntryError") {
+                ?>
+                <div class="alert alert-danger" role="alert">
+                    <b>Error:</b> Can't add Entry IDC, please try again.
+                </div>
+            <?php } ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <b>ข้อมูลเพิ่มเติม </b>
@@ -59,7 +69,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input class="form-control" name="cusID" value="<?php echo $valCustomerID; ?>" <?php echo!($getPersonType == 'Contact') ? "disabled" : ""; ?>>
+                                    <input class="form-control" readonly name="cusID" value="<?php echo $valCustomerID; ?>" <?php echo!($getPersonType == 'Contact') ? "disabled" : ""; ?>>
                                     <input type="hidden" name="personID" value="<?php echo $valPersonID; ?>">
                                 </div>
                             </div>
@@ -71,7 +81,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">                               
-                                    <input class="form-control" name="EmpID" value="<?php echo $valCatEmpID; ?>" <?php echo!($getPersonType == 'Staff' && $valCatEmpID != "") ? "disabled" : ""; ?>>                                
+                                    <input class="form-control" readonly name="EmpID" value="<?php echo $valCatEmpID; ?>" <?php echo!($getPersonType == 'Staff' && $valCatEmpID != "") ? "disabled" : ""; ?>>                                
                                 </div>
                             </div>
 
@@ -110,7 +120,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                     รหัสบัตรประชาชน / ID Card NO. / Passport ID                                                              
                                 </div>
                                 <div class="form-group col-lg-6">                           
-                                    <input class="form-control" name="IDCard" value="<?php echo $valIDCard; ?>">                                
+                                    <input class="form-control" readonly name="IDCard" value="<?php echo $valIDCard; ?>">                                
                                 </div>
                             </div>
                         </div>
@@ -131,19 +141,19 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                 ชื่อ/Name                                                              
                             </div>
                             <div class="form-group col-lg-2">                           
-                                <input class="form-control" name="conName" value="<?php echo $valFname; ?>">                                
+                                <input class="form-control" readonly name="conName" value="<?php echo $valFname; ?>">                                
                             </div>
                             <div class="form-group col-lg-2">  
                                 นามสกุล/Lastname                                                              
                             </div>
                             <div class="form-group col-lg-2">                           
-                                <input class="form-control" name="conLname" value="<?php echo $valLname; ?>">                                
+                                <input class="form-control" readonly name="conLname" value="<?php echo $valLname; ?>">                                
                             </div>
                             <div class="form-group col-lg-1">  
                                 E-Mail                                                              
                             </div>
                             <div class="form-group col-lg-4">                           
-                                <input class="form-control" name="conEmail" value="<?php echo $valEmail; ?>">                                
+                                <input class="form-control" readonly name="conEmail" value="<?php echo $valEmail; ?>">                                
                             </div>
                         </div>
                         <div class="col-lg-12">                      
@@ -151,13 +161,13 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                 ชื่อบริษัท                                                             
                             </div>
                             <div class="form-group col-lg-6">                           
-                                <input class="form-control" name="cusName" value="<?php echo $valCustomerName; ?>">                                
+                                <input class="form-control" readonly name="cusName" value="<?php echo $valCustomerName; ?>">                                
                             </div>
                             <div class="form-group col-lg-1">  
                                 โทร./Tel.                                                              
                             </div>
                             <div class="form-group col-lg-4">                           
-                                <input class="form-control" name="conPhone" value="<?php echo $valPhone; ?>">                                
+                                <input class="form-control" readonly name="conPhone" value="<?php echo $valPhone; ?>">                                
                             </div>
                         </div>
                         <div class="col-lg-12">                      
@@ -173,16 +183,20 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                 </div>
 
                 <!--อุปกรณ์-->
-                <div class="panel-body" id="btn_showItem">
+                <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <button type="button" class="btn btn-info" onclick="$('#item').show();
-
-                                    $('#btn_showItem').hide();">Add items</button>
+                            <button id="ItemIN_BT" type="button" class="btn btn-info" onclick="ItemIN_TB();">Equipment IN</button>
+                            <script>
+                                function ItemIN_TB() {
+                                    $('#itemIN').show();
+                                    $('#ItemIN_BT').hide();
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12" id="item">
+                <div class="col-lg-12" id="itemIN">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <b>รายการอุปกรณ์ (Equipment List) </b>
@@ -222,6 +236,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                             </td>
                                             <td>
                                                 <select class="form-control" id="item_rack">
+                                                    <option selected value="-1,n/a">n/a</option>
                                                     <?php
                                                     foreach ($getCusRack as $value) {
                                                         $rackPosition = $value['Zone'] . $value['Position'] . "-" . $value['SubPosition'];
@@ -233,7 +248,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                         </tr>
                                     </tfoot>
                                     <script>
-                                        $('#item').hide();
+                                        $('#itemIN').hide();
                                         var itemNo = 0;
                                         function addItem() {
                                             itemNo++;
@@ -270,6 +285,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                         </div>
                     </div>
                 </div>
+
                 <!--เจ้าหน้าที่-->
                 <div class="col-lg-12">
                     <div class="panel panel-default">
@@ -281,13 +297,32 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                 <div class="col-lg-12">
                                     <div class="form-group col-lg-3">
                                         <label for="location">Location</label>
-                                        <select class="form-control" id="location">
-                                            <option>NON1</option>
-                                            <option>NON2</option>
+                                        <select class="form-control" id="location" name="locationID" onchange="getZones();">
+                                            <option selected value="0">Choose Location</option>
+                                            <?php
+                                            $getLocations = getLocation();
+//                                            print_r($getLocations);
+                                            foreach ($getLocations as $value) {
+                                                $valLocationID = $value['LocationID'];
+                                                $valLocation = $value['Location'];
+                                                ?>
+                                                <option value="<?php echo $valLocationID; ?>"><?php echo $valLocation; ?></option>
+                                            <?php } ?>
                                         </select>
+                                        <script>
+                                            function getZones() {
+                                                var locatID = $("#location").val();
+                                                $.get("../entryIDC/action/entryIDC.content.php?para=getZone&locationID=" + locatID, function (data, status) {
+                                                    $("#zones").html(data);
+                                                });
+                                            }
+                                        </script>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
+                                    <div class="col-lg-12">
+                                        <p><b>Internet</b></p>
+                                    </div>
                                     <div class="form-group col-lg-2">
                                         <label class="checkbox-inline">
                                             <input type="checkbox" value="chk" id="chkInternetAccount" onchange="chkInternet();">Internet Account               
@@ -295,11 +330,11 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                     </div>
                                     <div class="form-group col-lg-3">
                                         <label>Username:</label>
-                                        <input disabled type="text" class="form-control" name="internet_user" id="internet_user">
+                                        <input disabled type="text" class="form-control" name="internet[user]" id="internet_user">
                                     </div>
                                     <div class="form-group col-lg-3">
                                         <label>Password:</label>
-                                        <input disabled type="text" class="form-control" name="internet_pass" id="internet_pass">
+                                        <input disabled type="text" class="form-control" name="internet[pass]" id="internet_pass">
                                     </div>
                                     <script>
                                         function chkInternet() {
@@ -317,47 +352,8 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                 </div>
                                 <!--Zone-->
                                 <div class="col-lg-12">
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Customer Room" name="area[]">Customer Room               
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="IDC1" name="area[]">IDC1               
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="IDC2" name="area[]">IDC2               
-                                        </label>                                
-                                    </div>
-
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="NOC" name="area[]">NOC
-                                        </label>
-                                    </div>
-
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Power" name="area[]">Power
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Meeting" name="area[]">Meeting
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-1">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Manager" name="area[]">Manager
-                                        </label>                                
-                                    </div>
-                                    <div class="form-group col-lg-2">
-                                        <label class="checkbox-inline">                                    
-                                            <input type="checkbox" value="Core Network" name="area[]">Core Network
-                                        </label>                                
+                                    <div class="form-group col-lg-12" id="zones">
+                                        <!--Get Zones-->
                                     </div>
                                 </div><!--End Zone-->
 
@@ -366,7 +362,7 @@ $valPhone = isset($getPerson['Phone']) ? $getPerson['Phone'] : "";
                                     <div class="form-group col-lg-3">
                                         <label for="datetimepicker1">เวลาเข้า</label>
                                         <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" />
+                                            <input type='text' class="form-control" name="datetimeIN">
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>

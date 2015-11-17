@@ -128,19 +128,48 @@ $getBusinessType = getBusinessType();
                             <p>สถานะ <br>Status</p>
                         </div>
                         <div class="form-group col-lg-3"> 
-                            <select class="form-control" name="status">
+                            <select class="form-control" name="status" id="status" onchange="chkStatus();">
                                 <option <?php echo $cusStatus == "Active" ? "selected" : ""; ?> value="Active">Active</option>
                                 <option <?php echo $cusStatus == "Suppened" ? "selected" : ""; ?> value="Suppened">Suppened</option>
-                                <option <?php echo $cusStatus == "Delete" ? "selected" : ""; ?> value="Delete">Delete</option>
+                                <option <?php echo $cusStatus == "Deactive" ? "selected" : ""; ?> value="Deactive">Deactive</option>
                             </select>    
                         </div>
+                        <div id="confirm" class="form-group col-lg-6">
+                            <label class="checkbox-inline ">
+                                <input type="checkbox" id="chk_confirm" onchange="chkConfirm();"> ยืนยันการเปลี่ยนสถานะ
+                            </label>
+                        </div>
                     </div>
+                    <script>
+                        $("#confirm").hide();
+                        function chkStatus() {
+                            var status = $("#status").val();
+                            if (status == "Deactive") {
+                                $("#confirm").show();
+                                $("#btnSubmit").prop("disabled", true);
+                                alert("When you change customer status to Deactive Customer's service status will be changed to Deactive.");
+                            }
+                            else {
+                                $("#confirm").hide();
+                                $("#btnSubmit").prop("disabled", false);
+                            }
+                        }
+                        function chkConfirm() {
+                            var confirm = $("#chk_confirm").prop("checked");
+                            if (confirm) {
+                                $("#btnSubmit").prop("disabled", false);
+                            }
+                            else {
+                                $("#btnSubmit").prop("disabled", true);
+                            }
+                        }
+                    </script>
                 </div>
             </div>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-primary" id="btnSubmit">Save changes</button>
     </div>
 </form>

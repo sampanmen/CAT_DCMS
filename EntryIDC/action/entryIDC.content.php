@@ -164,5 +164,25 @@ if ($para == "getCustomer") {
         </div>
     </div>
     <?php
+} else if ($para == "getZone") {
+    $locationID = $_GET['locationID'];
+    $getZones = getZoneByLocationID($locationID);
+    echo '<p><b>Zone</b></p>';
+    echo $getZones==NULL?"<p>N/A</p>":"";
+    foreach ($getZones as $value) {
+        $valZoneID = $value['EntryZoneID'];
+        $valZone = $value['EntryZone'];
+        $valStatus = $value['Status'];
+        if ($valStatus != "Active") {
+            continue;
+        }
+        ?>
+        <div class="form-group col-lg-2">
+            <label class="checkbox-inline">                                    
+                <input type="checkbox" value="<?php echo $valZoneID; ?>" name="area[]"><?php echo $valZone; ?>
+            </label>                                
+        </div>
+        <?php
+    }
 }
 ?>
