@@ -80,14 +80,25 @@ function getCustomer($cusID) {
 //    }
 //}
 
-function addPerson($Fname, $Lname, $Phone, $Email, $IDCard, $TypePerson, $PersonStatus) {
+function addPerson($Fname, $Lname, $Phone, $Email, $IDCard, $TypePerson, $PersonStatus, $PersonID_login) {
     $conn = dbconnect();
     $SQLCommand = "INSERT INTO `customer_person`"
-            . "(`Fname`, `Lname`, `Phone`, `Email`, `IDCard`, `TypePerson`, `PersonStatus`) "
+            . "(`Fname`, `Lname`, `Phone`, `Email`, `IDCard`, `TypePerson`, `PersonStatus`, `CreateBy`, `UpdateBy`) "
             . "VALUES "
-            . "(:Fname, :Lname, :Phone, :Email, :IDCard, :TypePerson, :PersonStatus)";
+            . "(:Fname, :Lname, :Phone, :Email, :IDCard, :TypePerson, :PersonStatus, :PersonID_login, :PersonID_login)";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array("Fname" => $Fname, "Lname" => $Lname, "Phone" => $Phone, "Email" => $Email, "IDCard" => $IDCard, "TypePerson" => $TypePerson, "PersonStatus" => $PersonStatus));
+    $SQLPrepare->execute(
+            array(
+                ":Fname" => $Fname,
+                ":Lname" => $Lname,
+                ":Phone" => $Phone,
+                ":Email" => $Email,
+                ":IDCard" => $IDCard,
+                ":TypePerson" => $TypePerson,
+                ":PersonStatus" => $PersonStatus,
+                ":PersonID_login"=>$PersonID_login
+            )
+    );
     if ($SQLPrepare->rowCount() > 0) {
         return $conn->lastInsertId();
     } else {
