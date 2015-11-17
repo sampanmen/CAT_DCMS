@@ -96,7 +96,7 @@ function addPerson($Fname, $Lname, $Phone, $Email, $IDCard, $TypePerson, $Person
                 ":IDCard" => $IDCard,
                 ":TypePerson" => $TypePerson,
                 ":PersonStatus" => $PersonStatus,
-                ":PersonID_login"=>$PersonID_login
+                ":PersonID_login" => $PersonID_login
             )
     );
     if ($SQLPrepare->rowCount() > 0) {
@@ -535,15 +535,16 @@ function addServiceDetail($ServiceID, $PackageID) {
         return false;
 }
 
-function addServiceDetailAction($ServiceDetailID, $Status, $cause) {
+function addServiceDetailAction($ServiceDetailID, $Status, $cause, $PersonID_login) {
     $conn = dbconnect();
-    $SQLCommand = "INSERT INTO `customer_service_detail_action`(`ServiceDetailID`, `Status`, `Cause`) "
-            . "VALUES (:ServiceDetailID, :Status, :Cause)";
+    $SQLCommand = "INSERT INTO `customer_service_detail_action`(`ServiceDetailID`, `Status`, `Cause`, `CreateBy`) "
+            . "VALUES (:ServiceDetailID, :Status, :Cause, :CreateBy)";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":ServiceDetailID" => $ServiceDetailID,
         ":Status" => $Status,
-        ":Cause" => $cause
+        ":Cause" => $cause,
+        ":CreateBy" => $PersonID_login
     ));
 
     if ($SQLPrepare->rowCount() > 0) {

@@ -164,7 +164,7 @@ if ($para == "addCustomer") {
         for ($i = 0; $i < count($package['amount']); $i++) {
             for ($j = 0; $j < $package['amount'][$i]; $j++) {
                 $resServiceDetail = addServiceDetail($resService, $package['ID'][$i]);
-                $resServiceDetailAction = addServiceDetailAction($resServiceDetail, "Active", "Create Service");
+                $resServiceDetailAction = addServiceDetailAction($resServiceDetail, "Active", "Create Service", $PersonID_login);
             }
         }
         // add network link detail
@@ -193,38 +193,48 @@ if ($para == "addCustomer") {
 
     $res = editCustomer($cusID, $cus_status, $cus_name, $cus_bussType, $cus_email, $cus_phone, $cus_fax, $cus_address, $cus_township, $cus_city, $cus_province, $cus_zipcode, $cus_country, $PersonID_login);
     if ($res) {
+        if ($cus_status == "Deactive") {
+            $getServiceByCusID = getServiceDetailByCustomerID($cusID);
+            foreach ($getServiceByCusID as $value) {
+                $valServiceDetailID = $value['ServiceDetailID'];
+                addServiceDetailAction($valServiceDetailID, "Deactive", "Deactive Customer", $PersonID_login);
+            }
+        }
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editOrderCompleted");
     } else {
         header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editOrderFailed");
     }
-} else if ($para == "changeStatusOrderDetail") {
-    $status = $_POST['status'];
-    $orderDetailID = $_GET['orderDetailID'];
-    $orderID = $_GET['orderID'];
-    $cusID = $_GET['cusID'];
-    $res = editStatusOrderDetail($orderDetailID, $status);
-    if ($res) {
-        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=editStatusCompleted");
-    } else {
-        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=editStatusFailed");
-    }
-} else if ($para == "addOrderDetail") {
-    echo "<pre>";
-    print_r($_POST);
-    print_r($_GET);
-    echo "</pre>";
-    $package = $_POST['package'];
-    $orderID = $_GET['orderID'];
-    $cusID = $_GET['cusID'];
-    $status = "active";
-    $res = addOrderDetail($orderID, $package, $status, $PersonID_login);
-
-    if ($res) {
-        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=AddOrderDetailCompleted");
-    } else {
-        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=AddOrderDetailFailed");
-    }
-} else if ($para == "changeServiceDetailStatus") {
+}
+//else if ($para == "changeStatusOrderDetail") {
+//    $status = $_POST['status'];
+//    $orderDetailID = $_GET['orderDetailID'];
+//    $orderID = $_GET['orderID'];
+//    $cusID = $_GET['cusID'];
+//    $res = editStatusOrderDetail($orderDetailID, $status);
+//    if ($res) {
+//        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=editStatusCompleted");
+//    } else {
+//        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=editStatusFailed");
+//    }
+//} 
+//else if ($para == "addOrderDetail") {
+//    echo "<pre>";
+//    print_r($_POST);
+//    print_r($_GET);
+//    echo "</pre>";
+//    $package = $_POST['package'];
+//    $orderID = $_GET['orderID'];
+//    $cusID = $_GET['cusID'];
+//    $status = "active";
+//    $res = addOrderDetail($orderID, $package, $status, $PersonID_login);
+//
+//    if ($res) {
+//        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=AddOrderDetailCompleted");
+//    } else {
+//        header("location: ../../core/?p=orderDetail&orderID=" . $orderID . "&cusID=" . $cusID . "&para=AddOrderDetailFailed");
+//    }
+//} 
+else if ($para == "changeServiceDetailStatus") {
     $cusID = $_GET['cusID'];
     $arrServiceDetailID = $_POST['serviceDetailID'];
     $arrStatus = $_POST['status'];
@@ -232,7 +242,7 @@ if ($para == "addCustomer") {
 
     $countItem = count($arrServiceDetailID);
     for ($i = 0; $i < $countItem; $i++) {
-        addServiceDetailAction($arrServiceDetailID[$i], $arrStatus[$i], $arrCause[$i]);
+        addServiceDetailAction($arrServiceDetailID[$i], $arrStatus[$i], $arrCause[$i], $PersonID_login);
     }
 
     header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=AddServiceDetailStatusCompleted");
