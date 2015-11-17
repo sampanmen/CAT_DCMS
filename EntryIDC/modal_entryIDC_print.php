@@ -8,12 +8,12 @@ $locationID = $getEntryDetail['LocationID'];
 $getZones = getZoneByLocationID($locationID);
 
 //echo "<pre>";
-//print_r($getZones);
+//print_r($getEntryDetail);
 //echo "</pre>";
 
 $location = $getEntryDetail['Location'];
 $customerID = ($getEntryDetail['CustomerID'] != "") ? number_pad($getEntryDetail['CustomerID'], 5) : "";
-$catEmpID = $getEntryDetail['EmpID'];
+$catEmpID = $getEntryDetail['EmployeeID'];
 $VisitorCardID = $getEntryDetail['VisitorCardID'];
 $IDCCard = $getEntryDetail['IDCCard'];
 $IDCCardType = $getEntryDetail['IDCCardType'];

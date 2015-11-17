@@ -69,7 +69,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input class="form-control" name="cusID" value="<?php echo $valCustomerID; ?>" <?php echo!($getPersonType == 'Contact') ? "disabled" : ""; ?>>
+                                    <input class="form-control" readonly name="cusID" value="<?php echo $valCustomerID; ?>" <?php echo!($getPersonType == 'Contact') ? "disabled" : ""; ?>>
                                     <input type="hidden" name="personID" value="<?php echo $valPersonID; ?>">
                                 </div>
                             </div>
@@ -81,7 +81,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                                     </label>
                                 </div>
                                 <div class="form-group col-lg-6">                               
-                                    <input class="form-control" name="EmpID" value="<?php echo $valCatEmpID; ?>" <?php echo!($getPersonType == 'Staff' && $valCatEmpID != "") ? "disabled" : ""; ?>>                                
+                                    <input class="form-control" readonly name="EmpID" value="<?php echo $valCatEmpID; ?>" <?php echo!($getPersonType == 'Staff' && $valCatEmpID != "") ? "disabled" : ""; ?>>                                
                                 </div>
                             </div>
 
@@ -120,7 +120,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                                     รหัสบัตรประชาชน / ID Card NO. / Passport ID                                                              
                                 </div>
                                 <div class="form-group col-lg-6">                           
-                                    <input class="form-control" name="IDCard" value="<?php echo $valIDCard; ?>">                                
+                                    <input class="form-control" readonly name="IDCard" value="<?php echo $valIDCard; ?>">                                
                                 </div>
                             </div>
                         </div>
@@ -141,19 +141,19 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                                 ชื่อ/Name                                                              
                             </div>
                             <div class="form-group col-lg-2">                           
-                                <input class="form-control" name="conName" value="<?php echo $valFname; ?>">                                
+                                <input class="form-control" readonly name="conName" value="<?php echo $valFname; ?>">                                
                             </div>
                             <div class="form-group col-lg-2">  
                                 นามสกุล/Lastname                                                              
                             </div>
                             <div class="form-group col-lg-2">                           
-                                <input class="form-control" name="conLname" value="<?php echo $valLname; ?>">                                
+                                <input class="form-control" readonly name="conLname" value="<?php echo $valLname; ?>">                                
                             </div>
                             <div class="form-group col-lg-1">  
                                 E-Mail                                                              
                             </div>
                             <div class="form-group col-lg-4">                           
-                                <input class="form-control" name="conEmail" value="<?php echo $valEmail; ?>">                                
+                                <input class="form-control" readonly name="conEmail" value="<?php echo $valEmail; ?>">                                
                             </div>
                         </div>
                         <div class="col-lg-12">                      
@@ -167,7 +167,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                                 โทร./Tel.                                                              
                             </div>
                             <div class="form-group col-lg-4">                           
-                                <input class="form-control" name="conPhone" value="<?php echo $valPhone; ?>">                                
+                                <input class="form-control" readonly name="conPhone" value="<?php echo $valPhone; ?>">                                
                             </div>
                         </div>
                         <div class="col-lg-12">                      
@@ -183,16 +183,20 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                 </div>
 
                 <!--อุปกรณ์-->
-                <div class="panel-body" id="btn_showItem">
+                <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <button type="button" class="btn btn-info" onclick="$('#item').show();
-
-                                    $('#btn_showItem').hide();">Add items</button>
+                            <button id="ItemIN_BT" type="button" class="btn btn-info" onclick="ItemIN_TB();">Equipment IN</button>
+                            <script>
+                                function ItemIN_TB() {
+                                    $('#itemIN').show();
+                                    $('#ItemIN_BT').hide();
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12" id="item">
+                <div class="col-lg-12" id="itemIN">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <b>รายการอุปกรณ์ (Equipment List) </b>
@@ -244,7 +248,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                                         </tr>
                                     </tfoot>
                                     <script>
-                                        $('#item').hide();
+                                        $('#itemIN').hide();
                                         var itemNo = 0;
                                         function addItem() {
                                             itemNo++;
@@ -281,6 +285,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                         </div>
                     </div>
                 </div>
+
                 <!--เจ้าหน้าที่-->
                 <div class="col-lg-12">
                     <div class="panel panel-default">
