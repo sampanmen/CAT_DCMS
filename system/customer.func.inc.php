@@ -80,14 +80,25 @@ function getCustomer($cusID) {
 //    }
 //}
 
-function addPerson($Fname, $Lname, $Phone, $Email, $IDCard, $TypePerson, $PersonStatus) {
+function addPerson($Fname, $Lname, $Phone, $Email, $IDCard, $TypePerson, $PersonStatus, $PersonID_login) {
     $conn = dbconnect();
     $SQLCommand = "INSERT INTO `customer_person`"
-            . "(`Fname`, `Lname`, `Phone`, `Email`, `IDCard`, `TypePerson`, `PersonStatus`) "
+            . "(`Fname`, `Lname`, `Phone`, `Email`, `IDCard`, `TypePerson`, `PersonStatus`, `CreateBy`, `UpdateBy`) "
             . "VALUES "
-            . "(:Fname, :Lname, :Phone, :Email, :IDCard, :TypePerson, :PersonStatus)";
+            . "(:Fname, :Lname, :Phone, :Email, :IDCard, :TypePerson, :PersonStatus, :PersonID_login, :PersonID_login)";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array("Fname" => $Fname, "Lname" => $Lname, "Phone" => $Phone, "Email" => $Email, "IDCard" => $IDCard, "TypePerson" => $TypePerson, "PersonStatus" => $PersonStatus));
+    $SQLPrepare->execute(
+            array(
+                ":Fname" => $Fname,
+                ":Lname" => $Lname,
+                ":Phone" => $Phone,
+                ":Email" => $Email,
+                ":IDCard" => $IDCard,
+                ":TypePerson" => $TypePerson,
+                ":PersonStatus" => $PersonStatus,
+                ":PersonID_login" => $PersonID_login
+            )
+    );
     if ($SQLPrepare->rowCount() > 0) {
         return $conn->lastInsertId();
     } else {
@@ -126,12 +137,12 @@ function addAccount($PersonID, $Username, $Password) {
     }
 }
 
-function addStaff($PersonID, $EmployeeID, $StaffPositionID) {
+ function addStaff($PersonID, $EmployeeID, $StaffPositionID ,$DivisionID) {
     $conn = dbconnect();
-    $SQLCommand = "INSERT INTO `customer_person_staff`(`PersonID`, `EmployeeID`, `StaffPositionID`) "
-            . "VALUES (:PersonID, :EmployeeID, :StaffPositionID)";
+    $SQLCommand = "INSERT INTO `customer_person_staff`(`PersonID`, `EmployeeID`, `StaffPositionID`,`DivisionID`) "
+            . "VALUES (:PersonID, :EmployeeID, :StaffPositionID,:DivisionID)";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":PersonID" => $PersonID, ":EmployeeID" => $EmployeeID, ":StaffPositionID" => $StaffPositionID));
+    $SQLPrepare->execute(array(":PersonID" => $PersonID, ":EmployeeID" => $EmployeeID, ":StaffPositionID" => $StaffPositionID,":DivisionID" => $DivisionID));
 
     if ($SQLPrepare->rowCount() > 0) {
         return $conn->lastInsertId();
@@ -524,15 +535,16 @@ function addServiceDetail($ServiceID, $PackageID) {
         return false;
 }
 
-function addServiceDetailAction($ServiceDetailID, $Status, $cause) {
+function addServiceDetailAction($ServiceDetailID, $Status, $cause, $PersonID_login) {
     $conn = dbconnect();
-    $SQLCommand = "INSERT INTO `customer_service_detail_action`(`ServiceDetailID`, `Status`, `Cause`) "
-            . "VALUES (:ServiceDetailID, :Status, :Cause)";
+    $SQLCommand = "INSERT INTO `customer_service_detail_action`(`ServiceDetailID`, `Status`, `Cause`, `CreateBy`) "
+            . "VALUES (:ServiceDetailID, :Status, :Cause, :CreateBy)";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":ServiceDetailID" => $ServiceDetailID,
         ":Status" => $Status,
-        ":Cause" => $cause
+        ":Cause" => $cause,
+        ":CreateBy" => $PersonID_login
     ));
 
     if ($SQLPrepare->rowCount() > 0) {
@@ -863,23 +875,6 @@ function searchCustomer($text) {
             . "`CustomerID` = :text ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":text" => $text));
-    $resultArr = array();
-    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
-        array_push($resultArr, $result);
-    }
-    return $resultArr;
-}
-
-function getDivision() {
-    $conn = dbconnect();
-    $SQLCommand = "SELECT "
-            . "`DivisionID`, "
-            . "`Division`, "
-            . "`Organization`, "
-            . "`Address` "
-            . "FROM `customer_person_staff_division`";
-    $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute();
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
