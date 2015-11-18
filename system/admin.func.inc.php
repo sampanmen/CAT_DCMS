@@ -34,9 +34,11 @@ function getZoneByLocationID($locationID) {
             . "WHERE `location`.`LocationID` = :locationID";
 //    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(
-        ":locationID" => $locationID
-    ));
+    $SQLPrepare->execute(
+            array(
+                ":locationID" => $locationID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -58,7 +60,11 @@ function getZoneByID($EntryZoneID) {
             . "WHERE `entry_zone`.`EntryZoneID` = :EntryZoneID";
 //    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":EntryZoneID" => $EntryZoneID));
+    $SQLPrepare->execute(
+            array(
+                ":EntryZoneID" => $EntryZoneID
+            )
+    );
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
@@ -68,11 +74,13 @@ function addZone($EntryZone, $LocationID, $Status) {
     $SQLCommand = "INSERT INTO `entry_zone`(`EntryZone`, `LocationID`, `Status`)"
             . "VALUES (:EntryZone,:LocationID,:Status)";
     $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(
-        ":EntryZone" => $EntryZone,
-        ":LocationID" => $LocationID,
-        ":Status" => $Status
-    ));
+    $SQLPrepare->execute(
+            array(
+                ":EntryZone" => $EntryZone,
+                ":LocationID" => $LocationID,
+                ":Status" => $Status
+            )
+    );
     if ($SQLPrepare->rowCount() > 0) {
         return true;
     } else
@@ -87,12 +95,14 @@ function editZone($EntryZoneID, $EntryZone, $LocationID, $Status) {
             . "`Status`=:Status "
             . "WHERE `EntryZoneID`= :EntryZoneID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(
-        ":EntryZone" => $EntryZone,
-        ":LocationID" => $LocationID,
-        ":Status" => $Status,
-        ":EntryZoneID" => $EntryZoneID
-    ));
+    $SQLPrepare->execute(
+            array(
+                ":EntryZone" => $EntryZone,
+                ":LocationID" => $LocationID,
+                ":Status" => $Status,
+                ":EntryZoneID" => $EntryZoneID
+            )
+    );
     if ($SQLPrepare->rowCount() > 0) {
         return true;
     } else {
@@ -106,6 +116,7 @@ function getCatagory() {
     $SQLCommand = "SELECT"
             . "`PackageCategoryID`,"
             . "`PackageCategory`,"
+            . "`Type`,"
             . "`Status`"
             . "FROM `customer_package_category`";
 //    echo $SQLCommand;
@@ -123,43 +134,55 @@ function getCatagoryByID($PackageCategoryID) {
     $SQLCommand = "SELECT"
             . "`PackageCategoryID`,"
             . "`PackageCategory`,"
+            . "`Type`,"
             . "`Status`"
             . "FROM `customer_package_category`"
             . "WHERE `PackageCategoryID`= :packageCategoryID";
 //    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":packageCategoryID" => $PackageCategoryID));
+    $SQLPrepare->execute(
+            array(
+                ":packageCategoryID" => $PackageCategoryID
+            )
+    );
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
 
-function addPacCatagory($PackageCategory, $Status) {
+function addPacCatagory($PackageCategory, $Type, $Status) {
     $con = dbconnect();
-    $SQLCommand = "INSERT INTO`customer_package_category`(`PackageCategory`,`Status`)"
-            . "VALUES (:PackageCategory,:Status)";
+    $SQLCommand = "INSERT INTO`customer_package_category`(`PackageCategory`,`Type`,`Status`)"
+            . "VALUES (:PackageCategory,:Type,:Status)";
     $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(
-        ":PackageCategory" => $PackageCategory,
-        ":Status" => $Status
-    ));
+    $SQLPrepare->execute(
+            array(
+                ":PackageCategory" => $PackageCategory,
+                ":Type" => $Type,
+                ":Status" => $Status
+            )
+    );
     if ($SQLPrepare->rowCount() > 0) {
         return true;
     } else
         return false;
 }
 
-function editCategory($PackageCategoryID, $PackageCategory, $Status) {
+function editCategory($PackageCategoryID, $PackageCategory, $Type, $Status) {
     $conn = dbconnect();
     $SQLCommand = "UPDATE `customer_package_category` SET "
-            . "`PackageCategory`=:PackageCategory, "
+            . "`PackageCategory`=:PackageCategory,"
+            . "`Type`=:Type,"
             . "`Status`=:Status "
             . "WHERE `PackageCategoryID`= :PackageCategoryID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(
-        ":PackageCategory" => $PackageCategory,
-        ":Status" => $Status,
-        ":PackageCategoryID" => $PackageCategoryID
-    ));
+    $SQLPrepare->execute(
+            array(
+                ":PackageCategory" => $PackageCategory,
+                ":Type" => $Type,
+                ":Status" => $Status,
+                ":PackageCategoryID" => $PackageCategoryID
+            )
+    );
     if ($SQLPrepare->rowCount() > 0) {
         return true;
     } else {
@@ -309,8 +332,6 @@ function editStaff($personID, $EmployeeID, $StaffPositionID, $DivisionID) {
         return false;
     }
 }
-
-
 
 //<!--Businesstype-->
 function getBusinessTypeByID($BusinessTypeID) {

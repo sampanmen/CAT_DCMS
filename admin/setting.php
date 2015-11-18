@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
     <ul class="nav nav-tabs">
         <li class="active"><a href="#staffposition" data-toggle="tab" aria-expanded="true">Position</a>
         </li>
-        <li class=""><a href="#category" data-toggle="tab" aria-expanded="false">Category</a>
+        <li class=""><a href="#category" data-toggle="tab" aria-expanded="false">Package Category</a>
         </li>
         <li class=""><a href="#businesstype" data-toggle="tab" aria-expanded="false">Businesstypee</a>
         </li>
@@ -89,6 +89,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                         <tr>
                                             <th width="70" class="text-center">ID</th>
                                             <th>Catagory</th>
+                                            <th>Type</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -98,11 +99,13 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                         foreach ($cat as $pacCat) {
                                             $PackageCategoryID = $pacCat['PackageCategoryID'];
                                             $PackageCategory = $pacCat['PackageCategory'];
+                                            $valType = $pacCat['Type'];
                                             $statusLabel = $pacCat['Status'] == "Active" ? "success" : ($pacCat['Status'] == "Suppened" ? "warning" : "danger");
                                             ?>
                                             <tr>
                                                 <td class="text-center"><?php echo $PackageCategoryID; ?></td>
                                                 <td><a href="../admin/model_editCat.php?PackageCategoryID=<?php echo $pacCat['PackageCategoryID']; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $PackageCategory; ?></a></td>                                      
+                                                <td><?php echo $valType; ?></td>
                                                 <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $pacCat['Status']; ?></span></td>
                                             </tr>                                                     
                                         <?php } ?>
@@ -111,7 +114,17 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                         <tr> 
                                             <td class="text-center"><button type="submit" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
                                             <td><input class="form-control" name="category" ></td>
-                                            <td><select class="form-control" name="status">
+                                            <td>
+                                                <select class="form-control" name="type">
+                                                    <option>Choose</option>
+                                                    <option value="Rack">Rack</option>
+                                                    <option value="IP Address">IP Address</option>
+                                                    <option value="Port">Port</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" name="status">
                                                     <option value="Active">Active</option>
                                                     <option value="Deactive">Deactive</option>
                                                 </select>
@@ -364,7 +377,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                             <td class="text-center"><button type="submit" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
                                             <td ><div class="form-group form-group-sm"><input class="form-control" name="division" ></div></td>
                                             <td ><div class="form-group form-group-sm">
-                                             <select class="form-control" name="organization">
+                                                    <select class="form-control" name="organization">
                                                         <option value="CAT">CAT</option>
                                                         <option value="Vender">Vender</option>
                                                     </select></div></td>
