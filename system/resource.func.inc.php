@@ -1,22 +1,29 @@
 <?php
 
-function addIP($ipArr, $vlan, $personID) {
+function addIP($IPs, $NetworkID, $IPUsedID) {
     $con = dbconnect();
-    $sqlCommand = "INSERT INTO `resource_ip`( `IP`, `NetworkIP`, `Subnet`, `VlanID`, `EnableResourceIP`, `OrderDetailID`, `CreateBy`, `UpdateBy`) "
-            . "VALUES (:ip , :network , :subnet , :vlan , 1 , NULL , :personID , :personID )";
+    $sqlCommand = "INSERT INTO `resource_ip`(`IP`, `NetworkID`, `IPUsedID`) "
+            . "VALUES (:IP, :NetworkID, :IPUsedID )";
     $res = $con->prepare($sqlCommand);
-    foreach ($ipArr as $ip) {
-        $res->execute(array(":ip" => $ip['ip'], ":network" => $ip['network'], ":subnet" => $ip['subnet'], ":vlan" => $vlan, ":personID" => $personID));
+    $countIP = count($IPs);
+    for ($i = 0; $i < $countIP; $i++) {
+        $res->execute(
+                array(
+                    ":IP" => $IPs[$i]['ip'],
+                    ":NetworkID" => $NetworkID,
+                    ":IPUsedID" => $IPUsedID
+                )
+        );
     }
     $rows = $res->rowCount();
     if ($rows > 0) {
-        return true;
+        return $con->lastInsertId();
     } else {
         return false;
     }
 }
 
-function addNetwork($NetworkIP, $Subnet, $Vlan, $AmountIP, $Status, $LocationID, $PersonID_login) {
+function addIPNetwork($NetworkIP, $Subnet, $Vlan, $AmountIP, $Status, $LocationID, $PersonID_login) {
     $con = dbconnect();
     $sqlCommand = "INSERT INTO `resource_ip_network`(`NetworkIP`, `Subnet`, `Vlan`, `AmountIP`, `Status`, `LocationID`, `CreateBy`, `UpdateBy`) "
             . "VALUES (:NetworkIP, :Subnet, :Vlan, :AmountIP, :Status, :LocationID, :CreateBy, :UpdateBy)";
@@ -33,6 +40,29 @@ function addNetwork($NetworkIP, $Subnet, $Vlan, $AmountIP, $Status, $LocationID,
                 ":UpdateBy" => $PersonID_login
             )
     );
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        return $con->lastInsertId();
+    } else {
+        return false;
+    }
+}
+
+function addIPUsed($IPID, $Status, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_ip_used`(`IPID`, `Status`, `CreateBy`, `UpdateBy`) "
+            . "VALUES (:IPID, :Status, :CreateBy, :UpdateBy)";
+    $res = $con->prepare($sqlCommand);
+    foreach ($ipArr as $ip) {
+        $res->execute(
+                array(
+                    ":IPID" => $IPID,
+                    ":Status" => $Status,
+                    ":CreateBy" => $PersonID_login,
+                    ":UpdateBy" => $PersonID_login
+                )
+        );
+    }
     $rows = $res->rowCount();
     if ($rows > 0) {
         return $con->lastInsertId();
@@ -75,7 +105,20 @@ function genIPs($network, $subnet) {
 
 function getNetworks() {
     $con = dbconnect();
-    $SQLCommand = "SELECT `NetworkIP`, `Subnet`, `VlanID` FROM `view_ip` GROUP BY `NetworkIP` ORDER BY `view_ip`.`NetworkIP` ASC";
+    $SQLCommand = "SELECT "
+            . "`NetworkID`, "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`Vlan`, "
+            . "`AmountIP`, "
+            . "`Status`, "
+            . "`LocationID`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`CreateBy`, "
+            . "`UpdateBy` "
+            . "FROM `resource_ip_network` "
+            . "ORDER BY `NetworkIP` ASC";
     $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();
@@ -102,15 +145,31 @@ function getNetworksValue() {
     return $resultArr;
 }
 
-function getIPs($network) {
+function getIPs($networkID) {
     $con = dbconnect();
-    $SQLCommand = "SELECT `IP`, `NetworkIP`, `Subnet`, `VlanID`, `EnableResourceIP`, "
-            . "`OrderDetailID`, `DateTimeCreate`, `DateTimeUpdate`, `CreateBy`, "
-            . "`UpdateBy`, `OrderID`, `PackageID`, `CustomerID`, `Location`, "
-            . "`CustomerName`, `BusinessType` "
-            . "FROM `view_ip` WHERE `NetworkIP` LIKE :network ";
+    $SQLCommand = "SELECT "
+            . "`IPID`, "
+            . "`IP`, "
+            . "`NetworkID`, "
+            . "`IPUsedID`, "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`Vlan`, "
+            . "`LocationID`, "
+            . "`Status`, "
+            . "`ServiceDetailID`, "
+            . "`PackageID`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_resource_ip` "
+            . "WHERE `NetworkID` = :networkID "
+            . "ORDER BY `IPID` ASC";
     $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":network" => $network));
+    $SQLPrepare->execute(
+            array(
+                ":networkID" => $networkID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -148,54 +207,187 @@ function getIPsByOrderDetailID($orderDetailID) {
     return $resultArr;
 }
 
-function addSwitch($name, $ip, $commu, $type, $totalport, $typePort, $uplinkArr, $vlanArr, $personID) {
+function addSwitch($SwitchName, $SwitchIP, $TotalPort, $SnmpCommuPublic, $SwitchTypeID, $Brand, $Model, $SerialNo, $RackID, $Status, $LocationID, $PersonID_login) {
     $con = dbconnect();
-    $sqlCommand = "INSERT INTO `resource_switch`( `SwitchName`, `SwitchIP`, `TotalPort`, `SnmpCommuPublic`, `SnmpCommuPrivate`, `SwitchType`, `EnableResourceSW`, `CreateBy`, `UpdateBy`) "
-            . "VALUES (:name,:ip,:totalport,:commu,NULL,:type,1,:personID,:personID)";
+    $sqlCommand = "INSERT INTO `resource_switch`(`SwitchName`, `SwitchIP`, `TotalPort`, `SnmpCommuPublic`, `SwitchTypeID`, `Brand`, `Model`, `SerialNo`, `RackID`, `Status`, `CreateBy`, `UpdateBy`, `LocationID`) "
+            . "VALUES (:SwitchName, :SwitchIP, :TotalPort, :SnmpCommuPublic, :SwitchTypeID, :Brand, :Model, :SerialNo, :RackID, :Status, :CreateBy, :UpdateBy, :LocationID)";
     $res = $con->prepare($sqlCommand);
-    $res->execute(array(":name" => $name, ":ip" => $ip, ":totalport" => $totalport, ":commu" => $commu, ":type" => $type, ":personID" => $personID));
+    $res->execute(
+            array(
+                ":SwitchName" => $SwitchName,
+                ":SwitchIP" => $SwitchIP,
+                ":TotalPort" => $TotalPort,
+                ":SnmpCommuPublic" => $SnmpCommuPublic,
+                ":SwitchTypeID" => $SwitchTypeID,
+                ":Brand" => $Brand,
+                ":Model" => $Model,
+                ":SerialNo" => $SerialNo,
+                ":RackID" => $RackID,
+                ":Status" => $Status,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":LocationID" => $LocationID
+            )
+    );
 
     if ($res->rowCount() > 0) {
-        $swID = $con->lastInsertId();
-        $resAddPort = addSwichPort($swID, $totalport, $typePort, $uplinkArr, $personID);
-        $resAddVlan = addSwtichVlan($swID, $vlanArr);
-        if ($resAddPort && $resAddVlan) {
-            return true;
-        } else
-            return false;
+        return $con->lastInsertId();
     } else
         return false;
 }
 
-function addSwichPort($swID, $totalport, $typePort, $uplinkArr, $personID) {
+function addSwitchPort($SwitchID, $PortNumber, $PortType, $PortVlan, $Uplink, $SwitchPortUsedID, $PersonID_login) {
     $con = dbconnect();
-    $sqlCommand = "INSERT INTO `resource_switch_port`( `ResourceSwitchID`, `PortNumber`, `PortType`, `Uplink`, `EnableResourcePort`, `OrderDetailID`,  `CreateBy`, `UpdateBy`) "
-            . "VALUES (:swID,:port,:typePort,:uplink,1,NULL,:personID,:personID)";
+    $sqlCommand = "INSERT INTO `resource_switch_port`(`SwitchID`, `PortNumber`, `PortType`, `PortVlan`, `Uplink`, `CreateBy`, `UpdateBy`, `SwitchPortUsedID`) "
+            . "VALUES (:SwitchID, :PortNumber, :PortType, :PortVlan, :Uplink, :CreateBy, :UpdateBy, :SwitchPortUsedID)";
     $res = $con->prepare($sqlCommand);
-
-    for ($i = 1; $i <= $totalport; $i++) {
-        (array_search($i, $uplinkArr) !== false) ? ($uplink = 1) : ($uplink = 0);
-        $res->execute(array(":swID" => $swID, ":port" => $i, ":typePort" => $typePort, ":uplink" => $uplink, "personID" => $personID));
-    }
-
-    $rows = $res->rowCount();
-    if ($rows > 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function addSwtichVlan($swID, $vlanArr) {
-    $con = dbconnect();
-    $sqlCommand = "INSERT INTO `resource_switch_vlan`( `VlanNumber`, `SwitchID`) VALUES (:vlan,:swID)";
-    $res = $con->prepare($sqlCommand);
-    foreach ($vlanArr as $value) {
-        $res->execute(array(":swID" => $swID, ":vlan" => $value));
-    }
+    $res->execute(
+            array(
+                ":SwitchID" => $SwitchID,
+                ":PortNumber" => $PortNumber,
+                ":PortType" => $PortType,
+                ":PortVlan" => $PortVlan,
+                ":Uplink" => $Uplink,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":SwitchPortUsedID" => $SwitchPortUsedID
+            )
+    );
 
     if ($res->rowCount() > 0) {
-        return true;
+        return $con->lastInsertId();
+    } else
+        return false;
+}
+
+function addSwitchPortUsed($ServiceDetailID, $PortID, $Status, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_switch_port_used`(`ServiceDetailID`, `PortID`, `CreateBy`, `UpdateBy`, `Status`) "
+            . "VALUES (:ServiceDetailID, :PortID, :CreateBy, :UpdateBy, :Status)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":ServiceDetailID" => $ServiceDetailID,
+                ":PortID" => $PortID,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":Status" => $Status
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        return $con->lastInsertId();
+    } else
+        return false;
+}
+
+function addServiceResource($Name, $Detail, $Tag, $Status, $LocationID, $ServiceUsedID, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_service`(`Name`, `Detail`, `Tag`, `Status`, `LocationID`, `CreateBy`, `UpdateBy`, `ServiceUsedID`) "
+            . "VALUES (:Name, :Detail, :Tag, :Status, :LocationID, :CreateBy, :UpdateBy, :ServiceUsedID)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":Name" => $Name,
+                ":Detail" => $Detail,
+                ":Tag" => $Tag,
+                ":Status" => $Status,
+                ":LocationID" => $LocationID,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":ServiceUsedID" => $ServiceUsedID
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        return $con->lastInsertId();
+    } else
+        return false;
+}
+
+function addServiceResourceUsed($ServiceDetailID, $ResourceServiceID, $Status, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_service_used`(`ServiceDetailID`, `ResourceServiceID`, `CreateBy`, `UpdateBy`, `Status`) "
+            . "VALUES (:ServiceDetailID, :ResourceServiceID, :CreateBy, :UpdateBy, :Status)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":ServiceDetailID" => $ServiceDetailID,
+                ":ResourceServiceID" => $ResourceServiceID,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":Status" => $Status
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        return $con->lastInsertId();
+    } else
+        return false;
+}
+
+function addRack($RackPositionID, $SubRackPosition, $RackUsedID) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_rack`(`RackPositionID`, `SubRackPosition`, `RackUsedID`) "
+            . "VALUES (:RackPositionID, :SubRackPosition, :RackUsedID)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":RackPositionID" => $RackPositionID,
+                ":SubRackPosition" => $SubRackPosition,
+                ":RackUsedID" => $RackUsedID
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        return $con->lastInsertId();
+    } else
+        return false;
+}
+
+function addRackPosition($Col, $Row, $PositionRack, $RackType, $RackSize, $Status, $RackKey, $LocationID, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_rack_position`(`Col`, `Row`, `PositionRack`, `RackType`, `RackSize`, `Status`, `CreateBy`, `UpdateBy`, `RackKey`, `LocationID`) "
+            . "VALUES (:Col, :Row, :PositionRack, :RackType, :RackSize, :Status, :CreateBy, :UpdateBy, :RackKey, :LocationID)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":Col" => $Col,
+                ":Row" => $Row,
+                ":PositionRack" => $PositionRack,
+                ":RackType" => $RackType,
+                ":RackSize" => $RackSize,
+                ":Status" => $Status,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":RackKey" => $RackKey,
+                ":LocationID" => $LocationID
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        return $con->lastInsertId();
+    } else
+        return false;
+}
+
+function addRackUsed($ServiceDetailID, $SubRackID, $Status, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_rack_used`(`ServiceDetailID`, `SubRackID`, `CreateBy`, `UpdateBy`, `Status`) "
+            . "VALUES (:ServiceDetailID, :SubRackID, :CreateBy, :UpdateBy, :Status)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":ServiceDetailID" => $ServiceDetailID,
+                ":SubRackID" => $SubRackID,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":Status" => $Status
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        return $con->lastInsertId();
     } else
         return false;
 }
@@ -327,19 +519,6 @@ function getLastPosition($zone) {
     if ($SQLPrepare->rowCount() > 0) {
         $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
         return $result['Position'];
-    } else
-        return false;
-}
-
-function addRack($zone, $position, $subposition, $type, $size, $personID) {
-    $con = dbconnect();
-    $SQLCommand = "INSERT INTO `resource_rack`( `Zone`, `Position`, `SubPosition`, `RackType`, `RackSize`, `CreateBy`, `UpdateBy`) "
-            . "VALUES (:zone,:position,:subposition,:type,:size,:personID,:personID)";
-    $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":zone" => $zone, ":position" => $position, ":subposition" => $subposition, ":type" => $type, ":size" => $size, ":personID" => $personID));
-
-    if ($SQLPrepare->rowCount() > 0) {
-        return true;
     } else
         return false;
 }

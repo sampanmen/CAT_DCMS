@@ -1,10 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
-$network = (isset($_GET['network']) && $_GET['network'] != "" ) ? $_GET['network'] : "%";
-$getIPs = getIPs($network);
-
-$getNetworks = getNetworks();
+$networkID = isset($_GET['NetworkID']) ? $_GET['NetworkID'] : "";
+$getIPs = getIPs($networkID);
 ?>
 <p><a href="?">Home</a> > <b>IP Address</b></p>
 <div class="row">
@@ -25,11 +23,17 @@ $getNetworks = getNetworks();
                         </thead>
                         <tbody>
                             <?php
+                            $getNetworks = getNetworks();
                             foreach ($getNetworks as $value) {
+                                $valNetworkID = $value['NetworkID'];
+                                $valNetwork = $value['NetworkIP'];
+                                $valSubnet = $value['Subnet'];
+                                $valVlan = $value['Vlan'];
+                                $valStatus = $value['Status'];
                                 ?>
-                                <tr>
-                                    <td><a href="?p=viewIP&network=<?php echo $value['NetworkIP']; ?>"><?php echo $value['NetworkIP']; ?> / <?php echo $value['Subnet']; ?></a></td>
-                                    <td><?php echo $value['VlanID']; ?></td>
+                                <tr <?php echo $networkID == $valNetworkID ? 'class="active"' : ""; ?>>
+                                    <td><a href="?p=viewIP&NetworkID=<?php echo $valNetworkID; ?>" class="text-<?php echo $valStatus == "Active" ? "success" : "danger"; ?>"><?php echo $valNetwork; ?> / <?php echo $valSubnet; ?></a></td>
+                                    <td><?php echo $valVlan; ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -46,7 +50,7 @@ $getNetworks = getNetworks();
     <div class="col-lg-9"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>IP Address </b><a href="?p=viewIP">(show all)</a></h5>
+                <h5><b>IP Address </b></h5>
             </div>      
 
             <div class="panel-body">
@@ -54,6 +58,7 @@ $getNetworks = getNetworks();
                     <table class="table table-striped table-bordered table-hover" id="dataTables">
                         <thead>
                             <tr>
+                                <th>No.</th>
                                 <th>IP Address</th>
                                 <th>Network</th>
                                 <th>Subnet</th>
@@ -63,14 +68,23 @@ $getNetworks = getNetworks();
                         </thead>
                         <tbody>
                             <?php
+                            $i = 0;
                             foreach ($getIPs as $value) {
+                                $i++;
+                                $valIP = $value['IP'];
+                                $valNetworkIP = $value['NetworkIP'];
+                                $valSubnet = $value['Subnet'];
+                                $valVlan = $value['Vlan'];
+                                $valCustomerName = $value['CustomerName'];
+                                $valCustomerID = $value['CustomerID'];
                                 ?>
                                 <tr>
-                                    <td><?php echo $value['IP']; ?></td>
-                                    <td><?php echo $value['NetworkIP']; ?></td>
-                                    <td><?php echo $value['Subnet']; ?></td>
-                                    <td><?php echo $value['VlanID']; ?></td>
-                                    <td><?php echo $value['CustomerName'] == NULL ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $value['CustomerID'] . "'>" . $value['CustomerName'] . "</a>"; ?></td>
+                                    <td><?php echo $i; ?></td>
+                                    <td><?php echo $valIP; ?></td>
+                                    <td><?php echo $valNetworkIP; ?></td>
+                                    <td><?php echo $valSubnet; ?></td>
+                                    <td><?php echo $valVlan; ?></td>
+                                    <td><?php echo $valCustomerName == NULL ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $valCustomerID . "'>" . $valCustomerName . "</a>"; ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -83,11 +97,3 @@ $getNetworks = getNetworks();
         <!-- /.panel-body -->
     </div>
 </div>
-
-
-
-<!--
-
-<a href="../resource/model_manageIP.php" data-toggle="modal" data-target="#myModal">hhhhh</a>
-<a href="../resource/model_managePort.php" data-toggle="modal" data-target="#myModal">hhhhh</a>
-<a href="../resource/model_manageRack.php" data-toggle="modal" data-target="#myModal">hhhhh</a>-->

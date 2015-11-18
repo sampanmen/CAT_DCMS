@@ -3,14 +3,22 @@
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
-$personID = "-1";
+$PersonID_login = "-1";
 
 if ($para == "addIP") {
-    $network = $_POST['network'];
-    $subnet = $_POST['subnet'];
-    $vlan = $_POST['vlan'];
-    $ips = genIPs($network, $subnet);
-    $res = addIP($ips, $vlan, $personID);
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+    $NetworkIP = $_POST['network'];
+    $Subnet = $_POST['subnet'];
+    $Vlan = $_POST['vlan'];
+    $LocationID = $_POST['Location'];
+    $Status = "Active";
+    $ips = genIPs($NetworkIP, $Subnet);
+    $AmountIP = count($ips);
+    $NetworkID = addIPNetwork($NetworkIP, $Subnet, $Vlan, $AmountIP, $Status, $LocationID, $PersonID_login);
+    $res = addIP($ips, $NetworkID, NULL);
+
     if ($res) {
         header("Location: ../../core/?p=viewIP&para=addIPSuccess");
     } else {
@@ -38,7 +46,7 @@ if ($para == "addIP") {
 //    print_r($uplinkArr);
 //    echo "</pre>";
 
-    $res = addSwitch($name, $ip, $commu, $typeSW, $totalport, $typePort, $uplinkArr, $vlanArr, $personID);
+    $res = addSwitch($name, $ip, $commu, $typeSW, $totalport, $typePort, $uplinkArr, $vlanArr, $PersonID_login);
 
     if ($res) {
         header("Location: ../../core/?p=viewPort&para=addSwitchPortSuccess");
@@ -77,7 +85,7 @@ if ($para == "addIP") {
 
     for ($i = 0; $i < $amount; $i++) {
         for ($j = 0; $j < $subposition; $j++) {
-            addRack($zone, $position + $i, $j + 1, $type, $size, $personID);
+            addRack($zone, $position + $i, $j + 1, $type, $size, $PersonID_login);
         }
     }
 
@@ -88,14 +96,14 @@ if ($para == "addIP") {
 } else if ($para == "assignIP") {
     $orderDetailID = $_GET['orderDetailID'];
     $ip = $_GET['ip'];
-    $res = assignIP($ip, $orderDetailID, $personID);
+    $res = assignIP($ip, $orderDetailID, $PersonID_login);
     if ($res) {
         echo "Assign completed.";
     } else
         echo "Assign isn't complete.";
 }else if ($para == "assignIPNull") {
     $ip = $_GET['ip'];
-    $res = assignIPNull($ip, $personID);
+    $res = assignIPNull($ip, $PersonID_login);
     if ($res) {
         echo "Remove IP completed.";
     } else
@@ -103,7 +111,7 @@ if ($para == "addIP") {
 }else if ($para == "assignPort") {
     $orderDetailID = $_GET['orderDetailID'];
     $portID = $_GET['portID'];
-    $resAssignPort = assignPort($portID, $orderDetailID, $personID);
+    $resAssignPort = assignPort($portID, $orderDetailID, $PersonID_login);
     if ($resAssignPort) {
         echo "Assign completed.";
     } else {
@@ -111,7 +119,7 @@ if ($para == "addIP") {
     }
 } else if ($para == "assignPortNull") {
     $portID = $_GET['portID'];
-    $resAssignNullPort = assignPortNull($portID, $personID);
+    $resAssignNullPort = assignPortNull($portID, $PersonID_login);
     if ($resAssignNullPort) {
         echo "Remove completed.";
     } else {
@@ -128,7 +136,7 @@ if ($para == "addIP") {
     }
 } else if ($para == "assignRackNull") {
     $rackID = $_GET['rackID'];
-    $resAssignNullRack = assignRackNull($rackID, $personID);
+    $resAssignNullRack = assignRackNull($rackID, $PersonID_login);
     if ($resAssignNullRack) {
         echo "Remove completed.";
     } else {
@@ -139,9 +147,9 @@ if ($para == "addIP") {
     $servicedetail = $_POST['servicedetail'];
     $serviceamount = $_POST['serviceamount'];
     $servicetag = $_POST['servicetag'];
-      $servicelocation= $_POST['servicelocation'];
+    $servicelocation = $_POST['servicelocation'];
 
-    $res = addResourceService($servicename, $servicedetail,$servicetag,null,null,null,null,null,null,$servicelocation);
+    $res = addResourceService($servicename, $servicedetail, $servicetag, null, null, null, null, null, null, $servicelocation);
     if ($res) {
         header("location: ../../core/?p=resourceHome&para=addResourceServiceCompleted");
     } else {
