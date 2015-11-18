@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
-$personID = "-1";
+$PersonID_login = "-1";
 
 if ($para == "addStaffposition") {
 //    print_r($_POST);
@@ -40,9 +40,10 @@ if ($para == "addStaffposition") {
 } else if ($para == "addPacCatagory") {
     //   print_r($_POST);
     $category = $_POST['category'];
+    $Type = $_POST['type'];
     $status = $_POST['status'];
 
-    $res = addPacCatagory($category, $status);
+    $res = addPacCatagory($category, $Type, $status);
     if ($res) {
         header("location: ../../core/?p=setting&para=addPacCatagoryCompleted#CatagoryPackage");
     } else {
@@ -88,10 +89,11 @@ if ($para == "addStaffposition") {
 } else if ($para == "editCategory") {
     //   print_r($_POST);
     $packageCategoryID = $_GET['PackageCategoryID'];
+    $Type = $_POST['type'];
     $packageCategory = $_POST['packageCategory'];
     $status = $_POST['status'];
 
-    $res = editCategory($packageCategoryID, $packageCategory, $status);
+    $res = editCategory($packageCategoryID, $packageCategory, $Type, $status);
     if ($res) {
         header("location: ../../core/?p=setting&para=editCategoryCompleted");
     } else {
@@ -165,7 +167,7 @@ if ($para == "addStaffposition") {
     echo "<pre>";
     print_r($_POST);
     echo "</pre>";
-    $resInsertPerson = addPerson($nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $personType, $status, $PersonID);
+    $resInsertPerson = addPerson($nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $personType, $status, $PersonID_login);
     if ($resInsertPerson) {
 //        $resInsertCon = true;
         $resInsertStaff = addStaff($resInsertPerson, $IDStaff, $positionStaff, $divisionStaff);

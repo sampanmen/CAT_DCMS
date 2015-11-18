@@ -6,8 +6,8 @@ $getPackageCategoryID = $_GET['PackageCategoryID'];
 //get position
 $getCatagory = getCatagoryByID($getPackageCategoryID);
 $packageCategory = $getCatagory['PackageCategory'];
+$packageCategoryType = $getCatagory['Type'];
 $status = $getCatagory['Status'];
-
 ?>
 
 
@@ -21,7 +21,7 @@ $status = $getCatagory['Status'];
         <div class="container-fluid">
             <div class="panel-body">
                 <div class="row">
-                    
+
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
                             <label>Catagory</label>
@@ -30,7 +30,20 @@ $status = $getCatagory['Status'];
                             <input class="form-control" name="packageCategory" value="<?php echo $packageCategory; ?>" >  
                         </div>
                     </div>
-                    
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">
+                            <label>Type</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <select class="form-control" name="type">
+                                <option>Choose</option>
+                                <option <?php echo $packageCategoryType=="Rack"?"selected":""; ?> value="Rack">Rack</option>
+                                <option <?php echo $packageCategoryType=="IP Address"?"selected":""; ?> value="IP Address">IP Address</option>
+                                <option <?php echo $packageCategoryType=="Port"?"selected":""; ?> value="Port">Port</option>
+                                <option <?php echo $packageCategoryType=="Other"?"selected":""; ?> value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-lg-12">  
                         <div class="col-lg-6">
                             <label>Status</label>
