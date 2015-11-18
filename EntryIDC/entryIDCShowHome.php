@@ -32,7 +32,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                                     <th>Organization</th>
                                     <th>Person</th>
                                     <th>Type</th>
-                                    <th>Purpose</th>
+                                    <th>Location</th>
                                     <th>DateTime In</th>
                                     <th>Action</th>
                                 </tr>
@@ -48,14 +48,14 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                                     }
                                     $valPersonName = $value['Fname'] . " " . $value['Lname'];
                                     $valPersonType = $value['TypePerson'];
-                                    $valPurpose = $value['Purpose'];
+                                    $valLocation = $value['Location'];
                                     $valDateTimeIN = $value['TimeIn'];
                                     ?>
                                     <tr id="tr_showEntry_<?php echo $valEntryID; ?>">
                                         <td><?php echo $valOrganization; ?></td>
                                         <td><?php echo $valPersonName; ?></td>
                                         <td><?php echo $valPersonType; ?></td>
-                                        <td><?php echo $valPurpose; ?></td>
+                                        <td><?php echo $valLocation; ?></td>
                                         <td><?php echo $valDateTimeIN; ?></td>
                                         <td>
                                             <button type="button" onclick="if (confirm('Are you sure to Checkout.')) {

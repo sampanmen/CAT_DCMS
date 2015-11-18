@@ -2,11 +2,35 @@
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 $entryID = $_GET['entryID'];
 $getEntryDetail = getEntryByID($entryID);
-$getZones = getEntryZone($entryID);
-$internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
+$getZonesByEntryID = getZoneByEntryID($entryID);
+
+$locationID = $getEntryDetail['LocationID'];
+$getZones = getZoneByLocationID($locationID);
+
 //echo "<pre>";
-//print_r($getZones);
+//print_r($getEntryDetail);
 //echo "</pre>";
+
+$location = $getEntryDetail['Location'];
+$customerID = ($getEntryDetail['CustomerID'] != "") ? number_pad($getEntryDetail['CustomerID'], 5) : "";
+$catEmpID = $getEntryDetail['EmployeeID'];
+$VisitorCardID = $getEntryDetail['VisitorCardID'];
+$IDCCard = $getEntryDetail['IDCCard'];
+$IDCCardType = $getEntryDetail['IDCCardType'];
+$IDCard = $getEntryDetail['IDCard'];
+$personType = $getEntryDetail['TypePerson'];
+$organization = $getEntryDetail['Organization'];
+$division = $getEntryDetail['Division'];
+$personID = $getEntryDetail['PersonID'];
+$personFname = $getEntryDetail['Fname'];
+$pseronLname = $getEntryDetail['Lname'];
+$personEmail = $getEntryDetail['Email'];
+$personPhone = $getEntryDetail['Phone'];
+$personCompany = ($getEntryDetail['CustomerName'] != NULL) ? $getEntryDetail['CustomerName'] : "[$organization] $division";
+$purpose = $getEntryDetail['Purpose'];
+$internetAccount = ($getEntryDetail['InternetAccount'] != NULL) ? json_decode($getEntryDetail['InternetAccount'], true) : NULL;
+$timeIN = $getEntryDetail['TimeIn'];
+$timeOUT = $getEntryDetail['TimeOut'];
 ?>
 <!-- jQuery -->
 <script src="../bower_components/jquery/dist/jQuery.print.js"></script>
@@ -94,7 +118,7 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                         <div class="col-print-8 text-center">                                                                                  
                             <h4>
                                 <b>
-                                    แบบฟอร์มการเข้าใช้ศูนย์บริการ Internet Data Center ศูนย์โทรคมนาคม นนทบุรี
+                                    แบบฟอร์มการเข้าใช้ศูนย์บริการ Internet Data Center (<?php echo $location; ?>)
                                 </b>
                             </h4>
                         </div>
@@ -106,26 +130,26 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                         <div class="col-print-8 text-center ddd2 ">                  
                             <h4>
                                 <b>
-                                    CAT-IDC Nonthaburi Entry Form</b>
+                                    <?php echo $location; ?> Entry Form</b>
                             </h4>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-12 ddd">                             
-                    <div class="col-lg-12">                       
-                        <div class="col-print-12 text-right">  
-                            <p>Order No...................</p>                                                             
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12">                      
+                <div class="col-lg-12 ddd">
+                    <div class="col-lg-6">                      
                         <div class="col-print-2">  
                             <p>วันที่ (Date)</p>
                         </div>
                         <div class="col-print-10">
                             <p><?php echo date("d/m/Y"); ?></p>
                         </div><br><br>
+                    </div>
+
+                    <div class="col-lg-6">                       
+                        <div class="col-print-12 text-right">  
+                            <p>Entry No <?php echo $entryID; ?></p>                                                             
+                        </div>
                     </div>
                 </div>
             </div>
@@ -137,25 +161,25 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                             <div class="col-print-9">
                                 <div class="col-print-12">                       
                                     <div class="col-print-8">                                   
-                                        <p>[ <?php echo $getEntryDetail['CustomerID'] != "" ? "/" : "_"; ?> ] ลูกค้า / Customer</p>
+                                        <p>[ <?php echo $personType == "Contact" ? "/" : "_"; ?> ] ลูกค้า / Customer</p>
                                     </div>
                                     <div class="col-print-4">
-                                        <p><?php printf("%05d", $getEntryDetail['CustomerID']); ?></p>
+                                        <p><?php echo $customerID; ?></p>
                                     </div>
                                 </div>
 
                                 <div class="col-print-12">                       
                                     <div class="col-print-8">                                  
-                                        <p>[ <?php echo $getEntryDetail['EmpID'] != "" ? "/" : "_"; ?> ] พนักงาน กสท / CAT Employee</p>                               
+                                        <p>[ <?php echo ($personType == "Staff" && $organization == "CAT") ? "/" : "_"; ?> ] พนักงาน กสท / CAT Employee</p>                               
                                     </div>
                                     <div class="col-print-4">
-                                        <p><?php echo $getEntryDetail['EmpID']; ?></p>
+                                        <p><?php echo $catEmpID; ?></p>
                                     </div>
                                 </div>
 
                                 <div class="col-print-12">                       
                                     <div class="col-print-8">                                    
-                                        <p>[ _ ] บุคคลทั่วไป / Other</p>
+                                        <p>[ <?php echo ($personType == "Staff" && $organization == "Vender") ? "/" : "_"; ?> ] บุคคลทั่วไป / Other</p>
                                     </div>
                                 </div>
 
@@ -164,7 +188,7 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                                         หมายเลขบัตรผ่านอาคาร / Visitor Card NO.                                                               
                                     </div>
                                     <div class="col-print-4">
-                                        <p><?php echo $getEntryDetail['VisitorCardID']; ?></p>
+                                        <p><?php echo $VisitorCardID; ?></p>
                                     </div>
                                 </div>
                                 <div class="col-print-12">                       
@@ -172,7 +196,7 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                                         หมายเลขบัตรผ่าน IDC / IDC Card NO.                                                               
                                     </div>                                                     
                                     <div class="col-print-4">
-                                        <p><?php echo $getEntryDetail['IDCCard']; ?> Type: <?php echo $getEntryDetail['IDCCardType']; ?></p>
+                                        <p><?php echo $IDCCard; ?> Type: <?php echo $IDCCardType; ?></p>
                                     </div>
                                 </div>
                                 <div class="col-print-12">                       
@@ -180,13 +204,17 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                                         รหัสบัตรประชาชน / ID Card NO. / Passport ID                                                              
                                     </div>
                                     <div class="col-print-4">
-                                        <p><?php echo $getEntryDetail['IDCard']; ?></p>
+                                        <p><?php echo $IDCard; ?></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-print-3">
-                                <div class="col-lg-6 text-left">
-                                    <img src="../customer/images/persons/<?php echo $getEntryDetail['PersonID']; ?>.jpg" width="" height="130" border="1">
+                                <div class="col-lg-10 text-left">
+                                    <?php
+                                    $images = '../customer/images/persons/' . $personID . ".jpg";
+                                    $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
+                                    ?>
+                                    <img class="img-thumbnail" src="<?php echo $showImage; ?>" width="100%">
                                 </div>
                             </div>
                             <!-- /.table-responsive -->
@@ -200,13 +228,13 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                                 <p>ชื่อ - นามสกุล(Name)</p>                                                             
                             </div>
                             <div class="col-print-5">                           
-                                <p class=""><?php echo $getEntryDetail['Fname'] . " " . $getEntryDetail['Lname']; ?></p>                       
+                                <p class=""><?php echo $personFname . " " . $pseronLname; ?></p>                       
                             </div>                       
                             <div class="col-print-1">  
                                 <p>E-Mail </p>                                                             
                             </div>
                             <div class="col-print-3">                           
-                                <p><?php echo $getEntryDetail['Email']; ?></p>                               
+                                <p><?php echo $personEmail; ?></p>                               
                             </div>
                         </div>
                         <div class="col-print-12">                      
@@ -214,13 +242,13 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                                 <p>ชื่อบริษัท (Company Name)</p>                                                             
                             </div>
                             <div class="col-print-5">                           
-                                <p><?php echo $getEntryDetail['CustomerName']; ?></p>                                
+                                <p><?php echo $personCompany; ?></p>                                
                             </div>
                             <div class="col-print-1">  
                                 <p>โทร.(tel.)</p>                                                              
                             </div>
                             <div class="col-lg-3">                           
-                                <p><?php echo $getEntryDetail['Phone']; ?></p>                                
+                                <p><?php echo $personPhone; ?></p>                                
                             </div>
                         </div>
                         <div class="col-print-12">                      
@@ -228,7 +256,7 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                                 <p>วัตถุประสงค์ (Purpose of Entry)</p>                                                            
                             </div>
                             <div class="col-print-8">                           
-                                <p><?php echo $getEntryDetail['Purpose']; ?></p>                                
+                                <p><?php echo $purpose; ?></p>                                
                             </div><br><br>
                         </div>
                     </div>
@@ -239,7 +267,7 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                     </div>
                     <div class="col-print-12 text-center ddd2">                    
                         <p>
-                            (<?php echo $getEntryDetail['Fname'] . " " . $getEntryDetail['Lname']; ?>)
+                            (<?php echo $personFname . " " . $pseronLname; ?>)
                         </p>
                     </div>
                     <div class="col-print-12 text-center ddd ddd1 ">                    
@@ -258,19 +286,22 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                         <div class="panel-body">
                             <div>
                                 <p>พื้นที่เข้าใช้บริการ<br><br>
-                                    <span style="margin-left:2em">ส่วน ศศ.(IDC ศูนย์โทรคมนาคม นนทบุรี)</span><br><br>
+                                    <span style="margin-left:2em"><?php echo $location; ?></span><br><br>
                                 </p>
                             </div>
                             <div class="col-print-10">
-                                <p>[ <?php echo $internetAccount['user'] != "" ? "/" : "_"; ?> ] Internet Account  <?php if ($internetAccount['user'] != "") { ?>( Username: <?php echo $internetAccount['user']; ?> Password: <?php echo $internetAccount['pass'].")"; ?> <?php } ?></p>    
+                                <p>[ <?php echo $internetAccount != NULL ? "/" : "_"; ?> ] Internet Account  <?php if ($internetAccount != NULL) { ?>( Username: <?php echo $internetAccount['user']; ?> Password: <?php echo $internetAccount['pass'] . ")"; ?> <?php } ?></p>    
                             </div>
                             <!--IDC-->
                             <div class="col-print-12">
                                 <?php
                                 foreach ($getZones as $value) {
+                                    $valZoneID = $value['EntryZoneID'];
+                                    $valZone = $value['EntryZone'];
+                                    $resSearch = array_search($valZoneID, $getZonesByEntryID);
                                     ?>
                                     <div class="col-print-2">                               
-                                        <p>[ / ] <?php echo $value['Zone']; ?></p>                             
+                                        <p>[ <?php echo ($resSearch !== false) ? '/' : '_'; ?> ] <?php echo $valZone; ?></p>                             
                                     </div>
                                 <?php } ?>
                             </div>
@@ -279,10 +310,10 @@ $internetAccount = json_decode($getEntryDetail['InternetAccount'], true);
                     </div>
                     <div class="col-print-12 text-center ddd3 ">
                         <div class="col-print-6">                                
-                            <p>เวลาเข้า <?php echo $getEntryDetail['TimeIn'] != "" ? $getEntryDetail['TimeIn'] : "..............................."; ?> น.</p>
+                            <p>เวลาเข้า <?php echo $timeIN != "" ? $timeIN : "..............................."; ?> น.</p>
                         </div>
                         <div class="col-print-6">
-                            <p>เวลาออก <?php echo $getEntryDetail['TimeOut'] != "" ? $getEntryDetail['TimeOut'] : "..............................."; ?> น.</p>
+                            <p>เวลาออก <?php echo $timeOUT != "" ? $timeOUT : "..............................."; ?> น.</p>
                         </div>
                     </div>
 
