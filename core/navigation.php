@@ -313,6 +313,14 @@
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <a href=""><i class="fa fa-gear fa-fw"></i> Setting<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="?p=setting">Setting</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
