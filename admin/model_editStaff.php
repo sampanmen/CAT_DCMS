@@ -17,7 +17,7 @@ $staffStatus = $getPersons['PersonStatus'];
 //get staff
 
 $getStafff = getStaffByID($getPersonID);
-$staffID = $getStafff['staffID'];
+//$staffID = $getStafff['staffID'];
 $EmployeeID = $getStafff['EmployeeID'];
 $StaffPositionID = $getStafff['StaffPositionID'];
 $DivisionID = $getStafff['DivisionID'];
