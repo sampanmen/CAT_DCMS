@@ -605,6 +605,25 @@ function getRackByRackPositionID($RackPositionID) {
     return $resultArr;
 }
 
+function getRackTypeByCateID($cateID){
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PackageCategoryID`, "
+            . "`PackageCategory`, "
+            . "`Type`, "
+            . "`Status` "
+            . "FROM `customer_package_category` "
+            . "WHERE `PackageCategoryID`=:PackageCategoryID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":PackageCategoryID" => $cateID
+            )
+    );
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result['PackageCategory'];
+}
+
 function getRackPositionByLocationIDandType($LocationID, $RackType) {
     $con = dbconnect();
     $SQLCommand = "SELECT "

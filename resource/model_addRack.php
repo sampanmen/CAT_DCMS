@@ -33,8 +33,8 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     $valPackageCategory = $value['PackageCategory'];
                                     $valPackageCategoryID = $value['PackageCategoryID'];
                                     ?>
-                                    <option value="<?php echo $valPackageCategory; ?>"><?php echo $valPackageCategory; ?></option>
-                                <?php } ?>   
+                                    <option value="<?php echo $valPackageCategoryID; ?>"><?php echo $valPackageCategory; ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>

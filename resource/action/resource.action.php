@@ -70,7 +70,8 @@ if ($para == "addIP") {
         $Row = getLastRow($Col, $LocationID)['Row'] + 1;
     }
 
-    switch ($RackType) {
+    $getRackType = getRackTypeByCateID($RackType);
+    switch ($getRackType) {
         case "Full Rack" :
             $SubRackPosition = 1;
             break;
