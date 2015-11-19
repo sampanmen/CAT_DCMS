@@ -128,6 +128,36 @@ function getNetworks() {
     return $resultArr;
 }
 
+function getNetworksByLocationID($LocationID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`NetworkID`, "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`Vlan`, "
+            . "`AmountIP`, "
+            . "`Status`, "
+            . "`LocationID`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`CreateBy`, "
+            . "`UpdateBy` "
+            . "FROM `resource_ip_network` "
+            . "WHERE `LocationID`=:LocationID "
+            . "ORDER BY `NetworkIP` ASC";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":LocationID" => $LocationID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
 function getNetworksValue() {
     $con = dbconnect();
     $SQLCommand = "SELECT "
@@ -345,16 +375,15 @@ function addRack($RackPositionID, $SubRackPosition, $RackUsedID) {
         return false;
 }
 
-function addRackPosition($Col, $Row, $PositionRack, $RackType, $RackSize, $Status, $RackKey, $LocationID, $PersonID_login) {
+function addRackPosition($Col, $Row, $RackType, $RackSize, $Status, $RackKey, $LocationID, $PersonID_login) {
     $con = dbconnect();
-    $sqlCommand = "INSERT INTO `resource_rack_position`(`Col`, `Row`, `PositionRack`, `RackType`, `RackSize`, `Status`, `CreateBy`, `UpdateBy`, `RackKey`, `LocationID`) "
-            . "VALUES (:Col, :Row, :PositionRack, :RackType, :RackSize, :Status, :CreateBy, :UpdateBy, :RackKey, :LocationID)";
+    $sqlCommand = "INSERT INTO `resource_rack_position`(`Col`, `Row`, `PackageCategoryID`, `RackSize`, `Status`, `CreateBy`, `UpdateBy`, `RackKey`, `LocationID`) "
+            . "VALUES (:Col, :Row, :RackType, :RackSize, :Status, :CreateBy, :UpdateBy, :RackKey, :LocationID)";
     $res = $con->prepare($sqlCommand);
     $res->execute(
             array(
                 ":Col" => $Col,
                 ":Row" => $Row,
-                ":PositionRack" => $PositionRack,
                 ":RackType" => $RackType,
                 ":RackSize" => $RackSize,
                 ":Status" => $Status,
@@ -508,17 +537,24 @@ function getSwitchValue() {
     return $resultArr;
 }
 
-function getLastPosition($zone) {
+function getLastRow($column, $LocationID) {
     $con = dbconnect();
-    $SQLCommand = "SELECT `Zone`, `Position`, `SubPosition` "
-            . "FROM `resource_rack` "
-            . "WHERE `Zone` LIKE :zone "
-            . "ORDER BY `Position` DESC";
+    $SQLCommand = "SELECT "
+            . "`Col`, "
+            . "`Row` "
+            . "FROM `resource_rack_position` "
+            . "WHERE `Col` LIKE :Col AND `LocationID`=:LocationID "
+            . "ORDER BY `RackPositionID` DESC";
     $SQLPrepare = $con->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":zone" => $zone));
+    $SQLPrepare->execute(
+            array(
+                ":Col" => $column,
+                ":LocationID" => $LocationID
+            )
+    );
     if ($SQLPrepare->rowCount() > 0) {
         $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
-        return $result['Position'];
+        return $result;
     } else
         return false;
 }
@@ -531,6 +567,88 @@ function getRacks() {
             . "ORDER BY `Zone`,`Position` ASC";
     $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getRackByRackPositionID($RackPositionID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`RackID`, "
+            . "`RackPositionID`, "
+            . "`Col`, "
+            . "`Row`, "
+            . "`SubRackPosition`, "
+            . "`RackTypeID`, "
+            . "`RackType`, "
+            . "`RackSize`, "
+            . "`Status`, "
+            . "`RackUsedID`, "
+            . "`ServiceDetailID`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_resource_rack` "
+            . "WHERE `RackPositionID`=:RackPositionID";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":RackPositionID" => $RackPositionID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getRackPositionByLocationIDandType($LocationID, $RackType) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`RackPositionID`, "
+            . "`Col`, "
+            . "`Row`, "
+            . "`customer_package_category`.`PackageCategoryID`, "
+            . "`customer_package_category`.`PackageCategory`, "
+            . "`RackSize`, "
+            . "`resource_rack_position`.`Status`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`CreateBy`, "
+            . "`UpdateBy`, "
+            . "`RackKey`, "
+            . "`LocationID` FROM "
+            . "`resource_rack_position` "
+            . "JOIN `customer_package_category` "
+            . "ON `customer_package_category`.`PackageCategoryID`=`resource_rack_position`.`PackageCategoryID` "
+            . "WHERE `resource_rack_position`.`PackageCategoryID`=:PackageCategoryID AND `LocationID`=:LocationID ";
+//    echo $SQLCommand;
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":PackageCategoryID" => $RackType,
+                ":LocationID" => $LocationID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getRacksColumn($locationID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT DISTINCT `Col` FROM `resource_rack_position` WHERE `LocationID` = :LocationID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":LocationID" => $locationID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -587,7 +705,7 @@ function getRackValue($rackType) {
     return $resultArr;
 }
 
-function getRacksDetail($zone, $type) {
+function getRacksPosition($col, $type) {
     $con = dbconnect();
     $SQLCommand = "SELECT "
             . "`ResourceRackID`, "

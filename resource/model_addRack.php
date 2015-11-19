@@ -1,4 +1,6 @@
-<?php ?>
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+?>
 <form method="POST" action="../resource/action/resource.action.php?para=addRack">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -9,63 +11,79 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">  
-                        <div class="col-lg-6">                                           
+                        <div class="col-lg-4">                                           
                             <label>Rack Size</label>
                         </div>
-                        <div class="form-group col-lg-6"> 
-                            <select class="form-control" name="size">
-                                <option value="45">45 U</option>
-                                <option value="42">42 U</option>
-                                <option value="39">39 U</option>
-                                <option value="36">36 U</option>
-                                <option value="27">27 U</option>
-                                <option value="15">15 U</option>
-                            </select>
+                        <div class="form-group col-lg-3"> 
+                            <input class="form-control" type="number" name="size" value="42">
                         </div>
                     </div>
                     <div class="col-lg-12">  
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <label>Rack Type</label>
                         </div>
                         <div class="form-group col-lg-6">
                             <select class="form-control" name="type">
-                                <option value="full rack">Full Rack</option>
-                                <option value="1/2 rack">1/2 Rack</option>   
-                                <option value="1/4 rack">1/4 Rack</option>
-                                <option value="shared rack">Shared Rack</option>     
+                                <?php
+                                $getTypes = getCatagory();
+                                foreach ($getTypes as $value) {
+                                    if ($value['Type'] != "Rack") {
+                                        continue;
+                                    }
+                                    $valPackageCategory = $value['PackageCategory'];
+                                    $valPackageCategoryID = $value['PackageCategoryID'];
+                                    ?>
+                                    <option value="<?php echo $valPackageCategory; ?>"><?php echo $valPackageCategory; ?></option>
+                                <?php } ?>   
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-12">  
-                        <div class="col-lg-6">                                           
-                            <label>Rack Zone</label>
+                        <div class="col-lg-4">                                           
+                            <label>Location</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <select class="form-control" name="location" id="location2" onchange="showCol();">
+                                <option value="">Choose</option>
+                                <?php
+                                $getLocation = getLocation();
+                                foreach ($getLocation as $value) {
+                                    $valLocationID = $value['LocationID'];
+                                    $valLocation = $value['Location'];
+                                    ?>
+                                    <option value="<?php echo $valLocationID; ?>"><?php echo $valLocation; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-4">                                           
+                            <label>Rack Column</label>
                         </div>
                         <div class="form-group col-lg-3">
-                            <select class="form-control" name="zone" id="zone1" onchange="chkZone();">
-                                <option selected value="">Other</option>
-                                <option value="A">A</option>
+                            <select class="form-control" id="Col1" onchange="chkCol();">
+
                             </select>                                 
                         </div>
                         <div class="form-group col-lg-3">
-                            <input class="form-control" name="zone" id="zone2" required>
+                            <input class="form-control" name="col" id="Col2" required>
                         </div>
                         <script>
-                            function chkZone() {
-                                var zone1 = $("#zone1").val();
-                                $("#zone2").val(zone1);
+                            function chkCol() {
+                                var zone1 = $("#Col1").val();
+                                $("#Col2").val(zone1);
+                            }
+                            function showCol() {
+                                var locationID = $("#location2").val();
+                                $.get("../resource/action/resource.content.php?para=getRacksColumn&LocationID=" + locationID, function (data, status) {
+                                    $("#Col1").html(data);
+                                });
                             }
                         </script>
                     </div>
-                    <!--                    <div class="col-lg-12">  
-                                            <div class="col-lg-6">                                           
-                                                <label>Rack Position</label>
-                                            </div>
-                                            <div class="form-group col-lg-6">
-                                                <input class="form-control" name="position">                                   
-                                            </div>
-                                        </div>-->
+
                     <div class="col-lg-12">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <label>Amount</label>
                         </div>
                         <div class="form-group col-lg-3">

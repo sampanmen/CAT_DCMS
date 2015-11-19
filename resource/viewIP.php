@@ -15,7 +15,7 @@ $getIPs = getIPs($networkID);
 
             <div class="panel-body">
                 <div class="form-group">
-                    <select class="form-control" name="location" id="location" onchange="showNetwork();">
+                    <select class="form-control" name="location" id="location2" onchange="showNetwork();">
                         <option value="">Choose location</option>
                         <?php
                         $getLocationID = $_GET['LocationID'];
@@ -30,7 +30,7 @@ $getIPs = getIPs($networkID);
                     <script>
                         showNetwork();
                         function showNetwork() {
-                            var getLocation = $("#location").val();
+                            var getLocation = $("#location2").val();
                             $.get("../resource/action/resource.content.showIP.php?LocationID=" + getLocation, function (data, status) {
                                 $("#showNetwork").html(data);
                             });

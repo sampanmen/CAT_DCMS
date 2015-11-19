@@ -57,35 +57,38 @@ if ($para == "addIP") {
     echo "<pre>";
     print_r($_POST);
     echo "</pre>";
-    $size = $_POST['size'];
-    $type = $_POST['type'];
-    $zone = $_POST['zone'];
+    $RackSize = $_POST['size'];
+    $RackType = $_POST['type'];
+    $Col = $_POST['col'];
     $amount = $_POST['amount'];
-    $position = 1;
-    $subposition = 1;
+    $LocationID = $_POST['location'];
+    $Status = "Active";
+    $Row = 1;
+    $SubRackPosition = 1;
 
-    if (getLastPosition($zone) !== false) {
-        $position = getLastPosition($zone) + 1;
+    if (getLastRow($Col, $LocationID) !== false) {
+        $Row = getLastRow($Col, $LocationID)['Row'] + 1;
     }
 
-    switch ($type) {
-        case "full rack" :
-            $subposition = 1;
+    switch ($RackType) {
+        case "Full Rack" :
+            $SubRackPosition = 1;
             break;
-        case "1/2 rack" :
-            $subposition = 2;
+        case "1/2 Rack" :
+            $SubRackPosition = 2;
             break;
-        case "1/4 rack" :
-            $subposition = 4;
+        case "1/4 Rack" :
+            $SubRackPosition = 4;
             break;
-        case "shared rack" :
-            $subposition = $size;
+        case "Shared Rack" :
+            $SubRackPosition = $RackSize;
             break;
     }
 
     for ($i = 0; $i < $amount; $i++) {
-        for ($j = 0; $j < $subposition; $j++) {
-            addRack($zone, $position + $i, $j + 1, $type, $size, $PersonID_login);
+        echo $RackPositionID = addRackPosition($Col, $Row + $i, $RackType, $RackSize, $Status, NULL, $LocationID, $PersonID_login);
+        for ($j = 0; $j < $SubRackPosition; $j++) {
+            echo addRack($RackPositionID, $j + 1, NULL);
         }
     }
 
