@@ -64,10 +64,10 @@ if ($para == "getPackagesOnAddService") {
 
     $networkLink = getNetworkLink($locationID);
     foreach ($networkLink as $value) {
-        if ($value['NetworkLinkStatus'] != "Active") {
+        if ($value['Status'] != "Active") {
             continue;
         }
-        $networkLinkID = $value['ResourceNetworkLinkID'];
+        $networkLinkID = $value['NetworkLinkID'];
         $networkLink = $value['NetworkLink'];
         ?>
         <option value="<?php echo $networkLinkID; ?>"><?php echo $networkLink; ?></option>
