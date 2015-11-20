@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
 $getDivisionID = $_GET['DivisionID'];
 
 
-$getDivision = getDivitionByID($getDivisionID);
+$getDivision = getDivisionByID($getDivisionID);
 $division = $getDivision['Division'];
 $organization = $getDivision['Organization'];
 $address = $getDivision['Address'];
@@ -17,10 +17,10 @@ $status = $getDivision['Status'];
 
 
 
-<form method="POST" action="../admin/action/admin.action.php?para=editDivition&DivisionID=<?php echo $getDivisionID; ?>" enctype="multipart/form-data">
+<form method="POST" action="../admin/action/admin.action.php?para=editDivision&DivisionID=<?php echo $getDivisionID; ?>" enctype="multipart/form-data">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Divition</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Division</h4>
     </div>
     <div class="modal-body">
         <div class="container-fluid">
@@ -28,10 +28,10 @@ $status = $getDivision['Status'];
                 <div class="row">
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
-                            <label>Divition</label>
+                            <label>Division</label>
                         </div>
                         <div class="form-group col-lg-6"> 
-                            <input class="form-control" name="divition" value="<?php echo $division; ?>" >
+                            <input class="form-control" name="division" value="<?php echo $division; ?>" >
                         </div>
                     </div>
                     <div class="col-lg-12">  

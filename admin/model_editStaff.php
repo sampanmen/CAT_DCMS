@@ -1,18 +1,50 @@
-<form method="POST" action="">
+
+<?php
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+
+$getPersonID = $_GET['PersonID'];
+
+//get Person
+$getPersons = getPerson($getPersonID);
+$staffFname = $getPersons['Fname'];
+$staffLname = $getPersons['Lname'];
+$staffPhone = $getPersons['Phone'];
+$staffEmail = $getPersons['Email'];
+$staffIDCard = $getPersons['IDCard'];
+//$staffType = $getPersons['ContactType'];
+$staffStatus = $getPersons['PersonStatus'];
+
+//get staff
+
+$getStafff = getStaffByID($getPersonID);
+//$staffID = $getStafff['staffID'];
+$EmployeeID = $getStafff['EmployeeID'];
+$StaffPositionID = $getStafff['StaffPositionID'];
+$DivisionID = $getStafff['DivisionID'];
+?>
+
+
+
+
+
+
+
+<form method="POST" action="../admin/action/admin.action.php?para=editStaff&PersonID=<?php echo $getPersonID; ?>" enctype="multipart/form-data">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">0001</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel"></h4>
     </div>
     <div class="modal-body">
         <div class="container-fluid">
             <div class="panel-body">
                 <div class="row">
+
                     <div class="col-lg-12">  
                         <div class="col-lg-6">                                           
-                            <label>Staff ID</label>
+                            <label>ID Staff</label>
                         </div>
-                        <div class="form-group col-lg-3"> 
-                             00001
+                        <div class="form-group col-lg-6"> 
+                            <input class="form-control" name="IDStaff" value="<?php echo $EmployeeID; ?>"> 
                         </div>
                     </div>
                     <div class="col-lg-12">  
@@ -20,7 +52,7 @@
                             <label>Name</label>
                         </div>
                         <div class="form-group col-lg-6"> 
-                             Thidarat
+                            <input class="form-control" name="nameStaff" value="<?php echo $staffFname; ?>"> 
                         </div>
                     </div>
                     <div class="col-lg-12">  
@@ -28,7 +60,15 @@
                             <label>Surname</label>
                         </div>
                         <div class="form-group col-lg-6"> 
-                             Changkaew
+                            <input class="form-control" name="snameStaff" value="<?php echo $staffLname; ?>">    
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>โทรศัพท์ / Phone</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <input class="form-control" name="phoneStaff" value="<?php echo $staffPhone; ?>">                                
                         </div>
                     </div>
                     <div class="col-lg-12">  
@@ -36,31 +76,69 @@
                             <label>e-mail</label>
                         </div>
                         <div class="form-group col-lg-6"> 
-                            <input class="form-control" name="staffemail" type="email" >
+                            <input class="form-control" type="email" name="emailStaff" value="<?php echo $staffEmail; ?>">
                         </div>
                     </div>
                     <div class="col-lg-12">  
-                        <div class="col-lg-6">
-                            <label>Position</label>
+                        <div class="col-lg-6">                                           
+                            <label>รหัสบัตรประชาชน / ID Card</label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <select class="form-control" name="type">
-                                <option value="">Admin</option>
-                                <option value="">Service Desk</option>   
-                                <option value="">Operater</option>
-                                <option value="">Support Team</option>     
+                            <input class="form-control" type="text" name="idcardStaff" value="<?php echo $staffIDCard; ?>">                                   
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>ตำแหน่ง / Position</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <select class="form-control" name="positionStaffID" >
+                                <?php
+                                $positon = getStaffPosition();
+                                foreach ($positon as $value) {
+                                    if ($value['Status'] == "Deactive")
+                                        continue;
+                                    ?>
+                                    <option <?php echo $StaffPositionID == $value['StaffPositionID'] ? "selected" : ""; ?> value="<?php echo $value['StaffPositionID']; ?>"><?php echo $value['Position']; ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>แผนก / Division </label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <select class="form-control" name="divisionStaff">
+                                <?php
+                                $division = getDivision();
+                                foreach ($division as $value) {
+                                    if ($value['Status'] == "Deactive")
+                                        continue;
+                                    ?>
+                                    <option <?php echo $DivisionID == $value['DivisionID'] ? "selected" : ""; ?> value="<?php echo $value['DivisionID']; ?>">[<?php echo $value['Organization']; ?>] <?php echo $value['Division']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="col-lg-12">  
                         <div class="col-lg-6">
                             <label>Status</label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <select class="form-control" name="type">
-                                <option value="">Active</option>
-                                <option value="">NonActive</option> 
+                            <select class="form-control" name="status">
+                                <option <?php echo $staffStatus == "Active" ? "selected" : ""; ?> value="Active">Active</option>
+                                <option <?php echo $staffStatus == "Deactive" ? "selected" : ""; ?> value="Deactive">Deactive</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>รูปภาพ / Picture</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <input type="file" name="file"  accept=".jpg">                                    
                         </div>
                     </div>
                 </div>

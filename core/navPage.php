@@ -38,8 +38,8 @@ switch ($p) {
         $page['file'] = "../customer/viewCus.php";
         $page['name'] = "Customer Detail";
         break;
-    case "entryIDCShow":
-        $page['file'] = "../EntryIDC/entryIDCShow.php";
+    case "entryIDCShowHome":
+        $page['file'] = "../EntryIDC/entryIDCShowHome.php";
         $page['name'] = "Show Entry IDC";
         break;
     case "entryIDCShowLog":
@@ -100,6 +100,10 @@ switch ($p) {
     case "showStaff":
         $page['file'] = "../admin/showStaff.php";
         $page['name'] = "Show Staff";
+        break;
+    case "addPort":
+        $page['file'] = "../resource/addPort.php";
+        $page['name'] = "Add Port";
         break;
     default :
         $page['file'] = "../error404.php";

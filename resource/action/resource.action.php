@@ -134,4 +134,17 @@ if ($para == "addIP") {
     } else {
         echo "Can not remove.";
     }
+}if ($para == "addResourceService") {
+    $servicename = $_POST['servicename'];
+    $servicedetail = $_POST['servicedetail'];
+    $serviceamount = $_POST['serviceamount'];
+    $servicetag = $_POST['servicetag'];
+      $servicelocation= $_POST['servicelocation'];
+
+    $res = addResourceService($servicename, $servicedetail,$servicetag,null,null,null,null,null,null,$servicelocation);
+    if ($res) {
+        header("location: ../../core/?p=resourceHome&para=addResourceServiceCompleted");
+    } else {
+        header("location: ../../core/?p=resourceHome&para=addResourceServiceFailed");
+    }
 } 
