@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
-$personID = "-1";
+$PersonID_login = "-1";
 
 if ($para == "addStaffposition") {
 //    print_r($_POST);
@@ -40,13 +40,27 @@ if ($para == "addStaffposition") {
 } else if ($para == "addPacCatagory") {
     //   print_r($_POST);
     $category = $_POST['category'];
+    $Type = $_POST['type'];
     $status = $_POST['status'];
 
-    $res = addPacCatagory($category, $status);
+    $res = addPacCatagory($category, $Type, $status);
     if ($res) {
         header("location: ../../core/?p=setting&para=addPacCatagoryCompleted#CatagoryPackage");
     } else {
         header("location: ../../core/?p=setting&para=addPacCatagoryFailed#CatagoryPackage");
+    }
+} else if ($para == "addDivision") {
+    //   print_r($_POST);
+    $division = $_POST['division'];
+    $organization = $_POST['organization'];
+    $address = $_POST['address'];
+    $status = $_POST['status'];
+
+    $res = addDivision($division, $organization, $address, $status);
+    if ($res) {
+        header("location: ../../core/?p=setting&para=addDivisionCompleted#division");
+    } else {
+        header("location: ../../core/?p=setting&para=addDivisionFailed#division");
     }
 } else if ($para == "addZone") {
     //   print_r($_POST);
@@ -75,10 +89,11 @@ if ($para == "addStaffposition") {
 } else if ($para == "editCategory") {
     //   print_r($_POST);
     $packageCategoryID = $_GET['PackageCategoryID'];
+    $Type = $_POST['type'];
     $packageCategory = $_POST['packageCategory'];
     $status = $_POST['status'];
 
-    $res = editCategory($packageCategoryID, $packageCategory, $status);
+    $res = editCategory($packageCategoryID, $packageCategory, $Type, $status);
     if ($res) {
         header("location: ../../core/?p=setting&para=editCategoryCompleted");
     } else {
@@ -116,28 +131,84 @@ if ($para == "addStaffposition") {
     $location = $_POST['location'];
     $status = $_POST['status'];
 
-    $res = editZone($entryZoneID, $zone,$location, $status);
+    $res = editZone($entryZoneID, $zone, $location, $status);
     if ($res) {
         header("location: ../../core/?p=setting&para=editZoneCompleted");
     } else {
         header("location: ../../core/?p=setting&para=editZoneFailed");
     }
-}else if ($para == "addStaff") {
+} else if ($para == "editDivision") {
     //   print_r($_POST);
+    $divisionID = $_GET['DivisionID'];
+
+    $division = $_POST['division'];
+    $organization = $_POST['organization'];
+    $address = $_POST['address'];
+    $status = $_POST['status'];
+
+    $res = editDivision($divisionID, $division, $organization, $address, $status);
+    if ($res) {
+        header("location: ../../core/?p=setting&para=editDivisionCompleted");
+    } else {
+        header("location: ../../core/?p=setting&para=editDivisionFailed");
+    }
+} else if ($para == "addStaff") {
     $IDStaff = $_POST['IDStaff'];
     $nameStaff = $_POST['nameStaff'];
     $snameStaff = $_POST['snameStaff'];
     $phoneStaff = $_POST['phoneStaff'];
     $emailStaff = $_POST['emailStaff'];
     $idcardStaff = $_POST['idcardStaff'];
-    $positionStaff = $_POST['positionStaff'];
-    $file = $_POST['file'];
-    $status = $_POST['status'];
+    $personType = "Staff";
+    $positionStaff = $_POST['positionStaffID'];
+    $divisionStaff = $_POST['divisionStaff'];
+    $status = "Active";
+    $con = $_POST['con'];
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+    $resInsertPerson = addPerson($nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $personType, $status, $PersonID_login);
+    if ($resInsertPerson) {
+//        $resInsertCon = true;
+        $resInsertStaff = addStaff($resInsertPerson, $IDStaff, $positionStaff, $divisionStaff);
 
-    $res = addStaff($IDStaff, $nameStaff,$snameStaff, $phoneStaff, $emailStaff,$idcardStaff, $positionStaff,$file, $status);
-    if ($res) {
-        header("location: ../../core/?p=setting&para=addaddStaffCompleted");
-    } else {
-        header("location: ../../core/?p=setting&para=addaddStaffFailed");
+//            echo $resInsertCon . "<br>.";
+//            echo "///";
+//            echo "<pre>";
+////            print_r($_FILES);
+//            echo $resInsertCon."<br>";
+//            echo "</pre>";
+//            echo $_FILES["file"]["name"][$i]."<br>";
+        move_uploaded_file($_FILES["file"]["tmp_name"][$i], "../../customer/images/persons/" . $resInsertStaff . ".jpg");
+
+        if ($resInsertStaff) {
+            header("location: ../../core/?p=showStaff&personID=" . $resInsertPerson . "&para=addStaffCompleted");
+        } else {
+            header("location: ../../core/?p=showStaff&para=addStaffailed");
+        }
     }
-} 
+} else if ($para == "editStaff") {
+    $personID = $_GET['PersonID'];
+
+    $IDStaff = $_POST['IDStaff'];
+    $nameStaff = $_POST['nameStaff'];
+    $snameStaff = $_POST['snameStaff'];
+    $phoneStaff = $_POST['phoneStaff'];
+    $emailStaff = $_POST['emailStaff'];
+    $idcardStaff = $_POST['idcardStaff'];
+    $typestaff = "Staff";
+    $positionStaffID = $_POST['positionStaffID'];
+    $divisionStaff = $_POST['divisionStaff'];
+    $status = $_POST['status'];
+    
+    $resEditPerson = editPerson($personID, $nameStaff, $snameStaff, $phoneStaff, $emailStaff, $idcardStaff, $typestaff, $status);
+    $resEditStaff = editStaff($personID,$IDStaff,$positionStaffID,$divisionStaff);
+    if (isset($_FILES)) {
+        $uploadPic = move_uploaded_file($_FILES["file"]["tmp_name"], "../../customer/images/persons/" . $personID . ".jpg");
+    }
+    if ($resEditPerson || $resEditStaff || $uploadPic) {
+        header("location: ../../core/?p=showStaff&PersonID=" . $personID . "&para=editStaffCompleted");
+    } else {
+        header("location: ../../core/?p=viewCus&cusID=" . $cusID . "&para=editContactFailed");
+    }
+}

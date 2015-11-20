@@ -17,7 +17,7 @@ if ($para == "addEntryIDC") {
     $getPersonID = $_POST['personID'];
     $personType = $_GET['personType'];
     $cusID = isset($_POST['cusID']) ? $_POST['cusID'] : "";
-    $EmpID = isset($_POST['EmpID']) ? $_POST['EmpID'] : "";
+    $EmpID = isset($_POST['EmpID']) ? $_POST['EmpID'] : NULL;
     $visitCard = $_POST['visitCard'];
     $IDCCard = $_POST['IDCCard'];
     $IDCCardType = $_POST['IDCCardType'];
@@ -31,19 +31,20 @@ if ($para == "addEntryIDC") {
     $locationID = $_POST['locationID'];
 
     //items
-//    $item_name = $_POST['item_name'];
-//    $item_brand = $_POST['item_brand'];
-//    $item_model = $_POST['item_model'];
-//    $item_serialno = $_POST['item_serialno'];
-//    $item_rackID = $_POST['item_rackID'];
+    $item_name = $_POST['item_name'];
+    $item_brand = $_POST['item_brand'];
+    $item_model = $_POST['item_model'];
+    $item_serialno = $_POST['item_serialno'];
+    $item_rackID = $_POST['item_rackID'];
 
     $items = array();
-//    $items['name'] = $item_name;
-//    $items['brand'] = $item_brand;
-//    $items['model'] = $item_model;
-//    $items['serialno'] = $item_serialno;
-//    $items['rackID'] = $item_rackID;
+    $items['name'] = $item_name;
+    $items['brand'] = $item_brand;
+    $items['model'] = $item_model;
+    $items['serialno'] = $item_serialno;
+    $items['rackID'] = $item_rackID;
     //end item
+    //
     //internet
     if (isset($_POST['internet'])) {
         $internet = $_POST['internet'];
@@ -51,22 +52,16 @@ if ($para == "addEntryIDC") {
     } else {
         $internet = NULL;
     }
-
     //end internet
 
     $zoneArr = $_POST['area'];
     $datetimeIN = $_POST['datetimeIN'];
 
-    $res = addEntry($getPersonID, $visitCard, $IDCard, $IDCCard, $IDCCardType, $EmpID, $datetimeIN, NULL, $purpose, $internet, $personID);
-    if ($res > 0) {
-        addZoneDetail($res, $zoneArr);
-        updatePerson($getPersonID, $conName, $conLname, $conPhone, $conEmail, $IDCard);
-        if ($personType == "Contact") {
-            updateContact($getPersonID, $IDCCard, $IDCCardType);
-        } else if ($personType == "Staff") {
-            updateStaff($getPersonID, $EmpID);
-        }
-        header("Location: ../../core/?p=entryIDCShow&para=addEntrySuccess");
+    $EntryID = addEntry($getPersonID, $visitCard, $IDCCard, $IDCCardType, $datetimeIN, NULL, $purpose, $internet, $locationID, $personID);
+    if ($EntryID > 0) {
+        $EquipmentID = addEquipment($items, $EntryID); //Add Equipment
+        addZoneDetail($EntryID, $zoneArr); // Add Zone Detail
+        header("Location: ../../core/?p=entryIDCShowHome&para=addEntrySuccess");
     } else {
         header("Location: ../../core/?p=entryIDCForm&personID=" . $getPersonID . "&type=" . $personType . "&isPerson=1&para=addEntryError");
     }
@@ -78,4 +73,22 @@ if ($para == "addEntryIDC") {
     } else {
         echo "0";
     }
-}
+} else if ($para == "getOutEquipment") {
+    $equipmentID = $_GET['equipmentID'];
+    $entryID = $_POST['entryID'];
+    $res = checkOutEquipment($entryID, $equipmentID);
+    if ($res) {
+        header("Location: ../../core/?p=entryIDCShowEquipment&para=checkOutEquipmentSuccess");
+    } else {
+        header("Location: ../../core/?p=entryIDCShowEquipment&para=checkOutEquipmentError");
+    }
+} else if ($para == "cancelGetOutEquipment") {
+    $equipmentID = $_GET['equipmentID'];
+    
+    $res = cancelCheckOutEquipment($equipmentID);
+    if ($res) {
+        echo "<p class='text-success'>Cancel check out equipment success</p>";
+    } else {
+        echo "<p class='text-danger'>Cancel check out equipment error</p>";
+    }
+} 

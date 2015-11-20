@@ -6,13 +6,15 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
     <ul class="nav nav-tabs">
         <li class="active"><a href="#staffposition" data-toggle="tab" aria-expanded="true">Position</a>
         </li>
-        <li class=""><a href="#category" data-toggle="tab" aria-expanded="false">Category</a>
+        <li class=""><a href="#category" data-toggle="tab" aria-expanded="false">Package Category</a>
         </li>
         <li class=""><a href="#businesstype" data-toggle="tab" aria-expanded="false">Businesstypee</a>
         </li>
         <li class=""><a href="#location" data-toggle="tab" aria-expanded="false">location</a>
         </li>
         <li class=""><a href="#zone" data-toggle="tab" aria-expanded="false">Zone</a>
+        </li>
+        <li class=""><a href="#division" data-toggle="tab" aria-expanded="false">Division</a>
         </li>
     </ul>
 
@@ -87,6 +89,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                         <tr>
                                             <th width="70" class="text-center">ID</th>
                                             <th>Catagory</th>
+                                            <th>Type</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -96,11 +99,13 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                         foreach ($cat as $pacCat) {
                                             $PackageCategoryID = $pacCat['PackageCategoryID'];
                                             $PackageCategory = $pacCat['PackageCategory'];
+                                            $valType = $pacCat['Type'];
                                             $statusLabel = $pacCat['Status'] == "Active" ? "success" : ($pacCat['Status'] == "Suppened" ? "warning" : "danger");
                                             ?>
                                             <tr>
                                                 <td class="text-center"><?php echo $PackageCategoryID; ?></td>
                                                 <td><a href="../admin/model_editCat.php?PackageCategoryID=<?php echo $pacCat['PackageCategoryID']; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $PackageCategory; ?></a></td>                                      
+                                                <td><?php echo $valType; ?></td>
                                                 <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $pacCat['Status']; ?></span></td>
                                             </tr>                                                     
                                         <?php } ?>
@@ -109,7 +114,17 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                         <tr> 
                                             <td class="text-center"><button type="submit" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
                                             <td><input class="form-control" name="category" ></td>
-                                            <td><select class="form-control" name="status">
+                                            <td>
+                                                <select class="form-control" name="type">
+                                                    <option>Choose</option>
+                                                    <option value="Rack">Rack</option>
+                                                    <option value="IP Address">IP Address</option>
+                                                    <option value="Port">Port</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" name="status">
                                                     <option value="Active">Active</option>
                                                     <option value="Deactive">Deactive</option>
                                                 </select>
@@ -138,7 +153,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
                             <form method="POST" action="../admin/action/admin.action.php?para=addBusinesstype">
-                                <table class="table table-striped table-bordered table-hover"id="dataTables4">
+                                <table class="table table-striped table-bordered table-hover"id="dataTables2">
                                     <thead>
                                         <tr>
                                             <th width="70" class="text-center">ID</th>
@@ -255,7 +270,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
                             <form method="POST" action="../admin/action/admin.action.php?para=addZone">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables2">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables4">
                                     <thead>
                                         <tr>
                                             <th width="70"class="text-center">ID</th>
@@ -315,6 +330,85 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             </div>
 
         </div>
+
+
+        <div class="tab-pane fade" id="division">
+            <br>
+            <div class="col-lg-9"> 
+                <div class="panel panel-default" id="division">
+                    <div class="panel-heading">
+                        <h5><b>Division</b></h5>
+                    </div>  
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            <form method="POST" action="../admin/action/admin.action.php?para=addDivision">
+                                <table class="table table-striped table-bordered table-hover"id="dataTables5">
+                                    <thead>
+                                        <tr>
+                                            <th width="70"class="text-center">ID</th>
+                                            <th>Division</th>
+                                            <th>Organization</th>
+                                            <th>Address</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>                            
+                                        <?php
+                                        $Division = getDivision();
+                                        foreach ($Division as $divi) {
+                                            $DivisionID = $divi['DivisionID'];
+                                            $Division = $divi['Division'];
+                                            $Organization = $divi['Organization'];
+                                            $Address = $divi['Address'];
+                                            $status = $divi['Status'];
+                                            $statusLabel = $status == "Active" ? "success" : ($status == "Suppened" ? "warning" : "danger");
+                                            ?>
+                                            <tr>
+                                                <td class="text-center"><?php echo $DivisionID; ?></td>
+                                                <td><a href="../admin/model_editDivision.php?DivisionID=<?php echo $DivisionID; ?>"  data-toggle="modal" data-target="#myModal"><?php echo $Division; ?></a></td>
+                                                <td><?php echo $Organization ?></td>
+                                                <td><?php echo $Address ?></td>
+                                                <td><span class="label label-<?php echo $statusLabel; ?>"><?php echo $status; ?></span></td>
+                                            </tr>                                                     
+                                        <?php } ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td class="text-center"><button type="submit" class="btn btn-info btn-circle"><i class="glyphicon-plus"></i></button></td>
+                                            <td ><div class="form-group form-group-sm"><input class="form-control" name="division" ></div></td>
+                                            <td ><div class="form-group form-group-sm">
+                                                    <select class="form-control" name="organization">
+                                                        <option value="CAT">CAT</option>
+                                                        <option value="Vender">Vender</option>
+                                                    </select></div></td>
+                                            <td><div class="form-group form-group-sm"><textarea class="form-control" name="address" ></textarea></div></td>
+                                            <td><div class="form-group form-group-sm">
+                                                    <select class="form-control" name="status">
+                                                        <option value="Active">Active</option>
+                                                        <option value="Deactive">Deactive</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </form>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+        </div>
+
+
+
+
+
+
+
     </div>
 
 
@@ -346,6 +440,13 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
 <script>
     $(document).ready(function () {
         $('#dataTables4').DataTable({
+            responsive: true
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#dataTables5').DataTable({
             responsive: true
         });
     });

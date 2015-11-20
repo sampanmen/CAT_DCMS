@@ -66,7 +66,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             <label>ตำแหน่ง / Position</label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <select class="form-control" name="positionStaff">
+                            <select class="form-control" name="positionStaffID">
                                 <?php
                                 $positon = getStaffPosition();
                                 foreach ($positon as $value) {
@@ -74,6 +74,23 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                         continue;
                                     ?>
                                     <option value="<?php echo $value['StaffPositionID']; ?>"><?php echo $value['Position']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-6">                                           
+                            <label>แผนก / Division </label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <select class="form-control" name="divisionStaff">
+                                <?php
+                                $positon = getDivision();
+                                foreach ($positon as $value) {
+                                    if ($value['Status'] == "Deactive")
+                                        continue;
+                                    ?>
+                                    <option value="<?php echo $value['DivisionID']; ?>">[<?php echo $value['Organization']; ?>] <?php echo $value['Division']; ?></option>
                                 <?php } ?>
                             </select>
                         </div>

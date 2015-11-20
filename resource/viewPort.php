@@ -2,49 +2,52 @@
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $swID = (isset($_GET['swID'])) ? $_GET['swID'] : "";
-$sw = getSwitchs();
-$swPort = getSwitchPorts($swID);
 ?>
 <p><a href="?">Home</a> > <b>Switch&Port</b></p>
 <div class="row">
-    <div class="col-lg-5"> 
+    <div class="col-lg-4"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Switch</b> <a href="../resource/model_addPort.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
+                <h5><b>Switch</b> <a href="../resource/model_addSwitch.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
             </div>      
 
             <div class="panel-body">
-                <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover" >
-                        <thead>
-                            <tr>
-                                <th>Switch name</th>
-                                <th>IP</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            foreach ($sw as $value) {
-                                ?>
-                                <tr>
-                                    <td><?php echo "<a href='?p=viewPort&swID=" . $value['ResourceSwitchID'] . "'>" . $value['SwitchName'] . "</a>"; ?></td>
-                                    <td><?php echo $value['SwitchIP']; ?></td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                <div class="form-group">
+                    <select class="form-control" name="location" id="location2" onchange="showSwitch();">
+                        <option value="">Choose location</option>
+                        <?php
+                        $getLocationID = $_GET['LocationID'];
+                        $getLocation = getLocation();
+                        foreach ($getLocation as $value) {
+                            $valLocationID = $value['LocationID'];
+                            $valLocation = $value['Location'];
+                            ?>
+                            <option <?php echo $valLocationID == $getLocationID ? "selected" : ""; ?> value="<?php echo $valLocationID; ?>"><?php echo $valLocation; ?></option>
+                        <?php } ?>
+                    </select>
+                    <script>
+                        showSwitch();
+                        function showSwitch() {
+                            var getLocation = $("#location2").val();
+                            $.get("../resource/action/resource.content.showSwitch.php?LocationID=" + getLocation, function (data, status) {
+                                $("#showSwitch").html(data);
+                            });
+                        }
+                    </script>
                 </div>
-                <!-- /.table-responsive -->
+                <div class="dataTable_wrapper" id="showSwitch">
+                    <!--Show Switch-->
+                </div>
             </div>
             <!-- /.row (nested) -->
         </div>
         <!-- /.panel-body -->
     </div>
 
-    <div class="col-lg-7"> 
+    <div class="col-lg-8"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Port </b><a href="?p=viewPort">(Show All)</a></h5>
+                <h5><b>Port </b></h5>
             </div>      
 
             <div class="panel-body">
@@ -60,107 +63,29 @@ $swPort = getSwitchPorts($swID);
                         </thead>
                         <tbody>
                             <?php
-                            $i = 0;
+                            $getSwitchID = isset($_GET['SwitchID']) ? $_GET['SwitchID'] : "";
+                            $swPort = getSwitchPorts($getSwitchID);
                             foreach ($swPort as $value) {
-                                $i++;
+                                $valSwitchName = $value['SwitchName'];
+                                $valPortNumber = $value['PortNumber'];
+                                $valPortType = $value['PortType'];
+                                $valCustomerID = $value['CustomerID'];
+                                $valCustomerName = $value['CustomerName'];
+                                $valUplink = $value['Uplink'];
                                 ?>
                                 <tr>
-                                    <td><?php echo $value['SwitchName']; ?></td>
-                                    <td><?php echo $value['PortNumber']; ?></td>
-                                    <td ondblclick="editPortType('<?php echo $value['ResourceSwitchPortID']; ?>', '<?php echo $i; ?>');">
-                                        <p id="portType_txt_<?php echo $i; ?>"><?php echo $value['PortType']; ?></p>
-                                        <input style="display: none;" id="portType_in_<?php echo $i; ?>" onchange="savePortType('<?php echo $value['ResourceSwitchPortID']; ?>', this, '<?php echo $i; ?>')" type="text" value="<?php echo $value['PortType']; ?>">
-                                    </td>
+                                    <td><?php echo $valSwitchName; ?></td>
+                                    <td><?php echo $valPortNumber; ?></td>
+                                    <td><?php echo $valPortType; ?></td>
                                     <td>
-                                        <?php echo $value['Uplink'] == 1 ? "Uplink" : $value['CustomerName'] == NULL ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $value['CustomerID'] . "'>" . $value['CustomerName'] . "</a>"; ?>
+                                        <?php echo ($valUplink == 1) ? "Uplink" : ($valCustomerName == NULL ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $valCustomerID . "'>" . $valCustomerName . "</a>"); ?>
                                     </td>
                                 </tr> 
                             <?php } ?>
-                        <script>
-                            function editPortType(idPort, i) {
-//                                alert(idPort + " " + i);
-                                $("#portType_txt_" + i).hide();
-                                $("#portType_in_" + i).show();
-                            }
-                            function savePortType(idPort, data, i) {
-                                $("#portType_txt_" + i).html($("#portType_in_" + i).val());
-                                $("#portType_txt_" + i).show();
-                                $("#portType_in_" + i).hide();
-                            }
-                        </script>
                         </tbody>
                     </table>
-                </div>
-                <!-- /.table-responsive -->
-            </div>
-            <!-- /.row (nested) -->
-        </div>
-        <!-- /.panel-body -->
+                </div><!-- /.table-responsive -->
+            </div><!-- /.row (nested) -->
+        </div><!-- /.panel-body -->
     </div>
-
-    <!--        <div class="col-lg-12">
-             
-                    <div class="panel-body">
-                        <div class="dataTable_wrapper">
-                            <table class="table table-striped table-bordered table-hover" id="dataTables">
-                                <thead>
-                                    <tr>
-                                        <th>Switch name</th>
-                                        <th>Port</th>
-                                        <th>Vlan</th>
-                                        <th>Type</th>
-                                        <th>Customer</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>switch 1</td>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>100</td>
-                                        <td>Thailand HaHa</td>
-                                    </tr>                                                     
-                                   <tr>
-                                        <td>switch 1</td>
-                                        <td>2</td>
-                                        <td>1</td>
-                                        <td>100</td>
-                                        <td>Thailand HaHa</td>
-                                    </tr>                             
-                                    <tr>
-                                        <td>switch 1</td>
-                                        <td>3</td>
-                                        <td>1</td>
-                                        <td>100</td>
-                                        <td></td>
-                                    </tr>                            
-                                   <tr>
-                                        <td>switch 1</td>
-                                        <td>4</td>
-                                        <td>1</td>
-                                        <td>100</td>
-                                        <td></td>
-                                    </tr>                
-                                    <tr>
-                                        <td>switch 1</td>
-                                        <td>5</td>
-                                        <td>1</td>
-                                        <td>100</td>
-                                        <td>Thailand HaHa</td>
-                                    </tr>                      
-                                    <tr>
-                                        <td>switch 1</td>
-                                        <td>6</td>
-                                        <td>1</td>
-                                        <td>100</td>
-                                        <td>Thailand HaHa</td>
-                                    </tr>                  
-                                    
-    
-                                </tbody>
-                            </table>
-                        </div>
-                         /.table-responsive 
-                    </div>
-                </div>-->
 </div>

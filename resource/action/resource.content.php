@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
-$personID = "-1";
+$PersonID_login = "-1";
 
 if ($para == "manageIP_reserve") {
     $network = $_GET['network'];
@@ -88,9 +88,9 @@ if ($para == "manageIP_reserve") {
                 ?>
                 <tr>
                     <td><button type="button" id="btnUse_<?php echo $i; ?>" onclick="if (confirm('Are you sure to Delete this IP')) {
-                                        assignIPNull('<?php echo $i; ?>', '<?php echo $value['IP']; ?>')
-                                    }
-                                    ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
+                                assignIPNull('<?php echo $i; ?>', '<?php echo $value['IP']; ?>')
+                            }
+                            ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
                     <td><?php echo $value['IP']; ?></td>
                     <td><?php echo $value['NetworkIP']; ?></td>
                     <td><?php echo $value['Subnet']; ?></td>
@@ -189,9 +189,9 @@ if ($para == "manageIP_reserve") {
                 ?>
                 <tr>
                     <td><button type="button" id="btnUse_<?php echo $i; ?>" onclick="if (confirm('Are you sure to Delete this Port')) {
-                                        assignPortNull('<?php echo $i; ?>', '<?php echo $value['ResourceSwitchPortID']; ?>');
-                                    }
-                                    ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
+                                assignPortNull('<?php echo $i; ?>', '<?php echo $value['ResourceSwitchPortID']; ?>');
+                            }
+                            ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
                     <td><?php echo $value['SwitchName']; ?></td>
                     <td><?php echo $value['PortNumber']; ?></td>
                     <td><?php echo $value['PortType']; ?></td>
@@ -294,9 +294,9 @@ if ($para == "manageIP_reserve") {
                 ?>
                 <tr>
                     <td><button type="button" id="btnUse_<?php echo $i; ?>" onclick="if (confirm('Are you sure to Delete this Rack')) {
-                                        assignRackNull('<?php echo $i; ?>', '<?php echo $value['ResourceRackID']; ?>');
-                                    }
-                                    ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
+                                assignRackNull('<?php echo $i; ?>', '<?php echo $value['ResourceRackID']; ?>');
+                            }
+                            ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
                     <td><?php echo $value['RackType']; ?></td>
                     <td><?php echo $value['Zone']; ?></td>
                     <td><?php echo $value['Position']; ?></td>
@@ -315,4 +315,16 @@ if ($para == "manageIP_reserve") {
     </tbody>
     </table>
     <?php
+} else if ($para == "getRacksColumn") {
+    $LocationID = $_GET['LocationID'];
+    ?>
+    <option selected value="">Other</option>
+    <?php
+    $getCols = getRacksColumn($LocationID);
+    foreach ($getCols as $value) {
+        $valCol = $value['Col'];
+        ?>
+        <option value="<?php echo $valCol; ?>"><?php echo $valCol; ?></option>
+        <?php
+    }
 }

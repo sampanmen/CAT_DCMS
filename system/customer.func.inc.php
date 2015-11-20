@@ -137,12 +137,12 @@ function addAccount($PersonID, $Username, $Password) {
     }
 }
 
-function addStaff($PersonID, $EmployeeID, $StaffPositionID) {
+ function addStaff($PersonID, $EmployeeID, $StaffPositionID ,$DivisionID) {
     $conn = dbconnect();
-    $SQLCommand = "INSERT INTO `customer_person_staff`(`PersonID`, `EmployeeID`, `StaffPositionID`) "
-            . "VALUES (:PersonID, :EmployeeID, :StaffPositionID)";
+    $SQLCommand = "INSERT INTO `customer_person_staff`(`PersonID`, `EmployeeID`, `StaffPositionID`,`DivisionID`) "
+            . "VALUES (:PersonID, :EmployeeID, :StaffPositionID,:DivisionID)";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":PersonID" => $PersonID, ":EmployeeID" => $EmployeeID, ":StaffPositionID" => $StaffPositionID));
+    $SQLPrepare->execute(array(":PersonID" => $PersonID, ":EmployeeID" => $EmployeeID, ":StaffPositionID" => $StaffPositionID,":DivisionID" => $DivisionID));
 
     if ($SQLPrepare->rowCount() > 0) {
         return $conn->lastInsertId();

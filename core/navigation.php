@@ -263,10 +263,13 @@
                     <a href=""><i class="fa fa-users fa-fw"></i> Entry IDC<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="?p=entryIDCShow">Show IDC Entry</a>
+                            <a href="?p=entryIDCShowHome">Show IDC Entry</a>
                         </li>
                         <li>
                             <a href="?p=entryIDCShowLog">Entry IDC History</a>
+                        </li>
+                        <li>
+                            <a href="?p=entryIDCShowEquipment">Equipments</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
@@ -307,6 +310,14 @@
                         </li>
                         <li>
                             <a href="#">IP Monitoring</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href=""><i class="fa fa-gear fa-fw"></i> Setting<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="?p=setting">Setting</a>
                         </li>
                     </ul>
                 </li>
