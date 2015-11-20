@@ -366,17 +366,16 @@ function getEquipments() {
             . "`Brand`, "
             . "`Model`, "
             . "`SerialNo`, "
-            . "`RackID`, "
             . "`CustomerID`, "
             . "`EntryID_IN`, "
-            . "`TimeIn`, "
+            . "`TimeIN`, "
             . "`EntryID_OUT`, "
-            . "`TimeOut`, "
-            . "`ResourceRackID`, "
+            . "`TimeOUT`, "
+            . "`RackID`, "
             . "`Col`, "
             . "`Row`, "
-            . "`PositionRack` "
-            . "FROM `view_equipment`";
+            . "`SubRackPosition` "
+            . "FROM `view_equipment` ";
     $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();
