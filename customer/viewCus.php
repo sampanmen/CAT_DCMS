@@ -162,7 +162,7 @@ $getServiceDetail = getServiceDetailByCustomerID($cusID);
                                     <p><b>Phone:</b> <?php echo $conPhone; ?></p>
                                     <p><b>ID Card:</b> <?php echo $conIDCard; ?></p>
                                     <p><b>Type:</b> <?php echo $conTypeContact; ?></p>
-                                    <p class="label label-<?php echo $personStatus == "Active" ? "success" : ($personStatus == "Deactive" ? "warning" : "danger"); ?>"><?php echo $personStatus; ?></p>
+                                    <p class="label label-<?php echo $personStatus == "Active" ? "success" : ($personStatus == "Suppened" ? "warning" : "danger"); ?>"><?php echo $personStatus; ?></p>
                                     <div class="text-right">
                                         <a href="../customer/modal_editContact.php?personID=<?php echo $value['PersonID']; ?>&cusID=<?php echo $getCus['CustomerID']; ?>" data-toggle="modal" data-target="#myModal">Edit</a>
                                     </div>
