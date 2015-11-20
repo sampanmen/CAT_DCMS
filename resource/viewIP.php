@@ -6,7 +6,7 @@ $getIPs = getIPs($networkID);
 ?>
 <p><a href="?">Home</a> > <b>IP Address</b></p>
 <div class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-4">
 
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -48,7 +48,7 @@ $getIPs = getIPs($networkID);
     </div>
 
     <!--IP-->
-    <div class="col-lg-9"> 
+    <div class="col-lg-8"> 
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h5><b>IP Address </b></h5>

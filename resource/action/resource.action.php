@@ -24,31 +24,36 @@ if ($para == "addIP") {
     } else {
         header("Location: ../../core/?p=viewIP&para=addIPError");
     }
-} else if ($para == "addSwitch") {
-//    echo "<pre>";
-//    print_r($_POST);
-//    echo "</pre>";
+} else if ($para == "addPort") {
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
 
-    $name = $_POST['name'];
-    $ip = $_POST['ip'];
-    $commu = $_POST['commu'];
-    $typeSW = $_POST['typeSW'];
-    $typePort = $_POST['typePort'];
-    $totalport = $_POST['port'];
-    $uplinks = $_POST['uplink'];
-    $vlans = $_POST['vlan'];
+    $switch = json_decode($_POST['switch'], TRUE);
 
-    $vlanArr = explode(",", $vlans);
-    $uplinkArr = explode(",", $uplinks);
+    $SwitchName = $switch['name'];
+    $SwitchIP = $switch['ip'];
+    $SnmpCommuPublic = $switch['commu'];
+    $SwitchTypeID = $switch['typeSW'];
+    $TotalPort = $switch['port'];
+    $Brand = $switch['brand'];
+    $Model = $switch['model'];
+    $SerialNo = $switch['serialNo'];
+    $RackID = $switch['rackID'] == "" ? NULL : $switch['rackID'];
+    $LocationID = $switch['Location'];
 
-//    echo "<pre>";
-//    print_r($vlanArr);
-//    print_r($uplinkArr);
-//    echo "</pre>";
+    $portType = $_POST['portType'];
+    $vlan = $_POST['vlan'];
+    $uplink = $_POST['uplink'];
 
-    $res = addSwitch($name, $ip, $commu, $typeSW, $totalport, $typePort, $uplinkArr, $vlanArr, $PersonID_login);
+    $SwitchID = addSwitch($SwitchName, $SwitchIP, $TotalPort, $SnmpCommuPublic, $SwitchTypeID, $Brand, $Model, $SerialNo, $RackID, "Active", $LocationID, $PersonID_login);
 
-    if ($res) {
+    if ($SwitchID) {
+        for ($i = 1; $i <= $TotalPort; $i++) {
+            $uplinkk = isset($uplink[$i]) ? 1 : 0;
+            echo $uplinkk;
+            addSwitchPort($SwitchID, $i, $portType[$i], $vlan[$i], $uplinkk, NULL, $PersonID_login);
+        }
         header("Location: ../../core/?p=viewPort&para=addSwitchPortSuccess");
     } else {
         header("Location: ../../core/?p=viewPort&para=addSwitchPortError");
