@@ -137,12 +137,12 @@ function addAccount($PersonID, $Username, $Password) {
     }
 }
 
- function addStaff($PersonID, $EmployeeID, $StaffPositionID ,$DivisionID) {
+function addStaff($PersonID, $EmployeeID, $StaffPositionID, $DivisionID) {
     $conn = dbconnect();
     $SQLCommand = "INSERT INTO `customer_person_staff`(`PersonID`, `EmployeeID`, `StaffPositionID`,`DivisionID`) "
             . "VALUES (:PersonID, :EmployeeID, :StaffPositionID,:DivisionID)";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":PersonID" => $PersonID, ":EmployeeID" => $EmployeeID, ":StaffPositionID" => $StaffPositionID,":DivisionID" => $DivisionID));
+    $SQLPrepare->execute(array(":PersonID" => $PersonID, ":EmployeeID" => $EmployeeID, ":StaffPositionID" => $StaffPositionID, ":DivisionID" => $DivisionID));
 
     if ($SQLPrepare->rowCount() > 0) {
         return $conn->lastInsertId();
@@ -548,24 +548,57 @@ function addServiceDetailAction($ServiceDetailID, $Status, $cause, $PersonID_log
     ));
 
     if ($SQLPrepare->rowCount() > 0) {
+        if ($Status == "Deactive") {
+            addResouceUsedOnChangeServiceDetail($ServiceDetailID, $PersonID_login);
+        }
         return $conn->lastInsertId();
     } else
         return false;
 }
 
-//function getOrderAmountPackage($orderID, $type) {
-//    $conn = dbconnect();
-//    $SQLCommand = "SELECT `PackageType`,count(`PackageType`) AS `Amount` "
-//            . "FROM `cus_order_detail` "
-//            . "INNER JOIN `cus_package` "
-//            . "ON `cus_order_detail`.`PackageID`=`cus_package`.`PackageID` "
-//            . "WHERE `OrderID`= :orderID AND `PackageType` LIKE :addon AND `cus_order_detail`.`OrderDetailStatus` NOT LIKE 'delete' "
-//            . "GROUP BY `PackageType`,`OrderID`";
-//    $SQLPrepare = $conn->prepare($SQLCommand);
-//    $SQLPrepare->execute(array(":orderID" => $orderID, ":addon" => $type));
-//    $res = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
-//    return $res['Amount'];
-//}
+function addResouceUsedOnChangeServiceDetail($ServiceDetailID, $PersonID_login) {
+    
+    $ips = getIPsByServiceDetailID($ServiceDetailID);
+//    echo "<pre>";
+//    print_r($ips);
+//    echo "</pre>";
+    foreach ($ips as $value) {
+        if ($value['StatusUsed'] == "Deactive") {
+            continue;
+        }
+        $IPID = $value['IPID'];
+        $Status = "Deactive";
+        addIPUsed($IPID, $ServiceDetailID, $Status, $PersonID_login);
+    }
+    
+    $ports = getPortByServiceDetailID($ServiceDetailID);
+//    echo "<pre>";
+//    print_r($ports);
+//    echo "</pre>";
+    foreach ($ports as $value) {
+        if ($value['StatusUsed'] == "Deactive") {
+            continue;
+        }
+        $PortID = $value['SwitchPortID'];
+        $Status = "Deactive";
+//        echo "PortID: $PortID <br>";
+        addSwitchPortUsed($ServiceDetailID, $PortID, $Status, $PersonID_login);
+    }
+    
+    $racks = getRackByServiceDetailID($ServiceDetailID);
+//    echo "<pre>";
+//    print_r($racks);
+//    echo "</pre>";
+    foreach ($racks as $value) {
+        if ($value['StatusUsed'] == "Deactive") {
+            continue;
+        }
+        $SubRackID = $value['RackID'];
+        $Status = "Deactive";
+//        echo "PortID: $SubRackID <br>";
+        addRackUsed($ServiceDetailID, $SubRackID, $Status, $PersonID_login);
+    }
+}
 
 function getServiceByCustomerID($customerID) {
     $conn = dbconnect();
