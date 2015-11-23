@@ -2,15 +2,15 @@
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
-$personID = "-1";
+$PersonID_login = "-1";
 
 if ($para == "manageIP_reserve") {
-    $network = $_GET['network'];
-    $orderDetailID = $_GET['orderDetailID'];
+    $networkID = $_GET['networkID'];
+    $ServiceDetailID = $_GET['ServiceDetailID'];
     $used = $_GET['used'];
     $assign = $_GET['assign'];
     $balance = $assign - $used;
-    $ips = getIPs($network);
+    $ips = getIPs($networkID);
     ?>
     <table class="table table-striped table-bordered table-hover" id="tableAssign">
         <thead>
@@ -27,26 +27,34 @@ if ($para == "manageIP_reserve") {
             <?php
             $i = 0;
             foreach ($ips as $value) {
-                if ($value['CustomerName'] != NULL) {
+                if ($value['StatusUsed'] != NULL && $value['StatusUsed'] != "Deactive") {
                     continue;
                 }
                 $i++;
+                $ip = $value['IP'];
+                $ipid = $value['IPID'];
+                $networkID = $value['NetworkID'];
+                $networkIP = $value['NetworkIP'];
+                $subnet = $value['Subnet'];
+                $vlan = $value['Vlan'];
+                $customerName = $value['CustomerName'];
+                $statusUsed = $value['StatusUsed'];
                 ?>
                 <tr id="tr_<?php echo $i; ?>">
-                    <td><button type="button" id="btn_<?php echo $i; ?>" onclick="assignIP('<?php echo $i; ?>', '<?php echo $value['IP']; ?>')" class="btn btn-success btn-circle"><i class="glyphicon-plus"></i></button></td>
-                    <td><?php echo $value['IP']; ?></td>
-                    <td><?php echo $value['NetworkIP']; ?></td>
-                    <td><?php echo $value['Subnet']; ?></td>
-                    <td><?php echo $value['VlanID']; ?></td>
-                    <td><?php echo $value['CustomerName'] == NULL ? "NULL" : $value['CustomerName']; ?></td>
+                    <td><button type="button" id="btn_<?php echo $i; ?>" onclick="assignIP('<?php echo $i; ?>', '<?php echo $ipid; ?>')" class="btn btn-success btn-circle"><i class="glyphicon-plus"></i></button></td>
+                    <td><?php echo $ip; ?></td>
+                    <td><?php echo $networkIP; ?></td>
+                    <td><?php echo $subnet; ?></td>
+                    <td><?php echo $vlan; ?></td>
+                    <td><?php echo ($customerName == NULL || $statusUsed == "Deactive") ? "NULL" : $customerName; ?></td>
                 </tr>
             <?php } ?>
         <script>
             var j = <?php echo $balance; ?>;
-            function assignIP(i, ip) {
+            function assignIP(i, ipid) {
                 if (j > 0) {
                     $("#btn_" + i).hide();
-                    $.get("../resource/action/resource.action.php?para=assignIP&ip=" + ip + "&orderDetailID=<?php echo $orderDetailID; ?>", function (data, status) {
+                    $.get("../resource/action/resource.action.assign.php?para=assignIP&ipid=" + ipid + "&ServiceDetailID=<?php echo $ServiceDetailID; ?>", function (data, status) {
                         //                        alert(data);
                         j--;
                         showIPUsed();
@@ -61,13 +69,20 @@ if ($para == "manageIP_reserve") {
                     showIPUsed();
                 }
             }
+
+            $(document).ready(function () {
+                $('#tableAssign').DataTable({
+                    responsive: true
+                });
+            });
         </script>
+
     </tbody>
     </table>
     <?php
 } else if ($para == "manageIP_used") {
-    $orderDetailID = $_GET['orderDetailID'];
-    $ips = getIPsByOrderDetailID($orderDetailID);
+    $ServiceDetailID = $_GET['ServiceDetailID'];
+    $ips = getIPsByServiceDetailID($ServiceDetailID);
     ?>
     <table class="table  table-bordered " id="dataTables">
         <thead>
@@ -84,24 +99,33 @@ if ($para == "manageIP_reserve") {
             <?php
             $i = 0;
             foreach ($ips as $value) {
+                if ($value['StatusUsed'] == "Deactive") {
+                    continue;
+                }
                 $i++;
+                $ipid = $value['IPID'];
+                $ip = $value['IP'];
+                $network = $value['NetworkIP'];
+                $subnet = $value['Subnet'];
+                $vlan = $value['Vlan'];
+                $cusName = $value['CustomerName'];
                 ?>
                 <tr>
                     <td><button type="button" id="btnUse_<?php echo $i; ?>" onclick="if (confirm('Are you sure to Delete this IP')) {
-                                        assignIPNull('<?php echo $i; ?>', '<?php echo $value['IP']; ?>')
-                                    }
-                                    ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
-                    <td><?php echo $value['IP']; ?></td>
-                    <td><?php echo $value['NetworkIP']; ?></td>
-                    <td><?php echo $value['Subnet']; ?></td>
-                    <td><?php echo $value['VlanID']; ?></td>
-                    <td><?php echo $value['CustomerName']; ?></td>
+                                assignIPNull('<?php echo $i; ?>', '<?php echo $ipid; ?>')
+                            }
+                            ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
+                    <td><?php echo $ip; ?></td>
+                    <td><?php echo $network; ?></td>
+                    <td><?php echo $subnet; ?></td>
+                    <td><?php echo $vlan; ?></td>
+                    <td><?php echo $cusName; ?></td>
                 </tr>
             <?php } ?>
         <script>
             function assignIPNull(j, ipNull) {
                 $("#btnUse_" + j).hide();
-                $.get("../resource/action/resource.action.php?para=assignIPNull&ip=" + ipNull, function (data, status) {
+                $.get("../resource/action/resource.action.assign.php?para=assignIPNull&ServiceDetailID=<?php echo $ServiceDetailID; ?>&ip=" + ipNull, function (data, status) {
                     //                    alert(data);
                 });
             }
@@ -110,8 +134,8 @@ if ($para == "manageIP_reserve") {
     </table>
     <?php
 } else if ($para == "managePort_reserve") {
-    $switchID = $_GET['switchID'];
-    $orderDetailID = $_GET['orderDetailID'];
+    $switchID = $_GET['SwitchID'];
+    $ServiceDetailID = $_GET['ServiceDetailID'];
     $used = $_GET['used'];
     $assign = $_GET['assign'];
     $balance = $assign - $used;
@@ -131,17 +155,23 @@ if ($para == "manageIP_reserve") {
             <?php
             $i = 0;
             foreach ($ports as $value) {
-                if ($value['CustomerName'] != NULL) {
+                if ($value['StatusUsed'] != NULL && $value['StatusUsed'] != "Deactive") {
                     continue;
                 }
                 $i++;
+                $portID = $value['SwitchPortID'];
+                $statusUsed = $value['StatusUsed'];
+                $switchName = $value['SwitchName'];
+                $portNumber = $value['PortNumber'];
+                $portType = $value['PortType'];
+                $customerName = $value['CustomerName'];
                 ?>
                 <tr id="tr_<?php echo $i; ?>">
-                    <td><button type="button" id="btn_<?php echo $i; ?>" onclick="assignPort('<?php echo $i; ?>', '<?php echo $value['ResourceSwitchPortID']; ?>')" class="btn btn-success btn-circle"><i class="glyphicon-plus"></i></button></td>
-                    <td><?php echo $value['SwitchName']; ?></td>
-                    <td><?php echo $value['PortNumber']; ?></td>
-                    <td><?php echo $value['PortType']; ?></td>
-                    <td><?php echo $value['CustomerName'] == NULL ? "NULL" : $value['CustomerName']; ?></td>
+                    <td><button type="button" id="btn_<?php echo $i; ?>" onclick="assignPort('<?php echo $i; ?>', '<?php echo $portID; ?>')" class="btn btn-success btn-circle"><i class="glyphicon-plus"></i></button></td>
+                    <td><?php echo $switchName; ?></td>
+                    <td><?php echo $portNumber; ?></td>
+                    <td><?php echo $portType; ?></td>
+                    <td><?php echo ($customerName == NULL || $statusUsed == "Deactive") ? "NULL" : $customerName; ?></td>
                 </tr>
             <?php } ?>
         <script>
@@ -149,7 +179,7 @@ if ($para == "manageIP_reserve") {
             function assignPort(i, portID) {
                 if (j > 0) {
                     $("#btn_" + i).hide();
-                    $.get("../resource/action/resource.action.php?para=assignPort&portID=" + portID + "&orderDetailID=<?php echo $orderDetailID; ?>", function (data, status) {
+                    $.get("../resource/action/resource.action.assign.php?para=assignPort&portID=" + portID + "&ServiceDetailID=<?php echo $ServiceDetailID; ?>", function (data, status) {
                         j--;
                         showPortUsed();
                         if (j <= 0) {
@@ -168,10 +198,10 @@ if ($para == "manageIP_reserve") {
     </table>
     <?php
 } else if ($para == "managePort_used") {
-    $orderDetailID = $_GET['orderDetailID'];
-    $ports = getPortByOrderDetailID($orderDetailID);
+    $ServiceDetailID = $_GET['ServiceDetailID'];
+    $ports = getPortByServiceDetailID($ServiceDetailID);
     ?>
-    <table class="table  table-bordered " id="dataTables">
+    <table class="table table-bordered" id="dataTables">
         <thead>
             <tr>
                 <th></th>
@@ -185,23 +215,31 @@ if ($para == "manageIP_reserve") {
             <?php
             $i = 0;
             foreach ($ports as $value) {
+                if ($value['StatusUsed'] == "Deactive") {
+                    continue;
+                }
                 $i++;
+                $switchName = $value['SwitchName'];
+                $portID = $value['SwitchPortID'];
+                $portNumber = $value['PortNumber'];
+                $portType = $value['PortType'];
+                $customerName = $value['CustomerName'];
                 ?>
                 <tr>
                     <td><button type="button" id="btnUse_<?php echo $i; ?>" onclick="if (confirm('Are you sure to Delete this Port')) {
-                                        assignPortNull('<?php echo $i; ?>', '<?php echo $value['ResourceSwitchPortID']; ?>');
-                                    }
-                                    ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
-                    <td><?php echo $value['SwitchName']; ?></td>
-                    <td><?php echo $value['PortNumber']; ?></td>
-                    <td><?php echo $value['PortType']; ?></td>
-                    <td><?php echo $value['CustomerName']; ?></td>
+                                assignPortNull('<?php echo $i; ?>', '<?php echo $portID; ?>');
+                            }
+                            ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
+                    <td><?php echo $switchName; ?></td>
+                    <td><?php echo $portNumber; ?></td>
+                    <td><?php echo $portType; ?></td>
+                    <td><?php echo $customerName; ?></td>
                 </tr>
             <?php } ?>
         <script>
             function assignPortNull(j, portNull) {
                 $("#btnUse_" + j).hide();
-                $.get("../resource/action/resource.action.php?para=assignPortNull&portID=" + portNull, function (data, status) {
+                $.get("../resource/action/resource.action.assign.php?para=assignPortNull&ServiceDetailID=<?php echo $ServiceDetailID; ?>&portID=" + portNull, function (data, status) {
                     //                    alert(data);
                 });
             }
@@ -210,23 +248,22 @@ if ($para == "manageIP_reserve") {
     </table>
     <?php
 } else if ($para == "manageRack_reserve") {
-    $orderDetailID = $_GET['orderDetailID'];
+    $ServiceDetailID = $_GET['ServiceDetailID'];
     $used = $_GET['used'];
     $assign = $_GET['assign'];
     $balance = $assign - $used;
-    $rackType = $_GET['racktype'];
-    $zone = $_GET['zone'];
-    $position = $_GET['position'];
-    $getRacks = getRacksReserve($zone, $position, $rackType);
+    $rackTypeID = $_GET['racktypeID'];
+    $RackPositionID = $_GET['rackPositionID'];
+    $getRacks = getRacksReserve($RackPositionID, $rackTypeID);
     ?>
     <table class="table table-striped table-bordered table-hover" id="tableAssign">
         <thead>
             <tr>
                 <th></th>
                 <th>Type</th>
-                <th>Zone</th>
+                <th>Column</th>
+                <th>Row</th>
                 <th>Position</th>
-                <th>Subposition</th>
                 <th>Customer</th>
             </tr>
         </thead>
@@ -238,14 +275,21 @@ if ($para == "manageIP_reserve") {
                     continue;
                 }
                 $i++;
+                $RackID = $value['RackID'];
+                $RackType = $value['RackType'];
+                $Col = $value['Col'];
+                $Row = $value['Row'];
+                $subPosition = $value['SubRackPosition'];
+                $CustomerName = $value['CustomerName'];
+                $statusUsed = $value['StatusUsed'];
                 ?>
                 <tr id="tr_<?php echo $i; ?>">
-                    <td><button type="button" id="btn_<?php echo $i; ?>" onclick="assignRack('<?php echo $i; ?>', '<?php echo $value['ResourceRackID']; ?>')" class="btn btn-success btn-circle"><i class="glyphicon-plus"></i></button></td>
-                    <td><?php echo $value['RackType']; ?></td>
-                    <td><?php echo $value['Zone']; ?></td>
-                    <td><?php echo $value['Position']; ?></td>
-                    <td><?php echo $value['SubPosition']; ?></td>
-                    <td><?php echo $value['CustomerName'] == NULL ? "NULL" : $value['CustomerName']; ?></td>
+                    <td><button type="button" id="btn_<?php echo $i; ?>" onclick="assignRack('<?php echo $i; ?>', '<?php echo $RackID; ?>')" class="btn btn-success btn-circle"><i class="glyphicon-plus"></i></button></td>
+                    <td><?php echo $RackType; ?></td>
+                    <td><?php echo $Col; ?></td>
+                    <td><?php echo $Row; ?></td>
+                    <td><?php echo $subPosition; ?></td>
+                    <td><?php echo ($CustomerName == NULL || $statusUsed == "Deactive") ? "NULL" : $CustomerName; ?></td>
                 </tr>
             <?php } ?>
         <script>
@@ -253,7 +297,7 @@ if ($para == "manageIP_reserve") {
             function assignRack(i, rackID) {
                 if (j > 0) {
                     $("#btn_" + i).hide();
-                    $.get("../resource/action/resource.action.php?para=assignRack&rackID=" + rackID + "&orderDetailID=<?php echo $orderDetailID; ?>", function (data, status) {
+                    $.get("../resource/action/resource.action.assign.php?para=assignRack&SubRackID=" + rackID + "&ServiceDetailID=<?php echo $ServiceDetailID; ?>", function (data, status) {
                         j--;
                         showRackUsed();
                         if (j <= 0) {
@@ -272,17 +316,18 @@ if ($para == "manageIP_reserve") {
     </table>
     <?php
 } else if ($para == "manageRack_used") {
-    $orderDetailID = $_GET['orderDetailID'];
-    $racks = getRackByOrderDetailID($orderDetailID);
+    //RackUsed
+    $ServiceDetailID = $_GET['ServiceDetailID'];
+    $racks = getRackByServiceDetailID($ServiceDetailID);
     ?>
     <table class="table  table-bordered " id="tableUsed">
         <thead>
             <tr>
                 <th></th>
                 <th>Type</th>
-                <th>Zone</th>
+                <th>Column</th>
+                <th>Row</th>
                 <th>Position</th>
-                <th>Subposition</th>
                 <th>Customer</th>
             </tr>
         </thead>
@@ -291,23 +336,32 @@ if ($para == "manageIP_reserve") {
             $i = 0;
             foreach ($racks as $value) {
                 $i++;
+                if ($value['StatusUsed'] == "Deactive") {
+                    continue;
+                }
+                $RackID = $value['RackID'];
+                $RackType = $value['RackType'];
+                $Col = $value['Col'];
+                $Row = $value['Row'];
+                $subPosition = $value['SubRackPosition'];
+                $CustomerName = $value['CustomerName'];
                 ?>
                 <tr>
                     <td><button type="button" id="btnUse_<?php echo $i; ?>" onclick="if (confirm('Are you sure to Delete this Rack')) {
-                                        assignRackNull('<?php echo $i; ?>', '<?php echo $value['ResourceRackID']; ?>');
-                                    }
-                                    ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
-                    <td><?php echo $value['RackType']; ?></td>
-                    <td><?php echo $value['Zone']; ?></td>
-                    <td><?php echo $value['Position']; ?></td>
-                    <td><?php echo $value['SubPosition']; ?></td>
-                    <td><?php echo $value['CustomerName']; ?></td>
+                                assignRackNull('<?php echo $i; ?>', '<?php echo $RackID; ?>');
+                            }
+                            ;" class="btn btn-danger btn-circle"><i class="glyphicon-minus"></i></button></td>
+                    <td><?php echo $RackType; ?></td>
+                    <td><?php echo $Col; ?></td>
+                    <td><?php echo $Row; ?></td>
+                    <td><?php echo $subPosition; ?></td>
+                    <td><?php echo $CustomerName; ?></td>
                 </tr>
             <?php } ?>
         <script>
             function assignRackNull(j, rackNull) {
                 $("#btnUse_" + j).hide();
-                $.get("../resource/action/resource.action.php?para=assignRackNull&rackID=" + rackNull, function (data, status) {
+                $.get("../resource/action/resource.action.assign.php?para=assignRackNull&ServiceDetailID=<?php echo $ServiceDetailID; ?>&SubRackID=" + rackNull, function (data, status) {
                     //                    alert(data);
                 });
             }
@@ -315,4 +369,16 @@ if ($para == "manageIP_reserve") {
     </tbody>
     </table>
     <?php
+} else if ($para == "getRacksColumn") {
+    $LocationID = $_GET['LocationID'];
+    ?>
+    <option selected value="">Other</option>
+    <?php
+    $getCols = getRacksColumn($LocationID);
+    foreach ($getCols as $value) {
+        $valCol = $value['Col'];
+        ?>
+        <option value="<?php echo $valCol; ?>"><?php echo $valCol; ?></option>
+        <?php
+    }
 }

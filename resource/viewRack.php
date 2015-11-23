@@ -3,167 +3,116 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $zone = (!isset($_GET['zone']) || $_GET['zone'] == "") ? "%" : $_GET['zone'];
 $type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
-//echo $zone;
-$getRacks = getRacks();
-$getRacksDetail = getRacksDetail($zone, $type);
 ?>
 
 <p><a href="?">Home</a> > <b>Rack</b></p>
 <div class="row">
-    <form>
-        <div class="col-lg-4"> 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h5><b>Rack </b><a href="../resource/model_addRack.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
-                </div>
-                <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Type Rack</th>
-                                    <th>Zone</th>
-                                    <th>Position</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($getRacks as $value) {
-                                    ?>
-                                    <tr>
-                                        <td><a href="?p=viewRack&type=<?php echo $value['RackType']; ?>"><?php echo $value['RackType']; ?></a></td>
-                                        <td><a href="?p=viewRack&zone=<?php echo $value['Zone']; ?>"><?php echo $value['Zone']; ?></a></td>
-                                        <td><?php echo $value['Position']; ?></td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.table-responsive -->
-                </div>
-                <!-- /.row (nested) -->
+    <div class="col-lg-4"> 
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5><b>Rack </b><a href="../resource/model_addRack.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
             </div>
-            <!-- /.panel-body -->
-        </div>
-        <div class="col-lg-8"> 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h5><b>Rack</b> <a href="?p=viewRack">(show all)</a></h5>
+            <div class="panel-body">
+                <div class="form-group">
+                    <select class="form-control" name="location" id="location" onchange="showNetwork();">
+                        <option value="">Choose location</option>
+                        <?php
+                        $getLocationID = $_GET['LocationID'];
+                        $getLocation = getLocation();
+                        foreach ($getLocation as $value) {
+                            $valLocationID = $value['LocationID'];
+                            $valLocation = $value['Location'];
+                            ?>
+                            <option <?php echo $valLocationID == $getLocationID ? "selected" : ""; ?> value="<?php echo $valLocationID; ?>"><?php echo $valLocation; ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
-                <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover" id="dataTables">
-                            <thead>
-                                <tr>
-                                    <th>Type Rack</th>
-                                    <th>Zone</th>
-                                    <th>Position</th>
-                                    <th>Subposition</th>
-                                    <th>Customer</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($getRacksDetail as $value) {
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $value['RackType']; ?></td>
-                                        <td><?php echo $value['Zone']; ?></td>
-                                        <td><?php echo $value['Position']; ?></td>
-                                        <td><?php echo $value['SubPosition']; ?></td>
-                                        <td><?php echo $value['CustomerName'] == NULL ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $value['CustomerID'] . "'>" . $value['CustomerName'] . "</a>"; ?></td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.table-responsive -->
+                <div class="form-group">
+                    <select class="form-control" name="location" id="type" onchange="showRackPosition();">
+                        <option value="">Choose type</option>
+                        <?php
+                        $getCateID = $_GET['Type'];
+                        $Types = getCatagory();
+                        foreach ($Types as $value) {
+                            $valCateID = $value['PackageCategoryID'];
+                            $valCate = $value['PackageCategory'];
+                            $valType = $value['Type'];
+                            if ($valType != "Rack") {
+                                continue;
+                            }
+                            ?>
+                            <option <?php echo $getCateID == $valCateID ? "selected" : ""; ?> value="<?php echo $valCateID; ?>"><?php echo $valCate; ?></option>
+                        <?php } ?>
+                    </select>
+
                 </div>
-                <!-- /.row (nested) -->
+                <!--                <div class="form-group">
+                                    <button class="form-control btn btn-info" onclick="showRackPosition();">Get Rack Position</button>
+                                </div>-->
+                <script>
+                    showRackPosition();
+                    function showRackPosition() {
+                        var getLocation = $("#location").val();
+                        var getType = $("#type").val();
+                        $.get("../resource/action/resource.content.showRackPosition.php?LocationID=" + getLocation + "&Type=" + getType, function (data, status) {
+                            $("#showRackPosition").html(data);
+                        });
+                    }
+                </script>
+                <div class="dataTable_wrapper" id="showRackPosition">
+
+                </div>
+                <!-- /.table-responsive -->
             </div>
-            <!-- /.panel-body -->
+            <!-- /.row (nested) -->
         </div>
+        <!-- /.panel-body -->
+    </div>
+    <div class="col-lg-8"> 
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5><b>Rack</b></h5>
+            </div>
+            <div class="panel-body">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!--        <div class="col-lg-12">
-                 
-                        <div class="panel-body">
-                            <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables">
-                                    <thead>
-                                        <tr>
-                                            <th>Type Rack</th>
-                                            <th>Zone</th>
-                                            <th>Position</th>
-                                            <th>Customer</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Full Rack</td>
-                                            <td>A</td>
-                                            <td>01</td>
-                                            <td>Thailand HaHa</td>
-                                        </tr>                                                     
-                                       <tr>
-                                            <td>Full Rack</td>
-                                            <td>A</td>
-                                            <td>02</td>
-                                            <td>Thailand HaHa</td>
-                                        </tr>                            
-                                       <tr>
-                                            <td>Full Rack</td>
-                                            <td>A</td>
-                                            <td>03</td>
-                                            <td></td>
-                                        </tr>                            
-                                       <tr>
-                                            <td>Full Rack</td>
-                                            <td>A</td>
-                                            <td>04</td>
-                                            <td></td>
-                                        </tr>                 
-                                        <tr>
-                                            <td>Full Rack</td>
-                                            <td>A</td>
-                                            <td>05</td>
-                                            <td></td>
-                                        </tr>                       
-                                        <tr>
-                                            <td>Full Rack</td>
-                                            <td>A</td>
-                                            <td>06</td>
-                                            <td></td>
-                                        </tr>                   
-                                        
-        
-                                    </tbody>
-                                </table>
-                            </div>
-                             /.table-responsive 
-                        </div>
-                    </div>-->
-    </form>
-
+                <div class="dataTable_wrapper">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables">
+                        <thead>
+                            <tr>
+                                <th>Type Rack</th>
+                                <th>Column</th>
+                                <th>Row</th>
+                                <th>Position</th>
+                                <th>Customer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $getRackPositionID = isset($_GET['RackPositionID']) ? $_GET['RackPositionID'] : "";
+                            $getRacks = getRackByRackPositionID($getRackPositionID);
+                            foreach ($getRacks as $value) {
+                                $valType = $value['RackType'];
+                                $valCol = $value['Col'];
+                                $valRow = $value['Row'];
+                                $valPosition = $value['SubRackPosition'];
+                                $valCustomerName = $value['CustomerName'];
+                                $valCustomerID = $value['CustomerID'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $valType; ?></td>
+                                    <td><?php echo $valCol; ?></td>
+                                    <td><?php echo $valRow; ?></td>
+                                    <td><?php echo $valPosition; ?></td>
+                                    <td><?php echo $valCustomerName == NULL ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $valCustomerID . "'>" . $valCustomerName . "</a>"; ?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.row (nested) -->
+        </div>
+        <!-- /.panel-body -->
+    </div>
 </div>
