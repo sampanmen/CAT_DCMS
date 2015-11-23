@@ -137,12 +137,12 @@ function addAccount($PersonID, $Username, $Password) {
     }
 }
 
- function addStaff($PersonID, $EmployeeID, $StaffPositionID ,$DivisionID) {
+function addStaff($PersonID, $EmployeeID, $StaffPositionID, $DivisionID) {
     $conn = dbconnect();
     $SQLCommand = "INSERT INTO `customer_person_staff`(`PersonID`, `EmployeeID`, `StaffPositionID`,`DivisionID`) "
             . "VALUES (:PersonID, :EmployeeID, :StaffPositionID,:DivisionID)";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":PersonID" => $PersonID, ":EmployeeID" => $EmployeeID, ":StaffPositionID" => $StaffPositionID,":DivisionID" => $DivisionID));
+    $SQLPrepare->execute(array(":PersonID" => $PersonID, ":EmployeeID" => $EmployeeID, ":StaffPositionID" => $StaffPositionID, ":DivisionID" => $DivisionID));
 
     if ($SQLPrepare->rowCount() > 0) {
         return $conn->lastInsertId();
@@ -548,7 +548,26 @@ function addServiceDetailAction($ServiceDetailID, $Status, $cause, $PersonID_log
     ));
 
     if ($SQLPrepare->rowCount() > 0) {
-        return $conn->lastInsertId();
+        $serviceDetailAction = $conn->lastInsertId();
+        updateServiceAction($ServiceDetailID, $serviceDetailAction);
+        return $serviceDetailAction;
+    } else
+        return false;
+}
+
+function updateServiceAction($ServiceDetailID, $serviceDetailAction) {
+    $conn = dbconnect();
+    $SQLCommand = "UPDATE `customer_service_detail` SET "
+            . "`ServiceDetailActionID`=:ServiceDetailActionID "
+            . "WHERE `ServiceDetailID`=:ServiceDetailID";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":ServiceDetailID" => $ServiceDetailID,
+        ":ServiceDetailActionID" => $serviceDetailAction
+    ));
+
+    if ($SQLPrepare->rowCount() > 0) {
+        return true;
     } else
         return false;
 }
@@ -581,7 +600,11 @@ function getServiceByCustomerID($customerID) {
             . "GROUP BY `ServiceID` "
             . "ORDER BY `ServiceID` DESC";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":customerID" => $customerID));
+    $SQLPrepare->execute(
+            array(
+                ":customerID" => $customerID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -594,29 +617,62 @@ function getServiceDetailByCustomerID($customerID) {
     $SQLCommand = "SELECT "
             . "`ServiceID`, "
             . "`CustomerID`, "
-            . "`DateTimeService`, "
-            . "`CreateBy`, "
-            . "`a`.`ServiceDetailID`, "
+            . "`CustomerName`, "
+            . "`LocationID`, "
+            . "`Location`, "
+            . "`ServiceDetailID`, "
             . "`PackageID`, "
             . "`PackageName`, "
             . "`PackageType`, "
             . "`PackageCategoryID`, "
             . "`PackageCategory`, "
-            . "`LocationID`, "
-            . "`Location`, "
+            . "`ServiceDetailActionID`, "
             . "`Status`, "
-            . "`b`.`DateTimeAction` "
-            . "FROM `view_service` AS `a` inner join (SELECT `ServiceDetailID`, MAX(`DateTimeAction`) AS `DateTimeAction` FROM `view_service` GROUP BY `ServiceDetailID`) AS `b` on `a`.`ServiceDetailID`=`b`.`ServiceDetailID` AND `a`.`DateTimeAction`=`b`.`DateTimeAction` "
-            . "WHERE `CustomerID` LIKE :customerID "
-            . "ORDER BY `b`.`DateTimeAction` DESC";
+            . "`Cause`, "
+            . "`DateTime` "
+            . "FROM `view_service_detail` "
+            . "WHERE `CustomerID`=:CustomerID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":customerID" => $customerID));
+    $SQLPrepare->execute(
+            array(
+                ":CustomerID" => $customerID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
     }
     return $resultArr;
 }
+
+//function getServiceDetailByCustomerID($customerID) {
+//    $conn = dbconnect();
+//    $SQLCommand = "SELECT "
+//            . "`ServiceID`, "
+//            . "`CustomerID`, "
+//            . "`DateTimeService`, "
+//            . "`CreateBy`, "
+//            . "`a`.`ServiceDetailID`, "
+//            . "`PackageID`, "
+//            . "`PackageName`, "
+//            . "`PackageType`, "
+//            . "`PackageCategoryID`, "
+//            . "`PackageCategory`, "
+//            . "`LocationID`, "
+//            . "`Location`, "
+//            . "`Status`, "
+//            . "`b`.`DateTimeAction` "
+//            . "FROM `view_service` AS `a` inner join (SELECT `ServiceDetailID`, MAX(`DateTimeAction`) AS `DateTimeAction` FROM `view_service` GROUP BY `ServiceDetailID`) AS `b` on `a`.`ServiceDetailID`=`b`.`ServiceDetailID` AND `a`.`DateTimeAction`=`b`.`DateTimeAction` "
+//            . "WHERE `CustomerID` LIKE :customerID "
+//            . "ORDER BY `b`.`DateTimeAction` DESC";
+//    $SQLPrepare = $conn->prepare($SQLCommand);
+//    $SQLPrepare->execute(array(":customerID" => $customerID));
+//    $resultArr = array();
+//    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+//        array_push($resultArr, $result);
+//    }
+//    return $resultArr;
+//}
 
 function editCustomer($cusID, $status, $CustomerName, $bisstype, $Email, $Phone, $Fax, $Address, $Township, $City, $Province, $Zipcode, $Country, $personID) {
     $conn = dbconnect();
@@ -690,20 +746,20 @@ function getServiceDetailByServiceID($serviceID, $type) {
     return $resultArr;
 }
 
-function getServiceDetailStatus($serviceDetailID) {
-    $conn = dbconnect();
-    $SQLCommand = "SELECT "
-            . "`Status` "
-            . "FROM `customer_service_detail_action` "
-            . "WHERE `ServiceDetailID` = :ServiceDetailID "
-            . "ORDER BY `DateTime` DESC";
-    $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(
-        ":ServiceDetailID" => $serviceDetailID
-    ));
-    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
-    return $result['Status'];
-}
+//function getServiceDetailStatus($serviceDetailID) {
+//    $conn = dbconnect();
+//    $SQLCommand = "SELECT "
+//            . "`Status` "
+//            . "FROM `customer_service_detail_action` "
+//            . "WHERE `ServiceDetailID` = :ServiceDetailID "
+//            . "ORDER BY `DateTime` DESC";
+//    $SQLPrepare = $conn->prepare($SQLCommand);
+//    $SQLPrepare->execute(array(
+//        ":ServiceDetailID" => $serviceDetailID
+//    ));
+//    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+//    return $result['Status'];
+//}
 
 function getServiceDetailCountByCategory($cusID) {
     $conn = dbconnect();

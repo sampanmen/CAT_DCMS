@@ -148,7 +148,7 @@ $getServiceDetail = getServiceDetailByCustomerID($cusID);
                                     <?php
 //                                    $images = '../customer/images/persons/' . $value['PersonID'] . ".jpg";
 //                                    $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
-                                    
+
                                     $images = '../customer/images/persons/' . $value['PersonID'] . ".jpg";
                                     $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
                                     $showImage = "../system/image_1-1.php?url=" . $showImage;
@@ -237,7 +237,7 @@ $getServiceDetail = getServiceDetailByCustomerID($cusID);
                                     if ($value['PackageType'] != "Main" || $value['Status'] == "Deactive") {
                                         continue;
                                     }
-                                    $valTime = $value['DateTimeAction'];
+                                    $valTime = $value['DateTime'];
                                     $valPackageID = $value['PackageID'];
                                     $valPackage = $value['PackageName'];
                                     $valCategory = $value['PackageCategory'];
@@ -270,7 +270,7 @@ $getServiceDetail = getServiceDetailByCustomerID($cusID);
                                     if ($value['PackageType'] != "Add-on" || $value['Status'] == "Deactive") {
                                         continue;
                                     }
-                                    $valTime = $value['DateTimeAction'];
+                                    $valTime = $value['DateTime'];
                                     $valPackageID = $value['PackageID'];
                                     $valPackage = $value['PackageName'];
                                     $valCategory = $value['PackageCategory'];
@@ -310,6 +310,17 @@ $getServiceDetail = getServiceDetailByCustomerID($cusID);
             </div>
             <!-- /.panel-body -->
         </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <b>Resource</b> <a href="?p=serviceDetail&CustomerID=<?php echo $cusID; ?>">(Show All)</a>
+            </div>                
+            <div class="panel-body">
+
+            </div><!-- /.panel-body -->
+        </div><!-- Contact Detail -->
     </div>
 
     <!-------IP-->
