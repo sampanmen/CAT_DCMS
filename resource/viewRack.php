@@ -96,7 +96,7 @@ $type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
                                 $valRow = $value['Row'];
                                 $valPosition = $value['SubRackPosition'];
                                 $valCustomerName = $value['CustomerName'];
-                                $valCustomer = $value['CustomerID'];
+                                $valCustomerID = $value['CustomerID'];
                                 ?>
                                 <tr>
                                     <td><?php echo $valType; ?></td>

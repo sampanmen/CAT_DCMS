@@ -1,10 +1,11 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
-$orderDetailID = $_GET['orderDetailID'];
+$ServiceDetailID = $_GET['ServiceDetailID'];
+$locationID = $_GET['LocationID'];
 $used = $_GET['used'];
 $assign = $_GET['assign'];
-$racktype = $_GET['PackageCategory'];
+$racktypeID = $_GET['racktypeID'];
 ?>
 
 <div class="modal-header">
@@ -24,7 +25,7 @@ $racktype = $_GET['PackageCategory'];
             <script>
                 showRackUsed();
                 function showRackUsed() {
-                    $.get("../resource/action/resource.content.php?para=manageRack_used&orderDetailID=<?php echo $orderDetailID; ?>", function (data, status) {
+                    $.get("../resource/action/resource.content.php?para=manageRack_used&ServiceDetailID=<?php echo $ServiceDetailID; ?>", function (data, status) {
                         $("#rackUsed").html(data);
                     });
                 }
@@ -44,12 +45,18 @@ $racktype = $_GET['PackageCategory'];
                 </div>
                 <div class=" col-lg-6">
                     <select id="position" onchange="getRackReserve();">
-                        <option value=",">Choose</option>
+                        <option>Choose</option>
                         <?php
-                        $getRacks = getRackValue($racktype);
+                        $getRacks = getRackValueByServiceDetailID($racktypeID, $locationID);
+                        echo "<pre>";
+                        print_r($getRacks);
+                        echo "</pre>";
                         foreach ($getRacks as $value) {
+                            $col = $value['Col'];
+                            $row = $value['Row'];
+                            $rackPositionID = $value['RackPositionID'];
                             ?>
-                            <option value="<?php echo $value['Zone']; ?>,<?php echo $value['Position']; ?>"><?php echo $value['Zone'] . $value['Position'] . " (" . $value['balance'] . ")"; ?></option>
+                            <option value="<?php echo $rackPositionID; ?>"><?php echo $col . $row; ?></option>
                         <?php } ?>
                     </select>    
                 </div>
@@ -61,13 +68,10 @@ $racktype = $_GET['PackageCategory'];
                 </div>
                 <script>
                     function getRackReserve() {
-                        var tmp = $("#position").val();
-                        var res = tmp.split(",");
-                        var zone = res[0];
-                        var position = res[1];
-                        var rackType = "<?php echo $racktype; ?>";
-                        var orderDetailID = <?php echo $orderDetailID; ?>;
-                        $.get("../resource/action/resource.content.php?para=manageRack_reserve&orderDetailID=" + orderDetailID + "&racktype=" + rackType + "&used=<?php echo $used; ?>&assign=<?php echo $assign; ?>&zone=" + zone + "&position=" + position, function (data, status) {
+                        var rackPositionID = $("#position").val();
+                        var rackTypeID = "<?php echo $racktypeID; ?>";
+                        var ServiceDetailID = <?php echo $ServiceDetailID; ?>;
+                        $.get("../resource/action/resource.content.php?para=manageRack_reserve&ServiceDetailID=" + ServiceDetailID + "&racktypeID=" + rackTypeID + "&used=<?php echo $used; ?>&assign=<?php echo $assign; ?>&rackPositionID=" + rackPositionID, function (data, status) {
                             $("#rackReserve").html(data);
                         });
                     }
