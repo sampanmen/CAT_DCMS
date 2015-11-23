@@ -1,11 +1,12 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
-$orderDetailID = $_GET['orderDetailID'];
+$ServiceDetailID = $_GET['ServiceDetailID'];
+$locationID = $_GET['LocationID'];
 $used = $_GET['used'];
 $assign = $_GET['assign'];
 
-$getNetworks = getNetworksValue();
+$getNetworks = getNetworksValue($locationID);
 ?>
 
 <div class="modal-header">
@@ -26,7 +27,7 @@ $getNetworks = getNetworksValue();
             <script>
                 showIPUsed();
                 function showIPUsed() {
-                    $.get("../resource/action/resource.content.php?para=manageIP_used&orderDetailID=<?php echo $orderDetailID; ?>", function (data, status) {
+                    $.get("../resource/action/resource.content.php?para=manageIP_used&ServiceDetailID=<?php echo $ServiceDetailID; ?>&LocationID=<?php echo $locationID; ?>", function (data, status) {
                         $("#ipUsed").html(data);
                     });
                 }
@@ -50,8 +51,12 @@ $getNetworks = getNetworksValue();
                         <option>Choose Network</option>
                         <?php
                         foreach ($getNetworks as $value) {
+                            $networkID = $value['NetworkID'];
+                            $networkIP = $value['NetworkIP'];
+                            $subnet = $value['Subnet'];
+                            $vlan = $value['Vlan'];
                             ?>
-                            <option value="<?php echo $value['NetworkIP']; ?>"><?php echo $value['NetworkIP'] . " (" . $value['balance'] . ")"; ?></option>
+                            <option value="<?php echo $networkID; ?>"><?php echo $networkIP . "/" . $subnet; ?></option>
                         <?php } ?>
                     </select>    
                 </div>
@@ -64,8 +69,8 @@ $getNetworks = getNetworksValue();
                 <script>
                     function getIPReserve() {
                         var network = $("#network").val();
-                        var orderDetailID = <?php echo $orderDetailID; ?>;
-                        $.get("../resource/action/resource.content.php?para=manageIP_reserve&orderDetailID=" + orderDetailID + "&network=" + network + "&used=<?php echo $used; ?>&assign=<?php echo $assign; ?>", function (data, status) {
+                        var ServiceDetailID = <?php echo $ServiceDetailID; ?>;
+                        $.get("../resource/action/resource.content.php?para=manageIP_reserve&ServiceDetailID=" + ServiceDetailID + "&networkID=" + network + "&used=<?php echo $used; ?>&assign=<?php echo $assign; ?>", function (data, status) {
                             $("#ipReserve").html(data);
                         });
                     }
