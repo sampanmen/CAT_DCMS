@@ -741,6 +741,7 @@ function getRackByRackPositionID($RackPositionID) {
             . "`RackType`, "
             . "`RackSize`, "
             . "`Status`, "
+            . "`StatusUsed`, "
             . "`RackUsedID`, "
             . "`ServiceDetailID`, "
             . "`CustomerID`, "

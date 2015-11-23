@@ -158,7 +158,7 @@ $summaryPort = getSummaryPortByLocationID($LocationID);
         </div>
 
         <!--Servics-->
-        <div class="panel panel-default">
+<!--        <div class="panel panel-default">
             <div class="panel-heading">
                 <h4><b>Servics
                         <a href="../resource/model_addService.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>
@@ -190,10 +190,10 @@ $summaryPort = getSummaryPortByLocationID($LocationID);
                         </tbody>
                     </table>
                 </div>
-                <!-- /.table-responsive -->
+                 /.table-responsive 
             </div>
-            <!-- /.row (nested) -->
-        </div>
+             /.row (nested) 
+        </div>-->
     </div>
 </div>
 

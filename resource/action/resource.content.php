@@ -271,7 +271,7 @@ if ($para == "manageIP_reserve") {
             <?php
             $i = 0;
             foreach ($getRacks as $value) {
-                if ($value['CustomerName'] != NULL) {
+                if ($value['StatusUsed'] != NULL && $value['StatusUsed'] != "Deactive") {
                     continue;
                 }
                 $i++;
