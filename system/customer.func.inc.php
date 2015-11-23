@@ -548,43 +548,43 @@ function addServiceDetailAction($ServiceDetailID, $Status, $cause, $PersonID_log
     ));
 
     if ($SQLPrepare->rowCount() > 0) {
-        $serviceDetailAction = $conn->lastInsertId();
-        updateServiceAction($ServiceDetailID, $serviceDetailAction);
-        return $serviceDetailAction;
+        if ($Status == "Deactive") {
+            addResouceUsedOnChangeServiceDetail($ServiceDetailID, $PersonID_login);
+        }
+        return $conn->lastInsertId();
     } else
         return false;
 }
 
-function updateServiceAction($ServiceDetailID, $serviceDetailAction) {
-    $conn = dbconnect();
-    $SQLCommand = "UPDATE `customer_service_detail` SET "
-            . "`ServiceDetailActionID`=:ServiceDetailActionID "
-            . "WHERE `ServiceDetailID`=:ServiceDetailID";
-    $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(
-        ":ServiceDetailID" => $ServiceDetailID,
-        ":ServiceDetailActionID" => $serviceDetailAction
-    ));
-
-    if ($SQLPrepare->rowCount() > 0) {
-        return true;
-    } else
-        return false;
+function addResouceUsedOnChangeServiceDetail($ServiceDetailID, $PersonID_login) {
+    $ips = getIPsByServiceDetailID($ServiceDetailID);
+    foreach ($ips as $value) {
+        if ($value['StatusUsed'] == "Deactive") {
+            continue;
+        }
+        $IPID = $value['IPID'];
+        $Status = "Deactive";
+        addIPUsed($IPID, $ServiceDetailID, $Status, $PersonID_login);
+    }
+    $ports = getPortByServiceDetailID($ServiceDetailID);
+    foreach ($ips as $value) {
+        if ($value['StatusUsed'] == "Deactive") {
+            continue;
+        }
+        $PortID = $value['SwitchPortID'];
+        $Status = "Deactive";
+        addSwitchPortUsed($ServiceDetailID, $PortID, $Status, $PersonID_login);
+    }
+    $racks = getRackByServiceDetailID($ServiceDetailID);
+    foreach ($ips as $value) {
+        if ($value['StatusUsed'] == "Deactive") {
+            continue;
+        }
+        $SubRackID = $value['RackID'];
+        $Status = "Deactive";
+        addRackUsed($ServiceDetailID, $SubRackID, $Status, $PersonID_login);
+    }
 }
-
-//function getOrderAmountPackage($orderID, $type) {
-//    $conn = dbconnect();
-//    $SQLCommand = "SELECT `PackageType`,count(`PackageType`) AS `Amount` "
-//            . "FROM `cus_order_detail` "
-//            . "INNER JOIN `cus_package` "
-//            . "ON `cus_order_detail`.`PackageID`=`cus_package`.`PackageID` "
-//            . "WHERE `OrderID`= :orderID AND `PackageType` LIKE :addon AND `cus_order_detail`.`OrderDetailStatus` NOT LIKE 'delete' "
-//            . "GROUP BY `PackageType`,`OrderID`";
-//    $SQLPrepare = $conn->prepare($SQLCommand);
-//    $SQLPrepare->execute(array(":orderID" => $orderID, ":addon" => $type));
-//    $res = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
-//    return $res['Amount'];
-//}
 
 function getServiceByCustomerID($customerID) {
     $conn = dbconnect();
@@ -600,11 +600,7 @@ function getServiceByCustomerID($customerID) {
             . "GROUP BY `ServiceID` "
             . "ORDER BY `ServiceID` DESC";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(
-            array(
-                ":customerID" => $customerID
-            )
-    );
+    $SQLPrepare->execute(array(":customerID" => $customerID));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -617,62 +613,29 @@ function getServiceDetailByCustomerID($customerID) {
     $SQLCommand = "SELECT "
             . "`ServiceID`, "
             . "`CustomerID`, "
-            . "`CustomerName`, "
-            . "`LocationID`, "
-            . "`Location`, "
-            . "`ServiceDetailID`, "
+            . "`DateTimeService`, "
+            . "`CreateBy`, "
+            . "`a`.`ServiceDetailID`, "
             . "`PackageID`, "
             . "`PackageName`, "
             . "`PackageType`, "
             . "`PackageCategoryID`, "
             . "`PackageCategory`, "
-            . "`ServiceDetailActionID`, "
+            . "`LocationID`, "
+            . "`Location`, "
             . "`Status`, "
-            . "`Cause`, "
-            . "`DateTime` "
-            . "FROM `view_service_detail` "
-            . "WHERE `CustomerID`=:CustomerID ";
+            . "`b`.`DateTimeAction` "
+            . "FROM `view_service` AS `a` inner join (SELECT `ServiceDetailID`, MAX(`DateTimeAction`) AS `DateTimeAction` FROM `view_service` GROUP BY `ServiceDetailID`) AS `b` on `a`.`ServiceDetailID`=`b`.`ServiceDetailID` AND `a`.`DateTimeAction`=`b`.`DateTimeAction` "
+            . "WHERE `CustomerID` LIKE :customerID "
+            . "ORDER BY `b`.`DateTimeAction` DESC";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(
-            array(
-                ":CustomerID" => $customerID
-            )
-    );
+    $SQLPrepare->execute(array(":customerID" => $customerID));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
     }
     return $resultArr;
 }
-
-//function getServiceDetailByCustomerID($customerID) {
-//    $conn = dbconnect();
-//    $SQLCommand = "SELECT "
-//            . "`ServiceID`, "
-//            . "`CustomerID`, "
-//            . "`DateTimeService`, "
-//            . "`CreateBy`, "
-//            . "`a`.`ServiceDetailID`, "
-//            . "`PackageID`, "
-//            . "`PackageName`, "
-//            . "`PackageType`, "
-//            . "`PackageCategoryID`, "
-//            . "`PackageCategory`, "
-//            . "`LocationID`, "
-//            . "`Location`, "
-//            . "`Status`, "
-//            . "`b`.`DateTimeAction` "
-//            . "FROM `view_service` AS `a` inner join (SELECT `ServiceDetailID`, MAX(`DateTimeAction`) AS `DateTimeAction` FROM `view_service` GROUP BY `ServiceDetailID`) AS `b` on `a`.`ServiceDetailID`=`b`.`ServiceDetailID` AND `a`.`DateTimeAction`=`b`.`DateTimeAction` "
-//            . "WHERE `CustomerID` LIKE :customerID "
-//            . "ORDER BY `b`.`DateTimeAction` DESC";
-//    $SQLPrepare = $conn->prepare($SQLCommand);
-//    $SQLPrepare->execute(array(":customerID" => $customerID));
-//    $resultArr = array();
-//    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
-//        array_push($resultArr, $result);
-//    }
-//    return $resultArr;
-//}
 
 function editCustomer($cusID, $status, $CustomerName, $bisstype, $Email, $Phone, $Fax, $Address, $Township, $City, $Province, $Zipcode, $Country, $personID) {
     $conn = dbconnect();
@@ -746,20 +709,20 @@ function getServiceDetailByServiceID($serviceID, $type) {
     return $resultArr;
 }
 
-//function getServiceDetailStatus($serviceDetailID) {
-//    $conn = dbconnect();
-//    $SQLCommand = "SELECT "
-//            . "`Status` "
-//            . "FROM `customer_service_detail_action` "
-//            . "WHERE `ServiceDetailID` = :ServiceDetailID "
-//            . "ORDER BY `DateTime` DESC";
-//    $SQLPrepare = $conn->prepare($SQLCommand);
-//    $SQLPrepare->execute(array(
-//        ":ServiceDetailID" => $serviceDetailID
-//    ));
-//    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
-//    return $result['Status'];
-//}
+function getServiceDetailStatus($serviceDetailID) {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`Status` "
+            . "FROM `customer_service_detail_action` "
+            . "WHERE `ServiceDetailID` = :ServiceDetailID "
+            . "ORDER BY `DateTime` DESC";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":ServiceDetailID" => $serviceDetailID
+    ));
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result['Status'];
+}
 
 function getServiceDetailCountByCategory($cusID) {
     $conn = dbconnect();
