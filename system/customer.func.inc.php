@@ -557,7 +557,11 @@ function addServiceDetailAction($ServiceDetailID, $Status, $cause, $PersonID_log
 }
 
 function addResouceUsedOnChangeServiceDetail($ServiceDetailID, $PersonID_login) {
+    
     $ips = getIPsByServiceDetailID($ServiceDetailID);
+//    echo "<pre>";
+//    print_r($ips);
+//    echo "</pre>";
     foreach ($ips as $value) {
         if ($value['StatusUsed'] == "Deactive") {
             continue;
@@ -566,22 +570,32 @@ function addResouceUsedOnChangeServiceDetail($ServiceDetailID, $PersonID_login) 
         $Status = "Deactive";
         addIPUsed($IPID, $ServiceDetailID, $Status, $PersonID_login);
     }
+    
     $ports = getPortByServiceDetailID($ServiceDetailID);
-    foreach ($ips as $value) {
+//    echo "<pre>";
+//    print_r($ports);
+//    echo "</pre>";
+    foreach ($ports as $value) {
         if ($value['StatusUsed'] == "Deactive") {
             continue;
         }
         $PortID = $value['SwitchPortID'];
         $Status = "Deactive";
+//        echo "PortID: $PortID <br>";
         addSwitchPortUsed($ServiceDetailID, $PortID, $Status, $PersonID_login);
     }
+    
     $racks = getRackByServiceDetailID($ServiceDetailID);
-    foreach ($ips as $value) {
+//    echo "<pre>";
+//    print_r($racks);
+//    echo "</pre>";
+    foreach ($racks as $value) {
         if ($value['StatusUsed'] == "Deactive") {
             continue;
         }
         $SubRackID = $value['RackID'];
         $Status = "Deactive";
+//        echo "PortID: $SubRackID <br>";
         addRackUsed($ServiceDetailID, $SubRackID, $Status, $PersonID_login);
     }
 }
