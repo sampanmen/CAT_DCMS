@@ -109,8 +109,8 @@ if ($para == "addEntryIDC") {
 
     $res = cancelCheckOutEquipment($equipmentID);
     if ($res) {
-        echo "<p class='text-success'>Cancel check out equipment success</p>";
+        echo "<br><br><br><center><h3 class='text-success'>Cancel check out equipment success</h3></center><br><br><br>";
     } else {
-        echo "<p class='text-danger'>Cancel check out equipment error</p>";
+        echo "<br><br><br><center><h3 class='text-danger'>Cancel check out equipment error</h3></center><br><br><br>";
     }
 } 
