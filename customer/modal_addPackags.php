@@ -1,9 +1,17 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$pa = "&modal=true";
+$Permission = array("frontdesk");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $packageCategory = getPackageCategory();
 $location = getLocation();
 ?>
+
 <form action="../customer/action/customer.action.php?para=addPackage" method="POST">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
