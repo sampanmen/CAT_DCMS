@@ -3,7 +3,12 @@
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
-$personID = "-1";
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+$PersonID_login = $_SESSION['Account']['PersonID'];
+
 
 if ($para == "addEntryIDC") {
 
@@ -57,7 +62,7 @@ if ($para == "addEntryIDC") {
     $zoneArr = $_POST['area'];
     $datetimeIN = $_POST['datetimeIN'];
 
-    $EntryID = addEntry($getPersonID, $visitCard, $IDCCard, $IDCCardType, $datetimeIN, NULL, $purpose, $internet, $locationID, $personID);
+    $EntryID = addEntry($getPersonID, $visitCard, $IDCCard, $IDCCardType, $datetimeIN, NULL, $purpose, $internet, $locationID, $PersonID_login);
     if ($EntryID > 0) {
         $EquipmentID = addEquipment($items, $EntryID); //Add Equipment
         addZoneDetail($EntryID, $zoneArr); // Add Zone Detail
@@ -66,10 +71,27 @@ if ($para == "addEntryIDC") {
         header("Location: ../../core/?p=entryIDCForm&personID=" . $getPersonID . "&type=" . $personType . "&isPerson=1&para=addEntryError");
     }
 } else if ($para == "CheckOut") {
-    $entryID = $_GET['entryID'];
-    $res = checkOutEntry($entryID, $personID);
-    if ($res) {
-        echo "1";
+    require_once dirname(__FILE__) . '/../../account/function/account.func.inc.php';
+    $Permission = array("frontdesk", "helpdesk");
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    $Username = $_SESSION['Account']['Username'];
+    $account = checkLogin($Username);
+    if ($account !== FALSE) {
+        $Position = $account['Position'];
+        $chkPermission = array_search($Position, $Permission);
+        if ($chkPermission === FALSE) {
+            echo "0";
+        } else {
+            $entryID = $_GET['entryID'];
+            $res = checkOutEntry($entryID, $PersonID_login);
+            if ($res) {
+                echo "1";
+            } else {
+                echo "0";
+            }
+        }
     } else {
         echo "0";
     }
@@ -84,7 +106,7 @@ if ($para == "addEntryIDC") {
     }
 } else if ($para == "cancelGetOutEquipment") {
     $equipmentID = $_GET['equipmentID'];
-    
+
     $res = cancelCheckOutEquipment($equipmentID);
     if ($res) {
         echo "<p class='text-success'>Cancel check out equipment success</p>";

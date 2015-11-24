@@ -1,3 +1,11 @@
+<?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$pa = "&modal=true";
+$Permission = array("frontdesk");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+?>
 <form action="../customer/action/customer.action.php?para=addCustomer" method="POST" enctype="multipart/form-data">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
