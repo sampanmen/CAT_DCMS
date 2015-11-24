@@ -1,8 +1,16 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$pa = "&modal=true";
+$Permission = array("frontdesk");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 $cusID = $_GET['cusID'];
 $location = getLocation();
 ?>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title" id="gridSystemModalLabel">Service Registration</h4>

@@ -1,4 +1,10 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $swID = (isset($_GET['swID'])) ? $_GET['swID'] : "";
@@ -72,13 +78,14 @@ $swID = (isset($_GET['swID'])) ? $_GET['swID'] : "";
                                 $valCustomerID = $value['CustomerID'];
                                 $valCustomerName = $value['CustomerName'];
                                 $valUplink = $value['Uplink'];
+                                $valStatusUsed = $value['StatusUsed'];
                                 ?>
                                 <tr>
                                     <td><?php echo $valSwitchName; ?></td>
                                     <td><?php echo $valPortNumber; ?></td>
                                     <td><?php echo $valPortType; ?></td>
                                     <td>
-                                        <?php echo ($valUplink == 1) ? "Uplink" : ($valCustomerName == NULL ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $valCustomerID . "'>" . $valCustomerName . "</a>"); ?>
+                                        <?php echo ($valUplink == 1) ? "Uplink" : (($valCustomerName == NULL || $valStatusUsed == "Deactive") ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $valCustomerID . "'>" . $valCustomerName . "</a>"); ?>
                                     </td>
                                 </tr> 
                             <?php } ?>

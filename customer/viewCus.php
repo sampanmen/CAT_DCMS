@@ -1,4 +1,10 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $cusID = $_GET['cusID'];
@@ -237,7 +243,7 @@ $getServiceDetail = getServiceDetailByCustomerID($cusID);
                                     if ($value['PackageType'] != "Main" || $value['Status'] == "Deactive") {
                                         continue;
                                     }
-                                    $valTime = $value['DateTime'];
+                                    $valTime = $value['DateTimeAction'];
                                     $valPackageID = $value['PackageID'];
                                     $valPackage = $value['PackageName'];
                                     $valCategory = $value['PackageCategory'];
@@ -270,7 +276,7 @@ $getServiceDetail = getServiceDetailByCustomerID($cusID);
                                     if ($value['PackageType'] != "Add-on" || $value['Status'] == "Deactive") {
                                         continue;
                                     }
-                                    $valTime = $value['DateTime'];
+                                    $valTime = $value['DateTimeAction'];
                                     $valPackageID = $value['PackageID'];
                                     $valPackage = $value['PackageName'];
                                     $valCategory = $value['PackageCategory'];

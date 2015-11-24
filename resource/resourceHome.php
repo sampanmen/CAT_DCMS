@@ -1,4 +1,10 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 $LocationID_Session = isset($_SESSION['LocationID']) ? $_SESSION['LocationID'] : "";
 $LocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : $LocationID_Session;
@@ -158,7 +164,7 @@ $summaryPort = getSummaryPortByLocationID($LocationID);
         </div>
 
         <!--Servics-->
-        <div class="panel panel-default">
+<!--        <div class="panel panel-default">
             <div class="panel-heading">
                 <h4><b>Servics
                         <a href="../resource/model_addService.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>
@@ -190,10 +196,10 @@ $summaryPort = getSummaryPortByLocationID($LocationID);
                         </tbody>
                     </table>
                 </div>
-                <!-- /.table-responsive -->
+                 /.table-responsive 
             </div>
-            <!-- /.row (nested) -->
-        </div>
+             /.row (nested) 
+        </div>-->
     </div>
 </div>
 

@@ -1,4 +1,10 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $zone = (!isset($_GET['zone']) || $_GET['zone'] == "") ? "%" : $_GET['zone'];
@@ -96,14 +102,15 @@ $type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
                                 $valRow = $value['Row'];
                                 $valPosition = $value['SubRackPosition'];
                                 $valCustomerName = $value['CustomerName'];
-                                $valCustomer = $value['CustomerID'];
+                                $valCustomerID = $value['CustomerID'];
+                                $valStatusUsed = $value['StatusUsed'];
                                 ?>
                                 <tr>
                                     <td><?php echo $valType; ?></td>
                                     <td><?php echo $valCol; ?></td>
                                     <td><?php echo $valRow; ?></td>
                                     <td><?php echo $valPosition; ?></td>
-                                    <td><?php echo $valCustomerName == NULL ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $valCustomerID . "'>" . $valCustomerName . "</a>"; ?></td>
+                                    <td><?php echo ($valCustomerName == NULL || $valStatusUsed == "Deactive") ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $valCustomerID . "'>" . $valCustomerName . "</a>"; ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>

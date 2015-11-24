@@ -105,8 +105,16 @@ switch ($p) {
         $page['file'] = "../resource/addPort.php";
         $page['name'] = "Add Port";
         break;
+    
+    //Account
+    case "showAccount":
+        $page['file'] = "../account/showAccount.php";
+        $page['name'] = "Show Account";
+        break;
+    
     default :
         $page['file'] = "../error404.php";
         $page['name'] = "ERROR 404";
         break;
+    
 }

@@ -1,4 +1,10 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $networkID = isset($_GET['NetworkID']) ? $_GET['NetworkID'] : "";
@@ -78,6 +84,7 @@ $getIPs = getIPs($networkID);
                                 $valVlan = $value['Vlan'];
                                 $valCustomerName = $value['CustomerName'];
                                 $valCustomerID = $value['CustomerID'];
+                                $valStatusUsed = $value['StatusUsed'];
                                 ?>
                                 <tr>
                                     <td><?php echo $i; ?></td>
@@ -85,7 +92,7 @@ $getIPs = getIPs($networkID);
                                     <td><?php echo $valNetworkIP; ?></td>
                                     <td><?php echo $valSubnet; ?></td>
                                     <td><?php echo $valVlan; ?></td>
-                                    <td><?php echo $valCustomerName == NULL ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $valCustomerID . "'>" . $valCustomerName . "</a>"; ?></td>
+                                    <td><?php echo ($valCustomerName == NULL || $valStatusUsed == "Deactive") ? "NULL" : "<a target='_blank' href='?p=viewCus&cusID=" . $valCustomerID . "'>" . $valCustomerName . "</a>"; ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
