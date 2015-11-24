@@ -1,7 +1,11 @@
 <?php
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
-$PersonID_login = "-1";
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+$PersonID_login = $_SESSION['Account']['PersonID'];
+
 ?>
 <table class="table table-striped table-bordered table-hover">
     <thead>
