@@ -123,19 +123,19 @@ function addContact($CustomerID, $PersonID, $IDCCard, $IDCCardType, $ContactType
     }
 }
 
-function addAccount($PersonID, $Username, $Password) {
-    $conn = dbconnect();
-    $SQLCommand = "INSERT INTO `account`(`PersonID`, `Username`, `Password`) "
-            . "VALUES (:PersonID, :Username, :Password)";
-    $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array("PersonID" => $PersonID, "Username" => $Username, "Password" => $Password));
-
-    if ($SQLPrepare->rowCount() > 0) {
-        return $conn->lastInsertId();
-    } else {
-        return false;
-    }
-}
+//function addAccount($PersonID, $Username, $Password) {
+//    $conn = dbconnect();
+//    $SQLCommand = "INSERT INTO `account`(`PersonID`, `Username`, `Password`) "
+//            . "VALUES (:PersonID, :Username, :Password)";
+//    $SQLPrepare = $conn->prepare($SQLCommand);
+//    $SQLPrepare->execute(array("PersonID" => $PersonID, "Username" => $Username, "Password" => $Password));
+//
+//    if ($SQLPrepare->rowCount() > 0) {
+//        return $conn->lastInsertId();
+//    } else {
+//        return false;
+//    }
+//}
 
 function addStaff($PersonID, $EmployeeID, $StaffPositionID, $DivisionID) {
     $conn = dbconnect();
@@ -937,6 +937,35 @@ function getStaffByDivision($divisionID) {
             . "WHERE `DivisionID`= :divisionID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":divisionID" => $divisionID));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getStaffCAT() {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`EmployeeID`, "
+            . "`StaffPositionID`, "
+            . "`Position`, "
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
+            . "`Address`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `view_staff` "
+            . "WHERE `Organization` LIKE 'CAT'";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute();
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
