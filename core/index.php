@@ -1,4 +1,8 @@
-<?php include 'navPage.php'; ?>
+<?php
+ob_start();
+session_start();
+include 'navPage.php';
+?>
 
 <!DOCTYPE html>
 <html lang="en">

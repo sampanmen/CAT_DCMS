@@ -1,3 +1,13 @@
+<?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$pa = "&modal=true";
+$Permission = array("engineering");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+?>
 <form method="POST" action="../resource/action/resource.action.php?para=addIP">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -8,7 +18,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">  
-                        <div class="col-lg-6">                                           
+                        <div class="col-lg-4">                                           
                             <label>Network IP</label>
                         </div>
                         <div class="form-group col-lg-6">
@@ -16,7 +26,7 @@
                         </div>
                     </div>
                     <div class="col-lg-12">  
-                        <div class="col-lg-6">                                           
+                        <div class="col-lg-4">                                           
                             <label>Subnet</label>
                         </div>
                         <div class="form-group col-lg-3">
@@ -32,11 +42,29 @@
                         </div>
                     </div>
                     <div class="col-lg-12">  
-                        <div class="col-lg-6">                                           
+                        <div class="col-lg-4">                                           
                             <label>Vlan</label>
                         </div>
-                        <div class="col-lg-3">
-                            <input class="form-control" name="vlan" type="number">
+                        <div class="form-group col-lg-3">
+                            <input type="number" class="form-control" name="vlan">                                
+                        </div>
+                    </div>
+                    <div class="col-lg-12">  
+                        <div class="col-lg-4">                                           
+                            <label>Location</label>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <select class="form-control" name="Location">
+                                <option value="">Choose</option>
+                                <?php
+                                $getLocation = getLocation();
+                                foreach ($getLocation as $value) {
+                                    $valLocationID = $value['LocationID'];
+                                    $valLocation = $value['Location'];
+                                    ?>
+                                    <option value="<?php echo $valLocationID; ?>"><?php echo $valLocation; ?></option>
+                                <?php } ?>
+                            </select>
                         </div>
                     </div>
                 </div>

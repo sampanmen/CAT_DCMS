@@ -1,11 +1,19 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$pa = "&modal=true";
+$Permission = array("frontdesk", "helpdesk");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
-$orderDetailID = $_GET['orderDetailID'];
+$ServiceDetailID = $_GET['ServiceDetailID'];
+$locationID = $_GET['LocationID'];
 $used = $_GET['used'];
 $assign = $_GET['assign'];
 
-$getSwitchsValue = getSwitchValue();
+$getSwitchsValue = getSwitchValueByLocation($locationID);
 ?>
 
 <div class="modal-header">
@@ -26,7 +34,7 @@ $getSwitchsValue = getSwitchValue();
                 <script>
                     showPortUsed();
                     function showPortUsed() {
-                        $.get("../resource/action/resource.content.php?para=managePort_used&orderDetailID=<?php echo $orderDetailID; ?>", function (data, status) {
+                        $.get("../resource/action/resource.content.php?para=managePort_used&ServiceDetailID=<?php echo $ServiceDetailID; ?>", function (data, status) {
                             $("#portUsed").html(data);
                         });
                     }
@@ -51,8 +59,12 @@ $getSwitchsValue = getSwitchValue();
                         <option value="">Choose</option>
                         <?php
                         foreach ($getSwitchsValue as $value) {
+                            $switchID = $value['SwitchID'];
+                            $switchName = $value['SwitchName'];
+                            $switchIP = $value['SwitchIP'];
+                            $switchType = $value['SwitchType'];
                             ?>
-                            <option value="<?php echo $value['ResourceSwitchID']; ?>"><?php echo $value['SwitchName']; ?> (<?php echo $value['balance']; ?>)</option>
+                            <option value="<?php echo $switchID; ?>"><?php echo $switchName." ($switchType)"; ?></option>
                         <?php } ?>
                     </select>    
                 </div>
@@ -64,8 +76,8 @@ $getSwitchsValue = getSwitchValue();
                 <script>
                     function getPortReserve() {
                         var switchID = $("#switchID").val();
-                        var orderDetailID = <?php echo $orderDetailID; ?>;
-                        $.get("../resource/action/resource.content.php?para=managePort_reserve&orderDetailID=" + orderDetailID + "&switchID=" + switchID + "&used=<?php echo $used; ?>&assign=<?php echo $assign; ?>", function (data, status) {
+                        var ServiceDetailID = <?php echo $ServiceDetailID; ?>;
+                        $.get("../resource/action/resource.content.php?para=managePort_reserve&ServiceDetailID=" + ServiceDetailID + "&SwitchID=" + switchID + "&used=<?php echo $used; ?>&assign=<?php echo $assign; ?>", function (data, status) {
                             $("#portReserve").html(data);
                         });
                     }

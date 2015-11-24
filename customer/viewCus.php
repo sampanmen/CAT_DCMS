@@ -1,4 +1,10 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $cusID = $_GET['cusID'];
@@ -148,7 +154,7 @@ $getServiceDetail = getServiceDetailByCustomerID($cusID);
                                     <?php
 //                                    $images = '../customer/images/persons/' . $value['PersonID'] . ".jpg";
 //                                    $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
-                                    
+
                                     $images = '../customer/images/persons/' . $value['PersonID'] . ".jpg";
                                     $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
                                     $showImage = "../system/image_1-1.php?url=" . $showImage;
@@ -310,6 +316,17 @@ $getServiceDetail = getServiceDetailByCustomerID($cusID);
             </div>
             <!-- /.panel-body -->
         </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <b>Resource</b> <a href="?p=serviceDetail&CustomerID=<?php echo $cusID; ?>">(Show All)</a>
+            </div>                
+            <div class="panel-body">
+
+            </div><!-- /.panel-body -->
+        </div><!-- Contact Detail -->
     </div>
 
     <!-------IP-->

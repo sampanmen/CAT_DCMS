@@ -1,4 +1,10 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 $entryID = $_GET['entryID'];
 ?>
 <p><a href="?">Home</a> > <a href="?p=entryIDCShow">Show Entry IDC</a> > <b>Print Entry IDC</b></p>

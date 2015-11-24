@@ -1,12 +1,46 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
-$summeryRack = getSummeryRack();
-$summeryIP = getSummeryIP();
-$summeryPort = getSummeryPort();
+$LocationID_Session = isset($_SESSION['LocationID']) ? $_SESSION['LocationID'] : "";
+$LocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : $LocationID_Session;
+$summaryRack = getSummaryRackByLocatoinID($LocationID);
+$summaryIP = getSummaryIPByLocationID($LocationID);
+$summaryPort = getSummaryPortByLocationID($LocationID);
 ?>
-<p><a href="?">Home</a> > <b>Resource Summery</b></p>
+<p><a href="?">Home</a> > <b>Resource Summary</b></p>
 <div class="row">
-    <div class="col-lg-6">  
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4><b>Location</b></h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <select class="form-control" name="location" id="location" onchange="window.location.href = this.value">
+                        <option value="">Choose location</option>
+                        <?php
+                        $getLocationID = $LocationID;
+                        $getLocation = getLocation();
+                        foreach ($getLocation as $value) {
+                            $valLocationID = $value['LocationID'];
+                            $valLocation = $value['Location'];
+                            ?>
+                            <option <?php echo $valLocationID == $getLocationID ? "selected" : ""; ?> value="?p=resourceHome&LocationID=<?php echo $valLocationID; ?>"><?php echo $valLocation; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <script>
+                    function selectedLocation() {
+
+                    }
+                </script>
+            </div>
+        </div>
         <!--Rack-->
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -15,24 +49,31 @@ $summeryPort = getSummeryPort();
 
             <div class="panel-body">
                 <?php
-                foreach ($summeryRack as $value) {
+                foreach ($summaryRack as $value) {
+                    $valRackType = $value['RackType'];
+                    $valRackTypeID = $value['RackTypeID'];
+                    $valRackActive = $value['Active'];
+                    $valRackSuppened = $value['Suppened'];
+                    $valRackDeactive = $value['Deactive'];
+                    $valRackTotal = $value['Total'];
+                    $valRackUsed = $valRackActive + $valRackSuppened;
                     ?>
                     <div class="well-sm col-lg-12 ">
                         <div class="col-lg-12">
                             <div class="col-lg-4">
-                                <p><a href="?p=viewRack&type=<?php echo $value['RackType']; ?>"><?php echo $value['RackType']; ?></a></p>      
+                                <p><a href="?p=viewRack&Type=<?php echo $valRackTypeID; ?>&LocationID=<?php echo $LocationID; ?>"><?php echo $value['RackType']; ?></a></p>      
                             </div>
                             <div class="col-lg-2">
                                 <p>use</p>
                             </div>
                             <div class="col-lg-2">
-                                <p><font size="3" COLOR="#0B610B"><b><?php echo $value['use']; ?></b></font></p>
+                                <p><font size="3" COLOR="#0B610B"><b><?php echo $valRackUsed; ?></b></font></p>
                             </div>
                             <div class="col-lg-2">
                                 <p>total</p>
                             </div>
                             <div class="col-lg-2">                               
-                                <p><font size="3" COLOR=green><b><?php echo $value['total']; ?></b></font></p>                              
+                                <p><font size="3" COLOR=green><b><?php echo $valRackTotal; ?></b></font></p>                              
                             </div>
                         </div>
                     </div>
@@ -57,12 +98,20 @@ $summeryPort = getSummeryPort();
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($summeryIP as $value) {
+                            foreach ($summaryIP as $value) {
+                                $valNetworkID = $value['NetworkID'];
+                                $valNetworkIP = $value['NetworkIP'];
+                                $valSubnet = $value['Subnet'];
+                                $valIPActive = $value['Active'];
+                                $valIPSuppened = $value['Suppened'];
+                                $valIPDeactive = $value['Deactive'];
+                                $valIPTotal = $value['Total'];
+                                $valIPUsed = $valIPActive + $valIPSuppened;
                                 ?>
                                 <tr>
-                                    <td><a href="?p=viewIP&network=<?php echo $value['NetworkIP']; ?>"><?php echo $value['NetworkIP']; ?> / <?php echo $value['Subnet']; ?></a></td>
-                                    <td><?php echo $value['use']; ?></td>
-                                    <td><?php echo $value['total']; ?></td>
+                                    <td><a href="?p=viewIP&NetworkID=<?php echo $valNetworkID; ?>&LocationID=<?php echo $LocationID; ?>"><?php echo $valNetworkIP; ?> / <?php echo $valSubnet; ?></a></td>
+                                    <td><?php echo $valIPUsed; ?></td>
+                                    <td><?php echo $valIPTotal; ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -76,7 +125,7 @@ $summeryPort = getSummeryPort();
         <!--Port-->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4><b>Port </b><a href="../resource/model_addPort.php" data-toggle="modal" data-target="#myModal">(Add)</a></h4>
+                <h4><b>Port </b><a href="../resource/model_addSwitch.php" data-toggle="modal" data-target="#myModal">(Add)</a></h4>
             </div>      
 
             <div class="panel-body">
@@ -92,13 +141,20 @@ $summeryPort = getSummeryPort();
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($summeryPort as $value) {
+                            foreach ($summaryPort as $value) {
+                                $valSwitchID = $value['SwitchID'];
+                                $valSwitchUplink = $value['Uplink'];
+                                $valSwitchActive = $value['Active'];
+                                $valSwitchSuppened = $value['Suppened'];
+                                $valSwitchDeactive = $value['Deactive'];
+                                $valSwitchTotal = $value['Total'];
+                                $valSwitchUsed = $valIPActive + $valIPSuppened;
                                 ?>
                                 <tr>
-                                    <td><?php echo "<a href='?p=viewPort&swID=" . $value['ResourceSwitchID'] . "'>" . $value['SwitchName'] . "</a>"; ?></td>
-                                    <td><?php echo $value['uplink']; ?></td>
-                                    <td><?php echo $value['use']; ?></td>
-                                    <td><?php echo $value['TotalPort']; ?></td>
+                                    <td><?php echo "<a href='?p=viewPort&LocationID=$LocationID&SwitchID=$valSwitchID'>" . $value['SwitchName'] . "</a>"; ?></td>
+                                    <td><?php echo $valSwitchUplink; ?></td>
+                                    <td><?php echo $valSwitchUsed; ?></td>
+                                    <td><?php echo $valSwitchTotal; ?></td>
                                 </tr>                                                     
                             <?php } ?>
                         </tbody>
@@ -108,7 +164,7 @@ $summeryPort = getSummeryPort();
         </div>
 
         <!--Servics-->
-        <div class="panel panel-default">
+<!--        <div class="panel panel-default">
             <div class="panel-heading">
                 <h4><b>Servics
                         <a href="../resource/model_addService.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>
@@ -140,10 +196,10 @@ $summeryPort = getSummeryPort();
                         </tbody>
                     </table>
                 </div>
-                <!-- /.table-responsive -->
+                 /.table-responsive 
             </div>
-            <!-- /.row (nested) -->
-        </div>
+             /.row (nested) 
+        </div>-->
     </div>
 </div>
 

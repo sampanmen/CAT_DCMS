@@ -1,5 +1,11 @@
 <?php
 require_once dirname(__FILE__) . '/../system/function.inc.php';
+
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
 ?>
 <p><a href="?">Home</a> > <b>Customers</b></p>
 <div class="row">

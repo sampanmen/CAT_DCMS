@@ -1,14 +1,88 @@
 <?php
 
-function addIP($ipArr, $vlan, $personID) {
-    global $connection;
-    dbconnect();
-    $sqlCommand = "INSERT INTO `resource_ip`( `IP`, `NetworkIP`, `Subnet`, `VlanID`, `EnableResourceIP`, `OrderDetailID`, `CreateBy`, `UpdateBy`) "
-            . "VALUES (:ip , :network , :subnet , :vlan , 1 , NULL , :personID , :personID )";
-    $res = $connection->prepare($sqlCommand);
-    foreach ($ipArr as $ip) {
-        $res->execute(array(":ip" => $ip['ip'], ":network" => $ip['network'], ":subnet" => $ip['subnet'], ":vlan" => $vlan, ":personID" => $personID));
+function addIP($IPs, $NetworkID, $IPUsedID) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_ip`(`IP`, `NetworkID`, `IPUsedID`) "
+            . "VALUES (:IP, :NetworkID, :IPUsedID )";
+    $res = $con->prepare($sqlCommand);
+    $countIP = count($IPs);
+    for ($i = 0; $i < $countIP; $i++) {
+        $res->execute(
+                array(
+                    ":IP" => $IPs[$i]['ip'],
+                    ":NetworkID" => $NetworkID,
+                    ":IPUsedID" => $IPUsedID
+                )
+        );
     }
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        return $con->lastInsertId();
+    } else {
+        return false;
+    }
+}
+
+function addIPNetwork($NetworkIP, $Subnet, $Vlan, $AmountIP, $Status, $LocationID, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_ip_network`(`NetworkIP`, `Subnet`, `Vlan`, `AmountIP`, `Status`, `LocationID`, `CreateBy`, `UpdateBy`) "
+            . "VALUES (:NetworkIP, :Subnet, :Vlan, :AmountIP, :Status, :LocationID, :CreateBy, :UpdateBy)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":NetworkIP" => $NetworkIP,
+                ":Subnet" => $Subnet,
+                ":Vlan" => $Vlan,
+                ":AmountIP" => $AmountIP,
+                ":Status" => $Status,
+                ":LocationID" => $LocationID,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login
+            )
+    );
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        return $con->lastInsertId();
+    } else {
+        return false;
+    }
+}
+
+function addIPUsed($IPID, $ServiceDetailID, $Status, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_ip_used`(`IPID`, `ServiceDetailID`, `Status`, `CreateBy`, `UpdateBy`) "
+            . "VALUES (:IPID, :ServiceDetailID, :Status, :CreateBy, :UpdateBy)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":IPID" => $IPID,
+                ":ServiceDetailID" => $ServiceDetailID,
+                ":Status" => $Status,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login
+            )
+    );
+
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        $ipUsedID = $con->lastInsertId();
+        updateIPUsedOnIP($IPID, $ipUsedID);
+        return $ipUsedID;
+    } else {
+        return false;
+    }
+}
+
+function updateIPUsedOnIP($ipid, $ipusedid) {
+    $con = dbconnect();
+    $sqlCommand = "UPDATE `resource_ip` SET `IPUsedID`=:IPUsedID WHERE `IPID`=:IPID";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":IPUsedID" => $ipusedid,
+                ":IPID" => $ipid
+            )
+    );
     $rows = $res->rowCount();
     if ($rows > 0) {
         return true;
@@ -50,77 +124,23 @@ function genIPs($network, $subnet) {
 }
 
 function getNetworks() {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "SELECT `NetworkIP`, `Subnet`, `VlanID` FROM `view_ip` GROUP BY `NetworkIP` ORDER BY `view_ip`.`NetworkIP` ASC";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute();
-    $resultArr = array();
-    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
-        array_push($resultArr, $result);
-    }
-    return $resultArr;
-}
-
-function getNetworksValue() {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "SELECT "
-            . "`NetworkIP`, "
-            . "SUM(case when `OrderDetailID` IS NULL then 1 else 0 end) AS `balance` "
-            . "FROM `resource_ip` "
-            . "GROUP BY `NetworkIP` "
-            . "ORDER BY `NetworkIP` ASC";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute();
-    $resultArr = array();
-    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
-        array_push($resultArr, $result);
-    }
-    return $resultArr;
-}
-
-function getIPs($network) {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "SELECT `IP`, `NetworkIP`, `Subnet`, `VlanID`, `EnableResourceIP`, "
-            . "`OrderDetailID`, `DateTimeCreate`, `DateTimeUpdate`, `CreateBy`, "
-            . "`UpdateBy`, `OrderID`, `PackageID`, `CustomerID`, `Location`, "
-            . "`CustomerName`, `BusinessType` "
-            . "FROM `view_ip` WHERE `NetworkIP` LIKE :network ";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":network" => $network));
-    $resultArr = array();
-    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
-        array_push($resultArr, $result);
-    }
-    return $resultArr;
-}
-
-function getIPsByOrderDetailID($orderDetailID) {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "SELECT "
-            . "`IP`, "
+            . "`NetworkID`, "
             . "`NetworkIP`, "
             . "`Subnet`, "
-            . "`VlanID`, "
-            . "`EnableResourceIP`, "
-            . "`OrderDetailID`, "
+            . "`Vlan`, "
+            . "`AmountIP`, "
+            . "`Status`, "
+            . "`LocationID`, "
             . "`DateTimeCreate`, "
             . "`DateTimeUpdate`, "
             . "`CreateBy`, "
-            . "`UpdateBy`, "
-            . "`OrderID`, "
-            . "`PackageID`, "
-            . "`CustomerID`, "
-            . "`Location`, "
-            . "`CustomerName`, "
-            . "`BusinessType` "
-            . "FROM `view_ip` "
-            . "WHERE `OrderDetailID` = :orderDetailID";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID));
+            . "`UpdateBy` "
+            . "FROM `resource_ip_network` "
+            . "ORDER BY `NetworkIP` ASC";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute();
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -128,54 +148,345 @@ function getIPsByOrderDetailID($orderDetailID) {
     return $resultArr;
 }
 
-function addSwitch($name, $ip, $commu, $type, $totalport, $typePort, $uplinkArr, $vlanArr, $personID) {
-    global $connection;
-    dbconnect();
-    $sqlCommand = "INSERT INTO `resource_switch`( `SwitchName`, `SwitchIP`, `TotalPort`, `SnmpCommuPublic`, `SnmpCommuPrivate`, `SwitchType`, `EnableResourceSW`, `CreateBy`, `UpdateBy`) "
-            . "VALUES (:name,:ip,:totalport,:commu,NULL,:type,1,:personID,:personID)";
-    $res = $connection->prepare($sqlCommand);
-    $res->execute(array(":name" => $name, ":ip" => $ip, ":totalport" => $totalport, ":commu" => $commu, ":type" => $type, ":personID" => $personID));
+function getNetworksByLocationID($LocationID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`NetworkID`, "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`Vlan`, "
+            . "`AmountIP`, "
+            . "`Status`, "
+            . "`LocationID`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`CreateBy`, "
+            . "`UpdateBy` "
+            . "FROM `resource_ip_network` "
+            . "WHERE `LocationID`=:LocationID "
+            . "ORDER BY `NetworkIP` ASC";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":LocationID" => $LocationID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getNetworksValue($location) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`NetworkID`, "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`Vlan`, "
+            . "`AmountIP`, "
+            . "`Status`, "
+            . "`LocationID` "
+            . "FROM `resource_ip_network` "
+            . "WHERE `LocationID`=:LocationID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":LocationID" => $location
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getIPs($networkID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`IPID`, "
+            . "`IP`, "
+            . "`NetworkID`, "
+            . "`IPUsedID`, "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`Vlan`, "
+            . "`LocationID`, "
+            . "`Status`, "
+            . "`StatusUsed`, "
+            . "`ServiceDetailID`, "
+            . "`PackageID`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_resource_ip` "
+            . "WHERE `NetworkID` = :networkID "
+            . "ORDER BY `IPID` ASC";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":networkID" => $networkID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getIPsByServiceDetailID($ServiceDetailID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`IPID`, "
+            . "`IP`, "
+            . "`NetworkID`, "
+            . "`IPUsedID`, "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`Vlan`, "
+            . "`LocationID`, "
+            . "`Status`, "
+            . "`StatusUsed`, "
+            . "`ServiceDetailID`, "
+            . "`PackageID`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_resource_ip` "
+            . "WHERE `ServiceDetailID`= :ServiceDetailID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":ServiceDetailID" => $ServiceDetailID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function addSwitch($SwitchName, $SwitchIP, $TotalPort, $SnmpCommuPublic, $SwitchTypeID, $Brand, $Model, $SerialNo, $RackID, $Status, $LocationID, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_switch`(`SwitchName`, `SwitchIP`, `TotalPort`, `SnmpCommuPublic`, `SwitchTypeID`, `Brand`, `Model`, `SerialNo`, `RackID`, `Status`, `CreateBy`, `UpdateBy`, `LocationID`) "
+            . "VALUES (:SwitchName, :SwitchIP, :TotalPort, :SnmpCommuPublic, :SwitchTypeID, :Brand, :Model, :SerialNo, :RackID, :Status, :CreateBy, :UpdateBy, :LocationID)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":SwitchName" => $SwitchName,
+                ":SwitchIP" => $SwitchIP,
+                ":TotalPort" => $TotalPort,
+                ":SnmpCommuPublic" => $SnmpCommuPublic,
+                ":SwitchTypeID" => $SwitchTypeID,
+                ":Brand" => $Brand,
+                ":Model" => $Model,
+                ":SerialNo" => $SerialNo,
+                ":RackID" => $RackID,
+                ":Status" => $Status,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":LocationID" => $LocationID
+            )
+    );
 
     if ($res->rowCount() > 0) {
-        $swID = $connection->lastInsertId();
-        $resAddPort = addSwichPort($swID, $totalport, $typePort, $uplinkArr, $personID);
-        $resAddVlan = addSwtichVlan($swID, $vlanArr);
-        if ($resAddPort && $resAddVlan) {
-            return true;
-        } else
-            return false;
+        return $con->lastInsertId();
     } else
         return false;
 }
 
-function addSwichPort($swID, $totalport, $typePort, $uplinkArr, $personID) {
-    global $connection;
-    dbconnect();
-    $sqlCommand = "INSERT INTO `resource_switch_port`( `ResourceSwitchID`, `PortNumber`, `PortType`, `Uplink`, `EnableResourcePort`, `OrderDetailID`,  `CreateBy`, `UpdateBy`) "
-            . "VALUES (:swID,:port,:typePort,:uplink,1,NULL,:personID,:personID)";
-    $res = $connection->prepare($sqlCommand);
+function addSwitchPort($SwitchID, $PortNumber, $PortType, $PortVlan, $Uplink, $SwitchPortUsedID, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_switch_port`(`SwitchID`, `PortNumber`, `PortType`, `PortVlan`, `Uplink`, `CreateBy`, `UpdateBy`, `SwitchPortUsedID`) "
+            . "VALUES (:SwitchID, :PortNumber, :PortType, :PortVlan, :Uplink, :CreateBy, :UpdateBy, :SwitchPortUsedID)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":SwitchID" => $SwitchID,
+                ":PortNumber" => $PortNumber,
+                ":PortType" => $PortType,
+                ":PortVlan" => $PortVlan,
+                ":Uplink" => $Uplink,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":SwitchPortUsedID" => $SwitchPortUsedID
+            )
+    );
 
-    for ($i = 1; $i <= $totalport; $i++) {
-        (array_search($i, $uplinkArr) !== false) ? ($uplink = 1) : ($uplink = 0);
-        $res->execute(array(":swID" => $swID, ":port" => $i, ":typePort" => $typePort, ":uplink" => $uplink, "personID" => $personID));
-    }
-
-    $rows = $res->rowCount();
-    if ($rows > 0) {
-        return true;
-    } else {
+    if ($res->rowCount() > 0) {
+        return $con->lastInsertId();
+    } else
         return false;
-    }
 }
 
-function addSwtichVlan($swID, $vlanArr) {
-    global $connection;
-    dbconnect();
-    $sqlCommand = "INSERT INTO `resource_switch_vlan`( `VlanNumber`, `SwitchID`) VALUES (:vlan,:swID)";
-    $res = $connection->prepare($sqlCommand);
-    foreach ($vlanArr as $value) {
-        $res->execute(array(":swID" => $swID, ":vlan" => $value));
-    }
+function addSwitchPortUsed($ServiceDetailID, $PortID, $Status, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_switch_port_used`(`ServiceDetailID`, `PortID`, `CreateBy`, `UpdateBy`, `Status`) "
+            . "VALUES (:ServiceDetailID, :PortID, :CreateBy, :UpdateBy, :Status)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":ServiceDetailID" => $ServiceDetailID,
+                ":PortID" => $PortID,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":Status" => $Status
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        $SwitchPortUsedID = $con->lastInsertId();
+        updatePortUsedOnPort($SwitchPortUsedID, $PortID);
+        return $SwitchPortUsedID;
+    } else
+        return false;
+}
+
+function updatePortUsedOnPort($SwitchPortUsedID, $SwitchPortID) {
+    $con = dbconnect();
+    $sqlCommand = "UPDATE `resource_switch_port` SET "
+            . "`SwitchPortUsedID`=:SwitchPortUsedID "
+            . "WHERE `SwitchPortID`=:SwitchPortID";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":SwitchPortUsedID" => $SwitchPortUsedID,
+                ":SwitchPortID" => $SwitchPortID
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        return true;
+    } else
+        return false;
+}
+
+function addServiceResource($Name, $Detail, $Tag, $Status, $LocationID, $ServiceUsedID, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_service`(`Name`, `Detail`, `Tag`, `Status`, `LocationID`, `CreateBy`, `UpdateBy`, `ServiceUsedID`) "
+            . "VALUES (:Name, :Detail, :Tag, :Status, :LocationID, :CreateBy, :UpdateBy, :ServiceUsedID)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":Name" => $Name,
+                ":Detail" => $Detail,
+                ":Tag" => $Tag,
+                ":Status" => $Status,
+                ":LocationID" => $LocationID,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":ServiceUsedID" => $ServiceUsedID
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        return $con->lastInsertId();
+    } else
+        return false;
+}
+
+function addServiceResourceUsed($ServiceDetailID, $ResourceServiceID, $Status, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_service_used`(`ServiceDetailID`, `ResourceServiceID`, `CreateBy`, `UpdateBy`, `Status`) "
+            . "VALUES (:ServiceDetailID, :ResourceServiceID, :CreateBy, :UpdateBy, :Status)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":ServiceDetailID" => $ServiceDetailID,
+                ":ResourceServiceID" => $ResourceServiceID,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":Status" => $Status
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        return $con->lastInsertId();
+    } else
+        return false;
+}
+
+function addRack($RackPositionID, $SubRackPosition, $RackUsedID) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_rack`(`RackPositionID`, `SubRackPosition`, `RackUsedID`) "
+            . "VALUES (:RackPositionID, :SubRackPosition, :RackUsedID)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":RackPositionID" => $RackPositionID,
+                ":SubRackPosition" => $SubRackPosition,
+                ":RackUsedID" => $RackUsedID
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        return $con->lastInsertId();
+    } else
+        return false;
+}
+
+function addRackPosition($Col, $Row, $RackType, $RackSize, $Status, $RackKey, $LocationID, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_rack_position`(`Col`, `Row`, `PackageCategoryID`, `RackSize`, `Status`, `CreateBy`, `UpdateBy`, `RackKey`, `LocationID`) "
+            . "VALUES (:Col, :Row, :RackType, :RackSize, :Status, :CreateBy, :UpdateBy, :RackKey, :LocationID)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":Col" => $Col,
+                ":Row" => $Row,
+                ":RackType" => $RackType,
+                ":RackSize" => $RackSize,
+                ":Status" => $Status,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":RackKey" => $RackKey,
+                ":LocationID" => $LocationID
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        return $con->lastInsertId();
+    } else
+        return false;
+}
+
+function addRackUsed($ServiceDetailID, $SubRackID, $Status, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "INSERT INTO `resource_rack_used`(`ServiceDetailID`, `SubRackID`, `CreateBy`, `UpdateBy`, `Status`) "
+            . "VALUES (:ServiceDetailID, :SubRackID, :CreateBy, :UpdateBy, :Status)";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":ServiceDetailID" => $ServiceDetailID,
+                ":SubRackID" => $SubRackID,
+                ":CreateBy" => $PersonID_login,
+                ":UpdateBy" => $PersonID_login,
+                ":Status" => $Status
+            )
+    );
+
+    if ($res->rowCount() > 0) {
+        $RackUsedID = $con->lastInsertId();
+        updateRackUsedOnRack($RackUsedID, $SubRackID);
+        return $RackUsedID;
+    } else
+        return false;
+}
+
+function updateRackUsedOnRack($RackUsedID, $SubRackID) {
+    $con = dbconnect();
+    $sqlCommand = "UPDATE `resource_rack` SET "
+            . "`RackUsedID`= :RackUsedID "
+            . "WHERE `RackID`=:RackID";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":RackUsedID" => $RackUsedID,
+                ":RackID" => $SubRackID
+            )
+    );
 
     if ($res->rowCount() > 0) {
         return true;
@@ -184,8 +495,7 @@ function addSwtichVlan($swID, $vlanArr) {
 }
 
 function getSwitchs() {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "SELECT "
             . "`ResourceSwitchID`, "
             . "`SwitchName`, "
@@ -202,7 +512,7 @@ function getSwitchs() {
             . "FROM `resource_switch` "
             . "ORDER BY `SwitchName` ASC";
 //    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
@@ -211,90 +521,14 @@ function getSwitchs() {
     return $resultArr;
 }
 
-function getPortByOrderDetailID($orderDetailID) {
-    global $connection;
-    dbconnect();
+function getSwitchType() {
+    $con = dbconnect();
     $SQLCommand = "SELECT "
-            . "`ResourceSwitchPortID`, "
-            . "`ResourceSwitchID`, "
-            . "`PortNumber`, "
-            . "`PortType`, "
-            . "`Uplink`, "
-            . "`EnableResourcePort`, "
-            . "`OrderDetailID`, "
-            . "`DateTimeCreate`, "
-            . "`DateTimeUpdate`, "
-            . "`CreateBy`, "
-            . "`UpdateBy`, "
-            . "`SwitchName`, "
-            . "`SwitchIP`, "
-            . "`TotalPort`, "
-            . "`SnmpCommuPublic`, "
+            . "`SwitchTypeID`, "
             . "`SwitchType`, "
-            . "`EnableResourceSW`, "
-            . "`OrderID`, "
-            . "`CustomerID`, "
-            . "`CustomerName` "
-            . "FROM `view_switch_port`"
-            . "WHERE `OrderDetailID` = :orderDetailID";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID));
-    $resultArr = array();
-    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
-        array_push($resultArr, $result);
-    }
-    return $resultArr;
-}
-
-function getSwitchPorts($swID) {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "SELECT "
-            . "`ResourceSwitchPortID`, "
-            . "`ResourceSwitchID`, "
-            . "`PortNumber`, "
-            . "`PortType`, "
-            . "`Uplink`, "
-            . "`EnableResourcePort`, "
-            . "`OrderDetailID`, "
-            . "`DateTimeCreate`, "
-            . "`DateTimeUpdate`, "
-            . "`CreateBy`, "
-            . "`UpdateBy`, "
-            . "`SwitchName`, "
-            . "`SwitchIP`, "
-            . "`TotalPort`, "
-            . "`SnmpCommuPublic`, "
-            . "`SwitchType`, "
-            . "`EnableResourceSW`, "
-            . "`OrderID`, "
-            . "`CustomerID`, "
-            . "`CustomerName` "
-            . "FROM `view_switch_port` ";
-    if ($swID != "") {
-        $SQLCommand.="WHERE `ResourceSwitchID` = :swID "
-                . "ORDER BY `SwitchName`,`PortNumber` ASC ";
-        $SQLPrepare = $connection->prepare($SQLCommand);
-        $SQLPrepare->execute(array(":swID" => $swID));
-    } else {
-        $SQLCommand.="ORDER BY `SwitchName`,`PortNumber` ASC ";
-        $SQLPrepare = $connection->prepare($SQLCommand);
-        $SQLPrepare->execute();
-    }
-
-    $resultArr = array();
-    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
-        array_push($resultArr, $result);
-    }
-    return $resultArr;
-}
-
-function getSwitchValue() {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "SELECT `ResourceSwitchID`, `SwitchName`, `balance` "
-            . "FROM `view_switch_port_balance` ";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+            . "`Status` "
+            . "FROM `resource_switch_type` ";
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute();
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
@@ -303,46 +537,293 @@ function getSwitchValue() {
     return $resultArr;
 }
 
-function getLastPosition($zone) {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "SELECT `Zone`, `Position`, `SubPosition` "
-            . "FROM `resource_rack` "
-            . "WHERE `Zone` LIKE :zone "
-            . "ORDER BY `Position` DESC";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":zone" => $zone));
+function getSwitchTypeByID($SwitchTypeID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`SwitchTypeID`, "
+            . "`SwitchType`, "
+            . "`Status` "
+            . "FROM `resource_switch_type` "
+            . "WHERE `SwitchTypeID` = :SwitchTypeID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":SwitchTypeID" => $SwitchTypeID
+            )
+    );
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function getSwitchByLocationID($LocationID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`SwitchID`, "
+            . "`SwitchName`, "
+            . "`SwitchIP`, "
+            . "`TotalPort`, "
+            . "`SnmpCommuPublic`, "
+            . "`SwitchTypeID`, "
+            . "`SwitchType`, "
+            . "`Brand`, "
+            . "`Model`, "
+            . "`SerialNo`, "
+            . "`RackID`, "
+            . "`Status`, "
+            . "`LocationID` "
+            . "FROM `view_resource_swicth` "
+            . "WHERE `LocationID`=:LocationID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":LocationID" => $LocationID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getPortByServiceDetailID($ServiceDetailID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`SwitchID`, "
+            . "`SwitchName`, "
+            . "`TotalPort`, "
+            . "`SwitchPortID`, "
+            . "`PortNumber`, "
+            . "`PortTypeID`, "
+            . "`PortType`, "
+            . "`SwitchTypeID`, "
+            . "`SwitchType`, "
+            . "`RackID`, "
+            . "`Status`, "
+            . "`SwitchPortUsedID`, "
+            . "`ServiceDetailID`, "
+            . "`StatusUsed`, "
+            . "`Uplink`, "
+            . "`LocationID`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_resource_port` "
+            . "WHERE `ServiceDetailID`=:ServiceDetailID";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":ServiceDetailID" => $ServiceDetailID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getSwitchPorts($SwitchID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`SwitchID`, "
+            . "`SwitchName`, "
+            . "`TotalPort`, "
+            . "`SwitchPortID`, "
+            . "`PortNumber`, "
+            . "`PortTypeID`, "
+            . "`PortType`, "
+            . "`SwitchTypeID`, "
+            . "`SwitchType`, "
+            . "`RackID`, "
+            . "`Status`, "
+            . "`SwitchPortUsedID`, "
+            . "`ServiceDetailID`, "
+            . "`StatusUsed`, "
+            . "`Uplink`, "
+            . "`LocationID`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_resource_port` "
+            . "WHERE `SwitchID`=:SwitchID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":SwitchID" => $SwitchID
+            )
+    );
+
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getSwitchValueByLocation($LocationID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`SwitchID`, "
+            . "`SwitchName`, "
+            . "`resource_switch_type`.`SwitchTypeID`, "
+            . "`resource_switch_type`.`SwitchType`, "
+            . "`SwitchIP`, "
+            . "`TotalPort`, "
+            . "`SnmpCommuPublic`, "
+            . "`resource_switch_type`.`SwitchTypeID`, "
+            . "`resource_switch_type`.`SwitchType`, "
+            . "`Brand`, "
+            . "`Model`, "
+            . "`SerialNo`, "
+            . "`RackID`, "
+            . "`resource_switch`.`Status`, "
+            . "`LocationID` "
+            . "FROM `resource_switch` JOIN `resource_switch_type` ON `resource_switch`.`SwitchTypeID` = `resource_switch_type`.`SwitchTypeID` "
+            . "WHERE `LocationID` = :LocationID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":LocationID" => $LocationID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getLastRow($column, $LocationID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`Col`, "
+            . "`Row` "
+            . "FROM `resource_rack_position` "
+            . "WHERE `Col` LIKE :Col AND `LocationID`=:LocationID "
+            . "ORDER BY `RackPositionID` DESC";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":Col" => $column,
+                ":LocationID" => $LocationID
+            )
+    );
     if ($SQLPrepare->rowCount() > 0) {
         $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
-        return $result['Position'];
-    } else
-        return false;
-}
-
-function addRack($zone, $position, $subposition, $type, $size, $personID) {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "INSERT INTO `resource_rack`( `Zone`, `Position`, `SubPosition`, `RackType`, `RackSize`, `CreateBy`, `UpdateBy`) "
-            . "VALUES (:zone,:position,:subposition,:type,:size,:personID,:personID)";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":zone" => $zone, ":position" => $position, ":subposition" => $subposition, ":type" => $type, ":size" => $size, ":personID" => $personID));
-
-    if ($SQLPrepare->rowCount() > 0) {
-        return true;
+        return $result;
     } else
         return false;
 }
 
 function getRacks() {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "SELECT `Zone`, `Position`, `RackType`, `RackSize` "
             . "FROM `resource_rack` "
             . "GROUP BY `Zone`, `Position` "
             . "ORDER BY `Zone`,`Position` ASC";
-//    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getRackByRackPositionID($RackPositionID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`RackID`, "
+            . "`RackPositionID`, "
+            . "`Col`, "
+            . "`Row`, "
+            . "`SubRackPosition`, "
+            . "`RackTypeID`, "
+            . "`RackType`, "
+            . "`RackSize`, "
+            . "`Status`, "
+            . "`StatusUsed`, "
+            . "`RackUsedID`, "
+            . "`ServiceDetailID`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_resource_rack` "
+            . "WHERE `RackPositionID`=:RackPositionID";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":RackPositionID" => $RackPositionID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getRackTypeByCateID($cateID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PackageCategoryID`, "
+            . "`PackageCategory`, "
+            . "`Type`, "
+            . "`Status` "
+            . "FROM `customer_package_category` "
+            . "WHERE `PackageCategoryID`=:PackageCategoryID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":PackageCategoryID" => $cateID
+            )
+    );
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result['PackageCategory'];
+}
+
+function getRackPositionByLocationIDandType($LocationID, $RackType) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`RackPositionID`, "
+            . "`Col`, "
+            . "`Row`, "
+            . "`customer_package_category`.`PackageCategoryID`, "
+            . "`customer_package_category`.`PackageCategory`, "
+            . "`RackSize`, "
+            . "`resource_rack_position`.`Status`, "
+            . "`DateTimeCreate`, "
+            . "`DateTimeUpdate`, "
+            . "`CreateBy`, "
+            . "`UpdateBy`, "
+            . "`RackKey`, "
+            . "`LocationID` FROM "
+            . "`resource_rack_position` "
+            . "JOIN `customer_package_category` "
+            . "ON `customer_package_category`.`PackageCategoryID`=`resource_rack_position`.`PackageCategoryID` "
+            . "WHERE `resource_rack_position`.`PackageCategoryID`=:PackageCategoryID AND `LocationID`=:LocationID ";
+//    echo $SQLCommand;
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":PackageCategoryID" => $RackType,
+                ":LocationID" => $LocationID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getRacksColumn($locationID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT DISTINCT `Col` FROM `resource_rack_position` WHERE `LocationID` = :LocationID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":LocationID" => $locationID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -351,8 +832,7 @@ function getRacks() {
 }
 
 function getRackByCusID($cusID) {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "SELECT "
             . "`ResourceRackID`, "
             . "`Zone`, "
@@ -372,8 +852,7 @@ function getRackByCusID($cusID) {
             . "`CustomerName` "
             . "FROM `view_rack` "
             . "WHERE `CustomerID`= :cusID ";
-//    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(":cusID" => $cusID));
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
@@ -382,19 +861,33 @@ function getRackByCusID($cusID) {
     return $resultArr;
 }
 
-function getRackValue($rackType) {
-    global $connection;
-    dbconnect();
+function getRackValueByServiceDetailID($rackTypeID, $locationID) {
+    $con = dbconnect();
     $SQLCommand = "SELECT "
-            . "`Zone`, "
-            . "`Position`, "
+            . "`RackID`, "
+            . "`RackPositionID`, "
+            . "`Col`, "
+            . "`Row`, "
+            . "`SubRackPosition`, "
+            . "`RackTypeID`, "
             . "`RackType`, "
-            . "SUM(case when `OrderDetailID` IS NULL then 1 else 0 end) AS `balance` "
-            . "FROM `view_rack` "
-            . "WHERE `EnableResourceRack` = 1 AND `RackType` LIKE :rackType "
-            . "GROUP BY `Zone`, `Position`";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":rackType" => $rackType));
+            . "`RackSize`, "
+            . "`Status`, "
+            . "`StatusUsed`, "
+            . "`RackUsedID`, "
+            . "`ServiceDetailID`, "
+            . "`CustomerID`, "
+            . "`CustomerName`, "
+            . "`LocationID` "
+            . "FROM `view_resource_rack` "
+            . "WHERE `RackTypeID`=:RackTypeID AND `LocationID`=:LocationID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":RackTypeID" => $rackTypeID,
+                ":LocationID" => $locationID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -402,9 +895,8 @@ function getRackValue($rackType) {
     return $resultArr;
 }
 
-function getRacksDetail($zone, $type) {
-    global $connection;
-    dbconnect();
+function getRacksPosition($col, $type) {
+    $con = dbconnect();
     $SQLCommand = "SELECT "
             . "`ResourceRackID`, "
             . "`Zone`, "
@@ -424,7 +916,7 @@ function getRacksDetail($zone, $type) {
             . "`CustomerName` "
             . "FROM `view_rack` ";
     $SQLCommand .= "WHERE `Zone` LIKE :zone AND `RackType` LIKE :type ORDER BY `Zone`, `Position`, `SubPosition` ASC";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(":zone" => $zone, ":type" => $type));
 //    if ($zone == "%" && $type == "%") {
 //        $SQLCommand .= "WHERE `Zone` LIKE :zone ORDER BY `Zone`, `Position`, `SubPosition` ASC";
@@ -443,40 +935,33 @@ function getRacksDetail($zone, $type) {
     return $resultArr;
 }
 
-function getRacksReserve($zone, $position, $type) {
-    global $connection;
-    dbconnect();
+function getRacksReserve($RackPositionID, $rackTypeID) {
+    $con = dbconnect();
     $SQLCommand = "SELECT "
-            . "`ResourceRackID`, "
-            . "`Zone`, "
-            . "`Position`, "
-            . "`SubPosition`, "
+            . "`RackID`, "
+            . "`RackPositionID`, "
+            . "`Col`, "
+            . "`Row`, "
+            . "`SubRackPosition`, "
+            . "`RackTypeID`, "
             . "`RackType`, "
             . "`RackSize`, "
-            . "`EnableResourceRack`, "
-            . "`OrderDetailID`, "
-            . "`DateTimeCreate`, "
-            . "`DateTimeUpdate`, "
-            . "`CreateBy`, "
-            . "`UpdateBy`, "
-            . "`OrderID`, "
-            . "`PackageID`, "
+            . "`Status`, "
+            . "`StatusUsed`, "
+            . "`RackUsedID`, "
+            . "`ServiceDetailID`, "
             . "`CustomerID`, "
-            . "`CustomerName` "
-            . "FROM `view_rack` ";
-    $SQLCommand .= "WHERE `Zone` LIKE :zone AND `RackType` LIKE :type AND `Position` LIKE :position ORDER BY `Zone`, `Position`, `SubPosition` ASC";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":zone" => $zone, ":type" => $type, ":position" => $position));
-//    if ($zone == "%" && $type == "%") {
-//        $SQLCommand .= "WHERE `Zone` LIKE :zone ORDER BY `Zone`, `Position`, `SubPosition` ASC";
-//        $SQLPrepare = $connection->prepare($SQLCommand);
-//        $SQLPrepare->execute(array(":zone" => $zone, ":type" => $type));
-//    } else {
-//        $SQLCommand .= "ORDER BY `Zone`, `Position`, `SubPosition` ASC";
-//        $SQLPrepare = $connection->prepare($SQLCommand);
-//        $SQLPrepare->execute();
-//    }
-
+            . "`CustomerName`, "
+            . "`LocationID` "
+            . "FROM `view_resource_rack` "
+            . "WHERE `RackPositionID`=:RackPositionID AND `RackTypeID`=:RackTypeID";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":RackPositionID" => $RackPositionID,
+                ":RackTypeID" => $rackTypeID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -484,30 +969,32 @@ function getRacksReserve($zone, $position, $type) {
     return $resultArr;
 }
 
-function getRackByOrderDetailID($orderDetailID) {
-    global $connection;
-    dbconnect();
+function getRackByServiceDetailID($ServiceDetailID) {
+    $con = dbconnect();
     $SQLCommand = "SELECT "
-            . "`ResourceRackID`, "
-            . "`Zone`, "
-            . "`Position`, "
-            . "`SubPosition`, "
+            . "`RackID`, "
+            . "`RackPositionID`, "
+            . "`Col`, "
+            . "`Row`, "
+            . "`SubRackPosition`, "
+            . "`RackTypeID`, "
             . "`RackType`, "
             . "`RackSize`, "
-            . "`EnableResourceRack`, "
-            . "`OrderDetailID`, "
-            . "`DateTimeCreate`, "
-            . "`DateTimeUpdate`, "
-            . "`CreateBy`, "
-            . "`UpdateBy`, "
-            . "`OrderID`, "
-            . "`PackageID`, "
+            . "`Status`, "
+            . "`StatusUsed`, "
+            . "`RackUsedID`, "
+            . "`ServiceDetailID`, "
             . "`CustomerID`, "
-            . "`CustomerName` "
-            . "FROM `view_rack` "
-            . "WHERE `OrderDetailID` = :orderDetailID";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID));
+            . "`CustomerName`, "
+            . "`LocationID` "
+            . "FROM `view_resource_rack` "
+            . "WHERE `ServiceDetailID`=:ServiceDetailID";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":ServiceDetailID" => $ServiceDetailID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -516,12 +1003,11 @@ function getRackByOrderDetailID($orderDetailID) {
 }
 
 function assignRack($rackID, $orderDetailID, $personID) {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "UPDATE `resource_rack` SET `OrderDetailID`= :orderDetailID ,`UpdateBy`= :personID "
             . "WHERE `ResourceRackID` = :rackID";
 //    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(":rackID" => $rackID, ":orderDetailID" => $orderDetailID, ":personID" => $personID));
 
     if ($SQLPrepare->rowCount() > 0) {
@@ -531,11 +1017,10 @@ function assignRack($rackID, $orderDetailID, $personID) {
 }
 
 function assignRackNull($rackID, $personID) {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "UPDATE `resource_rack` SET `OrderDetailID`= NULL,`UpdateBy`= :personID "
             . "WHERE `ResourceRackID`= :rackID";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(":rackID" => $rackID, ":personID" => $personID));
 
     if ($SQLPrepare->rowCount() > 0) {
@@ -544,41 +1029,26 @@ function assignRackNull($rackID, $personID) {
         return false;
 }
 
-function getSummeryRack() {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "SELECT `RackType`, "
-            . "SUM(case when `OrderDetailID`IS NOT NULL then 1 else 0 end) AS `use`, "
-            . "COUNT(`RackType`) AS `total` "
-            . "FROM `resource_rack` "
-            . "WHERE 1 "
-            . "GROUP BY `RackType` "
-            . "ORDER BY `resource_rack`.`RackType` ASC";
-//    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute();
-    $resultArr = array();
-    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
-        array_push($resultArr, $result);
-    }
-    return $resultArr;
-}
-
-function getSummeryIP() {
-    global $connection;
-    dbconnect();
+function getSummaryIPByLocationID($LocationID) {
+    $con = dbconnect();
     $SQLCommand = "SELECT "
+            . "`LocationID`, "
+            . "`NetworkID`, "
             . "`NetworkIP`, "
             . "`Subnet`, "
-            . "`VlanID`, "
-            . "SUM(case when `OrderDetailID`IS NOT NULL then 1 else 0 end) AS `use`, "
-            . "COUNT(`IP`) AS `total` "
-            . "FROM `resource_ip` "
-            . "WHERE 1 "
-            . "GROUP BY `NetworkIP`";
-//    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute();
+            . "COUNT(`IPID`) AS `Total`, "
+            . "SUM(CASE WHEN `StatusUsed` LIKE 'Active' THEN 1 ELSE 0 END) AS `Active`, "
+            . "SUM(CASE WHEN `StatusUsed` LIKE 'Suppened' THEN 1 ELSE 0 END) AS `Suppened`, "
+            . "SUM(CASE WHEN `StatusUsed` LIKE 'Deactive' THEN 1 ELSE 0 END) AS `Deactive` "
+            . "FROM `view_resource_ip` "
+            . "WHERE `LocationID`=:LocationID "
+            . "GROUP BY `NetworkID`,`LocationID`";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":LocationID" => $LocationID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -586,19 +1056,26 @@ function getSummeryIP() {
     return $resultArr;
 }
 
-function getSummeryPort() {
-    global $connection;
-    dbconnect();
+function getSummaryPortByLocationID($LocationID) {
+    $con = dbconnect();
     $SQLCommand = "SELECT "
-            . "`ResourceSwitchID`, "
+            . "`LocationID`, "
+            . "`SwitchID`, "
             . "`SwitchName`, "
             . "`SwitchType`, "
-            . "`use`, "
-            . "`uplink`, "
-            . "`TotalPort` "
-            . "FROM `view_summery_port`";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute();
+            . "COUNT(`SwitchPortID`) AS `Total`, "
+            . "SUM(`Uplink`) AS `Uplink`, "
+            . "SUM(CASE WHEN `StatusUsed` LIKE 'Active' THEN 1 ELSE 0 END) AS `Active`, "
+            . "SUM(CASE WHEN `StatusUsed` LIKE 'Suppened' THEN 1 ELSE 0 END) AS `Suppened`, "
+            . "SUM(CASE WHEN `StatusUsed` LIKE 'Deactive' THEN 1 ELSE 0 END) AS `Deactive` "
+            . "FROM `view_resource_port` "
+            . "WHERE `LocationID`=:LocationID GROUP BY `SwitchID`,`LocationID`";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":LocationID" => $LocationID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -606,28 +1083,29 @@ function getSummeryPort() {
     return $resultArr;
 }
 
-function getResourceReserve($orderDetailID) {
-    global $connection;
-    dbconnect();
+function getResourceReserve($serviceDetailID) {
+    $con = dbconnect();
     $SQLCommand = "SELECT "
-            . "(SELECT COUNT(`ResourceIpID`) FROM `resource_ip` WHERE `OrderDetailID`=:orderDetailID) AS `ip`, "
-            . "(SELECT COUNT(`ResourceSwitchPortID`) FROM `resource_switch_port` WHERE `OrderDetailID`=:orderDetailID) AS `port`, "
-            . "(SELECT COUNT(`ResourceRackID`)FROM `resource_rack` WHERE `OrderDetailID`=:orderDetailID) AS `rack`, "
-            . "(SELECT COUNT(`ResourceServiceID`)FROM `resource_service` WHERE `OrderDetailID`=:orderDetailID) AS `service`";
+            . "(SELECT COUNT(`IPID`) FROM `view_resource_ip` WHERE `ServiceDetailID` = :ServiceDetailID AND (`StatusUsed` NOT LIKE 'Deactive' AND `IPUsedID` IS NOT NULL)) AS `ip`, "
+            . "(SELECT COUNT(`SwitchPortID`) FROM `view_resource_port` WHERE `ServiceDetailID` = :ServiceDetailID AND (`StatusUsed` NOT LIKE 'Deactive' AND `StatusUsed` IS NOT NULL)) AS `port`, "
+            . "(SELECT COUNT(`RackID`) FROM `view_resource_rack` WHERE `ServiceDetailID` = :ServiceDetailID AND (`StatusUsed` NOT LIKE 'Deactive' AND `StatusUsed` IS NOT NULL)) AS `rack` ";
 //    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":orderDetailID" => $orderDetailID));
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":ServiceDetailID" => $serviceDetailID
+            )
+    );
     $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
 
 function assignIP($ip, $orderDetailID, $personID) {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "UPDATE `resource_ip` "
             . "SET `OrderDetailID`=:orderDetailID,`UpdateBy`=:personID "
             . "WHERE `IP` LIKE :ip";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(":ip" => $ip, ":orderDetailID" => $orderDetailID, ":personID" => $personID));
 
     if ($SQLPrepare->rowCount() > 0) {
@@ -636,28 +1114,26 @@ function assignIP($ip, $orderDetailID, $personID) {
         return false;
 }
 
-function assignIPNull($ip, $personID) {
-    global $connection;
-    dbconnect();
-    $SQLCommand = "UPDATE `resource_ip` "
-            . "SET `OrderDetailID`= NULL ,`UpdateBy`=:personID "
-            . "WHERE `IP` LIKE :ip";
-    $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":ip" => $ip, ":personID" => $personID));
-
-    if ($SQLPrepare->rowCount() > 0) {
-        return true;
-    } else
-        return false;
-}
+//function assignIPNull($ipid, $personID) {
+//    $con = dbconnect();
+//    $SQLCommand = "UPDATE `resource_ip` "
+//            . "SET `OrderDetailID`= NULL ,`UpdateBy`=:personID "
+//            . "WHERE `IP` LIKE :ip";
+//    $SQLPrepare = $con->prepare($SQLCommand);
+//    $SQLPrepare->execute(array(":ip" => $ip, ":personID" => $personID));
+//
+//    if ($SQLPrepare->rowCount() > 0) {
+//        return true;
+//    } else
+//        return false;
+//}
 
 function assignPort($portID, $orderDetailID, $personID) {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "UPDATE `resource_switch_port` SET `OrderDetailID`= :orderDetailID ,`UpdateBy`= :personID "
             . "WHERE `ResourceSwitchPortID` = :portID";
 //    echo $SQLCommand;
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(":portID" => $portID, ":orderDetailID" => $orderDetailID, ":personID" => $personID));
 
     if ($SQLPrepare->rowCount() > 0) {
@@ -667,11 +1143,10 @@ function assignPort($portID, $orderDetailID, $personID) {
 }
 
 function assignPortNull($portID, $personID) {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "UPDATE `resource_switch_port` SET `OrderDetailID`= NULL ,`UpdateBy`= :personID "
             . "WHERE `ResourceSwitchPortID` = :portID";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(":portID" => $portID, ":personID" => $personID));
 
     if ($SQLPrepare->rowCount() > 0) {
@@ -681,11 +1156,10 @@ function assignPortNull($portID, $personID) {
 }
 
 function addResourceAmount($PackageID, $IPAmount, $PortAmount, $RackAmount, $ServiceAmount) {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "INSERT INTO `resource_amount`(`PackageID`, `IPAmount`, `PortAmount`, `RackAmount`, `ServiceAmount`) "
             . "VALUES (:PackageID, :IPAmount, :PortAmount, :RackAmount, :ServiceAmount)";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array("PackageID" => $PackageID, "IPAmount" => $IPAmount, "PortAmount" => $PortAmount, "RackAmount" => $RackAmount, "ServiceAmount" => $ServiceAmount));
 
     if ($SQLPrepare->rowCount() > 0) {
@@ -712,15 +1186,14 @@ function getResourceAmount($packageID) {
 }
 
 function editResourceAmount($PackageID, $IPAmount, $PortAmount, $RackAmount, $ServiceAmount) {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "UPDATE `resource_amount` SET "
             . "`IPAmount`= :IPAmount,"
             . "`PortAmount`= :PortAmount,"
             . "`RackAmount`= :RackAmount,"
             . "`ServiceAmount`= :ServiceAmount "
             . "WHERE `PackageID`= :PackageID";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         "PackageID" => $PackageID,
         "IPAmount" => $IPAmount,
@@ -738,18 +1211,23 @@ function editResourceAmount($PackageID, $IPAmount, $PortAmount, $RackAmount, $Se
 function getNetworkLink($locationID) {
     $connection = dbconnect();
     $SQLCommand = "SELECT "
-            . "`ResourceNetworkLinkID`, "
+            . "`NetworkLinkID`, "
             . "`NetworkLink`, "
             . "`CoperateName`, "
             . "`ContactName`, "
             . "`Phone`, "
             . "`Email`, "
-            . "`NetworkLinkStatus`, "
-            . "`LocationID` "
+            . "`Status`, "
+            . "`LocationID`, "
+            . "`NetworkLinkUsedID` "
             . "FROM `resource_network_link` "
             . "WHERE `LocationID` LIKE :location ";
     $SQLPrepare = $connection->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":location" => $locationID));
+    $SQLPrepare->execute(
+            array(
+                ":location" => $locationID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
@@ -758,11 +1236,10 @@ function getNetworkLink($locationID) {
 }
 
 function addResourceService($name, $detail, $tag, $personID, $enableResourceService, $dateTimeCreate, $dateTimeUpdate, $createBy, $updateBy, $locationID) {
-    global $connection;
-    dbconnect();
+    $con = dbconnect();
     $SQLCommand = "INSERT INTO `resource_service`(`Name`, `Detail`, `Tag`, `PersonID`, `EnableResourceService`, `DateTimeCreate`, `DateTimeUpdate`, `CreateBy`, `UpdateBy`, `LocationID`)"
             . "VALUES (:name,:detail,:tag,:personID,:enableResourceService,:dateTimeCreate,:dateTimeUpdate,:createBy,:updateBy,:locationID)";
-    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(array(
         ":name" => $name,
         ":detail" => $detail,
@@ -781,3 +1258,30 @@ function addResourceService($name, $detail, $tag, $personID, $enableResourceServ
     } else
         return false;
 }
+
+function getSummaryRackByLocatoinID($LocationID) {
+    $connection = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`LocationID`, "
+            . "`RackTypeID`, "
+            . "`RackType`, "
+            . "COUNT(`RackPositionID`) AS `Total`, "
+            . "SUM(CASE WHEN `StatusUsed` LIKE 'Active' THEN 1 ELSE 0 END) AS `Active`, "
+            . "SUM(CASE WHEN `StatusUsed` LIKE 'Suppened' THEN 1 ELSE 0 END) AS `Suppened`, "
+            . "SUM(CASE WHEN `StatusUsed` LIKE 'Deactive' THEN 1 ELSE 0 END) AS `Deactive` "
+            . "FROM `view_resource_rack` "
+            . "WHERE `LocationID`=:LocationID "
+            . "GROUP BY `RackTypeID`,`LocationID`";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":LocationID" => $LocationID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
