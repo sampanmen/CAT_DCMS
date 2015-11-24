@@ -367,6 +367,7 @@ function getEquipments() {
             . "`Model`, "
             . "`SerialNo`, "
             . "`CustomerID`, "
+            . "`CustomerName`, "
             . "`EntryID_IN`, "
             . "`TimeIN`, "
             . "`EntryID_OUT`, "
@@ -378,6 +379,38 @@ function getEquipments() {
             . "FROM `view_equipment` ";
     $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute();
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getEquipmentByEntryID($EntryID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`EquipmentID`, "
+            . "`Equipment`, "
+            . "`Brand`, "
+            . "`Model`, "
+            . "`SerialNo`, "
+            . "`CustomerID`, "
+            . "`EntryID_IN`, "
+            . "`TimeIN`, "
+            . "`EntryID_OUT`, "
+            . "`TimeOUT`, "
+            . "`RackID`, "
+            . "`Col`, "
+            . "`Row`, "
+            . "`SubRackPosition` "
+            . "FROM `view_equipment` "
+            . "WHERE `EntryID_IN`=:EntryID OR `EntryID_OUT`=:EntryID";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":EntryID" => $EntryID
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
