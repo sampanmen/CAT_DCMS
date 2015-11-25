@@ -14,7 +14,7 @@ $swID = (isset($_GET['swID'])) ? $_GET['swID'] : "";
     <div class="col-lg-4"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Switch</b> <a href="../resource/model_addSwitch.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
+                <h5><b>Switch</b> <a href="../resource/modal_addSwitch.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
             </div>      
 
             <div class="panel-body">

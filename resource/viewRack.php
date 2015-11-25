@@ -16,7 +16,7 @@ $type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
     <div class="col-lg-4"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Rack </b><a href="../resource/model_addRack.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
+                <h5><b>Rack </b><a href="../resource/modal_addRack.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
             </div>
             <div class="panel-body">
                 <div class="form-group">
