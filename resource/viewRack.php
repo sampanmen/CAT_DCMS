@@ -6,9 +6,11 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 
 require_once dirname(__FILE__) . '/../system/function.inc.php';
-
-$zone = (!isset($_GET['zone']) || $_GET['zone'] == "") ? "%" : $_GET['zone'];
-$type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
+//
+//$zone = (!isset($_GET['zone']) || $_GET['zone'] == "") ? "%" : $_GET['zone'];
+//$type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
+$getRackPositionID = isset($_GET['RackPositionID']) ? $_GET['RackPositionID'] : "";
+$getLocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : "";
 ?>
 
 <p><a href="?">Home</a> > <b>Rack</b></p>
@@ -16,14 +18,13 @@ $type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
     <div class="col-lg-4"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Rack </b><a href="../resource/model_addRack.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
+                <h5><b>Rack </b><a href="../resource/modal_addRack.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
             </div>
             <div class="panel-body">
                 <div class="form-group">
-                    <select class="form-control" name="location" id="location" onchange="showNetwork();">
+                    <select class="form-control" name="location" id="location" onchange="showRackPosition();">
                         <option value="">Choose location</option>
                         <?php
-                        $getLocationID = $_GET['LocationID'];
                         $getLocation = getLocation();
                         foreach ($getLocation as $value) {
                             $valLocationID = $value['LocationID'];
@@ -77,7 +78,18 @@ $type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
     <div class="col-lg-8"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Rack</b></h5>
+                <h5><b>Rack</b> 
+                    <?php
+                    if ($getRackPositionID != "") {
+                        ?>
+                        <a href="../resource/modal_editRackPosition.php?RackPositionID=<?php echo $getRackPositionID; ?>&LocationID=<?php echo $getLocationID; ?>" data-toggle="modal" data-target="#myModal">(Edit)</a>
+                    <?php } ?>
+                    <?php
+                    if (!checkUsedRackPosition($getRackPositionID) && $getRackPositionID != "") {
+                        ?>
+                        <a href="../resource/action/resource.action.delete.php?para=delRackPosition&RackPositionID=<?php echo $getRackPositionID; ?>">(Delete)</a>
+                    <?php } ?>
+                </h5>
             </div>
             <div class="panel-body">
 
@@ -94,7 +106,6 @@ $type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
                         </thead>
                         <tbody>
                             <?php
-                            $getRackPositionID = isset($_GET['RackPositionID']) ? $_GET['RackPositionID'] : "";
                             $getRacks = getRackByRackPositionID($getRackPositionID);
                             foreach ($getRacks as $value) {
                                 $valType = $value['RackType'];
