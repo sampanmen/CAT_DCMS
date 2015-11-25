@@ -16,7 +16,7 @@ $getIPs = getIPs($networkID);
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Network IP </b><a href="../resource/model_addIP.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
+                <h5><b>Network IP </b><a href="../resource/modal_addIP.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
             </div>      
 
             <div class="panel-body">
