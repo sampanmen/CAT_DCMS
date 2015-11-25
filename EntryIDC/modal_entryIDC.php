@@ -52,11 +52,19 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             lengthMenu: [[5, 10, 15, 25, 50, -1], [5, 10, 15, 25, 50, "All"]]
         });
     });
+    function getdatatable() {
+        $('#dataTablesModalEntryIDC').DataTable({
+            responsive: true,
+            pageLength: 5,
+            lengthMenu: [[5, 10, 15, 25, 50, -1], [5, 10, 15, 25, 50, "All"]]
+        });
+    }
     function getCustomer() {
         $('#person').hide();
         $('#customer').show();
         $.get("../EntryIDC/action/entryIDC.content.php?para=getCustomer", function (data, status) {
             $("#customer").html(data);
+            getdatatable();
         });
     }
     function getDivision(organi) {
@@ -64,6 +72,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
         $('#customer').show();
         $.get("../EntryIDC/action/entryIDC.content.php?para=getDivision&organi=" + organi, function (data, status) {
             $("#customer").html(data);
+            getdatatable();
         });
     }
     function getContact(cusID) {
