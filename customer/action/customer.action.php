@@ -3,7 +3,12 @@
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
-$PersonID_login = "-1";
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+$PersonID_login = $_SESSION['Account']['PersonID'];
+
 if ($para == "addCustomer") {
     $cus_name = $_POST['cus']['name'];
     $cus_status = "Active";
@@ -155,23 +160,25 @@ if ($para == "addCustomer") {
 } else if ($para == "addService") {
     $CustomerID = $_POST['cusID'];
     $package = $_POST['package'];
-    $networkLink = $_POST['networkLink'];
+    $NetworkLinkID = $_POST['networkLink'];
     $Location = $_POST['location'];
-    $CreateBy = $PersonID;
+//    $CreateBy = $PersonID;
 
-    $resService = addService($CustomerID, $Location, $CreateBy);
+    $resService = addService($CustomerID, $Location, $PersonID_login);
     if ($resService) {
         for ($i = 0; $i < count($package['amount']); $i++) {
             for ($j = 0; $j < $package['amount'][$i]; $j++) {
-                $resServiceDetail = addServiceDetail($resService, $package['ID'][$i]);
+                $resServiceDetail = addServiceDetail($resService, $package['ID'][$i], $NetworkLinkID);
                 $resServiceDetailAction = addServiceDetailAction($resServiceDetail, "Active", "Create Service", $PersonID_login);
             }
         }
         // add network link detail
     }
     if ($resService) {
+        echo "Yes";
         header("location: ../../core/?p=viewCus&cusID=" . $CustomerID . "&para=addServiceCompleted");
     } else {
+        echo "No";
         header("location: ../../core/?p=viewCus&cusID=" . $CustomerID . "&para=addServiceFailed");
     }
 } else if ($para == "editCustomer") {

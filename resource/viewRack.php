@@ -1,4 +1,10 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $zone = (!isset($_GET['zone']) || $_GET['zone'] == "") ? "%" : $_GET['zone'];
@@ -10,7 +16,7 @@ $type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
     <div class="col-lg-4"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Rack </b><a href="../resource/model_addRack.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
+                <h5><b>Rack </b><a href="../resource/modal_addRack.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
             </div>
             <div class="panel-body">
                 <div class="form-group">

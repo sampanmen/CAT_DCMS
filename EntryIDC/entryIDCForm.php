@@ -1,4 +1,10 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $getPersonID = isset($_GET['personID']) ? $_GET['personID'] : "-1";

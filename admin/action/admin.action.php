@@ -3,7 +3,11 @@
 require_once dirname(__FILE__) . '/../../system/function.inc.php';
 
 $para = isset($_GET['para']) ? $_GET['para'] : "";
-$PersonID_login = "-1";
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+$PersonID_login = $_SESSION['Account']['PersonID'];
 
 if ($para == "addStaffposition") {
 //    print_r($_POST);

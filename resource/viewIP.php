@@ -1,4 +1,10 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $networkID = isset($_GET['NetworkID']) ? $_GET['NetworkID'] : "";
@@ -10,7 +16,7 @@ $getIPs = getIPs($networkID);
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Network IP </b><a href="../resource/model_addIP.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
+                <h5><b>Network IP </b><a href="../resource/modal_addIP.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
             </div>      
 
             <div class="panel-body">

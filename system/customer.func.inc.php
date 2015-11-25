@@ -123,19 +123,19 @@ function addContact($CustomerID, $PersonID, $IDCCard, $IDCCardType, $ContactType
     }
 }
 
-function addAccount($PersonID, $Username, $Password) {
-    $conn = dbconnect();
-    $SQLCommand = "INSERT INTO `account`(`PersonID`, `Username`, `Password`) "
-            . "VALUES (:PersonID, :Username, :Password)";
-    $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array("PersonID" => $PersonID, "Username" => $Username, "Password" => $Password));
-
-    if ($SQLPrepare->rowCount() > 0) {
-        return $conn->lastInsertId();
-    } else {
-        return false;
-    }
-}
+//function addAccount($PersonID, $Username, $Password) {
+//    $conn = dbconnect();
+//    $SQLCommand = "INSERT INTO `account`(`PersonID`, `Username`, `Password`) "
+//            . "VALUES (:PersonID, :Username, :Password)";
+//    $SQLPrepare = $conn->prepare($SQLCommand);
+//    $SQLPrepare->execute(array("PersonID" => $PersonID, "Username" => $Username, "Password" => $Password));
+//
+//    if ($SQLPrepare->rowCount() > 0) {
+//        return $conn->lastInsertId();
+//    } else {
+//        return false;
+//    }
+//}
 
 function addStaff($PersonID, $EmployeeID, $StaffPositionID, $DivisionID) {
     $conn = dbconnect();
@@ -522,12 +522,18 @@ function addNetworkLink() {
         return false;
 }
 
-function addServiceDetail($ServiceID, $PackageID) {
+function addServiceDetail($ServiceID, $PackageID, $NetworkLinkID) {
     $conn = dbconnect();
-    $SQLCommand = "INSERT INTO `customer_service_detail`(`ServiceID`, `PackageID`) "
-            . "VALUES (:ServiceID, :PackageID)";
+    $SQLCommand = "INSERT INTO `customer_service_detail`(`ServiceID`, `PackageID`, `NetworkLinkID`) "
+            . "VALUES (:ServiceID, :PackageID, :NetworkLinkID)";
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array("ServiceID" => $ServiceID, "PackageID" => $PackageID));
+    $SQLPrepare->execute(
+            array(
+                ":ServiceID" => $ServiceID,
+                ":PackageID" => $PackageID,
+                ":NetworkLinkID" => $NetworkLinkID[0]
+            )
+    );
 
     if ($SQLPrepare->rowCount() > 0) {
         return $conn->lastInsertId();
@@ -551,13 +557,32 @@ function addServiceDetailAction($ServiceDetailID, $Status, $cause, $PersonID_log
         if ($Status == "Deactive") {
             addResouceUsedOnChangeServiceDetail($ServiceDetailID, $PersonID_login);
         }
+        $id = $conn->lastInsertId();
+        updateServiceDetailOnAddServiceDetailAction($ServiceDetailID, $id);
+        return $id;
+    } else
+        return false;
+}
+
+function updateServiceDetailOnAddServiceDetailAction($ServiceDetailID, $ServiceDetailActionID) {
+    $conn = dbconnect();
+    $SQLCommand = "UPDATE `customer_service_detail` SET "
+            . "`ServiceDetailActionID`=:ServiceDetailActionID "
+            . "WHERE `ServiceDetailID`=:ServiceDetailID";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute(array(
+        ":ServiceDetailID" => $ServiceDetailID,
+        ":ServiceDetailActionID" => $ServiceDetailActionID
+            )
+    );
+    if ($SQLPrepare->rowCount() > 0) {
         return $conn->lastInsertId();
     } else
         return false;
 }
 
 function addResouceUsedOnChangeServiceDetail($ServiceDetailID, $PersonID_login) {
-    
+
     $ips = getIPsByServiceDetailID($ServiceDetailID);
 //    echo "<pre>";
 //    print_r($ips);
@@ -570,7 +595,7 @@ function addResouceUsedOnChangeServiceDetail($ServiceDetailID, $PersonID_login) 
         $Status = "Deactive";
         addIPUsed($IPID, $ServiceDetailID, $Status, $PersonID_login);
     }
-    
+
     $ports = getPortByServiceDetailID($ServiceDetailID);
 //    echo "<pre>";
 //    print_r($ports);
@@ -584,7 +609,7 @@ function addResouceUsedOnChangeServiceDetail($ServiceDetailID, $PersonID_login) 
 //        echo "PortID: $PortID <br>";
         addSwitchPortUsed($ServiceDetailID, $PortID, $Status, $PersonID_login);
     }
-    
+
     $racks = getRackByServiceDetailID($ServiceDetailID);
 //    echo "<pre>";
 //    print_r($racks);
@@ -937,6 +962,35 @@ function getStaffByDivision($divisionID) {
             . "WHERE `DivisionID`= :divisionID ";
     $SQLPrepare = $conn->prepare($SQLCommand);
     $SQLPrepare->execute(array(":divisionID" => $divisionID));
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getStaffCAT() {
+    $conn = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`PersonID`, "
+            . "`Fname`, "
+            . "`Lname`, "
+            . "`Phone`, "
+            . "`Email`, "
+            . "`IDCard`, "
+            . "`EmployeeID`, "
+            . "`StaffPositionID`, "
+            . "`Position`, "
+            . "`DivisionID`, "
+            . "`Division`, "
+            . "`Organization`, "
+            . "`Address`, "
+            . "`TypePerson`, "
+            . "`PersonStatus` "
+            . "FROM `view_staff` "
+            . "WHERE `Organization` LIKE 'CAT'";
+    $SQLPrepare = $conn->prepare($SQLCommand);
+    $SQLPrepare->execute();
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);

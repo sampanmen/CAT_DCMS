@@ -1,4 +1,10 @@
 <?php
+//--Start-- Check login and Permission
+$link = "../account/login.php";
+$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+require_once dirname(__FILE__) . '/../account/checkLogin.php';
+//--End-- Check login and Permission
+
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 $LocationID_Session = isset($_SESSION['LocationID']) ? $_SESSION['LocationID'] : "";
 $LocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : $LocationID_Session;
@@ -38,7 +44,7 @@ $summaryPort = getSummaryPortByLocationID($LocationID);
         <!--Rack-->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4><b>Rack </b><a href="../resource/model_addRack.php" data-toggle="modal" data-target="#myModal">  (Add)  </a></h4>
+                <h4><b>Rack </b><a href="../resource/modal_addRack.php" data-toggle="modal" data-target="#myModal">  (Add)  </a></h4>
             </div>      
 
             <div class="panel-body">
@@ -78,7 +84,7 @@ $summaryPort = getSummaryPortByLocationID($LocationID);
         <!--IP-->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4><b>IP </b><a href="../resource/model_addIP.php" data-toggle="modal" data-target="#myModal">(Add)</a></h4>
+                <h4><b>IP </b><a href="../resource/modal_addIP.php" data-toggle="modal" data-target="#myModal">(Add)</a></h4>
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -119,7 +125,7 @@ $summaryPort = getSummaryPortByLocationID($LocationID);
         <!--Port-->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4><b>Port </b><a href="../resource/model_addSwitch.php" data-toggle="modal" data-target="#myModal">(Add)</a></h4>
+                <h4><b>Port </b><a href="../resource/modal_addSwitch.php" data-toggle="modal" data-target="#myModal">(Add)</a></h4>
             </div>      
 
             <div class="panel-body">
@@ -161,7 +167,7 @@ $summaryPort = getSummaryPortByLocationID($LocationID);
 <!--        <div class="panel panel-default">
             <div class="panel-heading">
                 <h4><b>Servics
-                        <a href="../resource/model_addService.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>
+                        <a href="../resource/modal_addService.php" data-toggle="modal" data-target="#myModal">  (Add)  </a>
                     </b></h4>
             </div>      
 
