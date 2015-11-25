@@ -61,7 +61,7 @@ $resultSearch = searchCustomer($searchText);
                     ?>
                     <div class="col-lg-7">
                         <div class="col-lg-12">
-                            <a href="?viewCus&cusID=<?php echo $valCustomerID; ?>" class="text-info" style="font-size: 1.3em;"><?php
+                            <a href="?p=viewCus&cusID=<?php echo $valCustomerID; ?>" class="text-info" style="font-size: 1.3em;"><?php
                                 printf("%05d", $valCustomerID);
                                 echo $Title;
                                 ?></a>
