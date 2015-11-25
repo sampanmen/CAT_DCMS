@@ -929,10 +929,14 @@ function searchCustomer($text) {
             . "WHERE "
             . "MATCH (`CustomerName`, `cusEmail`, `cusPhone`, `Fax`, `Address`, `Township`, `City`, `Province`, `Zipcode`, `Country`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR "
             . "MATCH (`Fname`, `Lname`, `conPhone`, `conEmail`,`IDCard`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR "
-            . "MATCH (`BusinessType`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR MATCH (`IDCCard`) AGAINST (:text IN NATURAL LANGUAGE MODE) OR "
             . "`CustomerID` = :text ";
+//    echo $SQLCommand;
     $SQLPrepare = $conn->prepare($SQLCommand);
-    $SQLPrepare->execute(array(":text" => $text));
+    $SQLPrepare->execute(
+            array(
+                ":text" => $text
+            )
+    );
     $resultArr = array();
     while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
         array_push($resultArr, $result);
