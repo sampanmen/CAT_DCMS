@@ -5,10 +5,15 @@ $pa = "&modal=true";
 $Permission = array("frontdesk", "helpdesk", "engineering", "manager");
 require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
+
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+$CustomerID = $_GET['CustomerID'];
+$RackTypeID = $_GET['RackTypeID'];
+$getRack = getRackByCustomerID($CustomerID);
 ?>
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title" id="gridSystemModalLabel">Full Rack</h4>
+    <h4 class="modal-title" id="gridSystemModalLabel">Show Your Rack</h4>
 </div>
 <div class="modal-body">
     <div class="container-fluid">
@@ -17,50 +22,31 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
                 <table class="table table-striped table-bordered table-hover" id="dataTables">
                     <thead>
                         <tr>
-                            <th>Zone</th>
                             <th>Position</th>
-                            <th>SubPosition</th>
-
+                            <th>Location</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>A</td>
-                            <td>01</td>
-                            <td>1</td>
-
-                        </tr>                                                     
-                        <tr>
-                            <td>A</td>
-                            <td>02</td>
-                            <td>1</td>
-
-                        </tr>          
-                        <tr>
-                            <td>Z</td>
-                            <td>03</td>
-                            <td>1</td>
-
-                        </tr>          
-                        <tr>
-                            <td>Z</td>
-                            <td>04</td>
-                            <td>1</td>
-                        </tr>          
-
+                        <?php
+                        foreach ($getRack as $value) {
+                            if ($value['RackTypeID'] != $RackTypeID) {
+                                continue;
+                            }
+                            $valCol = $value['Col'];
+                            $valRow = $value['Row'];
+                            $valSubPositioin = $value['SubRackPosition'];
+                            $valLocation = $value['Location'];
+                            ?>
+                            <tr>
+                                <td><?php echo $valCol . $valRow . "-" . $valSubPositioin; ?></td>
+                                <td><?php echo $valLocation; ?></td>
+                            </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
-            </div>
-            <!-- /.table-responsive -->
+            </div><!-- /.table-responsive -->
         </div>
-
-        <!-- /.panel-body -->
-
-
-
-
-    </div>
-    <!-- /.row (nested) -->
+    </div><!-- /.row (nested) -->
 </div> 
 
 

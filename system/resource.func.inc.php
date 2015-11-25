@@ -1595,3 +1595,183 @@ function delRackPosition($RackPositionID) {
         return FALSE;
     }
 }
+
+function getSummaryIPByCustomerID($CustomerID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`NetworkID`, "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`Vlan`,"
+            . "COUNT(`IP`) AS `Amount` ,"
+            . "`LocationID`, "
+            . "`Location`"
+            . "FROM `view_resource_ip` "
+            . "WHERE `CustomerID`=:CustomerID "
+            . "GROUP BY `NetworkID`";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":CustomerID" => $CustomerID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getSummaryPortByCustomerID($CustomerID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`SwitchID`, "
+            . "`SwitchName`, "
+            . "`SwitchType`,"
+            . "COUNT(`SwitchPortID`) AS `Amount` ,"
+            . "`LocationID`, "
+            . "`Location`"
+            . "FROM `view_resource_port` "
+            . "WHERE `CustomerID`=:CustomerID "
+            . "GROUP BY `SwitchID`";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":CustomerID" => $CustomerID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getSummaryRackByCustomerID($CustomerID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`RackTypeID`, "
+            . "`RackType`, "
+            . "COUNT(`SubRackPosition`) AS `Amount`, "
+            . "`LocationID`, "
+            . "`Location` "
+            . "FROM `view_resource_rack` "
+            . "WHERE `CustomerID`=:CustomerID "
+            . "GROUP BY `RackTypeID`";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":CustomerID" => $CustomerID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+//==========Get Resource by CustomerID============
+function getIPByCustomerID($CustomerID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`IPID`, "
+            . "`IP`, "
+            . "`NetworkID`, "
+            . "`IPUsedID`, "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`Vlan`, "
+            . "`LocationID`, "
+            . "`Location`, "
+            . "`Status`, "
+            . "`StatusUsed`, "
+            . "`ServiceDetailID`, "
+            . "`PackageID`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_resource_ip` "
+            . "WHERE `CustomerID`=:CustomerID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":CustomerID" => $CustomerID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getPortByCustomerID($CustomerID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`SwitchID`, "
+            . "`SwitchName`, "
+            . "`TotalPort`, "
+            . "`SwitchPortID`, "
+            . "`PortNumber`, "
+            . "`PortTypeID`, "
+            . "`PortType`, "
+            . "`SwitchTypeID`, "
+            . "`SwitchType`, "
+            . "`RackID`, "
+            . "`Status`, "
+            . "`SwitchPortUsedID`, "
+            . "`ServiceDetailID`, "
+            . "`StatusUsed`, "
+            . "`Uplink`, "
+            . "`LocationID`, "
+            . "`Location`, "
+            . "`CustomerID`, "
+            . "`CustomerName` "
+            . "FROM `view_resource_port` "
+            . "WHERE `CustomerID`=:CustomerID ";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":CustomerID" => $CustomerID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
+
+function getRackByCustomerID($CustomerID) {
+    $con = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`RackID`, "
+            . "`RackPositionID`, "
+            . "`Col`, "
+            . "`Row`, "
+            . "`SubRackPosition`, "
+            . "`RackTypeID`, "
+            . "`RackType`, "
+            . "`RackSize`, "
+            . "`Status`, "
+            . "`StatusUsed`, "
+            . "`RackUsedID`, "
+            . "`ServiceDetailID`, "
+            . "`CustomerID`, "
+            . "`CustomerName`, "
+            . "`LocationID`, "
+            . "`Location` "
+            . "FROM `view_resource_rack` "
+            . "WHERE `CustomerID`=:CustomerID";
+    $SQLPrepare = $con->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":CustomerID" => $CustomerID
+            )
+    );
+    $resultArr = array();
+    while ($result = $SQLPrepare->fetch(PDO::FETCH_ASSOC)) {
+        array_push($resultArr, $result);
+    }
+    return $resultArr;
+}
