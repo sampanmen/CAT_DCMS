@@ -7,8 +7,16 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 
 require_once dirname(__FILE__) . '/../system/function.inc.php';
+$RackPositionID = $_GET['RackPositionID'];
+$getRackPosition = getRackPositionByID($RackPositionID);
+$Col = $getRackPosition['Col'];
+$Row = $getRackPosition['Row'];
+$PackageCategoryID = $getRackPosition['PackageCategoryID'];
+$RackSize = $getRackPosition['RackSize'];
+$Status = $getRackPosition['Status'];
+$LocationID = $getRackPosition['LocationID'];
 ?>
-<form method="POST" action="../resource/action/resource.action.php?para=addRack">
+<form method="POST" action="../resource/action/resource.action.edit.php?para=editRackPosition&RackPositionID=<?php echo $RackPositionID; ?>">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="gridSystemModalLabel">Add Rack</h4>
@@ -22,7 +30,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             <label>Rack Size</label>
                         </div>
                         <div class="form-group col-lg-3"> 
-                            <input class="form-control" type="number" name="size" value="42">
+                            <input class="form-control" type="number" name="size" value="<?php echo $RackSize; ?>" disabled>
                         </div>
                     </div>
                     <div class="col-lg-12">  
@@ -30,7 +38,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             <label>Rack Type</label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <select class="form-control" name="type">
+                            <select class="form-control" name="type" disabled>
                                 <?php
                                 $getTypes = getCatagory();
                                 foreach ($getTypes as $value) {
@@ -40,7 +48,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     $valPackageCategory = $value['PackageCategory'];
                                     $valPackageCategoryID = $value['PackageCategoryID'];
                                     ?>
-                                    <option value="<?php echo $valPackageCategoryID; ?>"><?php echo $valPackageCategory; ?></option>
+                                    <option <?php echo $PackageCategoryID == $valPackageCategoryID ? "selected" : ""; ?> value="<?php echo $valPackageCategoryID; ?>"><?php echo $valPackageCategory; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -50,7 +58,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             <label>Location</label>
                         </div>
                         <div class="form-group col-lg-6">
-                            <select class="form-control" name="location" id="location2" onchange="showCol();">
+                            <select class="form-control" name="location" id="location2" onchange="showCol();" disabled>
                                 <option value="">Choose</option>
                                 <?php
                                 $getLocation = getLocation();
@@ -58,7 +66,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                                     $valLocationID = $value['LocationID'];
                                     $valLocation = $value['Location'];
                                     ?>
-                                    <option value="<?php echo $valLocationID; ?>"><?php echo $valLocation; ?></option>
+                                    <option <?php echo $LocationID == $valLocationID ? "selected" : ""; ?> value="<?php echo $valLocationID; ?>"><?php echo $valLocation; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -68,33 +76,28 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
                             <label>Rack Column</label>
                         </div>
                         <div class="form-group col-lg-3">
-                            <select class="form-control" id="Col1" onchange="chkCol();">
-
-                            </select>                                 
+                            <input class="form-control" name="col" id="Col2" value="<?php echo $Col; ?>" required>
                         </div>
-                        <div class="form-group col-lg-3">
-                            <input class="form-control" name="col" id="Col2" required>
-                        </div>
-                        <script>
-                            function chkCol() {
-                                var zone1 = $("#Col1").val();
-                                $("#Col2").val(zone1);
-                            }
-                            function showCol() {
-                                var locationID = $("#location2").val();
-                                $.get("../resource/action/resource.content.php?para=getRacksColumn&LocationID=" + locationID, function (data, status) {
-                                    $("#Col1").html(data);
-                                });
-                            }
-                        </script>
                     </div>
 
                     <div class="col-lg-12">
                         <div class="col-lg-4">
-                            <label>Amount</label>
+                            <label>Rack Row</label>
                         </div>
                         <div class="form-group col-lg-3">
-                            <input class="form-control" name="amount" type="number" value="1" required>                                   
+                            <input class="form-control" name="row" type="number" value="<?php echo $Row; ?>" required>                                   
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            <label>Status</label>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <select class="form-control" name="status">
+                                <option <?php echo $Status == "Active" ? "selected" : ""; ?> value="Active">Active</option>
+                                <option <?php echo $Status == "Deactive" ? "selected" : ""; ?> value="Deactive">Deactive</option>
+                            </select>
                         </div>
                     </div>
                 </div>
