@@ -5,7 +5,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 $PersonID_login = $_SESSION['Account']['PersonID'];
-
 ?>
 <table class="table table-striped table-bordered table-hover">
     <thead>
@@ -24,10 +23,11 @@ $PersonID_login = $_SESSION['Account']['PersonID'];
             $valSwicthName = $value['SwitchName'];
             $valSwitchIP = $value['SwitchIP'];
             $valSwitchType = $value['SwitchType'];
+            $valStatus = $value['Status'];
             ?>
             <tr>
-                <td><?php echo "<a href='?p=viewPort&LocationID=$LocationID&SwitchID=$valSwitchID'>$valSwicthName</a>"; ?></td>
-                <!--<td><?php // echo $valSwitchIP; ?></td>-->
+                <td><?php echo "<a href='?p=viewPort&LocationID=$LocationID&SwitchID=$valSwitchID' class='text-" . ($valStatus == "Active" ? "success" : "danger") . "' >$valSwicthName</a>"; ?></td>
+                <!--<td><?php // echo $valSwitchIP;     ?></td>-->
                 <td><?php echo $valSwitchType; ?></td>
             </tr>
         <?php } ?>

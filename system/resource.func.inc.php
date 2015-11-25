@@ -694,12 +694,11 @@ function getSwitchValueByLocation($LocationID) {
 
 function getLastRow($column, $LocationID) {
     $con = dbconnect();
-    $SQLCommand = "SELECT "
-            . "`Col`, "
-            . "`Row` "
+    $SQLCommand = "SELECT `Col`, `Row` "
             . "FROM `resource_rack_position` "
             . "WHERE `Col` LIKE :Col AND `LocationID`=:LocationID "
-            . "ORDER BY `RackPositionID` DESC";
+            . "ORDER BY `Row` DESC "
+            . "LIMIT 1";
     $SQLPrepare = $con->prepare($SQLCommand);
     $SQLPrepare->execute(
             array(
@@ -1285,3 +1284,314 @@ function getSummaryRackByLocatoinID($LocationID) {
     return $resultArr;
 }
 
+function getRackPositionByID($RackPositionID) {
+    $connection = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`RackPositionID`, "
+            . "`Col`, "
+            . "`Row`, "
+            . "`PackageCategoryID`, "
+            . "`RackSize`, "
+            . "`Status`, "
+            . "`LocationID` "
+            . "FROM `resource_rack_position` "
+            . "WHERE `RackPositionID`=:RackPositionID";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":RackPositionID" => $RackPositionID
+            )
+    );
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function getNetworksByID($networkID) {
+    $connection = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`NetworkID`, "
+            . "`NetworkIP`, "
+            . "`Subnet`, "
+            . "`Vlan`, "
+            . "`AmountIP`, "
+            . "`Status`, "
+            . "`LocationID` "
+            . "FROM `resource_ip_network` "
+            . "WHERE `NetworkID`=:NetworkID";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":NetworkID" => $networkID
+            )
+    );
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function getSwitchByID($SwitchID) {
+    $connection = dbconnect();
+    $SQLCommand = "SELECT "
+            . "`SwitchID`, "
+            . "`SwitchName`, "
+            . "`SwitchIP`, "
+            . "`TotalPort`, "
+            . "`SnmpCommuPublic`, "
+            . "`SwitchTypeID`, "
+            . "`Brand`, "
+            . "`Model`, "
+            . "`SerialNo`, "
+            . "`RackID`, "
+            . "`Status`, "
+            . "`LocationID` "
+            . "FROM `resource_switch` "
+            . "WHERE `SwitchID`=:SwitchID";
+    $SQLPrepare = $connection->prepare($SQLCommand);
+    $SQLPrepare->execute(
+            array(
+                ":SwitchID" => $SwitchID
+            )
+    );
+    $result = $SQLPrepare->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function editSwitch($SwitchID, $name, $ip, $commu, $typeID, $brand, $model, $serialNo, $rackID, $status, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "UPDATE `resource_switch` SET "
+            . "`SwitchName`=:SwitchName,"
+            . "`SwitchIP`=:SwitchIP,"
+            . "`SnmpCommuPublic`=:SnmpCommuPublic,"
+            . "`SwitchTypeID`=:SwitchTypeID,"
+            . "`Brand`=:Brand,"
+            . "`Model`=:Model,"
+            . "`SerialNo`=:SerialNo,"
+            . "`RackID`=:RackID,"
+            . "`Status`=:Status,"
+            . "`UpdateBy`=:UpdateBy "
+            . "WHERE `SwitchID`=:SwitchID";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":SwitchID" => $SwitchID,
+                ":SwitchName" => $name,
+                ":SwitchIP" => $ip,
+                ":SnmpCommuPublic" => $commu,
+                ":SwitchTypeID" => $typeID,
+                ":Brand" => $brand,
+                ":Model" => $model,
+                ":SerialNo" => $serialNo,
+                ":RackID" => $rackID,
+                ":Status" => $status,
+                ":UpdateBy" => $PersonID_login
+            )
+    );
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function editNetwork($NetworkID, $vlan, $status, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "UPDATE `resource_ip_network` SET "
+            . "`Vlan`=:Vlan,"
+            . "`Status`=:Status,"
+            . "`UpdateBy`=:UpdateBy "
+            . "WHERE `NetworkID`=:NetworkID";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":NetworkID" => $NetworkID,
+                ":Vlan" => $vlan,
+                ":Status" => $status,
+                ":UpdateBy" => $PersonID_login
+            )
+    );
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function editRackPosition($RackPositionID, $col, $row, $status, $PersonID_login) {
+    $con = dbconnect();
+    $sqlCommand = "UPDATE `resource_rack_position` SET "
+            . "`Col`=:Col,"
+            . "`Row`=:Row,"
+            . "`Status`=:Status,"
+            . "`UpdateBy`=:UpdateBy "
+            . "WHERE `RackPositionID`=:RackPositionID";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":Col" => $col,
+                ":Row" => $row,
+                ":Status" => $status,
+                ":UpdateBy" => $PersonID_login,
+                ":RackPositionID" => $RackPositionID
+            )
+    );
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkUsedSwitch($SwitchID) {
+    $con = dbconnect();
+    $sqlCommand = "SELECT "
+            . "`SwitchPortID`, "
+            . "`SwitchID`, "
+            . "`PortNumber` "
+            . "FROM `resource_switch_port` "
+            . "WHERE `SwitchID`=:SwitchID AND `SwitchPortUsedID` IS NOT NULL";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":SwitchID" => $SwitchID
+            )
+    );
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+function checkUsedNetwork($NetworkID) {
+    $con = dbconnect();
+    $sqlCommand = "SELECT "
+            . "`IPID`, "
+            . "`IP`,"
+            . "`NetworkID` "
+            . "FROM `resource_ip` "
+            . "WHERE `NetworkID`=:NetworkID AND `IPUsedID` IS NOT NULL";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":NetworkID" => $NetworkID
+            )
+    );
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+function checkUsedRackPosition($RackPositionID) {
+    $con = dbconnect();
+    $sqlCommand = "SELECT "
+            . "`RackID`, "
+            . "`RackPositionID`, "
+            . "`SubRackPosition` "
+            . "FROM `resource_rack` "
+            . "WHERE `RackPositionID`=:RackPositionID AND `RackUsedID` IS NOT NULL";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":RackPositionID" => $RackPositionID
+            )
+    );
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+function delSwitch($SwitchID) {
+    $con = dbconnect();
+    $sqlCommand = "DELETE FROM `resource_switch` WHERE `SwitchID`=:SwitchID";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":RackPositionID" => $RackPositionID
+            )
+    );
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        $sqlCommand = "DELETE FROM `resource_switch_port` WHERE `SwitchID`=:SwitchID";
+        $res = $con->prepare($sqlCommand);
+        $res->execute(
+                array(
+                    ":RackPositionID" => $RackPositionID
+                )
+        );
+        $rows = $res->rowCount();
+        if ($rows > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    } else {
+        return FALSE;
+    }
+}
+
+function delNetwork($NetworkID) {
+    $con = dbconnect();
+    $sqlCommand = "DELETE FROM `resource_ip_network` WHERE `NetworkID`=:NetworkID";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":NetworkID" => $NetworkID
+            )
+    );
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        $sqlCommand = "DELETE FROM `resource_ip` WHERE `NetworkID`=:NetworkID";
+        $res = $con->prepare($sqlCommand);
+        $res->execute(
+                array(
+                    ":NetworkID" => $NetworkID
+                )
+        );
+        $rows = $res->rowCount();
+        if ($rows > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    } else {
+        return FALSE;
+    }
+}
+
+function delRackPosition($RackPositionID) {
+    $con = dbconnect();
+    $sqlCommand = "DELETE FROM `resource_rack_position` WHERE `RackPositionID`=:RackPositionID";
+    $res = $con->prepare($sqlCommand);
+    $res->execute(
+            array(
+                ":RackPositionID" => $RackPositionID
+            )
+    );
+    $rows = $res->rowCount();
+    if ($rows > 0) {
+        $sqlCommand = "DELETE FROM `resource_rack` WHERE `RackPositionID`=:RackPositionID";
+        $res = $con->prepare($sqlCommand);
+        $res->execute(
+                array(
+                    ":RackPositionID" => $RackPositionID
+                )
+        );
+        $rows = $res->rowCount();
+        if ($rows > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    } else {
+        return FALSE;
+    }
+}
