@@ -62,6 +62,10 @@ $racktypeID = $_GET['racktypeID'];
                             $col = $value['Col'];
                             $row = $value['Row'];
                             $rackPositionID = $value['RackPositionID'];
+                            $Status = $value['Status'];
+                            if ($Status == "Deactive") {
+                                continue;
+                            }
                             ?>
                             <option value="<?php echo $rackPositionID; ?>"><?php echo $col . $row; ?></option>
                         <?php } ?>

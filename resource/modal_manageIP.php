@@ -12,8 +12,6 @@ $ServiceDetailID = $_GET['ServiceDetailID'];
 $locationID = $_GET['LocationID'];
 $used = $_GET['used'];
 $assign = $_GET['assign'];
-
-$getNetworks = getNetworksValue($locationID);
 ?>
 
 <div class="modal-header">
@@ -57,11 +55,16 @@ $getNetworks = getNetworksValue($locationID);
                     <select id="network" onchange="getIPReserve();">
                         <option>Choose Network</option>
                         <?php
+                        $getNetworks = getNetworksValue($locationID);
                         foreach ($getNetworks as $value) {
                             $networkID = $value['NetworkID'];
                             $networkIP = $value['NetworkIP'];
                             $subnet = $value['Subnet'];
                             $vlan = $value['Vlan'];
+                            $Status = $value['Status'];
+                            if ($Status == "Deactive") {
+                                continue;
+                            }
                             ?>
                             <option value="<?php echo $networkID; ?>"><?php echo $networkIP . "/" . $subnet; ?></option>
                         <?php } ?>
