@@ -48,7 +48,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
 //print_r($_POST);
 //echo "</pre>";
 ?>
-<p><a href="?">Home</a> > <a href="?p=entryIDCShow">Show Entry IDC</a> > <b>Entry IDC</b></p>
+<p><a href="?">Home</a> > <a href="?p=entryIDCShowHome">Show Entry IDC</a> > <b>Entry IDC</b></p>
 <div class="row">
 
     <form method="POST" action="../EntryIDC/action/entryIDC.action.php?para=addEntryIDC&personType=<?php echo $getPersonType; ?>&isPerson=<?php echo $isPerson; ?>">
@@ -318,7 +318,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                                         <script>
                                             function getZones() {
                                                 var locatID = $("#location").val();
-                                                $.get("../entryIDC/action/entryIDC.content.php?para=getZone&locationID=" + locatID, function (data, status) {
+                                                $.get("../EntryIDC/action/entryIDC.content.php?para=getZone&locationID=" + locatID, function (data, status) {
                                                     $("#zones").html(data);
                                                 });
                                             }
