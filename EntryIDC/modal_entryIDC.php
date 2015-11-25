@@ -55,26 +55,26 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
     function getCustomer() {
         $('#person').hide();
         $('#customer').show();
-        $.get("../entryIDC/action/entryIDC.content.php?para=getCustomer", function (data, status) {
+        $.get("../EntryIDC/action/entryIDC.content.php?para=getCustomer", function (data, status) {
             $("#customer").html(data);
         });
     }
     function getDivision(organi) {
         $('#person').hide();
         $('#customer').show();
-        $.get("../entryIDC/action/entryIDC.content.php?para=getDivision&organi=" + organi, function (data, status) {
+        $.get("../EntryIDC/action/entryIDC.content.php?para=getDivision&organi=" + organi, function (data, status) {
             $("#customer").html(data);
         });
     }
     function getContact(cusID) {
         $('#person').show();
-        $.get("../entryIDC/action/entryIDC.content.php?para=getContact&type=Contact&cusID=" + cusID, function (data, status) {
+        $.get("../EntryIDC/action/entryIDC.content.php?para=getContact&type=Contact&cusID=" + cusID, function (data, status) {
             $("#person").html(data);
         });
     }
     function getStaff(division) {
         $('#person').show();
-        $.get("../entryIDC/action/entryIDC.content.php?para=getStaff&division=" + division, function (data, status) {
+        $.get("../EntryIDC/action/entryIDC.content.php?para=getStaff&division=" + division, function (data, status) {
             $("#person").html(data);
         });
     }
