@@ -12,8 +12,6 @@ $ServiceDetailID = $_GET['ServiceDetailID'];
 $locationID = $_GET['LocationID'];
 $used = $_GET['used'];
 $assign = $_GET['assign'];
-
-$getSwitchsValue = getSwitchValueByLocation($locationID);
 ?>
 
 <div class="modal-header">
@@ -58,13 +56,18 @@ $getSwitchsValue = getSwitchValueByLocation($locationID);
                     <select id="switchID" onchange="getPortReserve();">
                         <option value="">Choose</option>
                         <?php
+                        $getSwitchsValue = getSwitchValueByLocation($locationID);
                         foreach ($getSwitchsValue as $value) {
                             $switchID = $value['SwitchID'];
                             $switchName = $value['SwitchName'];
                             $switchIP = $value['SwitchIP'];
                             $switchType = $value['SwitchType'];
+                            $Status = $value['Status'];
+                            if ($Status == "Deactive") {
+                                continue;
+                            }
                             ?>
-                            <option value="<?php echo $switchID; ?>"><?php echo $switchName." ($switchType)"; ?></option>
+                            <option value="<?php echo $switchID; ?>"><?php echo $switchName . " ($switchType)"; ?></option>
                         <?php } ?>
                     </select>    
                 </div>
