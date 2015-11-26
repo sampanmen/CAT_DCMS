@@ -47,7 +47,7 @@ if ($theme == "default") {
                     $showImage = "../system/image_1-1.php?url=" . $showImage;
                     ?>
                 <center>
-                    <img class="img-thumbnail img-circle" src = "<?php echo $showImage; ?>" width="70%" height="" border="1">
+                    <img class="img-thumbnail img-circle" src = "<?php echo $showImage; ?>" width="80%" height="" border="1">
                 </center>
                 </li>
                 <li class="divider"></li>

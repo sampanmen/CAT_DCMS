@@ -93,7 +93,7 @@ include 'navPage.php';
                 </div>
 
                 <!-- /.row -->
-                <?php $p == "home" ? include 'navTop.php' : ""; ?>
+                <?php $p == "home_" ? include 'navTop.php' : ""; ?>
                 <!-- /.row -->
 
                 <!-- /.row -->
