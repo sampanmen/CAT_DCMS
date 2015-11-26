@@ -7,6 +7,7 @@ $account = checkLogin($Username);
 $Fname = $account['Fname'];
 $Lname = $account['Lname'];
 $Position = $account['Position'];
+$PersonID = $account['PersonID'];
 
 $theme = $_SESSION['Account']['Theme'];
 if ($theme == "default") {
@@ -39,7 +40,20 @@ if ($theme == "default") {
                 <?php echo "$Fname $Lname - $Position"; ?> <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
+                <li>
+                    <?php
+                    $images = '../customer/images/persons/' . $PersonID . ".jpg";
+                    $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
+                    $showImage = "../system/image_1-1.php?url=" . $showImage;
+                    ?>
+                <center>
+                    <img class="img-thumbnail img-circle" src = "<?php echo $showImage; ?>" width="70%" height="" border="1">
+                </center>
+                </li>
+                <li class="divider"></li>
                 <li><a href="../account/modal_showProfile.php" data-toggle="modal" data-target="#myModal"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                </li>
+                <li><a href="../account/modal_editProfile.php" data-toggle="modal" data-target="#myModal"><i class="fa fa-wrench fa-fw"></i> Edit Profile</a>
                 </li>
                 <li><a href="../account/modal_changePassword.php" data-toggle="modal" data-target="#myModal"><i class="fa fa-gear fa-fw"></i> Change Password</a>
                 </li>

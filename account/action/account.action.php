@@ -5,9 +5,9 @@ require_once dirname(__FILE__) . '/../function/account.func.inc.php';
 session_start();
 $para = isset($_GET['para']) ? $_GET['para'] : "";
 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+//if (session_status() == PHP_SESSION_NONE) {
+//    session_start();
+//}
 //$PersonID_login = $_SESSION['Account']['PersonID'];
 
 if ($para == "login") {
