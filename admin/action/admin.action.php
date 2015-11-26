@@ -15,9 +15,9 @@ if ($para == "addStaffposition") {
     $status = $_POST['status'];
     $res = addPosition($position, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=addStaffpositionCompleted");
+        header("location: ../../core/?p=setting&para=addStaffpositionCompleted&tab=staffposition");
     } else {
-        header("location: ../../core/?p=setting&para=addStaffpositionFailed");
+        header("location: ../../core/?p=setting&para=addStaffpositionFailed&tab=staffposition");
     }
 } else if ($para == "addBusinesstype") {
     //   print_r($_POST);
@@ -25,9 +25,9 @@ if ($para == "addStaffposition") {
     $status = $_POST['status'];
     $res = addBusinesstype($businesstype, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=addBusinesstypeCompleted#Businesstype");
+        header("location: ../../core/?p=setting&para=addBusinesstypeCompleted#Businesstype&tab=businesstype");
     } else {
-        header("location: ../../core/?p=setting&para=addBusinesstypeFailed#Businesstype");
+        header("location: ../../core/?p=setting&para=addBusinesstypeFailed#Businesstype&tab=businesstype");
     }
 } else if ($para == "addLocation") {
     //   print_r($_POST);
@@ -37,9 +37,9 @@ if ($para == "addStaffposition") {
 
     $res = addLocation($location, $address, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=addLocationCompleted#location");
+        header("location: ../../core/?p=setting&para=addLocationCompleted&tab=location");
     } else {
-        header("location: ../../core/?p=setting&para=addLocationFailed#location");
+        header("location: ../../core/?p=setting&para=addLocationFailed&tab=location");
     }
 } else if ($para == "addPacCatagory") {
     //   print_r($_POST);
@@ -49,9 +49,9 @@ if ($para == "addStaffposition") {
 
     $res = addPacCatagory($category, $Type, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=addPacCatagoryCompleted#CatagoryPackage");
+        header("location: ../../core/?p=setting&para=addPacCatagoryCompleted&tab=category");
     } else {
-        header("location: ../../core/?p=setting&para=addPacCatagoryFailed#CatagoryPackage");
+        header("location: ../../core/?p=setting&para=addPacCatagoryFailed&tab=category");
     }
 } else if ($para == "addDivision") {
     //   print_r($_POST);
@@ -62,9 +62,9 @@ if ($para == "addStaffposition") {
 
     $res = addDivision($division, $organization, $address, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=addDivisionCompleted#division");
+        header("location: ../../core/?p=setting&para=addDivisionCompleted&tab=division");
     } else {
-        header("location: ../../core/?p=setting&para=addDivisionFailed#division");
+        header("location: ../../core/?p=setting&para=addDivisionFailed&tab=division");
     }
 } else if ($para == "addZone") {
     //   print_r($_POST);
@@ -74,9 +74,9 @@ if ($para == "addStaffposition") {
 
     $res = addZone($zone, $locazone, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=addZoneCompleted#zone");
+        header("location: ../../core/?p=setting&para=addZoneCompleted&tab=zone");
     } else {
-        header("location: ../../core/?p=setting&para=addZoneFailed#zone");
+        header("location: ../../core/?p=setting&para=addZoneFailed&tab=zone");
     }
 } else if ($para == "editPosition") {
     //   print_r($_POST);
@@ -86,9 +86,9 @@ if ($para == "addStaffposition") {
 
     $res = editPosition($staffPositionID, $position, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=editPositionCompleted");
+        header("location: ../../core/?p=setting&para=editPositionCompleted&tab=staffposition");
     } else {
-        header("location: ../../core/?p=setting&para=editPositionFailed");
+        header("location: ../../core/?p=setting&para=editPositionFailed&tab=staffposition");
     }
 } else if ($para == "editCategory") {
     //   print_r($_POST);
@@ -99,9 +99,9 @@ if ($para == "addStaffposition") {
 
     $res = editCategory($packageCategoryID, $packageCategory, $Type, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=editCategoryCompleted");
+        header("location: ../../core/?p=setting&para=editCategoryCompleted&tab=category");
     } else {
-        header("location: ../../core/?p=setting&para=editCategoryFailed");
+        header("location: ../../core/?p=setting&para=editCategoryFailed&tab=category");
     }
 } else if ($para == "editLocation") {
     //   print_r($_POST);
@@ -112,9 +112,9 @@ if ($para == "addStaffposition") {
 
     $res = editLocation($locationID, $location, $address, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=editLocationCompleted");
+        header("location: ../../core/?p=setting&para=editLocationCompleted&tab=location");
     } else {
-        header("location: ../../core/?p=setting&para=editLocationFailed");
+        header("location: ../../core/?p=setting&para=editLocationFailed&tab=location");
     }
 } else if ($para == "editBusinesstype") {
     //   print_r($_POST);
@@ -124,9 +124,9 @@ if ($para == "addStaffposition") {
 
     $res = editBusinesstype($businessTypeID, $businessType, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=editBusinesstypeCompleted");
+        header("location: ../../core/?p=setting&para=editBusinesstypeCompleted&tab=businesstype");
     } else {
-        header("location: ../../core/?p=setting&para=editBusinesstypeFailed");
+        header("location: ../../core/?p=setting&para=editBusinesstypeFailed&tab=businesstype");
     }
 } else if ($para == "editZone") {
     //   print_r($_POST);
@@ -137,9 +137,9 @@ if ($para == "addStaffposition") {
 
     $res = editZone($entryZoneID, $zone, $location, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=editZoneCompleted");
+        header("location: ../../core/?p=setting&para=editZoneCompleted&tab=zone");
     } else {
-        header("location: ../../core/?p=setting&para=editZoneFailed");
+        header("location: ../../core/?p=setting&para=editZoneFailed&tab=zone");
     }
 } else if ($para == "editDivision") {
     //   print_r($_POST);
@@ -152,9 +152,9 @@ if ($para == "addStaffposition") {
 
     $res = editDivision($divisionID, $division, $organization, $address, $status);
     if ($res) {
-        header("location: ../../core/?p=setting&para=editDivisionCompleted");
+        header("location: ../../core/?p=setting&para=editDivisionCompleted&tab=division");
     } else {
-        header("location: ../../core/?p=setting&para=editDivisionFailed");
+        header("location: ../../core/?p=setting&para=editDivisionFailed&tab=division");
     }
 } else if ($para == "addStaff") {
     $IDStaff = $_POST['IDStaff'];

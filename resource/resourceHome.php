@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 
 require_once dirname(__FILE__) . '/../system/function.inc.php';
-$LocationID_Session = isset($_SESSION['LocationID']) ? $_SESSION['LocationID'] : "";
+$LocationID_Session = isset($_SESSION['LocationID']) ? $_SESSION['LocationID'] : 1;
 $LocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : $LocationID_Session;
 $summaryRack = getSummaryRackByLocatoinID($LocationID);
 $summaryIP = getSummaryIPByLocationID($LocationID);

@@ -5,20 +5,22 @@ require_once dirname(__FILE__) . '/../function/account.func.inc.php';
 session_start();
 $para = isset($_GET['para']) ? $_GET['para'] : "";
 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+//if (session_status() == PHP_SESSION_NONE) {
+//    session_start();
+//}
 //$PersonID_login = $_SESSION['Account']['PersonID'];
 
 if ($para == "login") {
 //    print_r($_POST);
     $Username = $_POST['Username'];
     $Password = $_POST['Password'];
+    $Theme = $_POST['theme'];
     $loginResult = login($Username, $Password);
     if ($loginResult !== FALSE) {
         $getAccount = checkLogin($Username);
         $_SESSION['Account']['PersonID'] = $getAccount['PersonID'];
         $_SESSION['Account']['Username'] = $loginResult;
+        $_SESSION['Account']['Theme'] = $Theme;
         if (isset($_POST['remember']) && $_POST['remember'] == "Remember") {
             setcookie("rememberUsername", $Username, time() + (3600 * 24 * 300), "/");
             setcookie("rememberPassword", $Password, time() + (3600 * 24 * 300), "/");

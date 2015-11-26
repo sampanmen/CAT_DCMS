@@ -80,6 +80,13 @@ if (isset($_GET['modal'])) {
                                     <div class="form-group">
                                         <input class="form-control" placeholder="Password" name="Password" type="password" value="<?php echo $rememberPassword; ?>">
                                     </div>
+                                    <div class="form-group">
+                                        <select class="form-control" name="theme">
+                                            <option value="default">Default Theme</option>
+                                            <option value="dark">Dark Theme</option>
+                                            <option value="pink">Pink Theme</option>
+                                        </select>
+                                    </div>
                                     <div class="checkbox">
                                         <label>
                                             <input name="remember" type="checkbox" value="Remember" <?php echo isset($_COOKIE['rememberUsername']) ? "checked" : ""; ?>>Remember Me

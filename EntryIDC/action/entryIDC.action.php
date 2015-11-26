@@ -72,7 +72,7 @@ if ($para == "addEntryIDC") {
     }
 } else if ($para == "CheckOut") {
     require_once dirname(__FILE__) . '/../../account/function/account.func.inc.php';
-    $Permission = array("frontdesk", "helpdesk");
+    $Permission = array("admin", "frontdesk", "helpdesk");
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }

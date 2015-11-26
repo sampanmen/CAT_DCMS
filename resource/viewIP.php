@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $networkID = isset($_GET['NetworkID']) ? $_GET['NetworkID'] : "";
-$getLocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : "";
+$getLocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : 1;
 $getIPs = getIPs($networkID);
 ?>
 <p><a href="?">Home</a> > <b>IP Address</b></p>

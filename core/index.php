@@ -2,7 +2,9 @@
 ob_start();
 session_start();
 include 'navPage.php';
-?>
+
+
+//?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -91,7 +93,7 @@ include 'navPage.php';
                 </div>
 
                 <!-- /.row -->
-                <?php $p == "home1" ? include 'navTop.php' : ""; ?>
+                <?php $p == "home_" ? include 'navTop.php' : ""; ?>
                 <!-- /.row -->
 
                 <!-- /.row -->

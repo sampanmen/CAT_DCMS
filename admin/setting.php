@@ -9,29 +9,32 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
 ?>
 <div class="row">
     <!-- Nav tabs -->
+    <?php
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : "staffposition";
+    ?>
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#staffposition" data-toggle="tab" aria-expanded="true">Position</a>
+        <li class="<?php echo $tab == "staffposition" ? "active" : ""; ?>"><a href="#staffposition" data-toggle="tab" aria-expanded="<?php echo $tab == "staffposition" ? "true" : "false"; ?>">Position</a>
         </li>
-        <li class=""><a href="#category" data-toggle="tab" aria-expanded="false">Package Category</a>
+        <li class="<?php echo $tab == "category" ? "active" : ""; ?>"><a href="#category" data-toggle="tab" aria-expanded="<?php echo $tab == "category" ? "true" : "false"; ?>">Package Category</a>
         </li>
-        <li class=""><a href="#businesstype" data-toggle="tab" aria-expanded="false">Businesstypee</a>
+        <li class="<?php echo $tab == "businesstype" ? "active" : ""; ?>"><a href="#businesstype" data-toggle="tab" aria-expanded="<?php echo $tab == "businesstype" ? "true" : "false"; ?>">Businesstype</a>
         </li>
-        <li class=""><a href="#location" data-toggle="tab" aria-expanded="false">location</a>
+        <li class="<?php echo $tab == "location" ? "active" : ""; ?>"><a href="#location" data-toggle="tab" aria-expanded="<?php echo $tab == "location" ? "true" : "false"; ?>">Location</a>
         </li>
-        <li class=""><a href="#zone" data-toggle="tab" aria-expanded="false">Zone</a>
+        <li class="<?php echo $tab == "zone" ? "active" : ""; ?>"><a href="#zone" data-toggle="tab" aria-expanded="<?php echo $tab == "zone" ? "true" : "false"; ?>">Zone</a>
         </li>
-        <li class=""><a href="#division" data-toggle="tab" aria-expanded="false">Division</a>
+        <li class="<?php echo $tab == "division" ? "active" : ""; ?>"><a href="#division" data-toggle="tab" aria-expanded="<?php echo $tab == "division" ? "true" : "false"; ?>">Division</a>
         </li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div class="tab-pane fade in active" id="staffposition">
+        <div class="tab-pane fade <?php echo $tab == "staffposition" ? "in active" : ""; ?>" id="staffposition">
             <br>
             <div class="col-lg-9"> 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h5><b>Staff</b><a href="?p=showStaff"> (show Staff)</a></h5>
+                        <h5><b>Position</b></h5>
                     </div>      
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
@@ -80,7 +83,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             </div>
 
         </div>
-        <div class="tab-pane fade" id="category">
+        <div class="tab-pane fade <?php echo $tab == "category" ? "in active" : ""; ?>" id="category">
             <br>
             <div class="col-lg-9"> 
                 <div class="panel panel-default" id="CatagoryPackage">
@@ -148,7 +151,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             </div>
 
         </div>
-        <div class="tab-pane fade" id="businesstype">
+        <div class="tab-pane fade <?php echo $tab == "businesstype" ? "in active" : ""; ?>" id="businesstype">
             <br>
             <div class="col-lg-9"> 
                 <div class="panel panel-default" id="Businesstype">
@@ -205,7 +208,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             </div>
 
         </div>
-        <div class="tab-pane fade" id="location">
+        <div class="tab-pane fade <?php echo $tab == "location" ? "in active" : ""; ?>" id="location">
             <br>
             <div class="col-lg-9"> 
                 <div class="panel panel-default" id="location">
@@ -266,7 +269,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             </div>
 
         </div>
-        <div class="tab-pane fade" id="zone">
+        <div class="tab-pane fade <?php echo $tab == "zone" ? "in active" : ""; ?>" id="zone">
             <br>
             <div class="col-lg-9"> 
                 <div class="panel panel-default" id="zone">
@@ -338,7 +341,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
         </div>
 
 
-        <div class="tab-pane fade" id="division">
+        <div class="tab-pane fade <?php echo $tab == "division" ? "in active" : ""; ?>" id="division">
             <br>
             <div class="col-lg-9"> 
                 <div class="panel panel-default" id="division">
@@ -408,20 +411,8 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             </div>
 
         </div>
-
-
-
-
-
-
-
     </div>
-
-
-
-
 </div>
-
 <script>
     $(document).ready(function () {
         $('#dataTables1').DataTable({

@@ -7,8 +7,21 @@ $account = checkLogin($Username);
 $Fname = $account['Fname'];
 $Lname = $account['Lname'];
 $Position = $account['Position'];
+$PersonID = $account['PersonID'];
+
+$theme = $_SESSION['Account']['Theme'];
+if ($theme == "default") {
+    $valTheme['bg'] = "";
+    $valTheme['text'] = "";
+} else if ($theme == "dark") {
+    $valTheme['bg'] = "background-color: #4D4D4D;";
+    $valTheme['text'] = "color: #B3B3B3;";
+} else if ($theme == "pink") {
+    $valTheme['bg'] = "background-color: #FFA0B6;";
+    $valTheme['text'] = "color: #B33729;";
+}
 ?>
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;<?php echo $valTheme['bg']; ?>">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -16,18 +29,31 @@ $Position = $account['Position'];
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="?">Data Center Management System</a>
+        <a class="navbar-brand" href="?" style="<?php echo $valTheme['text']; ?>">Data Center Management System</a>
     </div>
     <!-- /.navbar-header -->
 
     <ul class="nav navbar-top-links navbar-right">
         <!-- /.dropdown -->
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="<?php echo $valTheme['text']; ?>">
                 <?php echo "$Fname $Lname - $Position"; ?> <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
+                <li>
+                    <?php
+                    $images = '../customer/images/persons/' . $PersonID . ".jpg";
+                    $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
+                    $showImage = "../system/image_1-1.php?url=" . $showImage;
+                    ?>
+                <center>
+                    <img class="img-thumbnail img-circle" src = "<?php echo $showImage; ?>" width="80%" height="" border="1">
+                </center>
+                </li>
+                <li class="divider"></li>
                 <li><a href="../account/modal_showProfile.php" data-toggle="modal" data-target="#myModal"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                </li>
+                <li><a href="../account/modal_editProfile.php" data-toggle="modal" data-target="#myModal"><i class="fa fa-wrench fa-fw"></i> Edit Profile</a>
                 </li>
                 <li><a href="../account/modal_changePassword.php" data-toggle="modal" data-target="#myModal"><i class="fa fa-gear fa-fw"></i> Change Password</a>
                 </li>
@@ -123,22 +149,25 @@ $Position = $account['Position'];
                         </li>
                     </ul>
                 </li>
-<!--                <li>
-                    <a href=""><i class="fa fa-bar-chart-o fa-fw"></i> Monitoring<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#">Host&IP Status</a>
-                        </li>
-                        <li>
-                            <a href="#">IP Monitoring</a>
-                        </li>
-                    </ul>
-                </li>-->
+                <!--                <li>
+                                    <a href=""><i class="fa fa-bar-chart-o fa-fw"></i> Monitoring<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="#">Host&IP Status</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">IP Monitoring</a>
+                                        </li>
+                                    </ul>
+                                </li>-->
                 <li>
                     <a href=""><i class="fa fa-gear fa-fw"></i> Admin<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="?p=setting">Setting</a>
+                        </li>
+                        <li>
+                            <a href="?p=showStaff">Staff</a>
                         </li>
                         <li>
                             <a href="?p=showAccount">Account</a>
