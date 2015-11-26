@@ -34,7 +34,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             <div class="col-lg-9"> 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h5><b>Staff</b><a href="?p=showStaff"> (show Staff)</a></h5>
+                        <h5><b>Position</b></h5>
                     </div>      
                     <div class="panel-body">
                         <div class="dataTable_wrapper">

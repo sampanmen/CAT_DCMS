@@ -141,6 +141,9 @@ $Position = $account['Position'];
                             <a href="?p=setting">Setting</a>
                         </li>
                         <li>
+                            <a href="?p=showStaff">Staff</a>
+                        </li>
+                        <li>
                             <a href="?p=showAccount">Account</a>
                         </li>
                     </ul>
