@@ -93,7 +93,7 @@ if ($para == "getCustomer") {
     <div class="panel panel-default">
         <div class="panel-heading">
             <b>Contact </b>
-            <a href="?p=entryIDCForm&type=Contact&cusID=<?php echo $cusID; ?>&isPerson=0">(Other)</a>
+            <!--<a href="?p=entryIDCForm&type=Contact&cusID=<?php // echo $cusID; ?>&isPerson=0">(Other)</a>-->
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
