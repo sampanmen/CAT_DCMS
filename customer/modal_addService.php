@@ -71,7 +71,7 @@ $location = getLocation();
                                 <div class="form-group col-lg-6">
                                     <div class="form-group">
                                         <label>Network Link</label>
-                                        <select multiple class="form-control" name="networkLink[]" required id="networkLink">
+                                        <select multiple class="form-control" name="networkLink[]" disabled id="networkLink">
                                             <!--NetworkLink-->
                                         </select>
                                         <script>
