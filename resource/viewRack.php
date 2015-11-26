@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
 //$zone = (!isset($_GET['zone']) || $_GET['zone'] == "") ? "%" : $_GET['zone'];
 //$type = (!isset($_GET['type']) || $_GET['type'] == "") ? "%" : $_GET['type'];
 $getRackPositionID = isset($_GET['RackPositionID']) ? $_GET['RackPositionID'] : "";
-$getLocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : "";
+$getLocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : 1;
 ?>
 
 <p><a href="?">Home</a> > <b>Rack</b></p>
@@ -38,7 +38,7 @@ $getLocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : "";
                     <select class="form-control" name="location" id="type" onchange="showRackPosition();">
                         <option value="">Choose type</option>
                         <?php
-                        $getCateID = $_GET['Type'];
+                        $getCateID = isset($_GET['Type']) ? $_GET['Type'] : 1;
                         $Types = getCatagory();
                         foreach ($Types as $value) {
                             $valCateID = $value['PackageCategoryID'];

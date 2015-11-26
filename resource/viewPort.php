@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $getSwitchID = isset($_GET['SwitchID']) ? $_GET['SwitchID'] : "";
-$getLocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : "";
+$getLocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : 1;
 ?>
 <p><a href="?">Home</a> > <b>Switch&Port</b></p>
 <div class="row">
