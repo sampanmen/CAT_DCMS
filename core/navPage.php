@@ -75,7 +75,7 @@ switch ($p) {
     // Resource
     case "resourceHome":
         $page['file'] = "../resource/resourceHome.php";
-        $page['name'] = "Resource Summery";
+        $page['name'] = "Resource Summary";
         break;
     case "viewIP":
         $page['file'] = "../resource/viewIP.php";
@@ -104,6 +104,10 @@ switch ($p) {
     case "addPort":
         $page['file'] = "../resource/addPort.php";
         $page['name'] = "Add Port";
+        break;
+    case "editPort":
+        $page['file'] = "../resource/editPort.php";
+        $page['name'] = "Edit Port";
         break;
     
     //Account
