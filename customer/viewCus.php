@@ -1,7 +1,7 @@
 <?php
 //--Start-- Check login and Permission
 $link = "../account/login.php";
-$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+$Permission = array("admin", "frontdesk", "helpdesk", "engineering", "manager");
 require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 
@@ -41,6 +41,17 @@ $cusCountry = $getCus['Country'];
 
 $getServices = getServiceByCustomerID($cusID);
 $getServiceDetail = getServiceDetailByCustomerID($cusID);
+
+//start Resource Summary
+$getSummaryIP = getSummaryIPByCustomerID($cusID);
+$getSummaryPort = getSummaryPortByCustomerID($cusID);
+$getSummaryRack = getSummaryRackByCustomerID($cusID);
+//echo "<pre>";
+//print_r($getSummaryIP);
+//print_r($getSummaryPort);
+//print_r($getSummaryRack);
+//echo "</pre>";
+//end  Resource Summary
 ?>
 
 <p><a href="?">Home</a> > <a href="?p=cusHome">Customers</a> > <b>Customer Detail</b></p>
@@ -324,110 +335,96 @@ $getServiceDetail = getServiceDetailByCustomerID($cusID);
                 <b>Resource</b> <a href="?p=serviceDetail&CustomerID=<?php echo $cusID; ?>">(Show All)</a>
             </div>                
             <div class="panel-body">
+                <h4>IP</h4>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Network</th>
+                            <th>Subnet</th>
+                            <!--<th>Vlan</th>-->
+                            <th width="40%">Location</th>
+                            <th width="20%">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($getSummaryIP as $value) {
+                            $valNetworkID = $value['NetworkID'];
+                            $valNetworkIP = $value['NetworkIP'];
+                            $valSubnet = $value['Subnet'];
+//                            $valVlan = $value['Vlan'];
+                            $valAmount = $value['Amount'];
+                            $valLocationID = $value['LocationID'];
+                            $valLocation = $value['Location'];
+                            ?>
+                            <tr>
+                                <td><?php echo $valNetworkIP; ?></td>
+                                <td><?php echo $valSubnet; ?></td>
+                                <!--<td><?php // echo $valVlan;       ?></td>-->
+                                <td><?php echo $valLocation; ?></td>
+                                <td><a href="../resource/modal_IPUsed.php?CustomerID=<?php echo $cusID; ?>&NetworkID=<?php echo $valNetworkID; ?>" data-toggle="modal" data-target="#myModal"><?php echo $valAmount; ?> IPs</a></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
 
+                <h4>Port</h4>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Switch</th>
+                            <th>Type</th>
+                            <th width="40%">Location</th>
+                            <th width="20%">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($getSummaryPort as $value) {
+                            $valSwitchID = $value['SwitchID'];
+                            $valSwitchName = $value['SwitchName'];
+                            $valSwitchType = $value['SwitchType'];
+                            $valAmount = $value['Amount'];
+                            $valLocationID = $value['LocationID'];
+                            $valLocation = $value['Location'];
+                            ?>
+                            <tr>
+                                <td><?php echo $valSwitchName; ?></td>
+                                <td><?php echo $valSwitchType; ?></td>
+                                <td><?php echo $valLocation; ?></td>
+                                <td><a href="../resource/modal_PortUsed.php?CustomerID=<?php echo $cusID; ?>&SwitchID=<?php echo $valSwitchID; ?>" data-toggle="modal" data-target="#myModal"><?php echo $valAmount; ?> Ports</a></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+
+                <h4>Rack</h4>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th width="40%">Location</th>
+                            <th width="20%">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($getSummaryRack as $value) {
+                            $valRackTypeID = $value['RackTypeID'];
+                            $valRackType = $value['RackType'];
+                            $valAmount = $value['Amount'];
+                            $valLocationID = $value['LocationID'];
+                            $valLocation = $value['Location'];
+                            ?>
+                            <tr>
+                                <td><?php echo $valRackType; ?></td>
+                                <td><?php echo $valLocation; ?></td>
+                                <td><a href="../resource/modal_RackUsed.php?CustomerID=<?php echo $cusID; ?>&RackTypeID=<?php echo $valRackTypeID; ?>" data-toggle="modal" data-target="#myModal"><?php echo $valAmount; ?> Racks</a></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div><!-- /.panel-body -->
         </div><!-- Contact Detail -->
-    </div>
-
-    <!-------IP-->
-    <div class="col-lg-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <b>IP</b>
-            </div>                
-            <div class="panel-body">
-                <table class="table ">
-                    <tbody>
-                        <tr>
-                            <td>158.168.1.0</td>
-                            <td><a href="../resource/modal_IPUsed.php"  data-toggle="modal" data-target="#myModal">10</a></td>
-                        </tr>                                                     
-                        <tr>
-                            <td>158.168.2.0</td>
-                            <td><a href="../resource/modal_IPUsed.php" data-toggle="modal" data-target="#myModal">10</a></td>
-                        </tr>          
-                        <tr>
-                            <td>158.168.3.0</td>
-                            <td><a href="../resource/modal_IPUsed.php" data-toggle="modal" data-target="#myModal">2</a></td>
-                        </tr>          
-                        <tr>
-                            <td>158.168.4.0</td>
-                            <td><a href="../resource/modal_IPUsed.php" data-toggle="modal" data-target="#myModal">3</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <!-- /.table-responsive -->
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- Contact Detail -->
-    </div>
-
-    <!-------Rack-->
-    <div class="col-lg-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <b>Rack</b>
-            </div>                
-            <div class="panel-body">                   
-                <table class="table ">
-                    <tbody>
-                        <tr>
-                            <td>Full Rack</td>
-                            <td><a href="../resource/modal_RackUsed.php"  data-toggle="modal" data-target="#myModal">2</a></td>
-                        </tr>                                                     
-                        <tr>
-                            <td>1/2 Rack</td>
-                            <td><a href="../resource/modal_RackUsed.php" data-toggle="modal" data-target="#myModal">2</a></td>
-                        </tr>          
-                        <tr>
-                            <td>1/4 Rack</td>
-                            <td><a href="../resource/modal_RackUsed.php" data-toggle="modal" data-target="#myModal">1</a></td>
-                        </tr>          
-                        <tr>
-                            <td>Shared Rack</td>
-                            <td><a href="../resource/modal_RackUsed.php" data-toggle="modal" data-target="#myModal">3</a></td>
-                        </tr>          
-                    </tbody>
-                </table>
-                <!-- /.table-responsive -->
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- Contact Detail -->
-    </div> 
-
-    <!------Port-->
-    <div class="col-lg-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <b>Port</b>
-            </div>                
-            <div class="panel-body">                   
-                <table class="table ">
-                    <tbody>
-                        <tr>
-                            <td>Switch 1</td>
-                            <td><a href="../resource/modal_PortUsed.php"  data-toggle="modal" data-target="#myModal">7</a></td>
-                        </tr>                                                     
-                        <tr>
-                            <td>Switch 2</td>
-                            <td><a href="../resource/modal_PortUsed.php" data-toggle="modal" data-target="#myModal">4</a></td>
-                        </tr>          
-                        <tr>
-                            <td>Switch 3</td>
-                            <td><a href="../resource/modal_PortUsed.php" data-toggle="modal" data-target="#myModal">5</a></td>
-                        </tr>          
-                        <tr>
-                            <td>Switch 5</td>
-                            <td><a href="../resource/modal_PortUsed.php" data-toggle="modal" data-target="#myModal">2</a></td>
-                        </tr>          
-                    </tbody>
-                </table>
-                <!-- /.table-responsive -->
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- Contact Detail -->
     </div>
 </div>

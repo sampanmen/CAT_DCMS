@@ -24,10 +24,11 @@ $PersonID_login = $_SESSION['Account']['PersonID'];
             $valRow = $value['Row'];
             $valRackType = $value['PackageCategory'];
             $valRackPositionID = $value['RackPositionID'];
+            $valStatus = $value['Status'];
             ?>
             <tr>
                 <td><?php echo $valRackType; ?></td>
-                <td><a href="?p=viewRack&Type=<?php echo $getRackType; ?>&LocationID=<?php echo $getLocationID; ?>&RackPositionID=<?php echo $valRackPositionID; ?>"><?php echo $valCol . $valRow; ?></a></td>
+                <td><a href="?p=viewRack&Type=<?php echo $getRackType; ?>&LocationID=<?php echo $getLocationID; ?>&RackPositionID=<?php echo $valRackPositionID; ?>" class="text-<?php echo $valStatus == "Active" ? "success" : "danger"; ?>"><?php echo $valCol . $valRow; ?></a></td>
             </tr>
         <?php } ?>
     </tbody>

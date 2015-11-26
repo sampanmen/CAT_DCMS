@@ -2,7 +2,7 @@
 //--Start-- Check login and Permission
 $link = "../account/login.php";
 $pa = "&modal=true";
-$Permission = array("frontdesk", "helpdesk");
+$Permission = array("admin", "frontdesk", "helpdesk");
 require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 
@@ -62,6 +62,10 @@ $racktypeID = $_GET['racktypeID'];
                             $col = $value['Col'];
                             $row = $value['Row'];
                             $rackPositionID = $value['RackPositionID'];
+                            $Status = $value['Status'];
+                            if ($Status == "Deactive") {
+                                continue;
+                            }
                             ?>
                             <option value="<?php echo $rackPositionID; ?>"><?php echo $col . $row; ?></option>
                         <?php } ?>

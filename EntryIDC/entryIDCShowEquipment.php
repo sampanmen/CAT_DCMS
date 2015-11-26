@@ -1,7 +1,7 @@
 <?php
 //--Start-- Check login and Permission
 $link = "../account/login.php";
-$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+$Permission = array("admin", "frontdesk", "helpdesk", "engineering", "manager");
 require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 
@@ -13,7 +13,7 @@ $getEquipments = getEquipments();
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <b>Equipments </b>(<a href="javascript:location.reload();">Reload</a>)
+                <b>Equipments </b>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -24,6 +24,7 @@ $getEquipments = getEquipments();
                         <table class="table table-striped table-bordered table-hover" id="dataTables">
                             <thead>
                                 <tr>
+                                    <th>Customer Name</th>
                                     <th>Equipment</th>
                                     <th>Brand</th>
                                     <th>Model</th>
@@ -37,6 +38,7 @@ $getEquipments = getEquipments();
                                 <?php
                                 foreach ($getEquipments as $value) {
                                     $valCusID = $value['CustomerID'];
+                                    $valCusName = $value['CustomerName'];
                                     $valEquipmentID = $value['EquipmentID'];
                                     $valEquipment = $value['Equipment'];
                                     $valBrand = $value['Brand'];
@@ -52,6 +54,7 @@ $getEquipments = getEquipments();
                                     }
                                     ?>
                                     <tr>
+                                        <td><?php echo $valCusName; ?></td>
                                         <td><?php echo $valEquipment; ?></td>
                                         <td><?php echo $valBrand; ?></td>
                                         <td><?php echo $valModel; ?></td>
@@ -64,7 +67,7 @@ $getEquipments = getEquipments();
                                                 ?>
                                                 <a href="../EntryIDC/modal_equipmentOut.php?equipmentID=<?php echo $valEquipmentID; ?>&cusID=<?php echo $valCusID; ?>" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">OUT</a>
                                             <?php } else { ?>
-                                                Ready for out <a href="../EntryIDC/action/entryIDC.action.php?para=cancelGetOutEquipment&equipmentID=<?php echo $valEquipmentID; ?>" data-toggle="modal" data-target="#myModal-sm">(Cancel)</a>
+                                                Ready for out <a href="../EntryIDC/action/entryIDC.action.php?para=cancelGetOutEquipment&equipmentID=<?php echo $valEquipmentID; ?>" data-toggle="modal" data-target="#myModal">(Cancel)</a>
                                             <?php } ?>
                                         </td>
                                     </tr>
@@ -83,3 +86,8 @@ $getEquipments = getEquipments();
         </div>
     </div>
 </div>
+<script>
+    $('body').on('hidden.bs.modal', '.modal', function () {
+        location.reload();
+    });
+</script>

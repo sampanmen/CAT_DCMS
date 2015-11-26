@@ -2,7 +2,7 @@
 //--Start-- Check login and Permission
 $link = "../account/login.php";
 $pa = "&modal=true";
-$Permission = array("frontdesk", "helpdesk");
+$Permission = array("admin", "frontdesk", "helpdesk");
 require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 
@@ -12,8 +12,6 @@ $ServiceDetailID = $_GET['ServiceDetailID'];
 $locationID = $_GET['LocationID'];
 $used = $_GET['used'];
 $assign = $_GET['assign'];
-
-$getNetworks = getNetworksValue($locationID);
 ?>
 
 <div class="modal-header">
@@ -57,11 +55,16 @@ $getNetworks = getNetworksValue($locationID);
                     <select id="network" onchange="getIPReserve();">
                         <option>Choose Network</option>
                         <?php
+                        $getNetworks = getNetworksValue($locationID);
                         foreach ($getNetworks as $value) {
                             $networkID = $value['NetworkID'];
                             $networkIP = $value['NetworkIP'];
                             $subnet = $value['Subnet'];
                             $vlan = $value['Vlan'];
+                            $Status = $value['Status'];
+                            if ($Status == "Deactive") {
+                                continue;
+                            }
                             ?>
                             <option value="<?php echo $networkID; ?>"><?php echo $networkIP . "/" . $subnet; ?></option>
                         <?php } ?>

@@ -1,7 +1,7 @@
 <?php
 //--Start-- Check login and Permission
 $link = "../account/login.php";
-$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+$Permission = array("admin", "frontdesk", "helpdesk", "engineering", "manager");
 require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 
@@ -61,7 +61,7 @@ $resultSearch = searchCustomer($searchText);
                     ?>
                     <div class="col-lg-7">
                         <div class="col-lg-12">
-                            <a href="?viewCus&cusID=<?php echo $valCustomerID; ?>" class="text-info" style="font-size: 1.3em;"><?php
+                            <a href="?p=viewCus&cusID=<?php echo $valCustomerID; ?>" class="text-info" style="font-size: 1.3em;"><?php
                                 printf("%05d", $valCustomerID);
                                 echo $Title;
                                 ?></a>

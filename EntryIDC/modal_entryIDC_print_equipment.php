@@ -2,9 +2,44 @@
 //--Start-- Check login and Permission
 $link = "../account/login.php";
 $pa = "&modal=true";
-$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+$Permission = array("admin", "frontdesk", "helpdesk", "engineering", "manager");
 require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
+
+require_once dirname(__FILE__) . '/../system/function.inc.php';
+$entryID = $_GET['entryID'];
+$getEntryDetail = getEntryByID($entryID);
+$getZonesByEntryID = getZoneByEntryID($entryID);
+
+$locationID = $getEntryDetail['LocationID'];
+$getZones = getZoneByLocationID($locationID);
+
+//echo "<pre>";
+//print_r($getEntryDetail);
+//echo "</pre>";
+
+$location = $getEntryDetail['Location'];
+$customerID = ($getEntryDetail['CustomerID'] != "") ? number_pad($getEntryDetail['CustomerID'], 5) : "";
+$catEmpID = $getEntryDetail['EmployeeID'];
+$VisitorCardID = $getEntryDetail['VisitorCardID'];
+$IDCCard = $getEntryDetail['IDCCard'];
+$IDCCardType = $getEntryDetail['IDCCardType'];
+$IDCard = $getEntryDetail['IDCard'];
+$personType = $getEntryDetail['TypePerson'];
+$organization = $getEntryDetail['Organization'];
+$division = $getEntryDetail['Division'];
+$personID = $getEntryDetail['PersonID'];
+$personFname = $getEntryDetail['Fname'];
+$pseronLname = $getEntryDetail['Lname'];
+$personEmail = $getEntryDetail['Email'];
+$personPhone = $getEntryDetail['Phone'];
+$personCompany = ($getEntryDetail['CustomerName'] != NULL) ? $getEntryDetail['CustomerName'] : "[$organization] $division";
+$purpose = $getEntryDetail['Purpose'];
+$internetAccount = ($getEntryDetail['InternetAccount'] != NULL) ? json_decode($getEntryDetail['InternetAccount'], true) : NULL;
+$timeIN = $getEntryDetail['TimeIn'];
+$timeOUT = $getEntryDetail['TimeOut'];
+
+$getEquipments = getEquipmentByEntryID($entryID);
 ?>
 <!-- jQuery -->
 <script src="../bower_components/jquery/dist/jQuery.print.js"></script>
@@ -92,7 +127,7 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
                         <div class="col-print-8 text-center">                                                                                  
                             <h4>
                                 <b>
-                                    แบบฟอร์มอุปกรณ์เข้า-ออกศูนย์บริการ Internet Data Center ศูนย์โทรคมนาคม นนทบุรี
+                                    แบบฟอร์มอุปกรณ์เข้า-ออกศูนย์บริการ Internet Data Center (<?php echo $location; ?>)
                                 </b>
                             </h4>
                         </div>
@@ -104,27 +139,27 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
                         <div class="col-print-8 text-center ddd2 ">                  
                             <h4>
                                 <b>
-                                    Equipment Movement Form
+                                    <?php echo $location; ?> Equipment Movement Form
                                 </b>
                             </h4>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-12 ddd">                             
-                    <div class="col-lg-12">                       
-                        <div class="col-print-12 text-right">  
-                            <p>Order No...................</p>                                                             
+                    <div class="col-lg-6">                      
+                        <div class="col-print-2">  
+                            <p>วันที่ (Date)</p>
                         </div>
+                        <div class="col-print-10">
+                            <p><?php echo date("d/m/Y"); ?></p>
+                        </div><br><br>
                     </div>
 
-                    <div class="col-lg-12">                      
-                        <div class="col-print-1">  
-                            <p>วันที่ (Date)</p>                                                            
+                    <div class="col-lg-6">                       
+                        <div class="col-print-12 text-right">  
+                            <p>Entry No <?php echo $entryID; ?></p>                                                             
                         </div>
-                        <div class="col-print-10">                           
-                            <p>........17/09/2015.......</p>                                
-                        </div><br><br>
                     </div>
                 </div>
 
@@ -137,19 +172,25 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
                             <div class="col-print-9">
                                 <div class="col-print-12">                       
                                     <div class="col-print-8">                                   
-                                        <p>[ / ] ลูกค้า / Customer</p>
+                                        <p>[ <?php echo $personType == "Contact" ? "/" : "_"; ?> ] ลูกค้า / Customer</p>
                                     </div>
                                     <div class="col-print-4">
-                                        <p>1234556789</p>
+                                        <p><?php echo $customerID; ?></p>
                                     </div>
                                 </div>
 
                                 <div class="col-print-12">                       
                                     <div class="col-print-8">                                  
-                                        <p>[ _ ] พนักงาน กสท / CAT Employee</p>                               
+                                        <p>[ <?php echo ($personType == "Staff" && $organization == "CAT") ? "/" : "_"; ?> ] พนักงาน กสท / CAT Employee</p>                               
                                     </div>
                                     <div class="col-print-4">
-                                        <p> </p>
+                                        <p><?php echo $catEmpID; ?></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-print-12">                       
+                                    <div class="col-print-8">                                    
+                                        <p>[ <?php echo ($personType == "Staff" && $organization == "Vender") ? "/" : "_"; ?> ] บุคคลทั่วไป / Other</p>
                                     </div>
                                 </div>
 
@@ -158,7 +199,7 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
                                         หมายเลขบัตรผ่านอาคาร / Visitor Card NO.                                                               
                                     </div>
                                     <div class="col-print-4">
-                                        <p>1234556789</p>
+                                        <p><?php echo $VisitorCardID; ?></p>
                                     </div>
                                 </div>
                                 <div class="col-print-12">                       
@@ -166,7 +207,7 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
                                         หมายเลขบัตรผ่าน IDC / IDC Card NO.                                                               
                                     </div>                                                     
                                     <div class="col-print-4">
-                                        <p>12345 Type: C</p>
+                                        <p><?php echo $IDCCard; ?> Type: <?php echo $IDCCardType; ?></p>
                                     </div>
                                 </div>
                                 <div class="col-print-12">                       
@@ -174,13 +215,17 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
                                         รหัสบัตรประชาชน / ID Card NO. / Passport ID                                                              
                                     </div>
                                     <div class="col-print-4">
-                                        <p>1234556789</p>
+                                        <p><?php echo $IDCard; ?></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-print-3">
-                                <div class="col-lg-6 text-left">
-                                    <img src = "" width="150" height="120" border="1">
+                                <div class="col-lg-10 text-left">
+                                    <?php
+                                    $images = '../customer/images/persons/' . $personID . ".jpg";
+                                    $showImage = file_exists($images) ? $images : "../customer/images/persons/noPic.jpg";
+                                    ?>
+                                    <img class="img-thumbnail" src="<?php echo $showImage; ?>" width="100%">
                                 </div>
                             </div>
                             <!-- /.table-responsive -->
@@ -189,33 +234,41 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
                     </div> 
 
                     <div>
-                        <div class="col-lg-12">                      
+                        <div class="col-print-12">                      
                             <div class="col-print-3">  
                                 <p>ชื่อ - นามสกุล(Name)</p>                                                             
                             </div>
                             <div class="col-print-5">                           
-                                <p class="underline1">ธิดารัตน์ ช้างแก้ว</p>                       
+                                <p class=""><?php echo $personFname . " " . $pseronLname; ?></p>                       
                             </div>                       
                             <div class="col-print-1">  
                                 <p>E-Mail </p>                                                             
                             </div>
                             <div class="col-print-3">                           
-                                <p>thidarat.c@outlook.com</p>                               
+                                <p><?php echo $personEmail; ?></p>                               
                             </div>
                         </div>
-                        <div class="col-lg-12">                      
+                        <div class="col-print-12">                      
                             <div class="col-print-3">  
                                 <p>ชื่อบริษัท (Company Name)</p>                                                             
                             </div>
                             <div class="col-print-5">                           
-                                <p>Thailand HaHartyuiop[]dfghjkl;'cvbm.cvbm,./</p>                                
+                                <p><?php echo $personCompany; ?></p>                                
                             </div>
                             <div class="col-print-1">  
                                 <p>โทร.(tel.)</p>                                                              
                             </div>
                             <div class="col-lg-3">                           
-                                <p>0869711277</p>                                
+                                <p><?php echo $personPhone; ?></p>                                
                             </div>
+                        </div>
+                        <div class="col-print-12">                      
+                            <div class="col-print-4">  
+                                <p>วัตถุประสงค์ (Purpose of Entry)</p>                                                            
+                            </div>
+                            <div class="col-print-8">                           
+                                <p><?php echo $purpose; ?></p>                                
+                            </div><br><br>
                         </div>
                     </div>
                     <div class="col-print-12 text-center ddd">                    
@@ -225,7 +278,7 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
                     </div>
                     <div class="col-print-12 text-center ddd2">                    
                         <p>
-                            ( ธิดารัตน์  ช้างแก้ว )
+                            (<?php echo $personFname . " " . $pseronLname; ?>)
                         </p>
                     </div>
                 </div>
@@ -240,40 +293,32 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
                 <table class="table table-bordered" id="dataTables2">
                     <tbody> 
                         <tr>
-                            <th COLSPAN="2" width="20%"  class=" text-center">อุปกรณ์</th>
-                            <th rowspan="2" width="20%" class=" text-center">ชื้ออุปกรณ์ <br>(Equipment) </th>
-                            <th rowspan="2" width="20%" class=" text-center">ยี่ห้อ/รุ่น <br>(Brand/Model)</th>
-                            <th rowspan="2" width="30%" class=" text-center"><br>Serial No/Remake</th>
-                            <th rowspan="2" width="10%" class=" text-center">Rack <br> Number</th>
+                            <th width="10%" class=" text-center">IN/OUT</th>
+                            <th width="30%" class=" text-center">Equipment</th>
+                            <th width="20%" class=" text-center">Brand/Model</th>
+                            <th width="30%" class=" text-center">Serial No/Remake</th>
+                            <th width="10%" class=" text-center">Rack</th>
                         </tr>
-                        <tr>
-                            <th>IN</th>
-                            <th>OUT</th>
-                        </tr>                                                     
-                        <tr>
-                            <td>เข้า</td>
-                            <td></td>
-                            <td>Notebook</td>
-                            <td>ACER Aspire E1-472G</td>
-                            <td>5520502978</td>
-                            <td>112</td>
-                        </tr>          
-                        <tr>
-                            <td>เข้า</td>
-                            <td></td>
-                            <td>Telephone</td>
-                            <td>IPhone 6</td>
-                            <td>5520502978</td>
-                            <td>112</td>
-                        </tr>         
-                        <tr>
-                            <td>เข้า</td>
-                            <td></td>
-                            <td>Pen</td>
-                            <td>Roting</td>
-                            <td>5520502978</td>
-                            <td>112</td>
-                        </tr>
+                        <?php
+                        foreach ($getEquipments as $value) {
+                            $valEntryID_IN = $value['EntryID_IN'];
+                            $valEntryID_OUT = $value['EntryID_OUT'];
+                            $valEquipment = $value['Equipment'];
+                            $valBrand = $value['Brand'];
+                            $valModel = $value['Model'];
+                            $valSerialNo = $value['SerialNo'];
+                            $valCol = $value['Col'];
+                            $valRow = $value['Row'];
+                            $valSubRackPosition = $value['SubRackPosition'];
+                            ?>
+                            <tr>
+                                <td><?php echo $valEntryID_IN == $entryID ? "IN" : ($valEntryID_OUT == $entryID ? "OUT" : ""); ?></td>
+                                <td><?php echo $valEquipment; ?></td>
+                                <td><?php echo $valBrand . "/" . $valModel; ?></td>
+                                <td><?php echo $valSerialNo; ?></td>
+                                <td><?php echo $valCol . $valRow . "-" . $valSubRackPosition; ?></td>
+                            </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
@@ -281,12 +326,12 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
             <!--เจ้าหน้าที่-->
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="col-print-12 text-center ddd3 ">                    
+                    <div class="col-print-12 text-center ddd3 ">
                         <div class="col-print-6">                                
-                            <p>เวลาเข้า...............................น.</p>    
+                            <p>เวลาเข้า <?php echo $timeIN != "" ? $timeIN : "..............................."; ?> น.</p>
                         </div>
-                        <div class="col-print-6">                                
-                            <p>เวลาออก...............................น.</p>    
+                        <div class="col-print-6">
+                            <p>เวลาออก <?php echo $timeOUT != "" ? $timeOUT : "..............................."; ?> น.</p>
                         </div>
                     </div>
 
@@ -300,11 +345,11 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
                     </div>
                     <div class="col-print-12 text-center ddd1">                    
                         <p class="col-print-6">
-                            ( ธิดารัตน์ ช้างแก้ว )
+                            (.........................................................)
                         </p>
                         <div class="col-print-6  ddd1">  
                             <p class="col-print-8 text-right">
-                                ( ธิดารัตน์ ช้างแก้ว )&nbsp;&nbsp;&nbsp;      
+                                (.........................................................)&nbsp;&nbsp;&nbsp;      
                             </p>
                             <p class="col-print-4 text-left">
                                 วันที่..................

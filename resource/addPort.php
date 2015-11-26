@@ -2,7 +2,7 @@
 //--Start-- Check login and Permission
 $link = "../account/login.php";
 $p = "&modal=true";
-$Permission = array("engineering");
+$Permission = array("admin", "engineering");
 require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 
