@@ -8,6 +8,7 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
 $networkID = isset($_GET['NetworkID']) ? $_GET['NetworkID'] : "";
+$getLocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : "";
 $getIPs = getIPs($networkID);
 ?>
 <p><a href="?">Home</a> > <b>IP Address</b></p>
@@ -16,7 +17,7 @@ $getIPs = getIPs($networkID);
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Network IP </b><a href="../resource/model_addIP.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
+                <h5><b>Network IP </b><a href="../resource/modal_addIP.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
             </div>      
 
             <div class="panel-body">
@@ -24,7 +25,6 @@ $getIPs = getIPs($networkID);
                     <select class="form-control" name="location" id="location2" onchange="showNetwork();">
                         <option value="">Choose location</option>
                         <?php
-                        $getLocationID = $_GET['LocationID'];
                         $getLocation = getLocation();
                         foreach ($getLocation as $value) {
                             $valLocationID = $value['LocationID'];
@@ -57,7 +57,18 @@ $getIPs = getIPs($networkID);
     <div class="col-lg-8"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>IP Address </b></h5>
+                <h5><b>IP Address </b>
+                    <?php if ($networkID != "") {
+                        ?>
+                        <a href="../resource/modal_editNetwork.php?NetworkID=<?php echo $networkID; ?>&LocationID=<?php echo $getLocationID; ?>" data-toggle="modal" data-target="#myModal">(Edit)</a>
+                    <?php } ?>
+                    <?php
+                    if (!checkUsedNetwork($networkID) && $networkID != "") {
+                        ?>
+                        <a href="../resource/action/resource.action.delete.php?para=delNetwork&NetworkID=<?php echo $networkID; ?>">(Delete)</a>
+                    <?php } ?>
+
+                </h5>
             </div>      
 
             <div class="panel-body">

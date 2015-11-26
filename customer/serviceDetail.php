@@ -63,17 +63,17 @@ $getServiceDetail = getServiceDetailByCustomerID($customerID);
                                     <td><?php echo $packageCategory; ?></td>
                                     <td><p class="label label-<?php echo $serviceDetailStatus == "Active" ? "success" : ($serviceDetailStatus == "Suppened" ? "warning" : "danger"); ?>"><?php echo $serviceDetailStatus; ?></p></td>
                                     <td>
-                                        <a href="../resource/model_manageRack.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reserveRack; ?>&assign=<?php echo $resourceAmountRack; ?>&racktypeID=<?php echo rawurlencode($packageCategoryID); ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
+                                        <a href="../resource/modal_manageRack.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reserveRack; ?>&assign=<?php echo $resourceAmountRack; ?>&racktypeID=<?php echo rawurlencode($packageCategoryID); ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
                                             <?php echo $reserveRack . "/" . $resourceAmountRack; ?>
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="../resource/model_managePort.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reservePort; ?>&assign=<?php echo $resourceAmountPort; ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
+                                        <a href="../resource/modal_managePort.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reservePort; ?>&assign=<?php echo $resourceAmountPort; ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
                                             <?php echo $reservePort . "/" . $resourceAmountPort; ?>
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="../resource/model_manageIP.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reserveIP; ?>&assign=<?php echo $resourceAmountIP; ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
+                                        <a href="../resource/modal_manageIP.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reserveIP; ?>&assign=<?php echo $resourceAmountIP; ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
                                             <?php echo $reserveIP . "/" . $resourceAmountIP; ?>
                                         </a>
                                     </td>
@@ -137,17 +137,17 @@ $getServiceDetail = getServiceDetailByCustomerID($customerID);
                                     <td><?php echo $packageCategory; ?></td>
                                     <td><p class="label label-<?php echo $serviceDetailStatus == "Active" ? "success" : ($serviceDetailStatus == "Suppened" ? "warning" : "danger"); ?>"><?php echo $serviceDetailStatus; ?></p></td>
                                     <td>
-                                        <a href="../resource/model_manageRack.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reserveRack; ?>&assign=<?php echo $resourceAmountRack; ?>&racktypeID=<?php echo rawurlencode($packageCategoryID); ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
+                                        <a href="../resource/modal_manageRack.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reserveRack; ?>&assign=<?php echo $resourceAmountRack; ?>&racktypeID=<?php echo rawurlencode($packageCategoryID); ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
                                             <?php echo $reserveRack . "/" . $resourceAmountRack; ?>
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="../resource/model_managePort.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reservePort; ?>&assign=<?php echo $resourceAmountPort; ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
+                                        <a href="../resource/modal_managePort.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reservePort; ?>&assign=<?php echo $resourceAmountPort; ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
                                             <?php echo $reservePort . "/" . $resourceAmountPort; ?>
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="../resource/model_manageIP.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reserveIP; ?>&assign=<?php echo $resourceAmountIP; ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
+                                        <a href="../resource/modal_manageIP.php?ServiceDetailID=<?php echo $serviceDetailID; ?>&used=<?php echo $reserveIP; ?>&assign=<?php echo $resourceAmountIP; ?>&LocationID=<?php echo $locationID; ?>" data-toggle="modal" data-target="#myModal">
                                             <?php echo $reserveIP . "/" . $resourceAmountIP; ?>
                                         </a>
                                     </td>

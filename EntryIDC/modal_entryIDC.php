@@ -52,29 +52,38 @@ require_once dirname(__FILE__) . '/../system/function.inc.php';
             lengthMenu: [[5, 10, 15, 25, 50, -1], [5, 10, 15, 25, 50, "All"]]
         });
     });
+    function getdatatable() {
+        $('#dataTablesModalEntryIDC').DataTable({
+            responsive: true,
+            pageLength: 5,
+            lengthMenu: [[5, 10, 15, 25, 50, -1], [5, 10, 15, 25, 50, "All"]]
+        });
+    }
     function getCustomer() {
         $('#person').hide();
         $('#customer').show();
-        $.get("../entryIDC/action/entryIDC.content.php?para=getCustomer", function (data, status) {
+        $.get("../EntryIDC/action/entryIDC.content.php?para=getCustomer", function (data, status) {
             $("#customer").html(data);
+            getdatatable();
         });
     }
     function getDivision(organi) {
         $('#person').hide();
         $('#customer').show();
-        $.get("../entryIDC/action/entryIDC.content.php?para=getDivision&organi=" + organi, function (data, status) {
+        $.get("../EntryIDC/action/entryIDC.content.php?para=getDivision&organi=" + organi, function (data, status) {
             $("#customer").html(data);
+            getdatatable();
         });
     }
     function getContact(cusID) {
         $('#person').show();
-        $.get("../entryIDC/action/entryIDC.content.php?para=getContact&type=Contact&cusID=" + cusID, function (data, status) {
+        $.get("../EntryIDC/action/entryIDC.content.php?para=getContact&type=Contact&cusID=" + cusID, function (data, status) {
             $("#person").html(data);
         });
     }
     function getStaff(division) {
         $('#person').show();
-        $.get("../entryIDC/action/entryIDC.content.php?para=getStaff&division=" + division, function (data, status) {
+        $.get("../EntryIDC/action/entryIDC.content.php?para=getStaff&division=" + division, function (data, status) {
             $("#person").html(data);
         });
     }

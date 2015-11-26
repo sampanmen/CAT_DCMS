@@ -7,14 +7,15 @@ require_once dirname(__FILE__) . '/../account/checkLogin.php';
 
 require_once dirname(__FILE__) . '/../system/function.inc.php';
 
-$swID = (isset($_GET['swID'])) ? $_GET['swID'] : "";
+$getSwitchID = isset($_GET['SwitchID']) ? $_GET['SwitchID'] : "";
+$getLocationID = isset($_GET['LocationID']) ? $_GET['LocationID'] : "";
 ?>
 <p><a href="?">Home</a> > <b>Switch&Port</b></p>
 <div class="row">
     <div class="col-lg-4"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Switch</b> <a href="../resource/model_addSwitch.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
+                <h5><b>Switch</b> <a href="../resource/modal_addSwitch.php" data-toggle="modal" data-target="#myModal">(Add)</a></h5>
             </div>      
 
             <div class="panel-body">
@@ -22,7 +23,6 @@ $swID = (isset($_GET['swID'])) ? $_GET['swID'] : "";
                     <select class="form-control" name="location" id="location2" onchange="showSwitch();">
                         <option value="">Choose location</option>
                         <?php
-                        $getLocationID = $_GET['LocationID'];
                         $getLocation = getLocation();
                         foreach ($getLocation as $value) {
                             $valLocationID = $value['LocationID'];
@@ -53,7 +53,18 @@ $swID = (isset($_GET['swID'])) ? $_GET['swID'] : "";
     <div class="col-lg-8"> 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h5><b>Port </b></h5>
+                <h5><b>Port </b>
+                    <?php
+                    if ($getSwitchID != "") {
+                        ?>
+                        <a href="../resource/modal_editSwitch.php?SwitchID=<?php echo $getSwitchID; ?>&LocationID=<?php echo $getLocationID; ?>" data-toggle="modal" data-target="#myModal">(Edit)</a>
+                    <?php } ?>
+                    <?php
+                    if (!checkUsedSwitch($getSwitchID) && $getSwitchID != "") {
+                        ?>
+                        <a href="../resource/action/resource.action.delete.php?para=delSwitch&SwitchID=<?php echo $getSwitchID; ?>">(Delete)</a>
+                    <?php } ?>
+                </h5>
             </div>      
 
             <div class="panel-body">
@@ -69,7 +80,6 @@ $swID = (isset($_GET['swID'])) ? $_GET['swID'] : "";
                         </thead>
                         <tbody>
                             <?php
-                            $getSwitchID = isset($_GET['SwitchID']) ? $_GET['SwitchID'] : "";
                             $swPort = getSwitchPorts($getSwitchID);
                             foreach ($swPort as $value) {
                                 $valSwitchName = $value['SwitchName'];
