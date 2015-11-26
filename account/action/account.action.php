@@ -14,11 +14,13 @@ if ($para == "login") {
 //    print_r($_POST);
     $Username = $_POST['Username'];
     $Password = $_POST['Password'];
+    $Theme = $_POST['theme'];
     $loginResult = login($Username, $Password);
     if ($loginResult !== FALSE) {
         $getAccount = checkLogin($Username);
         $_SESSION['Account']['PersonID'] = $getAccount['PersonID'];
         $_SESSION['Account']['Username'] = $loginResult;
+        $_SESSION['Account']['Theme'] = $Theme;
         if (isset($_POST['remember']) && $_POST['remember'] == "Remember") {
             setcookie("rememberUsername", $Username, time() + (3600 * 24 * 300), "/");
             setcookie("rememberPassword", $Password, time() + (3600 * 24 * 300), "/");
