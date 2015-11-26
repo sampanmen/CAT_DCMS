@@ -160,7 +160,7 @@ if ($para == "addCustomer") {
 } else if ($para == "addService") {
     $CustomerID = $_POST['cusID'];
     $package = $_POST['package'];
-    $NetworkLinkID = $_POST['networkLink'];
+    $NetworkLinkID = isset($_POST['networkLink']) ? $_POST['networkLink'] : NULL;
     $Location = $_POST['location'];
 //    $CreateBy = $PersonID;
 

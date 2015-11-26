@@ -2,7 +2,7 @@
 //--Start-- Check login and Permission
 $link = "../account/login.php";
 $pa = "&modal=true";
-$Permission = array("frontdesk", "helpdesk", "engineering", "manager");
+$Permission = array("admin", "frontdesk", "helpdesk", "engineering", "manager");
 require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 

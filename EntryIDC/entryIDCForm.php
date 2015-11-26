@@ -1,7 +1,7 @@
 <?php
 //--Start-- Check login and Permission
 $link = "../account/login.php";
-$Permission = array("frontdesk", "helpdesk");
+$Permission = array("admin", "frontdesk", "helpdesk");
 require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 

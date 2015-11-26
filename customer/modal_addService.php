@@ -2,7 +2,7 @@
 //--Start-- Check login and Permission
 $link = "../account/login.php";
 $pa = "&modal=true";
-$Permission = array("frontdesk");
+$Permission = array("admin", "frontdesk");
 require_once dirname(__FILE__) . '/../account/checkLogin.php';
 //--End-- Check login and Permission
 
@@ -71,7 +71,7 @@ $location = getLocation();
                                 <div class="form-group col-lg-6">
                                     <div class="form-group">
                                         <label>Network Link</label>
-                                        <select multiple class="form-control" name="networkLink[]" required id="networkLink">
+                                        <select multiple class="form-control" name="networkLink[]" disabled id="networkLink">
                                             <!--NetworkLink-->
                                         </select>
                                         <script>
