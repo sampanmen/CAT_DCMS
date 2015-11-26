@@ -75,7 +75,7 @@ $para = isset($_GET['para']) ? $_GET['para'] : "";
                         </table>
                         <script>
                             function checkOut(id) {
-                                $.get("../entryIDC/action/entryIDC.action.php?para=CheckOut&entryID=" + id, function (data, status) {
+                                $.get("../EntryIDC/action/entryIDC.action.php?para=CheckOut&entryID=" + id, function (data, status) {
                                     if (data == '1') {
                                         $('#tr_showEntry_' + id).hide();
                                     }
